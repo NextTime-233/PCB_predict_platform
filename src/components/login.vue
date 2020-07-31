@@ -13,7 +13,10 @@
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="login">登陆</el-button>
-                  <el-link type="primary" @click="signUp">注册</el-link>
+<!--                  <el-link type="primary" @click="signUp">注册</el-link>-->
+                  <el-link type="success">注册</el-link>
+
+                  <!--                       <router-link to="">注册</router-link>-->
                   <el-link type="primary" @click="findCode">找回密码</el-link>
                   <span v-show="this.errorInfo.isShowError" class='error'>
                         {{this.errorInfo.text}}
@@ -79,126 +82,124 @@ $input_width:300px;
 <script>
 import apis from '../apis/apis';
 export default {
-    name: 'login',
-    data() {
-        return {
-            formLogin: {   //表单对象
-                loginName: 'admin',
-                password: '123456'
-            },
-            errorInfo: {
-                text: '登陆失败,请重试',
-                isShowError: false //显示错误提示
-            }
-
-        }
-    },
-    mounted() {
-        document.onkeydown = (event) => {
-            var router=this.$route.path;
-            var e = event || window.event || arguments.callee.caller.arguments[0];
-            if (e && e.keyCode == 13&&this.$route.path=='/login') { // enter 键
-                this.login();
-            }
-        };
-         var loginLog = {
-                ip: returnCitySN["cip"],
-                city: returnCitySN["cname"] + '-' + '进入首页'
-            };
-
-            apis.shiroApi.loginLog(loginLog);
-    },
-    methods: {
-        login() {
-            //调用后端登陆接口
-            apis.shiroApi.loginIn(this.formLogin)
-                .then((data) => {
-                    console.log('success:', data);
-                    if (data && data.data) {
-                        var json = data.data;
-                        if (json.status == 'SUCCESS') {
-                            this.$common.setSessionStorage('token', json.data.userInfo.token);
-                            this.$common.setSessionStorage('username',json.data.userInfo.userName);
-                            this.$common.setSessionStorage('lev',json.data.sysRoleVoList);
-                            //存入菜单,渲染菜单
-                            this.$store.dispatch("add_Menus",json.data.sysMenuVoList);
-
-                             //动态设置路由
-                            this.$store.dispatch("add_Routes", json.data.sysMenuVoList);
-
-                            //存储按钮权限
-                            this.$store.dispatch("add_Permissions", json.data.rolePermissionVoList);
-                            this.$router.replace({ path: "/index" });
-
-                            var loginLog={
-                                ip:returnCitySN["cip"],
-                                city:returnCitySN["cname"]+'-'+json.data.userInfo.userName+'-登陆'
-                            };
-
-                            apis.shiroApi.loginLog(loginLog);
-                            return;
-                        }
-                        else if (json.message) {
-                            this.errorInfo.text = json.message;
-                        }
-                    }
-                    this.errorInfo.isShowError = true;
-                    this.$store.dispatch("loginLog",loginLog);
-                })
-                .catch((err) => {
-                    console.log('error:', err);
-                    this.errorInfo.isShowError = true;
-                    this.errorInfo.text = '系统接口异常';
-                });
-
-        },
-         rollBackTables() {
-            var text = '数据还原';
-            apis.shiroApi.rollBackTables()
-                .then(data => {
-                    var alertText='';
-                    if(data.data.status=='SUCCESS'){
-                        text += '成功';
-                        alertText=text+',请重新登陆';
-                    }
-                    else{
-                        text += '失败';
-                        alertText=text+',请重试';
-                    }
-                    this.$alert(alertText, '提示', {
-                        confirmButtonText: '确定',
-                    });
-                    log(text);
-                })
-                .catch(e => {
-                    this.$alert('数据还原异常,请重试', '提示', {
-                        confirmButtonText: '确定',
-                    });
-                    text += '失败';
-                    log(text);
-                });
-            console.log(text);
-
-            function log(text){
-                 var loginLog = {
-                ip: returnCitySN["cip"],
-                city: returnCitySN["cname"] + '-' + text
-            };
-
-            apis.shiroApi.loginLog(loginLog);
-            }
-        },
-        //limlin 2020.7.31
-        signUp(){
-        //  页面跳转，数据写入数据库
-        //  返回登录页面
-          alert("creat a new account")
-        },
-        findCode(){
-        //  验证手机号
-        //  密码修改页面跳转
-          alert("find back code")
-        }
+  name: 'login',
+  data() {
+    return {
+      formLogin: {   //表单对象
+        loginName: 'admin',
+        password: '123456'
+      },
+      errorInfo: {
+        text: '登陆失败,请重试',
+        isShowError: false //显示错误提示
+      }
     }
+  },
+  mounted() {
+    document.onkeydown = (event) => {
+      var router = this.$route.path;
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if (e && e.keyCode == 13 && this.$route.path == '/login') { // enter 键
+        this.login();
+      }
+    };
+    var loginLog = {
+      ip: returnCitySN["cip"],
+      city: returnCitySN["cname"] + '-' + '进入首页'
+    };
+
+    apis.shiroApi.loginLog(loginLog);
+  },
+  methods: {
+    login() {
+      //调用后端登陆接口
+      apis.shiroApi.loginIn(this.formLogin)
+        .then((data) => {
+          console.log('success:', data);
+          if (data && data.data) {
+            var json = data.data;
+            if (json.status == 'SUCCESS') {
+              this.$common.setSessionStorage('token', json.data.userInfo.token);
+              this.$common.setSessionStorage('username', json.data.userInfo.userName);
+              this.$common.setSessionStorage('lev', json.data.sysRoleVoList);
+              //存入菜单,渲染菜单
+              this.$store.dispatch("add_Menus", json.data.sysMenuVoList);
+
+              //动态设置路由
+              this.$store.dispatch("add_Routes", json.data.sysMenuVoList);
+
+              //存储按钮权限
+              this.$store.dispatch("add_Permissions", json.data.rolePermissionVoList);
+              this.$router.replace({path: "/index"});
+
+              var loginLog = {
+                ip: returnCitySN["cip"],
+                city: returnCitySN["cname"] + '-' + json.data.userInfo.userName + '-登陆'
+              };
+
+              apis.shiroApi.loginLog(loginLog);
+              return;
+            } else if (json.message) {
+              this.errorInfo.text = json.message;
+            }
+          }
+          this.errorInfo.isShowError = true;
+          this.$store.dispatch("loginLog", loginLog);
+        })
+        .catch((err) => {
+          console.log('error:', err);
+          this.errorInfo.isShowError = true;
+          this.errorInfo.text = '系统接口异常';
+        });
+
+    },
+    rollBackTables() {
+      var text = '数据还原';
+      apis.shiroApi.rollBackTables()
+        .then(data => {
+          var alertText = '';
+          if (data.data.status == 'SUCCESS') {
+            text += '成功';
+            alertText = text + ',请重新登陆';
+          } else {
+            text += '失败';
+            alertText = text + ',请重试';
+          }
+          this.$alert(alertText, '提示', {
+            confirmButtonText: '确定',
+          });
+          log(text);
+        })
+        .catch(e => {
+          this.$alert('数据还原异常,请重试', '提示', {
+            confirmButtonText: '确定',
+          });
+          text += '失败';
+          log(text);
+        });
+      console.log(text);
+
+      function log(text) {
+        var loginLog = {
+          ip: returnCitySN["cip"],
+          city: returnCitySN["cname"] + '-' + text
+        };
+
+        apis.shiroApi.loginLog(loginLog);
+      }
+    },
+    //limlin 2020.7.31
+    signUp() {
+      //  页面跳转，数据写入数据库
+      //  返回登录页面
+      alert("creat a new account")
+      this.$router.replace({path: "/signup/signup"});
+    },
+    findCode() {
+      //  验证手机号
+      //  密码修改页面跳转
+      alert("find back code")
+    }
+  }
 }
 </script>

@@ -16,6 +16,14 @@ const router = new VueRouter({
         title: '登陆'
       }
     },
+    //limlin 7.31
+    {
+      path: '/signup',
+      component: resolve => require(['@/components/signup/signup.vue'], resolve),
+      meta: {
+        title: '注册'
+      }
+    },
     {
       path: '/tree',
       component: resolve => require(['@/components/mayi/tree.vue'], resolve),

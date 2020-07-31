@@ -13,7 +13,6 @@ export default {
             password: password
         };
         return Axios.post('/api/shiro-api/login', param);
-
     },
     /**
      * 退出登陆
@@ -23,19 +22,30 @@ export default {
     },
     /**
      * 记录登陆日志
-     */ 
+     */
     loginLog: function ({ip,city,type}) {
         var param={
             ip:ip,
             city:city,
-            type:type              
+            type:type
         };
         return Axios.post('/api/loginlog-api/save', param);
     },
     /**
      * 还原数据
-     */ 
+     */
     rollBackTables: function () {
         return Axios.post('/api/loginlog-api/rollBackTables');
-    }
+    },
+    /**
+     * 用户注册 limlin 7.31
+     */
+    userRegister: function ({ loginName, telephone, password }){
+      var param = {
+        loginName: loginName,
+        telephone: telephone,
+        password: password
+      };
+      return Axios.post('/api/register', param);
+    },
 }

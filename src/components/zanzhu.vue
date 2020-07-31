@@ -28,11 +28,4 @@
         width:298px;
         display: block;
     }
-    .jinli{
-        width:298px;
-        height:375px;
-    }
-    .zuozhe{
-        text-align: center;
-    }
 </style>
