@@ -1,9 +1,9 @@
 {
 <<<<<<< HEAD
-  "name": "merciqiao-vue",
+  "name": "lin_shop",
   "version": "1.0.0",
   "description": "this is a vue project",
-  "author": "qlx",
+  "author": "x",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -68,50 +68,10 @@
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
-=======
-  "name": "lin_shop",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.11"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-service": "~4.4.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
->>>>>>> dc2b8ddc522dd6238d418638c9a1d7c70967c327
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
-<<<<<<< HEAD
     "not ie <= 8"
-=======
-    "not dead"
->>>>>>> dc2b8ddc522dd6238d418638c9a1d7c70967c327
   ]
 }
