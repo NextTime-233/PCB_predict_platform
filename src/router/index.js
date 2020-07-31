@@ -16,14 +16,6 @@ const router = new VueRouter({
         title: '登陆'
       }
     },
-    //limlin 7.31
-    {
-      path: '/signup',
-      component: resolve => require(['@/components/signup/signup.vue'], resolve),
-      meta: {
-        title: '注册'
-      }
-    },
     {
       path: '/tree',
       component: resolve => require(['@/components/mayi/tree.vue'], resolve),
@@ -31,9 +23,13 @@ const router = new VueRouter({
         title: '蚂蚁种树'
       }
     },
+    //limlin 7.31
     {
-      path: '/zanzhu',
-      component: resolve => require(['../components/zanzhu.vue'], resolve)
+      path: '/signup',
+      component: resolve => require(['@/components/signup/signup.vue'], resolve),
+      meta: {
+        title: '注册'
+      }
     },
     {
       path: '/bottom',
