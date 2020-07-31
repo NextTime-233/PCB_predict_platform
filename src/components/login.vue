@@ -12,10 +12,8 @@
                     <el-input v-model="formLogin.password" placeholder="密码"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="login">登陆</el-button>
-<!--                    <el-link type="primary" @click="signUp">注册</el-link>-->
-                  <el-link type="primary" src="">注册</el-link>
-
+                  <el-button type="primary" @click="login">登陆</el-button>
+                  <el-link type="primary" @click="signUp">注册</el-link>
                   <el-link type="primary" @click="findCode">找回密码</el-link>
                   <span v-show="this.errorInfo.isShowError" class='error'>
                         {{this.errorInfo.text}}
