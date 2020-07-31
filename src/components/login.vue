@@ -3,7 +3,7 @@
         <div class="login">
             <el-form :model="formLogin">
                 <el-form-item>
-                    <h2 class="title">后台管理系统</h2>
+                    <h2 class="title">林家铺子数据中心</h2>
                 </el-form-item>
                 <el-form-item>
                     <el-input v-model="formLogin.loginName" placeholder="账号"></el-input>
@@ -13,17 +13,19 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="login">登陆</el-button>
-                    <span v-show="this.errorInfo.isShowError" class='error'>
+<!--                    <el-link type="primary" @click="signUp">注册</el-link>-->
+                  <el-link type="primary" src="">注册</el-link>
+
+                  <el-link type="primary" @click="findCode">找回密码</el-link>
+                  <span v-show="this.errorInfo.isShowError" class='error'>
                         {{this.errorInfo.text}}
                     </span>
                 </el-form-item>
-
             </el-form>
-            
         </div>
         <p class="bei">京ICP备18050367号-1</p>
         <p  class ='recover' @click="rollBackTables">如果登陆数据异常,点此恢复数据</p>
-        
+
     </div>
 </template>
 
@@ -37,7 +39,7 @@ $input_width:300px;
     justify-content: center;
     .login {
         width: 460px;
-        height: 296px;
+        height: 320px;
         margin-top: -150px;
         border: 1px solid #eaeaea;
         box-shadow: 0 0 25px #cac6c6;
@@ -63,15 +65,15 @@ $input_width:300px;
 }
 .recover{
     position:absolute;
-    bottom:0px; 
-    cursor:pointer; 
+    bottom:0px;
+    cursor:pointer;
     color:#E6A23C;
     // display: none;
 }
 .bei{
     position:absolute;
-    bottom:20px; 
-    cursor:pointer; 
+    bottom:20px;
+    cursor:pointer;
     color:#505458;
 }
 </style>
@@ -97,7 +99,7 @@ export default {
         document.onkeydown = (event) => {
             var router=this.$route.path;
             var e = event || window.event || arguments.callee.caller.arguments[0];
-            if (e && e.keyCode == 13&&this.$route.path=='/login') { // enter 键 
+            if (e && e.keyCode == 13&&this.$route.path=='/login') { // enter 键
                 this.login();
             }
         };
@@ -129,12 +131,12 @@ export default {
                             //存储按钮权限
                             this.$store.dispatch("add_Permissions", json.data.rolePermissionVoList);
                             this.$router.replace({ path: "/index" });
-                            
+
                             var loginLog={
                                 ip:returnCitySN["cip"],
                                 city:returnCitySN["cname"]+'-'+json.data.userInfo.userName+'-登陆'
                             };
-                            
+
                             apis.shiroApi.loginLog(loginLog);
                             return;
                         }
@@ -187,7 +189,17 @@ export default {
 
             apis.shiroApi.loginLog(loginLog);
             }
-           
+        },
+        //limlin 2020.7.31
+        signUp(){
+        //  页面跳转，数据写入数据库
+        //  返回登录页面
+          alert("creat a new account")
+        },
+        findCode(){
+        //  验证手机号
+        //  密码修改页面跳转
+          alert("find back code")
         }
     }
 }
