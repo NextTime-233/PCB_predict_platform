@@ -1,5 +1,6 @@
-<<<<<<< HEAD
-> vue+elementui的后台管理系统模版框架
+
+# linjiapuzi_front
+林家铺子前端
 
 ``` bash
 # 安装包依赖
@@ -22,7 +23,4 @@ npm run build --report
  - vue-router:路由工具
  - 等等
 
-=======
-# linjiapuzi_front
-林家铺子前端
->>>>>>> dc2b8ddc522dd6238d418638c9a1d7c70967c327
+
