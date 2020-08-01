@@ -6,5 +6,6 @@
 <style>
     @import "../static/css/main.css";
     @import "../static/css/theme-green/color-green.css";
-    /* @import '../static/css/theme-green/index.css'; */
+     /*@import '../static/css/theme-green/index.css';*/
+/*    以上似乎是element的css*/
 </style>

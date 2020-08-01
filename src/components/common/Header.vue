@@ -31,11 +31,11 @@
                     <span class="el-dropdown-link">
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
-                    
+
                     <el-dropdown-menu slot="dropdown">
-                        
+
                         <a  href="https://github.com/merciqiao" target="_blank">
-                            <el-dropdown-item>关于作者</el-dropdown-item>
+                            <el-dropdown-item>个人中心</el-dropdown-item>
                         </a>
                         <a href="https://github.com/merciqiao/merciqiao-vue" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
@@ -70,7 +70,7 @@
                 return username ? username : this.name;
             },
             getlev(){
-        
+
                 let levList = this.$common.getSessionStorage('lev',true);
                 let lev='';
                 if(levList){
@@ -78,7 +78,6 @@
                         lev+=levList[i].roleName;
                     }
                 }
-               
                 return lev ? lev : this.lev;
             }
         },

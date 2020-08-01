@@ -13,19 +13,17 @@
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="login">登陆</el-button>
-<!--                  <el-link type="primary" @click="signUp">注册</el-link>-->
-                  <el-link type="success">注册</el-link>
-
-                  <!--                       <router-link to="">注册</router-link>-->
-                  <el-link type="primary" @click="findCode">找回密码</el-link>
+                  <a v-link="{path:'/signup'}" target="_blank">注册</a>
+                  <a href="signup.vue" >找回密码</a>
                   <span v-show="this.errorInfo.isShowError" class='error'>
                         {{this.errorInfo.text}}
-                    </span>
+                  </span>
                 </el-form-item>
             </el-form>
+
         </div>
-        <p class="bei">京ICP备18050367号-1</p>
-        <p  class ='recover' @click="rollBackTables">如果登陆数据异常,点此恢复数据</p>
+        <p class="bei">林家铺子</p>
+        <p  class ='recover' @click="rollBackTables">登陆数据异常,点此恢复数据</p>
 
     </div>
 </template>
@@ -57,11 +55,13 @@ $input_width:300px;
         .el-form {
             margin: 30px 80px auto 80px;
             .error {
-                display: block;
-                text-align: center;
-                color: red;
+              /*display: block;*/
+              float: right;
+              text-align: center;
+              color: red;
             }
         }
+
     }
 }
 .recover{
@@ -81,13 +81,14 @@ $input_width:300px;
 
 <script>
 import apis from '../apis/apis';
+
 export default {
   name: 'login',
   data() {
     return {
-      formLogin: {   //表单对象
-        loginName: 'admin',
-        password: '123456'
+      formLogin: { // 表单对象，可以随便修改，作为默认输入
+        loginName: 'adm',
+        password: '12356'
       },
       errorInfo: {
         text: '登陆失败,请重试',
@@ -97,7 +98,7 @@ export default {
   },
   mounted() {
     document.onkeydown = (event) => {
-      var router = this.$route.path;
+      // var router = this.$route.path;
       var e = event || window.event || arguments.callee.caller.arguments[0];
       if (e && e.keyCode == 13 && this.$route.path == '/login') { // enter 键
         this.login();
@@ -184,22 +185,9 @@ export default {
           ip: returnCitySN["cip"],
           city: returnCitySN["cname"] + '-' + text
         };
-
         apis.shiroApi.loginLog(loginLog);
       }
     },
-    //limlin 2020.7.31
-    signUp() {
-      //  页面跳转，数据写入数据库
-      //  返回登录页面
-      alert("creat a new account")
-      this.$router.replace({path: "/signup/signup"});
-    },
-    findCode() {
-      //  验证手机号
-      //  密码修改页面跳转
-      alert("find back code")
-    }
   }
 }
 </script>

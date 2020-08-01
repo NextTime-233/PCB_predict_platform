@@ -1,6 +1,6 @@
 /**
- * 
- * 懒加载动态路由 
+ *
+ * 懒加载动态路由
  */
 function lazy(code) {
 
@@ -12,6 +12,7 @@ function lazy(code) {
 function getComponetByPath(path) {
   for (var i = 0; i < dynamicRouter.length; i++) {
     var route = dynamicRouter[i];
+    //什么意思
     if (route.path == path) {
       return route.component;
     }
@@ -126,7 +127,7 @@ const dynamicRouter = [
     name: 'msg',
     path: '/msg',
     component: resolve => require(['@/components/message/msg.vue'], resolve),
-    meta: { title: '建议留言' }
+    meta: { title: '评价分析' }
   },
   {
     name: 'messageboard',
@@ -181,9 +182,17 @@ const dynamicRouter = [
     path: '/shopping',
     component: resolve => require(['@/components/goods/shopping'], resolve),
     meta: {
-      title: '技能充电'
+      title: '销售分析'
     }
-  }
+  },
+  //limlin 8.1
+  {
+    path: '/signup',
+    component: resolve => require(['@/components/signup.vue'], resolve),
+    meta: {
+    title: '注册'
+    }
+  },
 ]
 export { lazy }
 

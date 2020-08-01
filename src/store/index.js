@@ -3,7 +3,7 @@ import VuexPersistence from 'vuex-persist'
 
 const vuexLocal = new VuexPersistence({
     storage: window.localStorage
-}) 
+})
 
 const store = new Vuex.Store({
     modules: modules,
@@ -16,4 +16,5 @@ const refresh=function(){
 }
 console.log("页面刷新,刷入路由");
 refresh();
+
 export default store;

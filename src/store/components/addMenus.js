@@ -1,7 +1,7 @@
 import routeDev from '../../router/routeDev'
 /**
  * 动态添加菜单
- * author:qlx
+ * author:qlx ++++++ me
  */
 const addMenus = {
   state: {
@@ -15,7 +15,7 @@ const addMenus = {
       else{
         return state.menuList;
       }
-      
+
   }
   },
   mutations: {
@@ -23,10 +23,10 @@ const addMenus = {
         if(param){
             var menuList=[];
              _addMenu(menuList,param);
-             state.menuList=menuList; 
+             state.menuList=menuList;
         }
         function _addMenu(menuList,params){
-            
+
             for(var i=0;i<params.length;i++){
                  var menu={
                         icon: 'el-icon-tickets',
@@ -40,13 +40,13 @@ const addMenus = {
                 }
                 menu.icon=menuParam.menuIcon;
                 // menu.index=menuParam.orderBy;
-                menu.index=menuParam.permission; 
+                menu.index=menuParam.permission;
                 menu.title=menuParam.menuName;
                 if(menuParam.sysMenuVoChild&&menuParam.sysMenuVoChild.length>0){
                     _addMenu(menu.subs,menuParam.sysMenuVoChild);
                 }
                 menuList.push(menu);
-            } 
+            }
         }
     }
   },

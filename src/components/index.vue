@@ -2,6 +2,7 @@
   <div>
   </div>
 </template>
+
 <style>
 .zanzhutb  tr td:first-child{
   text-align: right;
@@ -15,7 +16,7 @@ import apis from "../apis/apis";
 export default {
   data() {
     return {
-      zanzhu:[]
+
     }
   },
   methods: {
@@ -54,9 +55,6 @@ export default {
 
         apis.shiroApi.loginLog(loginLog);
       }
-    },
-    openZanZhu(){
-      this.$common.OpenNewPage(this,'zanzhu');
     },
     getZanZhu(){
       apis.mayiApi.getZanZhu().then(res=>{

@@ -13,7 +13,7 @@ const router = new VueRouter({
       path: '/login',
       component: resolve => require(['@/components/login.vue'], resolve),
       meta: {
-        title: '登陆'
+        title: '登录'
       }
     },
     {
@@ -23,10 +23,10 @@ const router = new VueRouter({
         title: '蚂蚁种树'
       }
     },
-    //limlin 7.31
+    //limlin 7.31 8.1
     {
       path: '/signup',
-      component: resolve => require(['@/components/signup/signup.vue'], resolve),
+      redirect: '/signup',
       meta: {
         title: '注册'
       }
@@ -96,7 +96,7 @@ router.beforeEach((to, from, next) => {
   }
   else {
     var token = sessionStorage.getItem('token');
-    //如果没登录,都导向登录页
+    //如果没登录，都导向登录页，limlin 8.1 这样不就给我注册页面跳不过去了吗！
     if (!token) {
       if (to.path !== '/login') {
         next({ path: '/login' })
@@ -109,7 +109,6 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
-
 })
 
 export default router

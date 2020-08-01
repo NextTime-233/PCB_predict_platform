@@ -2,8 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 // import Vue from 'vue'
 // import ElementUI from 'element-ui';
-// import axios from 'axios'
-
+import axios from 'axios'
 
 
 import App from './App'

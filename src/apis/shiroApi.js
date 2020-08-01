@@ -13,13 +13,16 @@ export default {
             password: password
         };
         return Axios.post('/api/shiro-api/login', param);
+       // return Axios.post('backend/login/userLogin', param);
     },
     /**
      * 退出登陆
      */
     loginOut: function () {
         return Axios.post('/api/shiro-api/loginout');
+       // return Axios.post('backend/login/loginout');
     },
+
     /**
      * 记录登陆日志
      */
@@ -30,12 +33,15 @@ export default {
             type:type
         };
         return Axios.post('/api/loginlog-api/save', param);
+        // return Axios.post('backend/login/save', param);
     },
     /**
      * 还原数据
      */
     rollBackTables: function () {
         return Axios.post('/api/loginlog-api/rollBackTables');
+        // return Axios.post('backend/login/rollBackTables');
+
     },
     /**
      * 用户注册 limlin 7.31
@@ -46,6 +52,6 @@ export default {
         telephone: telephone,
         password: password
       };
-      return Axios.post('/api/register', param);
+      return Axios.post('backend/signUp/register', param);
     },
 }
