@@ -1,22 +1,18 @@
 <template>
   <div>
+<!--    <p>{{people}}</p>-->
   </div>
 </template>
 
 <style>
-.zanzhutb  tr td:first-child{
-  text-align: right;
-}
-.zanzhutb  tr td:nth-child(2){
-  width:80px;
-}
+
 </style>
 <script>
 import apis from "../apis/apis";
 export default {
   data() {
     return {
-
+      people:[]
     }
   },
   methods: {
@@ -69,10 +65,17 @@ export default {
     },
     getDate(param){
       return this.$common.toDate(param);
-    }
+    },
+    // limlinSet(){
+    //   apis.limlintstApi.getInfo().then(res=>{
+    //     console.log(res);
+    //     this.people = res.data.content;
+    //   })
+    // }
   },
   mounted() {
     this.getZanZhu();
+    this.limlinSet();
   },
   computed:{
 

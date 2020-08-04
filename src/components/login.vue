@@ -13,7 +13,9 @@
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="login">登陆</el-button>
-                  <a v-link="{path:'/signup'}" target="_blank">注册</a>
+<!--                  无法点击-->
+                  <el-link href="http://localhost:6002/signup" icon="el-icon-user">新人注册</el-link>
+<!--                  <a v-link="{path:'/signup'}" target="_blank">注册</a>-->
                   <a href="signup.vue" >找回密码</a>
                   <span v-show="this.errorInfo.isShowError" class='error'>
                         {{this.errorInfo.text}}
@@ -61,7 +63,9 @@ $input_width:300px;
               color: red;
             }
         }
-
+        .el-link {
+          clear: both;
+        }
     }
 }
 .recover{

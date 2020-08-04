@@ -3,6 +3,7 @@ import adminApi from './adminApi';
 import shiroApi from './shiroApi';
 import mayiApi from './mayiApi';
 import msgApi from './msgApi';
+import limlintstApi from "./limlintstApi";
 /**
  * 接口汇总
  */
@@ -14,5 +15,7 @@ export default {
     /**蚂蚁种树接口 */
     mayiApi:mayiApi,
     /**消息接口 */
-    msgApi:msgApi
+    msgApi:msgApi,
+    // /** 自定义接口 */
+    // limlintstApi:limlintstApiApi
 }

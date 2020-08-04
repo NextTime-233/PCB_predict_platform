@@ -5,18 +5,18 @@
 const path = require('path')
 
 module.exports = {
-  dev: {
 
+  dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://101ycy.com:10001',
-        //target: 'http://localhost:8070',
-        changeOrigin: true,
+        target: 'http://101ycy.com:10001',  //目标接口域名
+        // target: 'http://localhost:8070',
+        changeOrigin: true,  //是否跨域
         pathRewrite: {
-          '^/api': '/'
+          '^/api': '/'  //重写接口
         }
       }
     },
@@ -29,7 +29,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -44,6 +44,9 @@ module.exports = {
 
     cssSourceMap: true
   },
+  //上面这段代码的效果就是将本地6002端口的一个请求代理到了http://www..com这一域名下：
+  //'http://localhost:8080/api' ===> 'http://www.abc.com/api'
+
 
   build: {
     // Template for index.html

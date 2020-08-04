@@ -6,7 +6,7 @@ var mockObj={
         //loginIn
         Mock.mock('/api/shiro-api/login', 'post', this.loginIn);
     },
-    //模拟登陆接口
+    //模拟登录接口
     loginIn:({body})=>{
         var result={
             "status":"SUCCESS",
@@ -33,7 +33,7 @@ var mockObj={
                 },
                 "sysRoleVoList":[
                     {
-                        "roleName":"黄金岗"
+                        "roleName":"角色姓名"
                     }
                 ],
                 "rolePermissionVoList":[

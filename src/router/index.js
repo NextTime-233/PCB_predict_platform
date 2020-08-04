@@ -90,7 +90,7 @@ axios.interceptors.response.use(function (response) {
 //全局路由守卫
 router.beforeEach((to, from, next) => {
   //debugger
-  console.log('跳转到:', to.fullPath);
+  console.log('跳转到:', to.fullPath);  //注释在哪？？
   if (to.path == '/tree'||to.path=='/bangka') {
     next();
   }
