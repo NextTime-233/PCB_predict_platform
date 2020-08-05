@@ -1,12 +1,16 @@
 <template>
     <div class="login-container">
+        <!-- 头像 cyl-->
+        <div class="avatar_box">
+            <img src="../assets/logo12.png" alt="">
+        </div>
         <el-form :model="ruleForm2" :rules="rules2"
                  status-icon
                  ref="ruleForm2"
                  label-position="left"
                  label-width="0px"
                  class="demo-ruleForm login-page">
-            <h3 class="title">系统登录</h3>
+            <h3 class="title">后台管理系统</h3>
             <el-form-item prop="userAccount">
                 <el-input type="text"
                           v-model="ruleForm2.userAccount"
@@ -94,8 +98,18 @@
         border: 1px solid #eaeaea;
         box-shadow: 0 0 25px #cac6c6;
     }
-    label.el-checkbox.rememberme {
-        margin: 0px 0px 15px;
-        text-align: left;
+    .avatar_box{
+        height: 130px;
+        width: 250px;
+        border-radius:50%;
+        position: absolute;
+        left:50%;
+        top: 15%;
+        transform:translate(-50%,-50%);
+    }
+    img{
+        width:100%;
+        height:100%;
+        border-radius:50%;
     }
 </style>
