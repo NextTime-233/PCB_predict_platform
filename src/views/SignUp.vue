@@ -1,7 +1,10 @@
 <template>
     <div>
         <el-container class="frame"  style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
-            <el-header>新用户注册信息表</el-header>
+            <div class="avatar_box">
+                <img src="../assets/logo12.png" alt="">
+            </div>
+            <el-header>用户注册信息</el-header>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 <!--                <el-form-item label="ID" prop="NumID">-->
 <!--                    <el-input v-model.number="ruleForm.id"></el-input>-->
@@ -156,4 +159,19 @@
         height: auto;
         padding: 20px;
     }
+    .avatar_box{
+        height: 130px;
+        width: 250px;
+        border-radius:50%;
+        position: absolute;
+        left:50%;
+        top: 15%;
+        transform:translate(-50%,-50%);
+    }
+    img{
+        width:100%;
+        height:100%;
+        border-radius:50%;
+    }
+
 </style>
