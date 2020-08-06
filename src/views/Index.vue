@@ -3,7 +3,7 @@
         <el-container>
             <el-header style="margin-bottom: 20px">
                 <i class="el-icon-platform-eleme"></i>
-                <h1>2020WBFWDC---时空交通大数据分析</h1>
+                <h1>林家铺子数据分析系统</h1>
             </el-header>
             <el-container style="height: 700px; border: 1px solid #eee">
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -18,7 +18,7 @@
                     </el-menu>
                 </el-aside>
                 <el-main>
-                    <router-view></router-view>
+                    <router-view/>
                 </el-main>
             </el-container>
             <el-footer style="margin-top: 20px">Copyright ©2020 All rights reserved</el-footer>

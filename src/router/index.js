@@ -1,5 +1,5 @@
 
-// 非懒加载模式
+// 非懒加载模式，开始把全局路由守卫放在前面不能运行
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -16,22 +16,19 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        name: '我的账号',
+        redirect: '/Login',
+    },
+    {
+        path: '/Login',
+        name: '登录',
         component: Login,
         meta:{
             keepalive: false
         },
-        // children: [
-        //     {
-        //         path: '/User',
-        //         name: '个人中心',
-        //         component: User,
-        //     }
-        // ]
     },
     {
         path: '/SignUp',
-        name: '个人中心',
+        name: '注册',
         component: SignUp,
         meta:{
             keepalive: false
@@ -80,6 +77,13 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.path === "/Login") return next()
+    const tokenStr = window.sessionStorage.getItem('token')
+    if (!tokenStr) return next('/Login')
+    next()
 })
 
 export default router

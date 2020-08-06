@@ -63,12 +63,6 @@
                 that.tableData = resp.data.content;
                 that.pageSize = resp.data.size;
                 that.total = resp.data.totalElements;
-                // for(let i=0;i<7;i++){
-                //     //获取经度，并将字符串转换为浮点类型
-                //     cs.push(window.parseFloat(that.tableData[i].longitude))
-                // }
-                // that.cs = cs;
-                // console.log("this is that.cs",that.cs)
             })
         },
         methods: {
