@@ -59,7 +59,6 @@
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        // const res=this.$http.post("login/userLogin",this.LoginForm)
                         axios.post('http://localhost:8082/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
                             console.log(res)
                             if(!res.data.code){

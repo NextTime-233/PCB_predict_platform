@@ -14,11 +14,6 @@ import echarts from 'echarts'
 import BaiduMap from 'vue-baidu-map'
 
 
-// import axios from 'axios'
-// // 配置请求的根路径
-//
-// Vue.prototype.$http = axios
-
 Vue.use(BaiduMap, {
   ak: '5ieMMexWmzB9jivTq6oCRX9j'
 })
