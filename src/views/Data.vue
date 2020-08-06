@@ -78,32 +78,7 @@
                     that.total = resp.data.totalElements
                 })
             },
-            // drawZhu() {
-            //     // 基于准备好的dom，初始化echarts实例
-            //     const that = this
-            //     // 这里必须axios获取接口，不然获取为空数组！！！
-            //     axios.get('http://localhost:8081/people/findAll/0/10').then(function () {
-            //         let myChart = that.$echarts.init(document.getElementById('myChart2'))
-            //         const values = [100,123,342,546,7658,475,456];
-            //         //放入到data中的对象,通过this就可以获取！！！
-            //         console.log("here should be the data", that.cs)
-            //         // 绘制图表
-            //         myChart.setOption({
-            //             xAxis: {
-            //                 type: 'category',
-            //                 data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            //             },
-            //             yAxis: {
-            //                 type: 'value'
-            //             },
-            //             series: [{
-            //                 data: that.cs,
-            //                 type: 'line',
-            //                 smooth: true
-            //             }]
-            //         })
-            //     })
-            // },
+
         },
     }
 </script>

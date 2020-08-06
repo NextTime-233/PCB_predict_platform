@@ -1,21 +1,28 @@
 import Vue from 'vue'
-import './plugins/axios'
 import App from './App.vue'
-import router from './router'
+
+import router from './router/index'
+
+import './plugins/axios'
+import './plugins/Antd'
+import './plugins/element'
+import './theme/global.css'
+
 import store from './store'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+
 import echarts from 'echarts'
-import Antd from 'ant-design-vue'
 import BaiduMap from 'vue-baidu-map'
 
+
+// import axios from 'axios'
+// // 配置请求的根路径
+//
+// Vue.prototype.$http = axios
 
 Vue.use(BaiduMap, {
   ak: '5ieMMexWmzB9jivTq6oCRX9j'
 })
 
-Vue.use(ElementUI);
-Vue.use(Antd)
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false

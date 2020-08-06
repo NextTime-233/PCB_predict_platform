@@ -2,16 +2,17 @@
 // 非懒加载模式，开始把全局路由守卫放在前面不能运行
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
+
 import Data from '../views/Data'
-import Map from '../views/Map'
+import Home from "../views/Home";
 import Index from "../views/Index";
 import Feedback from "../views/Feedback";
-import Login from "../views/Login";
-import SignUp from "../views/SignUp";
+import Login from "../components/Login";
+import SignUp from "../components/SignUp";
 
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [
     {
@@ -35,15 +36,15 @@ const routes = [
         }
     },
     {
-        path: '/Map',
-        name: '时空地图',
+        path: '/Home',
+        name: 'index',
         component: Index,
         redirect: 'Map',
         children: [
             {
-                path: '/Map',
-                name: '时空地图',
-                component: Map,
+                path: '/Home',
+                name: '首页',
+                component: Home,
             }
         ]
     },
@@ -75,13 +76,14 @@ const routes = [
     },
 ]
 
-const router = new VueRouter({
+const router = new Router({
   routes
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.path === "/Login") return next()
+    if (to.path === "/Login" || to.path === "/SignUp") return next()
     const tokenStr = window.sessionStorage.getItem('token')
+    console.log(tokenStr)
     if (!tokenStr) return next('/Login')
     next()
 })

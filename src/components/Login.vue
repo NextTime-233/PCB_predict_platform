@@ -1,26 +1,26 @@
 <template>
     <div class="login-container">
-        <!-- 头像 cyl-->
         <div class="avatar_box">
-            <img src="../assets/logo12.png" alt="">
+            <img src="../assets/logo.png" alt="">
+            <!--绝对路径不显示，改为相对路径ok-->
         </div>
-        <el-form :model="ruleForm2" :rules="rules2"
+        <el-form :model="LoginForm" :rules="rules2"
                  status-icon
-                 ref="ruleForm2"
+                 ref="LoginForm"
                  label-position="left"
                  label-width="0px"
                  class="demo-ruleForm login-page">
             <h3 class="title">后台管理系统</h3>
             <el-form-item prop="userAccount">
                 <el-input type="text"
-                          v-model="ruleForm2.userAccount"
+                          v-model="LoginForm.userAccount"
                           auto-complete="off"
                           placeholder="用户名"
                 ></el-input>
             </el-form-item>
             <el-form-item prop="userPwd">
                 <el-input type="password"
-                          v-model="ruleForm2.userPwd"
+                          v-model="LoginForm.userPwd"
                           auto-complete="off"
                           placeholder="密码"
                 ></el-input>
@@ -43,9 +43,9 @@
         data(){
             return {
                 logining: false,
-                ruleForm2: {
-                    userAccount: 'admin',
-                    userPwd: '123456',
+                LoginForm: {
+                    userAccount: '2',
+                    userPwd: '2',
                 },
                 rules2: {
                     userAccount: [{required: true, message: 'please enter your account', trigger: 'blur'}],
@@ -56,16 +56,17 @@
         },
         methods: {
             handleSubmit(event){
-                this.$refs.ruleForm2.validate((valid) => {
+                this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        let data = this.ruleForm2
-                        axios.post('http://localhost:8082/backend/login/userLogin?userAccount='+this.ruleForm2.userAccount+'&userPwd='+this.ruleForm2.userPwd).then(res=>{
+                        // const res=this.$http.post("login/userLogin",this.LoginForm)
+                        axios.post('http://localhost:8082/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
                             console.log(res)
                             if(!res.data.code){
                                 this.logining = false;
-                                sessionStorage.setItem('user', this.ruleForm2.userAccount);
-                                this.$router.push({path: '/Map'});
+                                sessionStorage.setItem('user', this.LoginForm.userAccount);
+                                sessionStorage.setItem('token',res.data.data.tokenBackend)
+                                this.$router.push('/Home').catch(err => {});
                             }else{
                                 this.logining = false;
                                 this.$alert('username or password wrong!', 'info', {
@@ -82,8 +83,8 @@
         }
     };
 </script>
-
-<style scoped>
+<!--scoped 控制样式生效区间，加了scoped只在当前页面生效-->
+<style lang="less" scoped>
     .login-container {
         width: 100%;
         height: 100%;
@@ -106,10 +107,11 @@
         left:50%;
         top: 15%;
         transform:translate(-50%,-50%);
+        img{
+            width:100%;
+            height:100%;
+            border-radius:50%;
+        }
     }
-    img{
-        width:100%;
-        height:100%;
-        border-radius:50%;
-    }
+
 </style>
