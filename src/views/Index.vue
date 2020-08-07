@@ -1,41 +1,142 @@
 <template>
-    <div>
-        <el-container>
-            <el-header style="margin-bottom: 20px">
-                <i class="el-icon-platform-eleme"></i>
-                <h1>林家铺子数据分析系统</h1>
-            </el-header>
-            <el-container style="height: 700px; border: 1px solid #eee">
-                <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                    <el-menu router="">
-                        <el-submenu v-for="(item, index) in $router.options.routes" :index="index+''">
-                            <template slot="title"><i class="el-icon-menu"></i>{{item.name}}</template>
-                            <el-menu-item v-for="(item2, index2) in item.children" :index="item2.path"
-                                          :class="$route.path==item2.path?'is-active':''">
-                                {{item2.name}}
-                            </el-menu-item>
-                        </el-submenu>
-                    </el-menu>
-                </el-aside>
-                <el-main>
-                    <router-view/>
-                </el-main>
-            </el-container>
-            <el-footer style="margin-top: 20px">Copyright ©2020 All rights reserved</el-footer>
-        </el-container>
-    </div>
-</template>
+    <a-layout id="components-layout-demo-custom-trigger">
+        <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+            <!--   主页logo跳转   -->
+            <div class="logo">{{collapsed?'LJPZ':'林家铺子后台管理系统'}}</div>
+            <a-menu :default-selected-keys="['1']"
+                    :default-open-keys="['sub1']"
+                    mode="inline"
+                    :theme="theme"
+                    :selected-keys="[current]"
+                    @click="handleClick">
+                <a-menu-item key="1">
+                    <a-icon type="idcard" />公司员工
+                </a-menu-item>
+                <a-sub-menu key="sub1">
+                    <span slot="title"><a-icon type="appstore" /><span></span>营销数据</span>
+                    <a-menu-item key="2">
+                        货品档案
+                    </a-menu-item>
+                    <a-menu-item key="3">
+                        订单一体化
+                    </a-menu-item>
+                    <a-sub-menu key="sub1-2" title="商品订单">
+                        <a-menu-item key="4">
+                            订单管理
+                        </a-menu-item>
+                        <a-menu-item key="5">
+                            订单明细
+                        </a-menu-item>
+                    </a-sub-menu>
+                </a-sub-menu>
+                <a-sub-menu key="sub2">
+                    <span slot="title"><a-icon type="setting" /><span>用户档案</span></span>
+                    <a-menu-item key="6">
+                        用户信息
+                    </a-menu-item>
+                    <a-menu-item key="7">
+                        用户画像
+                    </a-menu-item>
+                    <a-menu-item key="8">
+                        数据分析
+                    </a-menu-item>
+                </a-sub-menu>
+            </a-menu>
+            <a-switch
+                    default-checked
+                    checked-children="dark"
+                    un-checked-children="light"
+                    @change="changeTheme"
+            />
+        </a-layout-sider>
 
+        <a-layout>
+            <a-layout-header style="background: #fff; padding: 0; display: flex; justify-content: space-between; align-items: center">
+                <a-icon
+                        class="trigger"
+                        :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                        @click="() => (collapsed = !collapsed)"
+                />
+                <template>
+                    <a-dropdown>
+                        <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                            limlin <a-icon type="down" />
+                        </a>
+                        <a-menu slot="overlay">
+                            <a-menu-item>
+                                <a href="javascript:;">修改密码</a>
+                            </a-menu-item>
+                            <a-menu-item>
+                                <a href="javascript:;">个人中心</a>
+                            </a-menu-item>
+                            <a-menu-item>
+                                <a href="javascript:;">退出登录</a>
+                            </a-menu-item>
+                        </a-menu>
+                    </a-dropdown>
+                </template>
+                <el-button type="info" @click="logOut">退出登录</el-button>
+            </a-layout-header>
+
+            <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
+            <!--路由占位符-->
+                <router-view></router-view>
+            </a-layout-content>
+        </a-layout>
+    </a-layout>
+</template>
 <script>
     export default {
-        name: "Index"
-    }
+        name: 'index',
+        data() {
+            return {
+                collapsed: false,
+                // 导航栏
+                current: '1',
+                theme: 'dark',
+            };
+        },
+        methods:{
+            logOut() {
+                window.sessionStorage.clear()
+                // 必须加$符号
+                this.$router.push('/Login')
+            },
+            // 导航栏
+            handleClick(e) {
+                console.log('click ', e);
+                this.current = e.key;
+            },
+            changeTheme(checked) {
+                this.theme = checked ? 'dark' : 'light';
+            },
+        }
+    };
 </script>
-<!--在vue组件中，为了使样式私有化（模块化），不对全局造成污染，可以在style标签上添加scoped属性以表示它的只属于当下的模块-->
-<style scoped>
-    h1 {
-        clear: both;
-        font-size: 20px;
-        float: left;
+<style lang="less" scoped>
+    #components-layout-demo-custom-trigger{
+        height: 960px;
+    }
+    #components-layout-demo-custom-trigger .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    #components-layout-demo-custom-trigger .trigger:hover {
+        color: #1890ff;
+    }
+
+    #components-layout-demo-custom-trigger .logo {
+        height: 32px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px;
+        line-height: 32px;
+        color: white;
+        text-align: center;
+        letter-spacing: 1px;
+        font-weight: bold;
     }
 </style>

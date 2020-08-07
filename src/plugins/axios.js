@@ -4,7 +4,11 @@ import Vue from 'vue';
 import axios from "axios";
 
 
-// axios.default.baseURL = 'http://localhost:8082/backend/'
+axios.default.baseURL = 'http://localhost:8082/backend/'
+// axios.interceptors.request.use(config=>{
+//   console.log(config)
+//   return config
+// })
 
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""

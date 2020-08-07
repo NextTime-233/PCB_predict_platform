@@ -32,7 +32,7 @@
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
             </el-form-item>
-            <el-link href="http://localhost:8080/Map#/SignUp" icon="el-icon-user">新人注册</el-link>
+            <el-link href="http://localhost:8080/#/SignUp" icon="el-icon-user">新人注册</el-link>
 
         </el-form>
     </div>
