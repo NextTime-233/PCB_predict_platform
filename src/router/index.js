@@ -1,79 +1,63 @@
-
-// 非懒加载模式，开始把全局路由守卫放在前面不能运行
+// 注释代码为懒加载模式，开始把全局路由守卫放在前面不能运行
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from "../components/Login";
-import SignUp from "../components/SignUp";
-import Index from "../views/Index";
-import Home from "../components/Home";
-
-import Data from '../views/Data'
-import Feedback from "../views/Feedback";
-
-
 
 Vue.use(Router)
-
 
 const router = new Router({
     routes : [
         {
             path: '/',
-            redirect: '/Login',
+            component:() => import('../components/Login.vue')
         },
         {
             path: '/Login',
-            name: '登录',
-            component: Login,
-            meta:{
-                keepalive: false
-            },
+            component:() => import('../components/Login.vue')
         },
         {
             path: '/SignUp',
-            name: '注册',
-            component: SignUp,
-            meta:{
-                keepalive: false
-            }
+            component:() => import('../components/SignUp')
         },
         {
             path: '/Index',
-            name: 'index',
-            component: Index,
-            redirect: '/Home',
+            component:() => import('../views/Index'),
             children: [
                 {
                     path: '/Home',
-                    name: '首页',
-                    component: Home,
-                }
-            ]
-        },
-        {
-            path: '/data',
-            name: '数据展示',
-            component: Index,
-            redirect: 'Data',
-            children: [
+                    component:() => import('../components/Home')
+                },
                 {
-                    path: '/Data',
-                    name: '清洗数据',
-                    component: Data,
-                }
-            ]
-        },
-        {
-            path: '/Feedback',
-            name: '服务中心',
-            component: Index,
-            redirect: 'Data',
-            children: [
+                    path: '/employee',
+                    component:() => import('../views/Employee/employee')
+                },
                 {
-                    path: '/Feedback',
-                    name: '意见反馈',
-                    component: Feedback,
-                }
+                    path: '/purchase',
+                    component:() => import('../views/Business/purchase')
+                },
+                {
+                    path: '/EntireOrder',
+                    component:() => import('../views/Business/EntireOrder')
+                },
+                {
+                    path: '/manage',
+                    component:() => import('../views/Business/manage')
+                },
+                {
+                    path: '/detail',
+                    component:() => import('../views/Business/detail')
+                },
+                {
+                    path: '/Client',
+                    component:() => import('../views/UserAnalysis/Client')
+                },
+                {
+                    path: '/userImage',
+                    component:() => import('../views/UserAnalysis/userImage')
+                },
+                {
+                    path: '/Analysis',
+                    component:() => import('../views/UserAnalysis/Analysis')
+                },
             ]
         },
     ]
