@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>订单一体化</h1>
         <!-- <div id="myChart2" :style="{width: '300px', height: '300px', float: 'left'}"></div>-->
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column fixed prop="id" label="编号" width="100">

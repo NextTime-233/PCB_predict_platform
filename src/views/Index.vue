@@ -5,16 +5,19 @@
             <div class="logo">{{collapsed?'LJPZ':'林家铺子后台管理系统'}}</div>
             <a-menu class="left-menu"
                     :default-selected-keys="['1']"
-                    :default-open-keys="['sub2']"
+                    :default-open-keys="['']"
                     mode="inline"
                     :theme="theme"
                     :selected-keys="[current]"
                     @click="handleClick">
-                <a-menu-item key="1">
+                <a-sub-menu  key="sub0">
+                    <span slot="title"><a-icon type="appstore" /><span>公司员工</span></span>
+                    <a-menu-item key="1">
                     <router-link to="/employee" tag="div">
-                        <a-icon type="idcard" /><span>公司员工</span>
+                        <a-icon type="idcard" /><span>员工信息</span>
                     </router-link>
-                </a-menu-item>
+                    </a-menu-item>
+                </a-sub-menu>
                 <a-sub-menu key="sub1">
                     <span slot="title"><a-icon type="appstore" /><span>营销数据</span></span>
                     <a-menu-item key="2">

@@ -1,6 +1,6 @@
 <template>
-    <div>订单明细
-
+    <div>
+        订单明细
         <a-card>
             <div :class="advanced ? 'search' : null">
                 <a-form layout="horizontal">
