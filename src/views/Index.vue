@@ -100,7 +100,6 @@
                         </a-menu>
                     </a-dropdown>
                 </template>
-<!--                <el-button type="info" @click="logOut">退出登录</el-button>-->
             </a-layout-header>
 
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">

@@ -32,7 +32,7 @@
                          style="margin-bottom:10px;">记住密码</el-checkbox>
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
-                <el-link class="register" href="http://localhost:8080/#/SignUp" icon="el-icon-user">新人注册</el-link>
+                <el-link class="register" href="http://localhost:8082/#/SignUp" icon="el-icon-user">新人注册</el-link>
             </el-form-item>
         </el-form>
     </div>
@@ -59,7 +59,7 @@
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        axios.post('http://localhost:8082/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
+                        axios.post('http://localhost:8080/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
                             console.log(res)
                             if(!res.data.code){
                                 this.logining = false;

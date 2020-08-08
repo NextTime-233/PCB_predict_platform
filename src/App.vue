@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-      <router-view v-if="!$route.meta.keepalive"></router-view>
+<!--      <div class="global-loading"></div>-->
+      <router-view></router-view>
   </div>
 </template>
 
@@ -10,7 +11,7 @@
     }
 </script>
 
-<style>
+<style lang="less" scoped>
 
 </style>
 

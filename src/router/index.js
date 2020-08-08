@@ -120,12 +120,31 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+    let loadingBar = document.getElementById('global-loading')
+    if(!loadingBar){
+        loadingBar = document.createElement('div')
+        loadingBar.id = 'global-loading'
+        document.body.append(loadingBar)
+    }else {
+        loadingBar.style.display = 'block'
+    }
     document.title = '林家铺子 - ' + to.meta.title
+
     if (to.path === "/Login" || to.path === "/SignUp") return next()
     const tokenStr = window.sessionStorage.getItem('token')
     console.log(tokenStr)
     if (!tokenStr) return next('/Login')
-    next()
+    // 设定页面的跳转间隔
+    setTimeout(()=>{
+        next()
+    }, 800)
+
 })
 
+router.afterEach((to,from)=> {
+    let loadingBar = document.getElementById('global-loading')
+    if(loadingBar) {
+        loadingBar.style.display = 'none'
+    }
+})
 export default router
