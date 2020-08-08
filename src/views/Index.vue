@@ -12,10 +12,15 @@
                     @click="handleClick">
                 <a-sub-menu  key="sub0">
                     <span slot="title"><a-icon type="appstore" /><span>公司员工</span></span>
-                    <a-menu-item key="1">
+                    <a-menu-item key="0">
                     <router-link to="/employee" tag="div">
                         <a-icon type="idcard" /><span>员工信息</span>
                     </router-link>
+                    </a-menu-item>
+                    <a-menu-item key="1">
+                        <router-link to="/Task" tag="div">
+                            <a-icon type="idcard" /><span>任务信息</span>
+                        </router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub1">
@@ -100,21 +105,40 @@
 
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
             <!--路由占位符-->
+                <bread></bread>
                 <router-view></router-view>
             </a-layout-content>
         </a-layout>
     </a-layout>
 </template>
 <script>
+    import Bread from "../components/Bread";
     export default {
         name: 'index',
+        components: {Bread},
         data() {
             return {
                 collapsed: false,
                 // 导航栏
                 current: '1',
                 theme: 'dark',
+                // 页面标签
+                selectedKeys: [],
+                openKeys: []
             };
+        },
+        watch: {
+          $route() {
+            console.log(this.$route.meta);
+            document.title = '林家铺子 - ' + this.$route.meta.title
+          }
+        },
+        // 路由页面标签
+        created() {
+            if(this.$route.meta && this.$route.meta.module){
+                this.openKeys = [this.$route.meta.module];
+            }
+            this.selectedKeys = [this.$route.path];
         },
         methods:{
             logOut() {
@@ -133,6 +157,7 @@
         }
     };
 </script>
+
 <style lang="less" scoped>
     /*仿佛变窄了*/
     ::-webkit-scrollbar {

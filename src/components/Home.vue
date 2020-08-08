@@ -1,23 +1,15 @@
 <template>
     <div>
-        <h3>Welcome</h3>
-
+        <span>Welcome!</span>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Home",
-        methods:{
-            logOut() {
-                window.sessionStorage.clear()
-                // 必须加$符号
-                this.$router.push('/Login')
-            }
-        }
+        name: "Home"
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 
 </style>

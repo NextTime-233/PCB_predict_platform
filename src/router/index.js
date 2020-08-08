@@ -12,7 +12,11 @@ const router = new Router({
         },
         {
             path: '/Login',
-            component:() => import('../components/Login.vue')
+            component:() => import('../components/Login.vue'),
+            meta: {
+                title: '登录页面',
+                module: '登录'
+            },
         },
         {
             path: '/SignUp',
@@ -24,46 +28,99 @@ const router = new Router({
             children: [
                 {
                     path: '/Home',
-                    component:() => import('../components/Home')
+                    component:() => import('../components/Home'),
+                    meta: {
+                        title: 'HomePage',
+                        module: '首页'
+                    },
                 },
                 {
                     path: '/employee',
-                    component:() => import('../views/Employee/employee')
+                    component:() => import('../views/Employee/employee'),
+                    meta: {
+                        title: '员工管理',
+                        module: '员工'
+                    },
+                },
+                {
+                    path: '/Task',
+                    component:() => import('../views/Employee/Task'),
+                    meta: {
+                        title: '任务管理',
+                        module: '任务'
+                    },
                 },
                 {
                     path: '/purchase',
-                    component:() => import('../views/Business/purchase')
+                    component:() => import('../views/Business/purchase'),
+                    meta: {
+                        title: '货品档案',
+                        module: '货品'
+                    },
                 },
                 {
                     path: '/EntireOrder',
-                    component:() => import('../views/Business/EntireOrder')
+                    component:() => import('../views/Business/EntireOrder'),
+                    meta: {
+                        title: '订单一体化',
+                        module: '订单'
+                    },
                 },
                 {
                     path: '/manage',
-                    component:() => import('../views/Business/manage')
+                    component:() => import('../views/Business/manage'),
+                    meta: {
+                        title: '订单管理',
+                        module: '订单'
+                    },
                 },
                 {
                     path: '/detail',
-                    component:() => import('../views/Business/detail')
+                    component:() => import('../views/Business/detail'),
+                    meta: {
+                        title: '订单详情',
+                        module: '订单'
+                    },
                 },
                 {
                     path: '/Client',
-                    component:() => import('../views/UserAnalysis/Client')
+                    component:() => import('../views/UserAnalysis/Client'),
+                    meta: {
+                        title: '顾客信息',
+                        module: '顾客'
+                    },
                 },
                 {
                     path: '/userImage',
-                    component:() => import('../views/UserAnalysis/userImage')
+                    component:() => import('../views/UserAnalysis/userImage'),
+                    meta: {
+                        title: '用户画像',
+                        module: '顾客'
+                    },
                 },
                 {
                     path: '/Analysis',
-                    component:() => import('../views/UserAnalysis/Analysis')
+                    component:() => import('../views/UserAnalysis/Analysis'),
+                    meta: {
+                        title: '数据分析',
+                        module: '顾客'
+                    },
                 },
             ]
+        },
+        {
+            path: '*',
+            component:() => import('../views/Error'),
+            meta: {
+                title: '404',
+                module: '错误'
+            },
         },
     ]
 })
 
 router.beforeEach((to, from, next) => {
+    document.title = '林家铺子 - ' + to.meta.title
     if (to.path === "/Login" || to.path === "/SignUp") return next()
     const tokenStr = window.sessionStorage.getItem('token')
     console.log(tokenStr)
