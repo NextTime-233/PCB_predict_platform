@@ -22,3 +22,9 @@ pos-center {
         width: 100%
     }
 }
+
+.list-display {
+    height: 50%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dfe6e9;
+}

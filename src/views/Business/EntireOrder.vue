@@ -1,5 +1,28 @@
 <template>
     <div>
+        <div class="order-form-searchBar">
+            <a-tree-select
+                    v-model="value"
+                    show-search
+                    style="width: 100%"
+                    :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+                    placeholder="Please select"
+                    allow-clear
+                    tree-default-expand-all
+            >
+                <a-tree-select-node key="0-1" value="parent 1" title="parent 1">
+                    <a-tree-select-node key="0-1-1" value="parent 1-0" title="parent 1-0">
+                        <a-tree-select-node key="random" :selectable="false" value="leaf1" title="my leaf" />
+                        <a-tree-select-node key="random1" value="leaf2" title="your leaf" />
+                    </a-tree-select-node>
+                    <a-tree-select-node key="random2" value="parent 1-1" title="parent 1-1">
+                        <a-tree-select-node key="random3" value="sss">
+                            <b slot="title" style="color: #08c">sss</b>
+                        </a-tree-select-node>
+                    </a-tree-select-node>
+                </a-tree-select-node>
+            </a-tree-select>
+        </div>
         <h1>订单一体化</h1>
         <!-- <div id="myChart2" :style="{width: '300px', height: '300px', float: 'left'}"></div>-->
         <el-table :data="tableData" border style="width: 100%">
@@ -46,25 +69,25 @@
                 pageSize: '',
                 total: '',
                 tableData: [],
-                cs:[]
+                cs:[],
+            //  树状搜索框
+                treeExpandedKeys: [],
+                value: undefined,
             }
         },
-        mounted(){
-            //我们要在mounted生命周期函数中实例化echarts对象。因为我们要确保dom元素已经挂载到页面中
-            this.drawZhu();
-        },
+
         //生命周期函数
         created(){
             const that = this;
-            axios.get('http://localhost:8081/people/findAll/0/10').then(function (resp) {
-                console.log(resp);
-                const dataset=0;
-                // let cs=[];
-                console.log(dataset);
-                that.tableData = resp.data.content;
-                that.pageSize = resp.data.size;
-                that.total = resp.data.totalElements;
-            })
+                axios.get('http://localhost:8080/backend/').then( res => {
+                    console.log(res.data)
+                    const dataset=0;
+                    // let cs=[];
+                    console.log(dataset);
+                    that.tableData = res.data.content;
+                    that.pageSize = res.data.size;
+                    that.total = res.data.totalElements;
+                })
         },
         methods: {
             handleClick(row) {

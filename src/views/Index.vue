@@ -49,15 +49,15 @@
                     </a-sub-menu>
                 </a-sub-menu>
                 <a-sub-menu key="sub2">
-                    <span slot="title"><a-icon type="setting" /><span>用户档案</span></span>
+                    <span slot="title"><a-icon type="setting" /><span>客户档案</span></span>
                     <a-menu-item key="6">
                         <router-link to="/Client" tag="div">
-                            <span>用户信息</span>
+                            <span>客户信息</span>
                         </router-link>
                     </a-menu-item>
                     <a-menu-item key="7">
                         <router-link to="/userImage" tag="div">
-                            <span>用户画像</span>
+                            <span>客户画像</span>
                         </router-link>
                     </a-menu-item>
                     <a-menu-item key="8">
@@ -83,16 +83,19 @@
                         @click="() => (collapsed = !collapsed)"
                 />
                 <template>
+<!--                    <a-icon type="bell" />-->
+
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            limlin <a-icon type="down" />
+                            <a-avatar style="backgroundColor:#87d068" icon="user" />
+                            {{user}}<a-icon type="down" />
                         </a>
                         <a-menu slot="overlay">
                             <a-menu-item>
-                                <a href="javascript:;">修改密码</a>
+                                <a href="javascript:;">个人中心</a>
                             </a-menu-item>
                             <a-menu-item>
-                                <a href="javascript:;">个人中心</a>
+                                <a href="javascript:;">修改密码</a>
                             </a-menu-item>
                             <a-menu-item>
                                 <a href="javascript:;" @click="logOut">退出登录</a>
@@ -117,6 +120,7 @@
         components: {Bread},
         data() {
             return {
+                user: window.sessionStorage.getItem('user'),
                 collapsed: false,
                 // 导航栏
                 current: '1',

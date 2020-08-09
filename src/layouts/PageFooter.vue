@@ -19,7 +19,7 @@
 </script>
 <!--@text-color-second: blue;-->
 <style lang="less" scoped>
-
+    @import "src/theme/color";
     .footer{
         padding: 0 16px;
         margin: 48px 0 24px;

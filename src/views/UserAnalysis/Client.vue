@@ -1,9 +1,10 @@
 <template>
     <div>
-        <a-table :pagination="false" :columns="columns" :data-source="data">
-            <a slot="name" slot-scope="text">{{ text }}</a>
-<!--            <span slot="customTitle">Name</span>-->
-            <span slot="tags" slot-scope="tags">
+        <div class="client">
+            <a-table :pagination="false" :columns="columns" :data-source="data">
+                <a slot="name" slot-scope="text">{{ text }}</a>
+                <!--            <span slot="customTitle">Name</span>-->
+                <span slot="tags" slot-scope="tags">
               <a-tag
                       v-for="tag in tags"
                       :key="tag"
@@ -12,20 +13,25 @@
                 {{ tag.toUpperCase() }}
               </a-tag>
             </span>
-            <span slot="action" slot-scope="text, record">
+                <span slot="action" slot-scope="text, record">
               <a>编辑</a>
               <a-divider type="vertical" />
               <a>删除</a>
               <a-divider type="vertical" />
               <a class="ant-dropdown-link"> 更多操作 <a-icon type="down" /> </a>
             </span>
-        </a-table>
-        <div class="page-roll">
-            <a-pagination show-quick-jumper :default-current="2" :total="500" @change="onChange" />
+            </a-table>
+            <PageRoll></PageRoll>
         </div>
+        <div class="detail">
+
+        </div>
+
     </div>
 </template>
 <script>
+    import PageRoll from "../../components/PageRoll";
+
     const columns = [
         {
             dataIndex: 'name',
@@ -86,13 +92,11 @@
 
     export default {
         name: "Client",
+        components: {PageRoll},
         data() {
             return {
                 data,
                 columns,
-                // 分页
-                pageSize: 20,
-                current: 4,
             };
         },
         watch: {
@@ -103,18 +107,16 @@
                 console.log('current', val);
             },
         },
+        created() {
+          axios.get('http://localhost:8080/backend/').then( res => {
+              console.log(res.data)
+          })
+        },
         methods: {
-            onShowSizeChange(current, pageSize) {
-                console.log(current, pageSize);
-            },
+
         },
     };
 </script>
 <style scoped>
-    .page-roll {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-    }
+
 </style>

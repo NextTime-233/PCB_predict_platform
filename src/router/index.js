@@ -86,16 +86,16 @@ const router = new Router({
                     path: '/Client',
                     component:() => import('../views/UserAnalysis/Client'),
                     meta: {
-                        title: '顾客信息',
-                        module: '顾客'
+                        title: '客户信息',
+                        module: '客户'
                     },
                 },
                 {
                     path: '/userImage',
                     component:() => import('../views/UserAnalysis/userImage'),
                     meta: {
-                        title: '用户画像',
-                        module: '顾客'
+                        title: '客户画像',
+                        module: '客户'
                     },
                 },
                 {
@@ -103,7 +103,7 @@ const router = new Router({
                     component:() => import('../views/UserAnalysis/Analysis'),
                     meta: {
                         title: '数据分析',
-                        module: '顾客'
+                        module: '客户'
                     },
                 },
             ]
@@ -132,7 +132,7 @@ router.beforeEach((to, from, next) => {
 
     if (to.path === "/Login" || to.path === "/SignUp") return next()
     const tokenStr = window.sessionStorage.getItem('token')
-    console.log(tokenStr)
+    // console.log(tokenStr)
     if (!tokenStr) return next('/Login')
     // 设定页面的跳转间隔
     setTimeout(()=>{
