@@ -2,7 +2,10 @@
     <a-layout id="layout-demo">
         <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
             <!--   主页logo跳转   -->
-            <div class="logo">{{collapsed?'LJPZ':'林家铺子后台管理系统'}}</div>
+            <div class="logo">
+                <img src="../assets/logo.png" style="height: 60px; width: 86px;"/>
+                {{collapsed?'LJPZ':'后台管理系统'}}
+            </div>
             <a-menu class="left-menu"
                     :default-selected-keys="['1']"
                     :default-open-keys="['']"
@@ -11,7 +14,7 @@
                     :selected-keys="[current]"
                     @click="handleClick">
                 <a-sub-menu  key="sub0">
-                    <span slot="title"><a-icon type="appstore" /><span>公司管理</span></span>
+                    <span slot="title"><a-icon type="home" /><span>公司管理</span></span>
                     <a-menu-item key="0">
                         <router-link to="/Analysis" tag="div">
                             <span>数据分析</span>
@@ -24,7 +27,7 @@
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub1">
-                    <span slot="title"><a-icon type="appstore" /><span>用户管理</span></span>
+                    <span slot="title"><a-icon type="edit" /><span>用户管理</span></span>
                     <a-menu-item key="2">
                         <router-link to="/EntireOrder" tag="div">
                             <span>标签管理</span>
@@ -42,7 +45,7 @@
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub2">
-                    <span slot="title"><a-icon type="setting" /><span>订单管理</span></span>
+                    <span slot="title"><a-icon type="hdd" /><span>订单管理</span></span>
                         <a-menu-item key="5">
                             <router-link to="/detail" tag="div">
                                 <span>订单明细</span>
@@ -53,16 +56,17 @@
                                 <span>订单管理</span>
                             </router-link>
                         </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu key="sub3">
+                    <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>货品管理</span></span>
                     <a-menu-item key="7">
                         <router-link to="/purchase" tag="div">
                             <span>货品档案</span>
                         </router-link>
                     </a-menu-item>
-
                 </a-sub-menu>
             </a-menu>
         </a-layout-sider>
-
         <a-layout>
             <a-layout-header style="background: #fff; padding: 0; display: flex; justify-content: space-between; align-items: center">
                 <a-icon
@@ -71,8 +75,6 @@
                         @click="() => (collapsed = !collapsed)"
                 />
                 <template>
-<!--                    <a-icon type="bell" />-->
-
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                             <a-avatar style="backgroundColor:#87d068" icon="user" />
@@ -80,7 +82,10 @@
                         </a>
                         <a-menu slot="overlay">
                             <a-menu-item>
-                                <a href="javascript:;">个人中心</a>
+                                <router-link to="/Home" tag="div">
+                                    <span>个人中心</span>
+                                </router-link>
+<!--                                <a href="javascript:;"></a>-->
                             </a-menu-item>
                             <a-menu-item>
                                 <a href="javascript:;">修改密码</a>
@@ -167,30 +172,24 @@
             height: 85vh;
             overflow-y: scroll;
         }
-    }
-    #layout-demo .trigger {
-        font-size: 18px;
-        line-height: 64px;
-        padding: 0 24px;
-        cursor: pointer;
-        transition: color 0.3s;
-    }
-
-    #layout-demo .trigger:hover {
-        color: #1890ff;
-    }
-
-    #layout-demo .logo {
-        height: 32px;
-        background: rgba(255, 255, 255, 0.2);
-        margin: 16px;
-        line-height: 32px;
-        color: white;
-        text-align: center;
-        letter-spacing: 1px;
-        font-weight: bold;
-    }
-    .self {
-        margin-right: 15px;
+        .trigger {
+            font-size: 18px;
+            line-height: 64px;
+            padding: 0 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .trigger:hover {
+            color: #1890ff;
+        }
+        .logo {
+            margin-top: 12px;
+            margin-left: 12px;
+            line-height: 32px;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
     }
 </style>

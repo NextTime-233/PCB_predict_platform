@@ -27,11 +27,11 @@ const router = new Router({
             component:() => import('../views/Index'),
             children: [
                 {
-                    path: '/Home',
-                    component:() => import('../components/Home'),
+                    path: '/Analysis',
+                    component:() => import('../views/Employee/Analysis'),
                     meta: {
-                        title: 'HomePage',
-                        module: '首页'
+                        title: '数据分析',
+                        module: '公司管理'
                     },
                 },
                 {
@@ -39,7 +39,7 @@ const router = new Router({
                     component:() => import('../views/Employee/employee'),
                     meta: {
                         title: '员工管理',
-                        module: '员工'
+                        module: '公司管理'
                     },
                 },
                 {
@@ -47,15 +47,15 @@ const router = new Router({
                     component:() => import('../views/Business/purchase'),
                     meta: {
                         title: '货品档案',
-                        module: '货品'
+                        module: '货品管理'
                     },
                 },
                 {
                     path: '/EntireOrder',
                     component:() => import('../views/Business/EntireOrder'),
                     meta: {
-                        title: '订单一体化',
-                        module: '订单'
+                        title: '标签管理',
+                        module: '用户管理'
                     },
                 },
                 {
@@ -63,23 +63,23 @@ const router = new Router({
                     component:() => import('../views/Business/manage'),
                     meta: {
                         title: '订单管理',
-                        module: '订单'
+                        module: '订单管理'
                     },
                 },
                 {
                     path: '/detail',
                     component:() => import('../views/Business/detail'),
                     meta: {
-                        title: '订单详情',
-                        module: '订单'
+                        title: '订单明细',
+                        module: '订单管理'
                     },
                 },
                 {
                     path: '/Client',
                     component:() => import('../views/UserAnalysis/Client'),
                     meta: {
-                        title: '客户信息',
-                        module: '客户'
+                        title: '客户档案',
+                        module: '用户管理'
                     },
                 },
                 {
@@ -87,15 +87,16 @@ const router = new Router({
                     component:() => import('../views/UserAnalysis/userImage'),
                     meta: {
                         title: '客户画像',
-                        module: '客户'
+                        module: '用户管理'
                     },
                 },
+
                 {
-                    path: '/Analysis',
-                    component:() => import('../views/Employee/Analysis'),
+                    path: '/Home',
+                    component:() => import('../components/Home'),
                     meta: {
-                        title: '数据分析',
-                        module: '客户'
+                        title: '个人中心',
+                        module: '我的账号'
                     },
                 },
             ]
@@ -129,7 +130,7 @@ router.beforeEach((to, from, next) => {
     // 设定页面的跳转间隔
     setTimeout(()=>{
         next()
-    }, 800)
+    }, 600)
 
 })
 

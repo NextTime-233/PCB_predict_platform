@@ -65,7 +65,8 @@
                                 this.logining = false;
                                 sessionStorage.setItem('user', this.LoginForm.userAccount);
                                 sessionStorage.setItem('token',res.data.data.tokenBackend)
-                                this.$router.push('/Home').catch(err => {});
+                                // 首页展示
+                                this.$router.push('/Analysis').catch(err => {});
                             }else{
                                 this.logining = false;
                                 this.$alert('username or password wrong!', 'info', {
