@@ -11,68 +11,56 @@
                     :selected-keys="[current]"
                     @click="handleClick">
                 <a-sub-menu  key="sub0">
-                    <span slot="title"><a-icon type="appstore" /><span>公司员工</span></span>
+                    <span slot="title"><a-icon type="appstore" /><span>公司管理</span></span>
                     <a-menu-item key="0">
-                    <router-link to="/employee" tag="div">
-                        <a-icon type="idcard" /><span>员工信息</span>
-                    </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="1">
-                        <router-link to="/Task" tag="div">
-                            <a-icon type="idcard" /><span>任务信息</span>
-                        </router-link>
-                    </a-menu-item>
-                </a-sub-menu>
-                <a-sub-menu key="sub1">
-                    <span slot="title"><a-icon type="appstore" /><span>营销数据</span></span>
-                    <a-menu-item key="2">
-                        <router-link to="/purchase" tag="div">
-                            <span>货品档案</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="3">
-                        <router-link to="/EntireOrder" tag="div">
-                            <span>订单一体化</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-sub-menu key="sub1-2" title="商品订单">
-                        <a-menu-item key="4">
-                            <router-link to="/manage" tag="div">
-                                <span>订单管理</span>
-                            </router-link>
-                        </a-menu-item>
-                        <a-menu-item key="5">
-                            <router-link to="/detail" tag="div">
-                               <span>订单明细</span>
-                            </router-link>
-                        </a-menu-item>
-                    </a-sub-menu>
-                </a-sub-menu>
-                <a-sub-menu key="sub2">
-                    <span slot="title"><a-icon type="setting" /><span>客户档案</span></span>
-                    <a-menu-item key="6">
-                        <router-link to="/Client" tag="div">
-                            <span>客户信息</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="7">
-                        <router-link to="/userImage" tag="div">
-                            <span>客户画像</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="8">
                         <router-link to="/Analysis" tag="div">
                             <span>数据分析</span>
                         </router-link>
                     </a-menu-item>
+                    <a-menu-item key="1">
+                    <router-link to="/employee" tag="div">
+                        <span>员工管理</span>
+                    </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu key="sub1">
+                    <span slot="title"><a-icon type="appstore" /><span>用户管理</span></span>
+                    <a-menu-item key="2">
+                        <router-link to="/EntireOrder" tag="div">
+                            <span>标签管理</span>
+                        </router-link>
+                    </a-menu-item>
+                    <a-menu-item key="3">
+                        <router-link to="/userImage" tag="div">
+                            <span>客户画像</span>
+                        </router-link>
+                    </a-menu-item>
+                    <a-menu-item key="4">
+                        <router-link to="/Client" tag="div">
+                            <span>客户档案</span>
+                        </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu key="sub2">
+                    <span slot="title"><a-icon type="setting" /><span>订单管理</span></span>
+                        <a-menu-item key="5">
+                            <router-link to="/detail" tag="div">
+                                <span>订单明细</span>
+                            </router-link>
+                        </a-menu-item>
+                        <a-menu-item key="6">
+                            <router-link to="/manage" tag="div">
+                                <span>订单管理</span>
+                            </router-link>
+                        </a-menu-item>
+                    <a-menu-item key="7">
+                        <router-link to="/purchase" tag="div">
+                            <span>货品档案</span>
+                        </router-link>
+                    </a-menu-item>
+
                 </a-sub-menu>
             </a-menu>
-            <a-switch
-                    default-checked
-                    checked-children="dark"
-                    un-checked-children="light"
-                    @change="changeTheme"
-            />
         </a-layout-sider>
 
         <a-layout>
@@ -153,9 +141,6 @@
             handleClick(e) {
                 console.log('click ', e);
                 this.current = e.key;
-            },
-            changeTheme(checked) {
-                this.theme = checked ? 'dark' : 'light';
             },
         }
     };

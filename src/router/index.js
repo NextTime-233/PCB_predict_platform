@@ -43,14 +43,6 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/Task',
-                    component:() => import('../views/Employee/Task'),
-                    meta: {
-                        title: '任务管理',
-                        module: '任务'
-                    },
-                },
-                {
                     path: '/purchase',
                     component:() => import('../views/Business/purchase'),
                     meta: {
@@ -100,7 +92,7 @@ const router = new Router({
                 },
                 {
                     path: '/Analysis',
-                    component:() => import('../views/UserAnalysis/Analysis'),
+                    component:() => import('../views/Employee/Analysis'),
                     meta: {
                         title: '数据分析',
                         module: '客户'
