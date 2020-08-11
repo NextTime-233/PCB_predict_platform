@@ -1,3 +1,4 @@
+<!--整体框架-->
 <template>
     <a-layout id="layout-demo">
         <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
@@ -7,7 +8,7 @@
                 {{collapsed?'LJPZ':'后台管理系统'}}
             </div>
             <a-menu class="left-menu"
-                    :default-selected-keys="['1']"
+                    :default-selected-keys="['0']"
                     :default-open-keys="['']"
                     mode="inline"
                     :theme="theme"
@@ -97,7 +98,6 @@
                     </a-dropdown>
                 </template>
             </a-layout-header>
-
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
             <!--路由占位符-->
                 <bread></bread>

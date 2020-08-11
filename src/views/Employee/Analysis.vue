@@ -1,5 +1,6 @@
+<!--数据分析-->
 <template>
-    <div>数据分析
+    <div>
         <el-row :gutter="20">
             <el-col :span="6"><div class="grid-content bg-purple">
                 <div class="data-tab">

@@ -9,6 +9,7 @@
                 :page-size="pageSize"
                 @showSizeChange="onShowSizeChange"
         >
+<!--            <t>共{{}}条数据</t>-->
             <template slot="buildOptionText" slot-scope="props">
                 <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
                 <span v-if="props.value === '50'">全部</span>
@@ -40,7 +41,8 @@
     .page-roll {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        /*align-items: center;*/
+        align-items: flex-end;
         margin-top: 20px;
     }
 </style>

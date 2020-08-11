@@ -1,3 +1,4 @@
+<!--错误页面-->
 <template>
     <div>
         <router-link to="/" tag="div">

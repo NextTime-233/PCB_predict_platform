@@ -1,3 +1,4 @@
+<!--货品档案-->
 <template>
     <div>
         <div id="goods-search-list">

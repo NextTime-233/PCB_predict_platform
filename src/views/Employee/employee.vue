@@ -1,3 +1,4 @@
+<!--员工管理-->
 <template>
     <div>
         <div class="employee-list-display">
@@ -6,7 +7,7 @@
                         class="global-search"
                         size="large"
                         style="width: 100%"
-                        placeholder="input here"
+                        placeholder="查询用户"
                         option-label-prop="title"
                         @select="onSelect"
                         @search="handleSearch"
@@ -43,7 +44,7 @@
                         :dataSource="dataSource"
                         :pagination="false"
                 >
-                    <template  v-for="(col, i) in ['name', 'number', 'department']" :slot="col" slot-scope="text, record">
+                    <template  v-for="(col, i) in ['name', 'code']" :slot="col" slot-scope="text, record">
                         <a-input
                                 :key="col"
                                 v-if="record.editable"
@@ -68,12 +69,12 @@
                                 <a @click="saveRow(record.key)">save</a>
                                 <a-divider type="vertical" />
                                 <a @click="cancle(record.key)">cancel</a>
-                          </span>
+                            </span>
                         </template>
                         <span v-else>
                           <a @click="toggle(record.key)">edit</a>
                           <a-divider type="vertical" />
-                          <a-popconfirm title='deleteConfirm' @confirm="remove(record.key)">
+                          <a-popconfirm title='deleteConfirm' @confirm="remove(record.key,record.name)">
                             <a>delete</a>
                           </a-popconfirm>
                         </span>
@@ -83,21 +84,6 @@
             </form>
             <PageRoll></PageRoll>
         </div>
-        <div class="detail-display">
-            <div>
-                <a-tabs default-active-key="1" @change="callback">
-                    <a-tab-pane key="1" tab="基本信息">
-                        Content of Tab Pane 1
-                    </a-tab-pane>
-                    <a-tab-pane key="2" tab="学历信息" force-render>
-                        Content of Tab Pane 2
-                    </a-tab-pane>
-                    <a-tab-pane key="3" tab="工作经验">
-                        Content of Tab Pane 3
-                    </a-tab-pane>
-                </a-tabs>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -105,25 +91,18 @@
     import PageRoll from "../../components/PageRoll";
     const columns = [
         {
-            title: '成员姓名',
+            title: '用户名',
             dataIndex: 'name',
             key: 'name',
             width: '20%',
             scopedSlots: { customRender: 'name' }
         },
         {
-            title: '工号',
-            dataIndex: 'number',
-            key: 'number',
+            title: '密码',
+            dataIndex: 'code',
+            key: 'code',
             width: '20%',
-            scopedSlots: { customRender: 'number' }
-        },
-        {
-            title: '所属部门',
-            dataIndex: 'department',
-            key: 'department',
-            width: '40%',
-            scopedSlots: { customRender: 'department' }
+            scopedSlots: { customRender: 'code' }
         },
         {
             title: '操作',
@@ -136,24 +115,17 @@
         {
             key: 1,
             name: '小明',
-            number: '001',
+            code: '001',
             editable: false,
             department: '行政部'
         },
         {
             key: 2,
             name: '李莉',
-            number: '002',
+            code: '002',
             editable: false,
             department: 'IT部'
         },
-        {
-            key: 3,
-            name: '王小帅',
-            number: '003',
-            editable: false,
-            department: '财务部'
-        }
     ]
 
     export default {
@@ -165,6 +137,7 @@
                 dataSource,
                 // 搜索框
                 dataSource0: [],
+                tokenStr: window.sessionStorage.getItem('token'),
             }
         },
         computed: {
@@ -177,10 +150,10 @@
         },
         created() {
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+window.sessionStorage.getItem('user'), {headers:{
-                    token:tokenStr}}).then( res => {
+            axios.get('http://localhost:8080//backend/user/listUsers', {headers:{
+                    token: tokenStr}}).then( res => {
                 console.log(res.data.msg)
-                console.log(res.data.data)
+                console.log(res)
             })
         },
         methods: {
@@ -191,15 +164,19 @@
                 this.dataSource.push({
                     key: this.dataSource.length + 1,
                     name: '',
-                    number: '',
+                    code: '',
                     department: '',
                     editable: true,
                     isNew: true
                 })
             },
-            remove (key) {
+            remove (key, name) {
                 const newData = this.dataSource.filter(item => item.key !== key)
                 this.dataSource = newData
+                axios.put('http://localhost:8080//backend/user/deleteUser', {headers:{
+                        token: this.tokenStr, userList: name}}).then( res => {
+                    console.log(res.data.msg)
+                })
             },
             saveRow (key) {
                 let target = this.dataSource.filter(item => item.key === key)[0]
@@ -228,10 +205,17 @@
             },
             //    搜索框
             onSelect(value) {
+                let tokenStr = this.data()
                 console.log('onSelect', value);
+                axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+ value, {headers:{
+                        token: this.tokenStr}}).then( res => {
+                    console.log(res.data.msg)
+                    console.log(res.data.data)
+                })
             },
 
             handleSearch(value) {
+                console.log(this.tokenStr)
                 this.dataSource0 = value ? this.searchResult(value) : [];
             },
 
@@ -249,10 +233,7 @@
                         count: this.getRandomInt(200, 100),
                     }));
             },
-            // 标签页
-            callback(key) {
-                console.log(key);
-            },
+
         }
     }
 </script>

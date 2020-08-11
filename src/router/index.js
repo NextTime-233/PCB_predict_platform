@@ -51,8 +51,8 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/EntireOrder',
-                    component:() => import('../views/Business/EntireOrder'),
+                    path: '/Lable',
+                    component:() => import('../views/UserAnalysis/Lable'),
                     meta: {
                         title: '标签管理',
                         module: '用户管理'

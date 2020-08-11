@@ -1,3 +1,4 @@
+<!--客户档案-->
 <template>
     <div>
         <div class="client">
@@ -23,8 +24,20 @@
             </a-table>
             <PageRoll></PageRoll>
         </div>
-        <div class="detail">
-
+        <div class="detail-display">
+            <div>
+                <a-tabs default-active-key="1" @change="callback">
+                    <a-tab-pane key="1" tab="基本信息">
+                        Content of Tab Pane 1
+                    </a-tab-pane>
+                    <a-tab-pane key="2" tab="学历信息" force-render>
+                        Content of Tab Pane 2
+                    </a-tab-pane>
+                    <a-tab-pane key="3" tab="工作经验">
+                        Content of Tab Pane 3
+                    </a-tab-pane>
+                </a-tabs>
+            </div>
         </div>
 
     </div>
@@ -113,7 +126,10 @@
           })
         },
         methods: {
-
+            // 标签页
+            callback(key) {
+                console.log(key);
+            },
         },
     };
 </script>
