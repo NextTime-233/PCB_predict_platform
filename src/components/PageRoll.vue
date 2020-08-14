@@ -29,9 +29,27 @@
                 total: 50,
             };
         },
+        watch:{
+            // 'pageSize'(newVal, oldVal){ // 实时监听数据变化
+            //     sessionStorage.setItem('pageSize', this.pageSize);
+            // },
+            // current(val){
+            //     sessionStorage.setItem('current', this.current);
+            // },
+            // value(val){ // 实时监听数据变化
+            //     this.wat_fun(val)
+            // }
+        },
+        created(){
+            // 如果改变了咋办呢，这个只在创建时候有用
+            sessionStorage.setItem('current', this.current);
+            sessionStorage.setItem('pageSize', this.pageSize);
+        },
         methods: {
             onShowSizeChange(current, pageSize) {
                 this.pageSize = pageSize;
+                sessionStorage.setItem('current', current);
+                sessionStorage.setItem('pageSize', pageSize);
             },
         },
     };

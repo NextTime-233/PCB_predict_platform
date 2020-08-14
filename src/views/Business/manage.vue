@@ -113,10 +113,15 @@
                 // 列表
                 data,
                 columns,
+            //    token
+                tokenStr: window.sessionStorage.getItem('token')
             };
         },
         created() {
-            axios.get('http://localhost:8080/backend/').then( res => {
+            axios.get('http://localhost:8080/backend/order/listOders', {Headers:{
+                token: this.tokenStr
+            }
+            }).then( res => {
                 console.log(res.data)
             })
         },

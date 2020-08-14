@@ -107,10 +107,12 @@
         },
         created() {
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080/backend/user/listUsers', {headers:{
+            const current = window.sessionStorage.getItem('current')
+            const pageSize = window.sessionStorage.getItem('pageSize')
+            axios.get('http://localhost:8080/backend/user/listUsers/'+current+'/'+pageSize, {headers:{
                     token: tokenStr}}).then( res => {
-                // console.log(res.data.msg)
-                // console.log(res)
+                console.log(res.data.msg)
+                console.log(res)
                 for(let i = 0; i< res.data.data.length; i++){
                     let c = {
                         key : i+1,
@@ -153,6 +155,14 @@
                 let target = this.dataSource.filter(item => item.key === key)[0]
                 target.editable = false
                 target.isNew = false
+                axios.put('http://localhost:8080/backend/user/updateUserPwd', {headers:{
+                            token: this.tokenStr},
+                        userAccount: [name],
+                        userPwd: this.tokenStr
+                    }
+                ).then( res => {
+                    console.log(res.data)
+                })
             },
             toggle (key) {
                 let target = this.dataSource.filter(item => item.key === key)[0]
