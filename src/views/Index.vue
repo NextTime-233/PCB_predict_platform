@@ -21,7 +21,7 @@
                             <span>数据分析</span>
                         </router-link>
                     </a-menu-item>
-                    <a-menu-item key="1">
+                    <a-menu-item v-show="boss" key="1">
                     <router-link to="/employee" tag="div">
                         <span>员工管理</span>
                     </router-link>
@@ -30,7 +30,7 @@
                 <a-sub-menu key="sub1">
                     <span slot="title"><a-icon type="edit" /><span>用户管理</span></span>
                     <a-menu-item key="2">
-                        <router-link to="/EntireOrder" tag="div">
+                        <router-link to="/Lable" tag="div">
                             <span>标签管理</span>
                         </router-link>
                     </a-menu-item>
@@ -120,7 +120,10 @@
                 theme: 'dark',
                 // 页面标签
                 selectedKeys: [],
-                openKeys: []
+                openKeys: [],
+                // 角色判断
+                boss: false,
+                admin: false,
             };
         },
         watch: {
@@ -135,6 +138,18 @@
                 this.openKeys = [this.$route.meta.module];
             }
             this.selectedKeys = [this.$route.path];
+            // 权限设置
+            const limit = window.sessionStorage.getItem('limit');
+            // console.log('boss here');
+            // console.log(limit);
+            if(limit>0){
+                this.boss = true;
+                // console.log('已经执行');
+            }
+            if(limit>1){
+                this.admin = true;
+                // console.log('已经执行2');
+            }
         },
         methods:{
             logOut() {

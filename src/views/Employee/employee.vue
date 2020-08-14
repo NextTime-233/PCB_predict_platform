@@ -3,40 +3,7 @@
     <div>
         <div class="employee-list-display">
             <div class="global-search-wrapper" style="width: 300px">
-                <a-auto-complete
-                        class="global-search"
-                        size="large"
-                        style="width: 100%"
-                        placeholder="查询用户"
-                        option-label-prop="title"
-                        @select="onSelect"
-                        @search="handleSearch"
-                >
-                    <template slot="dataSource">
-                        <a-select-option v-for="item in dataSource0" :key="item.category" :title="item.category">
-                            Found {{ item.query }} on
-                            <a
-                                    :href="`https://s.taobao.com/search?q=${item.query}`"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                            >
-                                {{ item.category }}
-                            </a>
-                            <span className="global-search-item-count">{{ item.count }} results</span>
-                        </a-select-option>
-                    </template>
-                    <a-input>
-                        <a-button
-                                slot="suffix"
-                                style="margin-right: -12px"
-                                class="search-btn"
-                                size="large"
-                                type="primary"
-                        >
-                            <a-icon type="search" />
-                        </a-button>
-                    </a-input>
-                </a-auto-complete>
+                <a-input-search placeholder="input search text" enter-button @search="onSearch" />
             </div>
             <form :autoFormCreate="(form) => this.form = form">
                 <a-table
@@ -111,22 +78,14 @@
         }
     ]
 
-    const dataSource = [
-        {
-            key: 1,
-            name: '小明',
-            code: '001',
-            editable: false,
-            department: '行政部'
-        },
-        {
-            key: 2,
-            name: '李莉',
-            code: '002',
-            editable: false,
-            department: 'IT部'
-        },
-    ]
+    // const dataSource = [
+    //     {
+    //         key: 1,
+    //         name: '李莉',
+    //         code: '001',
+    //         editable: false,
+    //     },
+    // ]
 
     export default {
         name: 'employee',
@@ -134,9 +93,7 @@
         data () {
             return {
                 columns,
-                dataSource,
-                // 搜索框
-                dataSource0: [],
+                dataSource: [],
                 tokenStr: window.sessionStorage.getItem('token'),
             }
         },
@@ -150,10 +107,19 @@
         },
         created() {
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080//backend/user/listUsers', {headers:{
+            axios.get('http://localhost:8080/backend/user/listUsers', {headers:{
                     token: tokenStr}}).then( res => {
-                console.log(res.data.msg)
-                console.log(res)
+                // console.log(res.data.msg)
+                // console.log(res)
+                for(let i = 0; i< res.data.data.length; i++){
+                    let c = {
+                        key : i+1,
+                        name: res.data.data[i].userAccount,
+                        code: res.data.data[i].userPwd,
+                        editable: false,
+                    }
+                    this.dataSource.push(c)
+                }
             })
         },
         methods: {
@@ -173,9 +139,14 @@
             remove (key, name) {
                 const newData = this.dataSource.filter(item => item.key !== key)
                 this.dataSource = newData
-                axios.put('http://localhost:8080//backend/user/deleteUser', {headers:{
-                        token: this.tokenStr, userList: name}}).then( res => {
-                    console.log(res.data.msg)
+                console.log(name)
+                axios.put('http://localhost:8080/backend/user/deleteUser', {headers:{
+                        token: this.tokenStr},
+                        userList: [name],
+                        tokenBackend: this.tokenStr
+                        }
+                    ).then( res => {
+                    console.log(res.data)
                 })
             },
             saveRow (key) {
@@ -203,44 +174,33 @@
                     this.dataSource = newData
                 }
             },
-            //    搜索框
-            onSelect(value) {
-                let tokenStr = this.data()
-                console.log('onSelect', value);
-                axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+ value, {headers:{
-                        token: this.tokenStr}}).then( res => {
-                    console.log(res.data.msg)
-                    console.log(res.data.data)
-                })
+            // 搜索框
+            onSearch(value) {
+                console.log(value);
+                if(!value){
+                    alert("请输入要搜索的用户名！")
+                } else {
+                    axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+value, {headers:{
+                            token: this.tokenStr}}).then( res => {
+                        console.log(res.data.msg)
+                        console.log(res.data.data)
+                        // 暂时采用的方法，直接重写数据源
+                        this.dataSource = [{
+                            key : 1,
+                            name: res.data.data.userAccount,
+                            code: res.data.data.userPwd,
+                            editable: false,
+                        }]
+                    })
+                }
             },
-
-            handleSearch(value) {
-                console.log(this.tokenStr)
-                this.dataSource0 = value ? this.searchResult(value) : [];
-            },
-
-            getRandomInt(max, min = 0) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            },
-
-            searchResult(query) {
-                return new Array(this.getRandomInt(5))
-                    .join('.')
-                    .split('.')
-                    .map((item, idx) => ({
-                        query,
-                        category: `${query}${idx}`,
-                        count: this.getRandomInt(200, 100),
-                    }));
-            },
-
         }
     }
 </script>
 
 <style scoped>
     .employee-list-display {
-        height: 50%;
+        height: 100vh;
         padding-bottom: 20px;
         border-bottom: 1px solid #dfe6e9;
     }

@@ -125,7 +125,7 @@ router.beforeEach((to, from, next) => {
 
     if (to.path === "/Login" || to.path === "/SignUp") return next()
     const tokenStr = window.sessionStorage.getItem('token')
-    // console.log(tokenStr)
+    console.log(tokenStr)
     if (!tokenStr) return next('/Login')
     // 设定页面的跳转间隔
     setTimeout(()=>{

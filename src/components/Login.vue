@@ -65,6 +65,7 @@
                                 this.logining = false;
                                 sessionStorage.setItem('user', this.LoginForm.userAccount);
                                 sessionStorage.setItem('token',res.data.data.tokenBackend);
+                                sessionStorage.setItem('limit',res.data.data.userLimit);
                                 // 首页展示
                                 this.$router.push('/Analysis').catch(err => {});
                             }else{
