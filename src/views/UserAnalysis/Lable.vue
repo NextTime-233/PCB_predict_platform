@@ -80,15 +80,15 @@
         //生命周期函数
         created(){
             const that = this;
-                axios.get('http://localhost:8080/backend/').then( res => {
-                    console.log(res.data)
-                    const dataset=0;
-                    // let cs=[];
-                    console.log(dataset);
-                    that.tableData = res.data.content;
-                    that.pageSize = res.data.size;
-                    that.total = res.data.totalElements;
-                })
+            axios.get('http://localhost:8080/backend/').then( res => {
+                console.log(res.data)
+                const dataset=0;
+                // let cs=[];
+                console.log(dataset);
+                that.tableData = res.data.content;
+                that.pageSize = res.data.size;
+                that.total = res.data.totalElements;
+            })
         },
         methods: {
             handleClick(row) {

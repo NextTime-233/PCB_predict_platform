@@ -26,7 +26,7 @@
                 pageSizeOptions: ['10', '20', '30', '40', '50'],
                 current: 1,
                 pageSize: 10,
-                total: 50,
+                total: '',
             };
         },
         watch:{
@@ -41,9 +41,17 @@
             // }
         },
         created(){
-            // 如果改变了咋办呢，这个只在创建时候有用
-            sessionStorage.setItem('current', this.current);
-            sessionStorage.setItem('pageSize', this.pageSize);
+            sessionStorage.setItem('current', this.current)
+            sessionStorage.setItem('pageSize', this.pageSize)
+            const that = this
+            const tokenStr = window.sessionStorage.getItem('token')
+                // 如果改变了咋办呢，这个只在创建时候有用
+            axios.get('http://localhost:8080/backend/order/countOrders',{ headers:{
+                token : tokenStr
+                }}).then( res => {
+                console.log(res.data)
+                that.total = res.data.data;
+            })
         },
         methods: {
             onShowSizeChange(current, pageSize) {
