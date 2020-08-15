@@ -24,8 +24,7 @@
                 </a-tree-select-node>
             </a-tree-select>
         </div>
-        <h1>订单一体化</h1>
-        <!-- <div id="myChart2" :style="{width: '300px', height: '300px', float: 'left'}"></div>-->
+
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column fixed prop="id" label="编号" width="100">
             </el-table-column>
@@ -79,17 +78,19 @@
         //生命周期函数
         created(){
             const that = this;
-            axios.get('http://localhost:8080/backend/label/findAllLabelVal').then( res => {
+            let tokenStr =  window.sessionStorage.getItem('token')
+            axios.get('http://localhost:8080/backend/label/findAllLabelVal',{headers:{
+                token: tokenStr
+            }}).then( res => {
                 console.log(res.data)
                 const dataset=0;
-                // let cs=[];
                 console.log(dataset);
                 that.labelList = res.data.content;
                 that.labelDimension = res.data.labelDimension;
                 that.labelVal = res.data.labelVal;
                 that.labelRule=res.data.labelRule;
                 that.updateTime=res.data.updateTime;
-            })
+            }).catch()
         },
         methods: {
 

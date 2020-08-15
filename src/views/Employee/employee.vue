@@ -26,14 +26,14 @@
                     <template slot="operation" slot-scope="text, record">
                         <template v-if="record.editable">
                           <span v-if="record.isNew">
-                            <a @click="saveRow(record.key)">add</a>
+                            <a @click="saveRow(record.key, record.name, record.code)">add</a>
                             <a-divider type="vertical" />
                             <a-popconfirm :title="deleteConfirm" @confirm="remove(record.key)">
                               <a>delete</a>
                             </a-popconfirm>
                           </span>
                             <span v-else>
-                                <a @click="saveRow(record.key)">save</a>
+                                <a @click="saveRow(record.key, record.name, record.code)">save</a>
                                 <a-divider type="vertical" />
                                 <a @click="cancle(record.key)">cancel</a>
                             </span>
@@ -49,13 +49,29 @@
                 </a-table>
                 <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">newMember</a-button>
             </form>
-            <PageRoll></PageRoll>
+            <div class="page-roll">
+                <a-pagination
+                        v-model="current"
+                        :page-size-options="pageSizeOptions"
+                        :total="total"
+                        show-size-changer
+                        show-quick-jumper
+                        :page-size="pageSize"
+                        @showSizeChange="onShowSizeChange"
+                >
+                    <!--            <t>共{{}}条数据</t>-->
+                    <template slot="buildOptionText" slot-scope="props">
+                        <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+                        <span v-if="props.value === '50'">全部</span>
+                    </template>
+                </a-pagination>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import PageRoll from "../../components/PageRoll";
+
     const columns = [
         {
             title: '用户名',
@@ -89,12 +105,16 @@
 
     export default {
         name: 'employee',
-        components: {PageRoll},
         data () {
             return {
                 columns,
                 dataSource: [],
-                tokenStr: window.sessionStorage.getItem('token'),
+                tokenStr: '',
+            //  divided pages
+                pageSizeOptions: ['10', '20', '30', '40', '50'],
+                current: 1,
+                pageSize: 10,
+                total: 0,
             }
         },
         computed: {
@@ -106,11 +126,11 @@
             }
         },
         created() {
-            const tokenStr = window.sessionStorage.getItem('token')
-            const current = window.sessionStorage.getItem('current')
-            const pageSize = window.sessionStorage.getItem('pageSize')
-            axios.get('http://localhost:8080/backend/user/listUsers/'+current+'/'+pageSize, {headers:{
-                    token: tokenStr}}).then( res => {
+            // 可能需要异步刷新
+            const that = this
+            that.tokenStr = window.sessionStorage.getItem('token')
+            axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+                    token: that.tokenStr}}).then( res => {
                 console.log(res.data.msg)
                 console.log(res)
                 for(let i = 0; i< res.data.data.length; i++){
@@ -122,7 +142,19 @@
                     }
                     this.dataSource.push(c)
                 }
-            })
+            }).catch()
+        },
+        mounted(){
+            // data amount of book maps
+            const that = this
+            const tokenStr = window.sessionStorage.getItem('token')
+            console.log(tokenStr)
+            // 如果改变了咋办呢，这个只在创建时候有用
+            axios.get('http://localhost:8080/backend/order/countOrders',{headers:{
+                    token : tokenStr}}).then( res => {
+                console.log(res.data)
+                that.total = res.data.data;
+            }).catch()
         },
         methods: {
             handleSubmit (e) {
@@ -141,28 +173,32 @@
             remove (key, name) {
                 const newData = this.dataSource.filter(item => item.key !== key)
                 this.dataSource = newData
-                console.log(name)
-                axios.put('http://localhost:8080/backend/user/deleteUser', {headers:{
-                        token: this.tokenStr},
-                        userList: [name],
-                        tokenBackend: this.tokenStr
-                        }
-                    ).then( res => {
-                    console.log(res.data)
-                })
-            },
-            saveRow (key) {
-                let target = this.dataSource.filter(item => item.key === key)[0]
-                target.editable = false
-                target.isNew = false
-                axios.put('http://localhost:8080/backend/user/updateUserPwd', {headers:{
-                            token: this.tokenStr},
-                        userAccount: [name],
-                        userPwd: this.tokenStr
+                console.log(this)
+                //检查发送和接受参数是否一致
+                const that = this
+                const qs = this.$qs.stringify({userList: [name]})
+                axios.put('http://localhost:8080/backend/user/deleteUser', {
+                    tokenBackend: this.tokenStr,
+                    userList: [name],
+                    Headers:{token: this.tokenStr},
                     }
                 ).then( res => {
                     console.log(res.data)
-                })
+                }).catch()
+            },
+            saveRow (key, name, code) {
+                let target = this.dataSource.filter(item => item.key === key)[0]
+                target.editable = false
+                target.isNew = false
+                // 未完成功能
+                axios.put('http://localhost:8080/backend/user/updateUserPwd', {
+                        headers:{token: this.tokenStr},
+                        userAccount: [name],
+                        userPwd: code
+                    }
+                ).then( res => {
+                    console.log(res.data)
+                }).catch()
             },
             toggle (key) {
                 let target = this.dataSource.filter(item => item.key === key)[0]
@@ -192,8 +228,8 @@
                 } else {
                     axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+value, {headers:{
                             token: this.tokenStr}}).then( res => {
-                        console.log(res.data.msg)
-                        console.log(res.data.data)
+                        // console.log(res.data.msg)
+                        // console.log(res.data.data)
                         // 暂时采用的方法，直接重写数据源
                         this.dataSource = [{
                             key : 1,
@@ -201,8 +237,14 @@
                             code: res.data.data.userPwd,
                             editable: false,
                         }]
-                    })
+                    }).catch()
                 }
+            },
+        //    divided pages
+            onShowSizeChange(current, pageSize) {
+                this.pageSize = pageSize;
+                sessionStorage.setItem('current', current);
+                sessionStorage.setItem('pageSize', pageSize);
             },
         }
     }
@@ -236,19 +278,13 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-
-    .global-search-item {
+    /*page divided*/
+    .page-roll {
         display: flex;
-    }
-
-    .global-search-item-desc {
-        flex: auto;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
-    .global-search-item-count {
-        flex: none;
+        flex-direction: column;
+        /*align-items: center;*/
+        align-items: flex-end;
+        margin-top: 20px;
     }
 
 

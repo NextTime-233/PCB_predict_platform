@@ -8,20 +8,20 @@
                 {{collapsed?'LJPZ':'后台管理系统'}}
             </div>
             <a-menu class="left-menu"
-                    :default-selected-keys="['0']"
-                    :default-open-keys="['']"
+                    :default-selected-keys="['1']"
+                    :default-open-keys="['sub0']"
                     mode="inline"
                     :theme="theme"
                     :selected-keys="[current]"
                     @click="handleClick">
                 <a-sub-menu  key="sub0">
                     <span slot="title"><a-icon type="home" /><span>公司管理</span></span>
-                    <a-menu-item key="0">
+                    <a-menu-item key="1">
                         <router-link to="/Analysis" tag="div">
                             <span>数据分析</span>
                         </router-link>
                     </a-menu-item>
-                    <a-menu-item v-show="boss" key="1">
+                    <a-menu-item v-show="boss" key="2">
                     <router-link to="/employee" tag="div">
                         <span>员工管理</span>
                     </router-link>
@@ -29,17 +29,17 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub1">
                     <span slot="title"><a-icon type="edit" /><span>用户管理</span></span>
-                    <a-menu-item key="2">
+                    <a-menu-item key="3">
                         <router-link to="/Lable" tag="div">
                             <span>标签管理</span>
                         </router-link>
                     </a-menu-item>
-                    <a-menu-item key="3">
+                    <a-menu-item key="4">
                         <router-link to="/userImage" tag="div">
                             <span>客户画像</span>
                         </router-link>
                     </a-menu-item>
-                    <a-menu-item key="4">
+                    <a-menu-item key="5">
                         <router-link to="/Client" tag="div">
                             <span>客户档案</span>
                         </router-link>
@@ -47,12 +47,12 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub2">
                     <span slot="title"><a-icon type="hdd" /><span>订单管理</span></span>
-                        <a-menu-item key="5">
+                        <a-menu-item key="6">
                             <router-link to="/detail" tag="div">
                                 <span>订单明细</span>
                             </router-link>
                         </a-menu-item>
-                        <a-menu-item key="6">
+                        <a-menu-item key="7">
                             <router-link to="/manage" tag="div">
                                 <span>订单管理</span>
                             </router-link>
@@ -60,7 +60,7 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub3">
                     <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>货品管理</span></span>
-                    <a-menu-item key="7">
+                    <a-menu-item key="8">
                         <router-link to="/purchase" tag="div">
                             <span>货品档案</span>
                         </router-link>
@@ -128,7 +128,7 @@
         },
         watch: {
           $route() {
-            console.log(this.$route.meta);
+            // console.log(this.$route.meta);
             document.title = '林家铺子 - ' + this.$route.meta.title
           }
         },
@@ -184,7 +184,7 @@
     #layout-demo{
         height: 100vh;
         .left-menu{
-            height: 85vh;
+            height: 90vh;
             overflow-y: scroll;
         }
         .trigger {

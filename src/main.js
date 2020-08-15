@@ -12,7 +12,11 @@ import store from './store'
 
 import echarts from 'echarts'
 import BaiduMap from 'vue-baidu-map'
+// import qs from 'qs'
 
+//配全局属性配置，在任意组件内可以使用this.$qs获取qs对象
+
+// Vue.prototype.$qs = qs
 
 Vue.use(BaiduMap, {
   ak: '5ieMMexWmzB9jivTq6oCRX9j'

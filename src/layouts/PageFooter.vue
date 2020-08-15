@@ -24,6 +24,9 @@
         padding: 0 16px;
         margin: 48px 0 24px;
         text-align: center;
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
     .copyright{
         color: @text-color-second;
         font-size: 14px;
