@@ -31,23 +31,23 @@
             </el-table-column>
             <!-- prop应该就是记号了-->
             <el-table-column
-                    prop="timestamp"
-                    label="时间"
+                    prop="labelDimension"
+                    label="所属维度"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="imsi"
-                    label="人物编号"
+                    prop="labelVal"
+                    label="标签名称"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="longitude"
-                    label="精度"
+                    prop="labelRule"
+                    label="标签描述"
                     width="120">
             </el-table-column>
             <el-table-column
-                    prop="latitude"
-                    label="纬度"
+                    prop="updateTime"
+                    label="创建时间"
                     width="300">
             </el-table-column>
         </el-table>
@@ -67,12 +67,11 @@
     export default {
         data() {
             return {
-                pageSize: '',
-                total: '',
-                tableData: [],
-                cs:[],
-            //  树状搜索框
-                treeExpandedKeys: [],
+                labelDimension: '',
+                labelVal: '',
+                labelRule:'',
+                updateTime:'',
+                labelList: [],
                 value: undefined,
             }
         },
@@ -80,27 +79,29 @@
         //生命周期函数
         created(){
             const that = this;
-            axios.get('http://localhost:8080/backend/').then( res => {
+            axios.get('http://localhost:8080/backend/label/findAllLabelVal').then( res => {
                 console.log(res.data)
                 const dataset=0;
                 // let cs=[];
                 console.log(dataset);
-                that.tableData = res.data.content;
-                that.pageSize = res.data.size;
-                that.total = res.data.totalElements;
+                that.labelList = res.data.content;
+                that.labelDimension = res.data.labelDimension;
+                that.labelVal = res.data.labelVal;
+                that.labelRule=res.data.labelRule;
+                that.updateTime=res.data.updateTime;
             })
         },
         methods: {
-            handleClick(row) {
-                console.log(row);
-            },
+
             page(currentPage) {
                 const that = this;
-                axios.get('http://localhost:8081/people/findAll/'+(currentPage-1)+'/10').then(function (resp) {
+                axios.get('http://localhost:8080/backend/label/findAllLabelVal').then(function (resp) {
                     console.log(resp);
-                    that.tableData = resp.data.content;
-                    that.pageSize = resp.data.size;
-                    that.total = resp.data.totalElements
+                    that.labelList = res.data.content;
+                    that.labelDimension = res.data.labelDimension;
+                    that.labelVal = res.data.labelVal;
+                    that.labelRule=res.data.labelRule;
+                    that.updateTime=res.data.updateTime;
                 })
             },
 
