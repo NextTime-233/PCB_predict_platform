@@ -5,7 +5,7 @@
             <div :class="advanced ? 'search' : null">
                 <a-form layout="horizontal">
                     <div :class="advanced ? null: 'fold'">
-                        <a-row >
+                        <a-row>
                             <a-col :md="8" :sm="24" >
                                 <a-form-item
                                         label="规则编号"

@@ -12,7 +12,7 @@
             </el-col>
             <el-col span="4">
                 <div class="global-search-wrapper" style="width: 200px">
-                <el-button type="primary" @click="addLabelVisible = true">新增标签</el-button>
+                    <el-button type="primary" @click="addLabelVisible = true">新增标签</el-button>
                 </div>
             </el-col>
         </el-row>
@@ -63,20 +63,20 @@
                         <el-row :gutter="1">
                             <el-col  span="4">
                                 <div class="block">
-                                <span class="demonstration">用户登记时间</span>
+                                    <span class="demonstration">用户登记时间</span>
                                 </div>
                             </el-col>
                             <el-rol  span="'7">
                                 <div class="block">
-                                <el-date-picker
-                                        v-model="value2"
-                                        type="datetimerange"
-                                        :picker-options="pickerOptions"
-                                        range-separator="至"
-                                        start-placeholder="开始日期"
-                                        end-placeholder="结束日期"
-                                        >
-                                </el-date-picker>
+                                    <el-date-picker
+                                            v-model="value2"
+                                            type="datetimerange"
+                                            :picker-options="pickerOptions"
+                                            range-separator="至"
+                                            start-placeholder="开始日期"
+                                            end-placeholder="结束日期"
+                                    >
+                                    </el-date-picker>
                                 </div>
                             </el-rol>
                         </el-row>
@@ -147,15 +147,15 @@
                 </el-dialog>
             </template>
         </a-table>
-           <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="current"
-            :page-sizes="[5, 10, 15, 20]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
-           </el-pagination>
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="current"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
     </div>
 
 </template>
