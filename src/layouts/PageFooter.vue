@@ -26,7 +26,7 @@
         text-align: center;
         position: fixed;
         left: 50%;
-        bottom: 20px;
+        bottom: 10px;
     .copyright{
         color: @text-color-second;
         font-size: 14px;

@@ -3,7 +3,7 @@
     <div>
         <div class="employee-list-display">
             <div class="global-search-wrapper" style="width: 300px">
-                <a-input-search placeholder="input search text" enter-button @search="onSearch" />
+                <a-input-search placeholder="请输入用户名" enter-button @search="onSearch" />
             </div>
             <form :autoFormCreate="(form) => this.form = form">
                 <a-table
@@ -49,6 +49,7 @@
                 </a-table>
                 <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">newMember</a-button>
             </form>
+            <span>共{{total}}条数据</span>
             <div class="page-roll">
                 <a-pagination
                         v-model="current"
@@ -59,7 +60,6 @@
                         :page-size="pageSize"
                         @showSizeChange="onShowSizeChange"
                 >
-                    <!--            <t>共{{}}条数据</t>-->
                     <template slot="buildOptionText" slot-scope="props">
                         <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
                         <span v-if="props.value === '50'">全部</span>
@@ -131,8 +131,8 @@
             that.tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                     token: that.tokenStr}}).then( res => {
-                console.log(res.data.msg)
-                console.log(res)
+                // console.log(res.data.msg)
+                // console.log(res)
                 for(let i = 0; i< res.data.data.length; i++){
                     let c = {
                         key : i+1,
@@ -148,9 +148,9 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            console.log(tokenStr)
+            // console.log(tokenStr)
             // 如果改变了咋办呢，这个只在创建时候有用
-            axios.get('http://localhost:8080/backend/order/countOrders',{headers:{
+            axios.get('http://localhost:8080/backend/user/countUser',{headers:{
                     token : tokenStr}}).then( res => {
                 console.log(res.data)
                 that.total = res.data.data;
