@@ -1,8 +1,8 @@
 <!--标签管理-->
 <template>
     <div>
-        <el-row  :gutter="80">
-            <el-col span="8">
+        <el-row  :gutter="280">
+            <el-col span="4">
                 <div class="order-form-searchBar">
                     <div class="global-search-wrapper" style="width: 300px">
                         <el-input placeholder="标签搜索"  ><el-button slot="append" icon="el-icon-search"></el-button>
@@ -33,7 +33,7 @@
                           <span v-if="record.isNew">
                             <a @click="saveRow(record.key, record.labelDimension, record.labelVal)">添加</a>
                             <a-divider type="vertical" />
-                            <a-popconfirm :title="deleteConfirm" @confirm="remove(record.key)">
+                            <a-popconfirm title="确认删除？" @confirm="remove(record.key)">
                               <a>删除</a>
                             </a-popconfirm>
                           </span>
@@ -46,7 +46,7 @@
                 <span v-else>
                           <a @click="toggle(record.key)">编辑</a>
                           <a-divider type="vertical" />
-                          <a-popconfirm title='deleteConfirm' @confirm="remove(record.key,record.labelDimension)">
+                          <a-popconfirm title='确认删除？' @confirm="remove(record.key,record.labelDimension)">
                             <a>删除</a>
                           </a-popconfirm>
                         </span>
@@ -154,7 +154,7 @@
                 :page-sizes="[5, 10, 15, 20]"
                 :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
+                :total="19">
         </el-pagination>
     </div>
 
@@ -309,6 +309,7 @@
             // 页码值改变
             handleCurrentChange(newPage){
                 console.log(newPage)
+                this.getLabel()
             }
 
         },

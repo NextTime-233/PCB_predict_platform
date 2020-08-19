@@ -116,10 +116,10 @@
         <div class="detail-display">
             <div>
                 <a-tabs default-active-key="1" @change="callback">
-                    <a-tab-pane key="1" tab="基本信息">
+                    <a-tab-pane key="1" tab="货品列表">
                         Content of Tab Pane 1
                     </a-tab-pane>
-                    <a-tab-pane key="2" tab="学历信息" force-render>
+                    <a-tab-pane key="2" tab="订单明细" force-render>
                         Content of Tab Pane 2
                     </a-tab-pane>
 
