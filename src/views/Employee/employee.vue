@@ -59,6 +59,7 @@
                         show-quick-jumper
                         :page-size="pageSize"
                         @showSizeChange="onShowSizeChange"
+                        @change="currentPage"
                 >
                     <template slot="buildOptionText" slot-scope="props">
                         <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
@@ -240,11 +241,35 @@
                     }).catch()
                 }
             },
-        //    divided pages
-            onShowSizeChange(current, pageSize) {
-                this.pageSize = pageSize;
-                sessionStorage.setItem('current', current);
-                sessionStorage.setItem('pageSize', pageSize);
+            // 分页
+            currentPage(currentPage, size){
+                // console.log("当前页码")
+                // console.log(currentPage)
+                const that = this
+                const datalist = []
+                axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size).then(res => {
+                    // console.log(res.data.data)
+                    for (let i = 0; i <10; i++) {
+                        res.data.data[i]['key'] = i
+                        datalist.push(res.data.data[i]);
+                    }
+                    that.data = datalist
+                }).catch()
+            },
+            onShowSizeChange(current, size) {
+                console.log("页面数据量")
+                console.log(size)
+                this.pageSize = size;
+                const that = this
+                const datalist = []
+                axios.get('http://localhost:8080/backend/order/listOrders/'+current+'/'+size).then(res => {
+                    // console.log(res.data.data)
+                    for (let i = 0; i <size; i++) {
+                        res.data.data[i]['key'] = i
+                        datalist.push(res.data.data[i]);
+                    }
+                    that.data = datalist
+                }).catch()
             },
         }
     }

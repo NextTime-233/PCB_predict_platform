@@ -47,10 +47,13 @@
                     </a-row>
                 </div>
             </div></el-col>
-            <el-col :span="6"><div class="grid-content" style="padding: 20px; border: 1px solid darkgray; height: 200px">
-                <h3>线上购物转化率</h3>
-                <div style="font-size: 40px">78%</div>
-                <a-progress :percent="30" />
+            <el-col :span="6"><div class="grid-content">
+                <div style="padding: 20px; border: 1px solid darkgray; height: 200px">
+                    <h3>线上购物转化率</h3>
+                    <div style="font-size: 40px">78%</div>
+                    <a-progress :percent="30" />
+                </div>
+
             </div></el-col>
             <el-col :span="6"><div class="grid-content">
                 <div style="border: 1px solid grey; height: 200px">
@@ -58,9 +61,9 @@
                 </div>
             </div></el-col>
         </el-row>
-        <a-row type="flex">
-            <a-col :flex="2" style="">
-                <el-tabs v-model="activeName" type="card" @tab-click="handleClick" style="width: 70vh; padding: 10px;">
+        <a-row type="flex" style="border: 1px solid lightgrey; padding: 5px">
+            <a-col :flex="1" >
+                <el-tabs v-model="activeName" type="card" @tab-click="handleClick" style="width: 70vh; padding: 5px;">
                     <el-tab-pane label="今日" name="first">
                         <div style="">
                             <div id="myChart1" :style="{width: '600px', height: '300px', float: 'left'}"></div>
@@ -71,7 +74,7 @@
                     <el-tab-pane label="全年" name="fourth">全年</el-tab-pane>
                 </el-tabs>
             </a-col>
-            <a-col :flex="3" style="margin: 0 20px">
+            <a-col :flex="2" style="margin: 0 10px">
                 <a-range-picker @change="onChange">
                     <a-icon type="calendar" theme="twoTone" slot="suffixIcon"/>
                 </a-range-picker>
@@ -92,7 +95,7 @@
             </a-col>
         </a-row>
         <el-row>
-            <el-col :span="12"><div class="grid-content">
+            <el-col :span="12"><div class="grid-content" style="border: 1px solid lightgrey;">
                 <h3 style="margin-bottom: 16px; padding: 20px">热门商品</h3>
                 <div style="margin-left: 10%">
                     <div id="myChart3" :style="{width: '600px', height: '300px', float: 'left'}"></div>
@@ -375,16 +378,9 @@
     .el-col {
         border-radius: 4px;
     }
-    .bg-purple-dark {
-        background: #99a9bf;
-        height: 400px;
-    }
-    .bg-purple-light {
-        background: #e5e9f2;
-    }
     .grid-content {
         border-radius: 4px;
-        /*min-height: 300px;*/
+        min-height: 300px;
         margin-top: 25px;
     }
 </style>

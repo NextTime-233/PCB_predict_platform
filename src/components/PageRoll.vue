@@ -8,6 +8,7 @@
                 show-quick-jumper
                 :page-size="pageSize"
                 @showSizeChange="onShowSizeChange"
+                @change="currentPage"
         >
 <!--            <t>共{{}}条数据</t>-->
             <template slot="buildOptionText" slot-scope="props">

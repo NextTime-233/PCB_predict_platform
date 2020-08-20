@@ -44,7 +44,7 @@ const router = new Router({
                         if (to.path === "/employee" && limit === '0') {
                             alert('没有访问权限')
                             return next('/Analysis');
-                        }
+                        } else return next()
                     },
                     meta: {
                         title: '员工管理',

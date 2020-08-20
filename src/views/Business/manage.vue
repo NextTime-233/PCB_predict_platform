@@ -1,205 +1,209 @@
 <!--订单管理-->
 <template>
     <div>
-        <div class="order-list-display">
-            <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin-top: 10px">
-                <a-form layout="inline" :model="formInline" @submit.native.prevent>
-                    <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
-                        <a-row type="flex">
-                            <a-col :span="6" :order="1">
-                                <a-form-item label="店铺名称">
-                                    <a-input v-model="formInline.shopName">
-                                    </a-input>
-                                </a-form-item>
-                                <a-popover placement="bottomRight" style="height:31px; position: relative; left: -16px; top: 5px">
-                                    <template slot="title">
-                                        <a-input placeholder="输入关键字查询" />
-                                    </template>
-                                    <template slot="content">
-<!--                                                <p>循环输出所有店铺</p>-->
-                                        <a-checkbox @change="onChange">
-                                            Checkbox
-                                        </a-checkbox>
-                                        <br />
-                                        <a-checkbox @change="onChange">
-                                            Checkbox
-                                        </a-checkbox>
-                                        <br />
-                                        <a-button-group>
-                                            <a-button type="primary">
-                                                全选
-                                            </a-button>
-                                            <a-button>反选</a-button>
-                                            <a-button>重置</a-button>
-                                            <a-button type="dashed">
-                                                确定
-                                            </a-button>
-                                        </a-button-group>
-                                    </template>
-                                    <a-button><a-icon type="down" /></a-button>
-                                </a-popover>
-                            </a-col>
-                            <a-col :span="6" :order="2">
-                                <a-form-item label="订单编号">
-                                    <a-input v-model="formInline.orderNo">
-                                    </a-input>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :span="6" :order="3">
-                                <a-form-item label="原始单号">
-                                    <a-input v-model="formInline.originOrderNo">
-                                    </a-input>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :span="6" :order="4">
-                                <a-form-item label="物流单号">
-                                    <a-input v-model="formInline.logisticsNo">
-                                    </a-input>
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                        <a-row type="flex" v-if="advanced">
-                            <a-col :span="6" :order="1">
-                                <a-form-item label="客户网名">
-                                    <a-input v-model="formInline.ClientNetName">
-                                    </a-input>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :span="6" :order="2">
-                                <a-form-item label="电话号码">
-                                    <a-input v-model="formInline.Phone">
-                                    </a-input>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :span="6" :order="3">
-                                <a-form-item label="订单类型">
-                                    <a-input v-model="formInline.Type">
-                                    </a-input>
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                    </div>
-                    <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
-                        <a-button type="primary" @click="submitList">查询</a-button>
-                        <a-button style="margin-left: 8px" type="reset">重置</a-button>
-                    </span>
-                    <br>
-                    <a @click="toggleAdvanced" style="margin-left: 50%">
-                        <a-icon :type="advanced ? 'up' : 'down'" />
-                    </a>
-                </a-form>
-            </div>
-            <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 300 }" :pagination="false" size="small" style="margin-top: 10px">
-                <a slot="action" slot-scope="text">action</a>
-            </a-table>
-            <span>共{{total}}条数据</span>
-            <div class="page-roll">
-                <a-pagination
-                        v-model="current"
-                        :page-size-options="pageSizeOptions"
-                        :total="total"
-                        show-size-changer
-                        show-quick-jumper
-                        :page-size="pageSize"
-                        @showSizeChange="onShowSizeChange"
-                >
-                    <template slot="buildOptionText" slot-scope="props">
-                        <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
-                        <span v-if="props.value === '50'">全部</span>
-                    </template>
-                </a-pagination>
-            </div>
-        </div>
-        <div class="detail-display">
-            <a-tabs default-active-key="2">
-                <a-tab-pane key="1" @click="moreDetail('YX97899')">
-                  <span slot="tab">
-                    <a-icon type="apple" />
-                    货品列表
-                  </span>
-                    <div>
-                    <a-descriptions
-                            title="Responsive Descriptions"
-                            bordered
-                            :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }"
-                    >
-                        <a-descriptions-item label="Product">
-                            Cloud Database
-                        </a-descriptions-item>
-                        <a-descriptions-item label="Billing">
-                            Prepaid
-                        </a-descriptions-item>
-                        <a-descriptions-item label="Time">
-                            18:00:00
-                        </a-descriptions-item>
-                        <a-descriptions-item label="Amount">
-                            $80.00
-                        </a-descriptions-item>
-                        <a-descriptions-item label="Discount">
-                            $20.00
-                        </a-descriptions-item>
-                        <a-descriptions-item label="Official">
-                            $60.00
-                        </a-descriptions-item>
-                        <a-descriptions-item label="Config Info">
-                            Data disk type: MongoDB
-                            <br />
-                            Database version: 3.4
-                            <br />
-                            Package: dds.mongo.mid
-                            <br />
-                            Storage space: 10 GB
-                            <br />
-                            Replication factor: 3
-                            <br />
-                            Region: East China 1
-                        </a-descriptions-item>
-                    </a-descriptions>
+        <a-card>
+            <div class="order-list-display">
+                <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin-top: 10px">
+                    <a-form layout="horizontal" :model="formInline" @submit.native.prevent>
+                        <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
+                            <a-row :gutter="16">
+                                <a-col :span="6">
+                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.shopName">
+                                        </a-input>
+                                        <a-popover placement="bottomRight">
+                                            <template slot="title">
+                                                <a-input placeholder="输入关键字查询" />
+                                            </template>
+                                            <template slot="content">
+                                                <!--                                                <p>循环输出所有店铺</p>-->
+                                                <a-checkbox @change="onChange">
+                                                    Checkbox
+                                                </a-checkbox>
+                                                <br />
+                                                <a-checkbox @change="onChange">
+                                                    Checkbox
+                                                </a-checkbox>
+                                                <br />
+                                                <a-button-group>
+                                                    <a-button type="primary">
+                                                        全选
+                                                    </a-button>
+                                                    <a-button>反选</a-button>
+                                                    <a-button>重置</a-button>
+                                                    <a-button type="dashed">
+                                                        确定
+                                                    </a-button>
+                                                </a-button-group>
+                                            </template>
+                                            <a-button><a-icon type="down" /></a-button>
+                                        </a-popover>
+                                    </a-form-item>
+
+                                </a-col>
+                                <a-col :span="6">
+                                    <a-form-item label="订单编号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.orderNo">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6">
+                                    <a-form-item label="原始单号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.originOrderNo">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6">
+                                    <a-form-item label="物流单号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.logisticsNo">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                            <a-row type="flex" v-if="advanced">
+                                <a-col :span="6">
+                                    <a-form-item label="客户网名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.ClientNetName">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6">
+                                    <a-form-item label="电话号码" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.Phone">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6">
+                                    <a-form-item label="订单类型" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="formInline.Type">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                        </div>
+                        <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
+                            <a-button type="primary" @click="submitList">查询</a-button>
+                            <a-button style="margin-left: 8px" type="reset">重置</a-button>
+                        </span>
+                        <br>
+                        <a @click="toggleAdvanced" style="margin-left: 50%">
+                            <a-icon :type="advanced ? 'up' : 'down'" />
+                        </a>
+                    </a-form>
                 </div>
-                </a-tab-pane>
-                <a-tab-pane key="2">
-                  <span slot="tab">
-                    <a-icon type="unordered-list" />
-                    订单详情
-                  </span>
-                    <template>
-                        <a-descriptions title="" bordered>
+                <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 300 }" :pagination="false" size="small" style="margin-top: 10px">
+                    <a slot="action" slot-scope="text">action</a>
+                </a-table>
+                <span>共{{total}}条数据</span>
+                <div class="page-roll">
+                    <a-pagination
+                            v-model="current"
+                            :page-size-options="pageSizeOptions"
+                            :total="total"
+                            show-size-changer
+                            show-quick-jumper
+                            :page-size="pageSize"
+                            @showSizeChange="onShowSizeChange"
+                            @change="currentPage"
+                    >
+                        <template slot="buildOptionText" slot-scope="props">
+                            <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+                            <span v-if="props.value === '50'">全部</span>
+                        </template>
+                    </a-pagination>
+                </div>
+            </div>
+            <div class="detail-display">
+                <a-tabs default-active-key="2">
+                    <a-tab-pane key="1" @click="moreDetail('YX97899')">
+                      <span slot="tab">
+                        <a-icon type="apple" />
+                        货品列表
+                      </span>
+                        <div>
+                        <a-descriptions
+                                title="Responsive Descriptions"
+                                bordered
+                                :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }"
+                        >
                             <a-descriptions-item label="Product">
                                 Cloud Database
                             </a-descriptions-item>
-                            <a-descriptions-item label="Billing Mode">
+                            <a-descriptions-item label="Billing">
                                 Prepaid
                             </a-descriptions-item>
-                            <a-descriptions-item label="Automatic Renewal">
-                                YES
+                            <a-descriptions-item label="Time">
+                                18:00:00
                             </a-descriptions-item>
-                            <a-descriptions-item label="Order time">
-                                2018-04-24 18:00:00
-                            </a-descriptions-item>
-                            <a-descriptions-item label="Usage Time" :span="2">
-                                2019-04-24 18:00:00
-                            </a-descriptions-item>
-                            <a-descriptions-item label="Status" :span="3">
-                                <a-badge status="processing" text="Running" />
-                            </a-descriptions-item>
-                            <a-descriptions-item label="Negotiated Amount">
+                            <a-descriptions-item label="Amount">
                                 $80.00
                             </a-descriptions-item>
                             <a-descriptions-item label="Discount">
                                 $20.00
                             </a-descriptions-item>
-                            <a-descriptions-item label="Official Receipts">
+                            <a-descriptions-item label="Official">
                                 $60.00
                             </a-descriptions-item>
                             <a-descriptions-item label="Config Info">
                                 Data disk type: MongoDB
+                                <br />
+                                Database version: 3.4
+                                <br />
+                                Package: dds.mongo.mid
+                                <br />
+                                Storage space: 10 GB
+                                <br />
+                                Replication factor: 3
+                                <br />
+                                Region: East China 1
                             </a-descriptions-item>
                         </a-descriptions>
-                    </template>
-                </a-tab-pane>
-            </a-tabs>
-        </div>
-        <page-footer></page-footer>
+                    </div>
+                    </a-tab-pane>
+                    <a-tab-pane key="2">
+                      <span slot="tab">
+                        <a-icon type="unordered-list" />
+                        订单详情
+                      </span>
+                        <template>
+                            <a-descriptions title="" bordered>
+                                <a-descriptions-item label="Product">
+                                    Cloud Database
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Billing Mode">
+                                    Prepaid
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Automatic Renewal">
+                                    YES
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Order time">
+                                    2018-04-24 18:00:00
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Usage Time" :span="2">
+                                    2019-04-24 18:00:00
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Status" :span="3">
+                                    <a-badge status="processing" text="Running" />
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Negotiated Amount">
+                                    $80.00
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Discount">
+                                    $20.00
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Official Receipts">
+                                    $60.00
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Config Info">
+                                    Data disk type: MongoDB
+                                </a-descriptions-item>
+                            </a-descriptions>
+                        </template>
+                    </a-tab-pane>
+                </a-tabs>
+            </div>
+            <page-footer></page-footer>
+        </a-card>
     </div>
 </template>
 
@@ -326,14 +330,14 @@
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
             // console.log(that.tokenStr)
-            axios.get('http://localhost:8080/backend/order/listOrders/1/150', {headers:{
+            axios.get('http://localhost:8080/backend/order/listOrders/1/10', {headers:{
                 token: tokenStr
             }}).then( res => {
                 // console.log( JSON.stringify(res.data.data[100]))
-                // console.log(res.data.data[100].tradeNo)
-                for (let i = 100; i <130; i++) {
+                console.log(res.data)
+                for (let i = 0; i <10; i++) {
                     res.data.data[i]['key'] = i
-                    this.data.push(res.data.data[i]);
+                    this.data.push(res.data.data[i])
                 }
             }).catch()
         },
@@ -365,7 +369,6 @@
                 else{
                     console.log("提交表单")
 
-
                     axios.get('/backend/order/getOrders', {
                         params:{list},
                         headers:{token : this.tokenStr},
@@ -376,8 +379,34 @@
                 }
             },
             // 分页
-            onShowSizeChange(current, pageSize) {
-                this.pageSize = pageSize;
+            currentPage(currentPage, size){
+                // console.log("当前页码")
+                // console.log(currentPage)
+                const that = this
+                const datalist = []
+                axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size).then(res => {
+                    // console.log(res.data.data)
+                    for (let i = 0; i <10; i++) {
+                        res.data.data[i]['key'] = i
+                        datalist.push(res.data.data[i]);
+                    }
+                    that.data = datalist
+                }).catch()
+            },
+            onShowSizeChange(current, size) {
+                console.log("页面数据量")
+                console.log(size)
+                this.pageSize = size;
+                const that = this
+                const datalist = []
+                axios.get('http://localhost:8080/backend/order/listOrders/'+current+'/'+size).then(res => {
+                    // console.log(res.data.data)
+                    for (let i = 0; i <size; i++) {
+                        res.data.data[i]['key'] = i
+                        datalist.push(res.data.data[i]);
+                    }
+                    that.data = datalist
+                }).catch()
             },
             //订单详情
             moreDetail(record_no){
