@@ -2,52 +2,103 @@
 <template>
     <div>
         <div class="client-list-display">
-            <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin-top: 10px">
-                <a-form layout="inline" :model="formInline" @submit.native.prevent>
+            <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin: 10px 0">
+                <a-form layout="horizontal" :model="formInline" @submit.native.prevent>
                     <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
-                        <a-row type="flex">
-                            <a-col :span="6" :order="1">
-                                <a-form-item label="店铺名称">
-                                    <a-input v-model="formInline.shopName">
-                                    </a-input>
+                        <a-row :gutter="16" >
+                            <a-col :span="6">
+                                <a-form-item label="货品种类数" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-input placeholder="请输入" size="small" />
                                 </a-form-item>
                             </a-col>
-                            <a-col :span="6" :order="2">
-                                <a-form-item label="订单编号">
-                                    <a-input v-model="formInline.orderNo">
-                                    </a-input>
+                            <a-col :span="6" >
+                                <a-form-item label="货品总数" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-select placeholder="请选择" size=small>
+                                        <a-select-option value="1">关闭</a-select-option>
+                                        <a-select-option value="2">运行中</a-select-option>
+                                    </a-select>
                                 </a-form-item>
                             </a-col>
-                            <a-col :span="6" :order="3">
-                                <a-form-item label="原始单号">
-                                    <a-input v-model="formInline.originOrderNo">
-                                    </a-input>
+                            <a-col :span="6" >
+                                <a-form-item label="购买总金额" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
                                 </a-form-item>
                             </a-col>
-                            <a-col :span="6" :order="4">
-                                <a-form-item label="物流单号">
-                                    <a-input v-model="formInline.logisticsNo">
-                                    </a-input>
+                            <a-col :md="6" >
+                                <a-form-item label="购买次数" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
                                 </a-form-item>
                             </a-col>
                         </a-row>
-                        <a-row type="flex" v-if="advanced">
-                            <a-col :span="6" :order="1">
-                                <a-form-item label="客户网名">
-                                    <a-input v-model="formInline.ClientNetName">
-                                    </a-input>
+                        <a-row v-if="advanced"  :gutter="8">
+                            <a-col :md="6" >
+                                <a-form-item label="最近消费天数" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
                                 </a-form-item>
                             </a-col>
-                            <a-col :span="6" :order="2">
-                                <a-form-item label="电话号码">
-                                    <a-input v-model="formInline.Phone">
-                                    </a-input>
+                            <a-col :md="6" >
+                                <a-form-item
+                                        label="客户标签"
+                                        :labelCol="{span:7}"
+                                        :wrapperCol="{span: 12, offset: 1}"
+                                >
+                                    <a-select placeholder="请选择" size="small">
+                                        <a-select-option value="1">关闭</a-select-option>
+                                        <a-select-option value="2">运行中</a-select-option>
+                                    </a-select>
                                 </a-form-item>
                             </a-col>
-                            <a-col :span="6" :order="3">
-                                <a-form-item label="订单类型">
-                                    <a-input v-model="formInline.Type">
-                                    </a-input>
+                            <a-col :md="6" >
+                                <a-form-item label="所在省市" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-select placeholder="请选择" size=small>
+                                        <a-select-option value="1">天猫</a-select-option>
+                                        <a-select-option value="2">淘宝</a-select-option>
+                                        <a-select-option value="2">其他</a-select-option>
+                                    </a-select>
+                                </a-form-item>
+                            </a-col>
+                            <a-col :md="6" >
+                                <a-form-item label="所在店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-select placeholder="请选择" size=small>
+                                        <a-select-option value="1">天猫</a-select-option>
+                                        <a-select-option value="2">淘宝</a-select-option>
+                                        <a-select-option value="2">其他</a-select-option>
+                                    </a-select>
+                                </a-form-item>
+                            </a-col>
+                        </a-row>
+                        <a-row v-if="advanced"  :gutter="16">
+                            <a-col :md="7" >
+                                <a-form-item
+                                        label="上次购买时间"
+                                        :labelCol="{span: 7}"
+                                        :wrapperCol="{span: 15, offset: 1}"
+                                >
+                                    <a-range-picker @change="onChange" size="small">
+                                        <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                    </a-range-picker>
+                                </a-form-item>
+                            </a-col>
+                            <a-col :md="7" >
+                                <a-form-item
+                                        label="用户登记时间"
+                                        :labelCol="{span: 7}"
+                                        :wrapperCol="{span: 15, offset: 1}"
+                                >
+                                    <a-range-picker @change="onChange" size="small">
+                                        <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                    </a-range-picker>
+                                </a-form-item>
+                            </a-col>
+                            <a-col :md="7" >
+                                <a-form-item
+                                        label="付款时间"
+                                        :labelCol="{span: 7}"
+                                        :wrapperCol="{span: 15, offset: 1}"
+                                >
+                                    <a-range-picker @change="onChange" size="small">
+                                        <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                    </a-range-picker>
                                 </a-form-item>
                             </a-col>
                         </a-row>
@@ -62,26 +113,153 @@
                     </a>
                 </a-form>
             </div>
-            <a-table :pagination="false" :columns="columns" :data-source="data" style="margin-top: 10px">
-                <a slot="name" slot-scope="text">{{ text }}</a>
-                <!--            <span slot="customTitle">Name</span>-->
-                <span slot="tags" slot-scope="tags">
-              <a-tag
-                      v-for="tag in tags"
-                      :key="tag"
-                      :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-              >
-                {{ tag.toUpperCase() }}
-              </a-tag>
-            </span>
-                <span slot="action" slot-scope="text, record">
-              <a>编辑</a>
-              <a-divider type="vertical" />
-              <a>删除</a>
-              <a-divider type="vertical" />
-              <a class="ant-dropdown-link"> 更多操作 <a-icon type="down" /> </a>
-            </span>
-            </a-table>
+            <a-dropdown>
+                <a-menu slot="overlay" @click="handleMenuClick">
+                    <a-menu-item key="1">
+                        普通客户
+                    </a-menu-item>
+                    <a-menu-item key="2">
+                        重要客户
+                    </a-menu-item>
+                </a-menu>
+                <a-button> {{cType}} <a-icon type="down" /> </a-button>
+            </a-dropdown>
+            <a-button style="margin-left: 10px; margin-bottom: 10px"  type="primary">添加标签</a-button>
+            <el-table
+                    :data="tableData"
+                    border
+                    style="width: 150%">
+                <el-table-column
+                        fixed
+                        prop="customerType"
+                        label="客户类型"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="lastPurchaseTime"
+                        label="上次购买时间"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="customerName"
+                        label="姓名"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="district"
+                        label="区县"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="telno"
+                        label="固话"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="mobile"
+                        label="手机"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="email"
+                        label="电子邮件"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="qq"
+                        label="QQ"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="wangwang"
+                        label="旺旺"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="birthday"
+                        label="生日"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="totalPurchaseAmount"
+                        label="购买总金额"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="province"
+                        label="省份"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="city"
+                        label="市区"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        label="地址"
+                        width="300">
+                </el-table-column>
+                <el-table-column
+                        prop="totalPurchaseNum"
+                        label="购买总次数"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="lable"
+                        label="用户标签"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="bwlist"
+                        label="黑/白名单"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="stopped"
+                        label="停用"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="lastVisDays"
+                        label="距离上次回访天数"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="afterBuyingRate"
+                        label="复购率"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="afterBuyingRate"
+                        label="修改时间"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="registrationTime"
+                        label="登记时间"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="remark"
+                        label="备注"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="zip"
+                        label="邮编"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="100">
+                    <template slot-scope="scope">
+                        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                        <el-button type="text" size="small">编辑</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
             <span>共{{total}}条数据</span>
             <div class="page-roll">
                 <a-pagination
@@ -148,68 +326,13 @@
     </div>
 </template>
 <script>
-    const columns = [
-        {
-            dataIndex: 'name',
-            key: 'name',
-            title: '姓名',
-        },
-        {
-            title: '客户网名',
-            dataIndex: 'nickname',
-            key: 'nickname',
-        },
-        {
-            title: '电话',
-            dataIndex: 'phone',
-            key: 'phone',
-        },
-        {
-            title: '地址',
-            dataIndex: 'address',
-            key: 'address',
-        },
-        {
-            title: '标签',
-            key: 'tags',
-            dataIndex: 'tags',
-            scopedSlots: { customRender: 'tags' },
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-    ];
-
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
-
+const tableData =[];
     export default {
         name: "Client",
         data() {
             return {
+                // 数据
+                tableData: [],
                 // 搜索栏
                 formInline: {
                     shopName: '',
@@ -224,8 +347,8 @@
                     // : '',
                 },
                 advanced: true,
-                data,
-                columns,
+                // 类型
+                cType: "客户类型",
                 // 分页
                 pageSizeOptions: ['10', '20', '30', '40', '50'],
                 current: 1,
@@ -252,10 +375,7 @@
                 token: tokenStr
             }}).then( res => {
               console.log(res.data)
-              // for (let i = 100; i <130; i++) {
-                  // res.data.data[i]['key'] = i
-                  // this.data.push(res.data.data[i]);
-              // }
+              this.tableData = res.data.data
           }).catch()
         },
         mounted(){
@@ -268,6 +388,23 @@
             }).catch()
         },
         methods: {
+            // 客户类型
+            handleMenuClick(e) {
+                const tokenStr = window.sessionStorage.getItem('token')
+                console.log('click', e);
+                if(e.key === '2'){
+                    axios.get('http://localhost:8080/backend/customer/getImpCustomers', {headers:{
+                            token: tokenStr
+                        }}).then( res => {
+                        console.log(res.data)
+                        this.tableData = res.data.data
+                    }).catch()
+                }
+            },
+            // 日期选择框
+            onChange(date, dateString) {
+                console.log(date, dateString);
+            },
             // 展开
             toggleAdvanced () {
                 this.advanced = !this.advanced
@@ -288,6 +425,10 @@
                     }).catch()
                 }
             },
+            // el表格
+            handleClick(row) {
+                console.log(row);
+            },
             // 分页
             onShowSizeChange(current, pageSize) {
                 this.pageSize = pageSize;
@@ -300,6 +441,7 @@
     };
 </script>
 <style lang="less" scoped>
+
     .search{
         background-color: lightgrey;
     }
@@ -319,7 +461,6 @@
             &:last-child {
                 margin-bottom: 0;
             }
-
             .el-col {
                 border-radius: 4px;
             }

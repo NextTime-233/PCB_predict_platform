@@ -37,6 +37,15 @@ const router = new Router({
                 {
                     path: '/employee',
                     component:() => import('../views/Employee/employee'),
+                    beforeEnter:(to,from,next)=>{
+                        const limit = window.sessionStorage.getItem('limit');
+                        console.log(limit);
+
+                        if (to.path === "/employee" && limit === '0') {
+                            alert('没有访问权限')
+                            return next('/Analysis');
+                        }
+                    },
                     meta: {
                         title: '员工管理',
                         module: '公司管理'

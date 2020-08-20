@@ -1,6 +1,6 @@
 <!--数据分析-->
 <template>
-    <div id = 'data-analysis'>
+    <div id ='data-analysis'>
         <el-row :gutter="20">
             <el-col :span="6"><div class="grid-content">
                 <div class="data-tab" style="width: 95%;">
@@ -354,6 +354,9 @@
 </script>
 
 <style lang="less" scoped>
+    #data-analysis{
+        height: 100%;
+    }
     .data-tab {
         height: 200px;
         width: 200px;

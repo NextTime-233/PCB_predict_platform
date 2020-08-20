@@ -98,7 +98,7 @@
                     </a-dropdown>
                 </template>
             </a-layout-header>
-            <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
+            <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '106vh'}">
             <!--路由占位符-->
                 <bread></bread>
                 <router-view></router-view>
@@ -167,26 +167,8 @@
 </script>
 
 <style lang="less" scoped>
-    /*仿佛变窄了*/
-    ::-webkit-scrollbar {
-        width: 3px;
-        height: 6px;
-    }
-    /*滚动区域背景*/
-    ::-webkit-scrollbar-track-piece {
-        -webkit-border-radius: 3px;
-    }
-    /*竖向滚动条*/
-    ::-webkit-scrollbar-thumb:vertical {
-        height: 5px;
-        -webkit-border-radius: 3px;
-    }
     #layout-demo{
         height: 100vh;
-        .left-menu{
-            height: 90vh;
-            overflow-y: scroll;
-        }
         .trigger {
             font-size: 18px;
             line-height: 64px;
