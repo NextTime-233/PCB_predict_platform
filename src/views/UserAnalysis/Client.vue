@@ -4,63 +4,60 @@
         <a-card>
             <div class="client-list-display">
                 <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin: 10px 0">
-                    <a-form layout="horizontal" :model="formInline" @submit.native.prevent>
+                    <a-form id="cForm" layout="horizontal" :model="clientForm" @submit.native.prevent>
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row :gutter="16" >
                                 <a-col :span="6">
-                                    <a-form-item label="货品种类数" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input placeholder="请输入" size="small" />
+                                    <a-form-item label="客户姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input placeholder="请输入" size="small" v-model="clientForm.customerName"/>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6" >
                                     <a-form-item label="货品总数" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select placeholder="请选择" size=small>
-                                            <a-select-option value="1">关闭</a-select-option>
-                                            <a-select-option value="2">运行中</a-select-option>
-                                        </a-select>
+                                        <a-input placeholder="请输入" size="small" v-model="clientForm.goodsCount"/>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6" >
                                     <a-form-item label="购买总金额" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseAmount"/>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="6" >
                                     <a-form-item label="购买次数" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                        <a-input-number style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseNum"/>
                                     </a-form-item>
                                 </a-col>
                             </a-row>
                             <a-row v-if="advanced"  :gutter="8">
                                 <a-col :md="6" >
-                                    <a-form-item label="最近消费天数" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                    <a-form-item label="货品种类总数" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input-number style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.goodsTypeCount"/>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="6" >
                                     <a-form-item
-                                            label="客户标签"
+                                            label="购买品牌"
                                             :labelCol="{span:7}"
                                             :wrapperCol="{span: 12, offset: 1}"
                                     >
-                                        <a-select placeholder="请选择" size="small">
-                                            <a-select-option value="1">关闭</a-select-option>
-                                            <a-select-option value="2">运行中</a-select-option>
+                                        <a-select placeholder="请选择" size="small" v-model="clientForm.BrandName">
+                                            <a-select-option value="1">四喜</a-select-option>
+                                            <a-select-option value="2">八宝</a-select-option>
                                         </a-select>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="6" >
-                                    <a-form-item label="所在省市" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select placeholder="请选择" size=small>
-                                            <a-select-option value="1">天猫</a-select-option>
-                                            <a-select-option value="2">淘宝</a-select-option>
-                                            <a-select-option value="2">其他</a-select-option>
+                                    <a-form-item label="客户标签" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-select placeholder="请选择" size=small v-model="clientForm.clientLabel">
+                                            <a-select-option value="1">地区</a-select-option>
+                                            <a-select-option value="2">年龄</a-select-option>
+                                            <a-select-option value="3">性别</a-select-option>
                                         </a-select>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="6" >
-                                    <a-form-item label="所在店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select placeholder="请选择" size=small>
+                                    <a-form-item label="所属店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-select placeholder="请选择" size=small v-model="clientForm.shopName">
                                             <a-select-option value="1">天猫</a-select-option>
                                             <a-select-option value="2">淘宝</a-select-option>
                                             <a-select-option value="2">其他</a-select-option>
@@ -71,22 +68,22 @@
                             <a-row v-if="advanced"  :gutter="16">
                                 <a-col :md="7" >
                                     <a-form-item
-                                            label="上次购买时间"
+                                            label="生日区间"
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="onChange" size="small">
+                                        <a-range-picker @change="birthdayOnChange" size="small">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="7" >
                                     <a-form-item
-                                            label="用户登记时间"
+                                            label="客户登记时间"
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="onChange" size="small">
+                                        <a-range-picker @change="registerOnChange" size="small">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -97,7 +94,18 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="onChange" size="small">
+                                        <a-range-picker @change="payOnChange" size="small">
+                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                        </a-range-picker>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="7" >
+                                    <a-form-item
+                                            label="购物时间"
+                                            :labelCol="{span: 7}"
+                                            :wrapperCol="{span: 15, offset: 1}"
+                                    >
+                                        <a-range-picker @change="shoppingOnChange" size="small">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -106,7 +114,7 @@
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
                         <a-button type="primary" @click="submitList">查询</a-button>
-                        <a-button style="margin-left: 8px" type="reset">重置</a-button>
+                        <a-button style="margin-left: 8px" type="reset" @click="resetInput">重置</a-button>
                     </span>
                         <br>
                         <a @click="toggleAdvanced" style="margin-left: 50%">
@@ -123,12 +131,13 @@
                             重要客户
                         </a-menu-item>
                     </a-menu>
-                    <a-button> {{cType}} <a-icon type="down" /> </a-button>
+                    <a-button> {{cType}} <a-icon type="down" /></a-button>
                 </a-dropdown>
-                <a-button style="margin-left: 10px; margin-bottom: 10px"  type="primary">添加标签</a-button>
+                <a-button style="margin-left: 10px; margin-bottom: 10px" type="primary">添加标签</a-button>
                 <el-table
                         :data="tableData"
                         border
+                        @row-click="detailShow"
                         style="width: 150%">
                     <el-table-column
                             fixed
@@ -287,7 +296,7 @@
                             <template>
                                 <a-descriptions title="" bordered>
                                     <a-descriptions-item label="Product">
-                                        Cloud Database
+                                        产品
                                     </a-descriptions-item>
                                     <a-descriptions-item label="Billing Mode">
                                         Prepaid
@@ -337,27 +346,34 @@ const tableData =[];
                 // 数据
                 tableData: [],
                 // 搜索栏
-                formInline: {
-                    shopName: '',
-                    orderNo: '',
-                    originOrderNo: '',
-                    logisticsNo: '',
-                    ClientNetName: '',
-                    Phone: '',
-                    Type: '',
-                    // : '',
-                    // : '',
-                    // : '',
+                clientForm: {
+                    customerName:'',
+                    registrationTimeDateStart:'',
+                    registrationTimeDateEnd:'',
+                    PayDateStart:'',
+                    PayDateEnd:'',
+                    BirthdayTimeDateStart:'',
+                    BirthdayTimeDateEnd:'',
+                    shopName:'',
+                    goodsCount:'',
+                    TotalPurchaseAmount:'',
+                    TotalPurchaseNum:'',
+                    goodsTypeCount:'',
+                    BrandName:'',
+                    LastPurchaseTimeDateStart:'',
+                    LastPurchaseTimeDateEnd:'',
+                    clientLabel:''
                 },
                 advanced: true,
                 // 类型
                 cType: "客户类型",
+                rowData:{},
                 // 分页
                 pageSizeOptions: ['10', '20', '30', '40', '50'],
                 current: 1,
                 pageSize: 10,
                 total: 0,
-                //    token
+                //  token
                 tokenStr: '',
             };
         },
@@ -373,11 +389,11 @@ const tableData =[];
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            console.log(that.tokenStr)
+            // console.log(that.tokenStr)
           axios.get('http://localhost:8080/backend/customer/listCustomers/1/10', {headers:{
                 token: tokenStr
             }}).then( res => {
-              console.log(res.data)
+              // console.log(res.data)
               this.tableData = res.data.data
           }).catch()
         },
@@ -399,38 +415,106 @@ const tableData =[];
                     axios.get('http://localhost:8080/backend/customer/getImpCustomers', {headers:{
                             token: tokenStr
                         }}).then( res => {
-                        console.log(res.data)
+                        // console.log(res.data)
                         this.tableData = res.data.data
                     }).catch()
                 }
             },
             // 日期选择框
-            onChange(date, dateString) {
-                console.log(date, dateString);
+            birthdayOnChange(date, dateString) {
+                // console.log(dateString);
+                this.clientForm.BirthdayTimeDateStart = dateString[0]
+                this.clientForm.BirthdayTimeDateEnd = dateString[1]
+                // console.log(this.clientForm.BirthdayTimeDateStart)
             },
-            // 展开
+            payOnChange(date, dateString) {
+                this.clientForm.PayDateStart =dateString[0]
+                this.clientForm.PayDateEnd = dateString[1]
+            },
+            shoppingOnChange(date, dateString) {
+                this.clientForm.LastPurchaseTimeDateStart =dateString[0]
+                this.clientForm.LastPurchaseTimeDateEnd = dateString[1]
+            },
+            registerOnChange(date, dateString) {
+                this.clientForm.registrationTimeDateStart =dateString[0]
+                this.clientForm.registrationTimeDateEnd = dateString[1]
+            },
+            // 展开，搜索结果的翻页存在问题
             toggleAdvanced () {
                 this.advanced = !this.advanced
             },
             submitList(){
-                console.log(this.formInline)
-                if(!list){
+                const that = this
+                const list = this.clientForm
+                console.log('list here:')
+                // 此处应有列表判空
+                if(0){
                     console.log(list)
                 }
                 else{
-                    console.log("提交表单")
+                    // console.log("提交表单")
                     axios.get('http://localhost:8080/backend/customer/getCustomers', {
-                        params:{list},
+                        params:{
+                            customerName: list.customerName,
+                            registrationTimeDateStart: list.registrationTimeDateStart,
+                            registrationTimeDateEnd: list.registrationTimeDateEnd,
+                            PayDateStart: list.PayDateStart,
+                            PayDateEnd: list.PayDateEnd,
+                            BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                            BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                            shopName: list.shopName,
+                            goodsCount: list.goodsCount,
+                            TotalPurchaseAmount: list.TotalPurchaseAmount,
+                            TotalPurchaseNum: list.TotalPurchaseNum,
+                            goodsTypeCount: list.goodsTypeCount,
+                            BrandName: list.BrandName,
+                            LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                            LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                            },
                         headers:{token : this.tokenStr},
                         tokenBackend: this.tokenStr
                     }).then( res => {
                         console.log(res.data)
+                        that.tableData = res.data.data
                     }).catch()
                 }
             },
+            resetInput(){
+                const that = this
+                document.getElementById("cForm").reset()
+                this.clientForm = {
+                    customerName:'',
+                    registrationTimeDateStart:'',
+                    registrationTimeDateEnd:'',
+                    PayDateStart:'',
+                    PayDateEnd:'',
+                    BirthdayTimeDateStart:'',
+                    BirthdayTimeDateEnd:'',
+                    shopName:'',
+                    goodsCount:'',
+                    TotalPurchaseAmount:'',
+                    TotalPurchaseNum:'',
+                    goodsTypeCount:'',
+                    BrandName:'',
+                    LastPurchaseTimeDateStart:'',
+                    LastPurchaseTimeDateEnd:'',
+                    clientLabel:''
+                }
+                axios.get('http://localhost:8080/backend/customer/listCustomers/1/10', {headers:{
+                        token: this.tokenStr
+                    }}).then( res => {
+                    // console.log(res.data)
+                    that.tableData = res.data.data
+                }).catch()
+            },
             // el表格
             handleClick(row) {
+                const that = this
                 console.log(row);
+                rowData = row
+            },
+            detailShow(){
+
             },
             // 分页, 加载缓慢
             currentPage(currentPage, size){

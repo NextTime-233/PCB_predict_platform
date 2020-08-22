@@ -2,8 +2,9 @@
 <template>
     <div>
         <div class="employee-list-display">
-            <div class="global-search-wrapper" style="width: 300px">
+            <div class="global-search-wrapper" style="width: 350px; display: flex">
                 <a-input-search placeholder="请输入用户名" enter-button @search="onSearch" />
+                <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" :size="size" />
             </div>
             <form :autoFormCreate="(form) => this.form = form">
                 <a-table
@@ -28,7 +29,7 @@
                           <span v-if="record.isNew">
                             <a @click="saveRow(record.key, record.name, record.code)">add</a>
                             <a-divider type="vertical" />
-                            <a-popconfirm :title="deleteConfirm" @confirm="remove(record.key)">
+                            <a-popconfirm title="deleteConfirm" @confirm="remove(record.key)">
                               <a>delete</a>
                             </a-popconfirm>
                           </span>
@@ -108,6 +109,8 @@
         name: 'employee',
         data () {
             return {
+                // search reload
+                size: 'middle',
                 columns,
                 dataSource: [],
                 tokenStr: '',
@@ -153,7 +156,7 @@
             // 如果改变了咋办呢，这个只在创建时候有用
             axios.get('http://localhost:8080/backend/user/countUser',{headers:{
                     token : tokenStr}}).then( res => {
-                console.log(res.data)
+                // console.log(res.data)
                 that.total = res.data.data;
             }).catch()
         },
@@ -166,7 +169,6 @@
                     key: this.dataSource.length + 1,
                     name: '',
                     code: '',
-                    department: '',
                     editable: true,
                     isNew: true
                 })
@@ -174,10 +176,7 @@
             remove (key, name) {
                 const newData = this.dataSource.filter(item => item.key !== key)
                 this.dataSource = newData
-                console.log(this)
-                //检查发送和接受参数是否一致
-                const that = this
-                const qs = this.$qs.stringify({userList: [name]})
+                // 删除成功
                 axios.put('http://localhost:8080/backend/user/deleteUser', {
                     tokenBackend: this.tokenStr,
                     userList: [name],
@@ -192,23 +191,19 @@
                 target.editable = false
                 target.isNew = false
                 // 未完成功能
-                axios.put('http://localhost:8080/backend/user/updateUserPwd', {
-                        headers:{token: this.tokenStr},
-                        userAccount: [name],
-                        userPwd: code
-                    }
-                ).then( res => {
+                axios.post('http://localhost:8080/backend/user/saveUser?userAccount='+name+'&userPwd='+code).then(res=>{
                     console.log(res.data)
                 }).catch()
             },
             toggle (key) {
-                let target = this.dataSource.filter(item => item.key === key)[0]
-                target.editable = !target.editable
+                // let target = this.dataSource.filter(item => item.key === key)[0]
+                // target.editable = !target.editable
+                alert("功能完善中！")
             },
-            getRowByKey (key, newData) {
-                const data = this.dataSource
-                return (newData || data).filter(item => item.key === key)[0]
-            },
+            // getRowByKey (key, newData) {
+            //     const data = this.dataSource
+            //     return (newData || data).filter(item => item.key === key)[0]
+            // },
             cancle (key) {
                 let target = this.dataSource.filter(item => item.key === key)[0]
                 target.editable = false
@@ -247,7 +242,7 @@
                 // console.log(currentPage)
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/user/listUsers/'+currentPage+'/'+size).then(res => {
                     // console.log(res.data.data)
                     for (let i = 0; i <10; i++) {
                         res.data.data[i]['key'] = i
@@ -262,7 +257,7 @@
                 this.pageSize = size;
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/'+current+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/user/listUsers/'+current+'/'+size).then(res => {
                     // console.log(res.data.data)
                     for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
@@ -285,18 +280,6 @@
     .global-search-wrapper {
         padding-right: 50px;
         margin: 20px 0;
-    }
-
-    .global-search {
-        width: 100%;
-    }
-
-    .global-search.ant-select-auto-complete .ant-select-selection--single {
-        margin-right: -46px;
-    }
-
-    .global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input:not(:last-child) {
-        padding-right: 62px;
     }
 
     .global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix button {

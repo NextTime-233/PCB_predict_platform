@@ -2,83 +2,132 @@
 <template>
     <div>
         <a-card>
-            <div :class="advanced ? 'search' : null">
-                <a-form layout="horizontal">
-                    <div :class="advanced ? null: 'fold'">
-                        <a-row>
-                            <a-col :md="8" :sm="24" >
-                                <a-form-item
-                                        label="规则编号"
-                                        :labelCol="{span: 5}"
-                                        :wrapperCol="{span: 18, offset: 1}"
-                                >
-                                    <a-input placeholder="请输入" />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24" >
-                                <a-form-item
-                                        label="使用状态"
-                                        :labelCol="{span: 5}"
-                                        :wrapperCol="{span: 18, offset: 1}"
-                                >
-                                    <a-select placeholder="请选择">
-                                        <a-select-option value="1">关闭</a-select-option>
-                                        <a-select-option value="2">运行中</a-select-option>
-                                    </a-select>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24" >
-                                <a-form-item
-                                        label="调用次数"
-                                        :labelCol="{span: 5}"
-                                        :wrapperCol="{span: 18, offset: 1}"
-                                >
-                                    <a-input-number style="width: 100%" placeholder="请输入" />
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                        <a-row v-if="advanced">
-                            <a-col :md="8" :sm="24" >
-                                <a-form-item
-                                        label="更新日期"
-                                        :labelCol="{span: 5}"
-                                        :wrapperCol="{span: 18, offset: 1}"
-                                >
-                                    <a-date-picker style="width: 100%" placeholder="请输入更新日期" />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24" >
-                                <a-form-item
-                                        label="使用状态"
-                                        :labelCol="{span: 5}"
-                                        :wrapperCol="{span: 18, offset: 1}"
-                                >
-                                    <a-select placeholder="请选择">
-                                        <a-select-option value="1">关闭</a-select-option>
-                                        <a-select-option value="2">运行中</a-select-option>
-                                    </a-select>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24" >
-                                <a-form-item
-                                        label="描述"
-                                        :labelCol="{span: 5}"
-                                        :wrapperCol="{span: 18, offset: 1}"
-                                >
-                                    <a-input placeholder="请输入" />
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                    </div>
-                    <span style="float: right; margin-top: 3px;">
-                      <a-button type="primary">查询</a-button>
-                      <a-button style="margin-left: 8px">重置</a-button>
-                      <a @click="toggleAdvanced" style="margin-left: 8px">
-                        {{advanced ? '收起' : '展开'}}
-                        <a-icon :type="advanced ? 'up' : 'down'" />
-                      </a>
+            <div class="detail-list-display">
+                <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin: 10px 0">
+                    <a-form id="odForm" layout="horizontal" :model="formInline" @submit.native.prevent>
+                        <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
+                            <a-row :gutter="16" >
+                                <a-col :span="6">
+                                    <a-form-item label="店铺" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-select placeholder="请选择" size=small>
+                                            <a-select-option value="1">天猫</a-select-option>
+                                            <a-select-option value="2">淘宝</a-select-option>
+                                            <a-select-option value="3">其他</a-select-option>
+                                        </a-select>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6" >
+                                    <a-form-item label="订单编号" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6" >
+                                    <a-form-item label="原始单号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="6" >
+                                    <a-form-item label="客户网名" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                            <a-row v-if="advanced"  :gutter="8">
+                                <a-col :md="6" >
+                                    <a-form-item label="电话号码" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="6" >
+                                    <a-form-item
+                                            label="货到付款"
+                                            :labelCol="{span:7}"
+                                            :wrapperCol="{span: 12, offset: 1}"
+                                    >
+                                        <a-select placeholder="请选择" size="small">
+                                            <a-select-option value="1">是</a-select-option>
+                                            <a-select-option value="2">否</a-select-option>
+                                        </a-select>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="6" >
+                                    <a-form-item label="订单状态" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-select placeholder="请选择" size=small>
+                                            <a-select-option value="1">已取消</a-select-option>
+                                            <a-select-option value="2">未付款</a-select-option>
+                                            <a-select-option value="3">待尾款</a-select-option>
+                                            <a-select-option value="4">待选仓</a-select-option>
+                                            <a-select-option value="5">等未付</a-select-option>
+                                            <a-select-option value="6">延时审核</a-select-option>
+                                            <a-select-option value="7">预订单</a-select-option>
+                                            <a-select-option value="8">待抢单</a-select-option>
+                                            <a-select-option value="9">待客审</a-select-option>
+                                            <a-select-option value="10">待财审</a-select-option>
+                                            <a-select-option value="11">已递交仓库</a-select-option>
+                                            <a-select-option value="12">已审核</a-select-option>
+                                            <a-select-option value="13">已发货</a-select-option>
+                                            <a-select-option value="14">部分打款</a-select-option>
+                                            <a-select-option value="15">已完成</a-select-option>
+                                            <a-select-option value="16">异常发货</a-select-option>
+                                        </a-select>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="6" >
+                                    <a-form-item label="所在店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-select placeholder="请选择" size=small>
+                                            <a-select-option value="1">天猫</a-select-option>
+                                            <a-select-option value="2">淘宝</a-select-option>
+                                            <a-select-option value="2">其他</a-select-option>
+                                        </a-select>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                            <a-row v-if="advanced"  :gutter="16">
+                                <a-col :md="7" >
+                                    <a-form-item
+                                            label="上次购买时间"
+                                            :labelCol="{span: 7}"
+                                            :wrapperCol="{span: 15, offset: 1}"
+                                    >
+                                        <a-range-picker @change="onChange" size="small">
+                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                        </a-range-picker>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="7" >
+                                    <a-form-item
+                                            label="用户登记时间"
+                                            :labelCol="{span: 7}"
+                                            :wrapperCol="{span: 15, offset: 1}"
+                                    >
+                                        <a-range-picker @change="onChange" size="small">
+                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                        </a-range-picker>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :md="7" >
+                                    <a-form-item
+                                            label="付款时间"
+                                            :labelCol="{span: 7}"
+                                            :wrapperCol="{span: 15, offset: 1}"
+                                    >
+                                        <a-range-picker @change="onChange" size="small">
+                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                        </a-range-picker>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                        </div>
+                        <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
+                        <a-button type="primary" @click="submitList">查询</a-button>
+                        <a-button style="margin-left: 8px" type="reset" @click="resetInput">重置</a-button>
                     </span>
-                </a-form>
+                        <br>
+                        <a @click="toggleAdvanced" style="margin-left: 50%">
+                            <a-icon :type="advanced ? 'up' : 'down'" />
+                        </a>
+                    </a-form>
+                </div>
             </div>
             <div>
                 <div class="operator">
@@ -113,10 +162,10 @@
                             <a-icon type="edit"/>编辑
                         </a>
                         <a @click="deleteRecord(record.key)">
-                            <a-icon type="delete" />删除1
+                            <a-icon type="delete"/>删除1
                         </a>
                         <a @click="deleteRecord(record.key)" v-auth="`delete`">
-                            <a-icon type="delete" />删除2
+                            <a-icon type="delete"/>删除2
                         </a>
                     </div>
                     <template slot="statusTitle">
@@ -125,21 +174,6 @@
                 </standard-table>
             </div>
         </a-card>
-        <div class="detail-display">
-            <div>
-                <a-tabs default-active-key="1" @change="callback">
-                    <a-tab-pane key="1" tab="基本信息">
-                        Content of Tab Pane 1
-                    </a-tab-pane>
-                    <a-tab-pane key="2" tab="学历信息" force-render>
-                        Content of Tab Pane 2
-                    </a-tab-pane>
-                    <a-tab-pane key="3" tab="工作经验">
-                        Content of Tab Pane 3
-                    </a-tab-pane>
-                </a-tabs>
-            </div>
-        </div>
     </div>
 </template>
 

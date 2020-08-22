@@ -96,14 +96,16 @@
         </a-row>
         <el-row>
             <el-col :span="12"><div class="grid-content" style="border: 1px solid lightgrey;">
-                <h3 style="margin-bottom: 16px; padding: 20px">热门商品</h3>
-                <div style="margin-left: 10%">
-                    <div id="myChart3" :style="{width: '600px', height: '300px', float: 'left'}"></div>
-                </div>
+                <a-card>
+                    <h3 style="margin-bottom: 16px; padding: 20px">热门商品</h3>
+                    <div style="margin-left: 10%">
+                        <div id="myChart3" :style="{width: '600px', height: '300px', float: 'left'}"></div>
+                    </div>
+                </a-card>
             </div></el-col>
-            <el-col :span="12">
-                <div class="grid-content" style="">
-                    <a-radio-group v-model="size" style="margin-bottom: 16px; padding: 20px">
+            <el-col :span="12"><div class="grid-content" style="border: 1px solid lightgrey;">
+                <a-card>
+                    <a-radio-group v-model="size" style="margin-bottom: 16px; padding: 16px 20px">
                         <a-radio-button value="small">
                             全部渠道
                         </a-radio-button>
@@ -117,8 +119,8 @@
                     <div style="margin-left: 15%">
                         <div id="myChart2" :style="{width: '600px', height: '300px', float: 'left'}"></div>
                     </div>
-                </div>
-            </el-col>
+                </a-card>
+            </div></el-col>
         </el-row>
     </div>
 </template>
@@ -380,6 +382,7 @@
     }
     .grid-content {
         border-radius: 4px;
+        color: #8c8c8c;
         min-height: 300px;
         margin-top: 25px;
     }

@@ -4,7 +4,7 @@
         <a-card>
             <div id="goods-list-display">
                 <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin-top: 10px">
-                    <a-form id="myForm" layout="inline" :model="formInline" @submit.native.prevent>
+                    <a-form id="pForm" layout="inline" :model="formInline" @submit.native.prevent>
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row type="flex">
                                 <a-col :span="6" :order="1">
@@ -25,39 +25,39 @@
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
-                                <a-col :span="6" :order="4">
-                                    <a-form-item label="条码">
-                                        <a-input v-model="formInline.logisticsNo">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
+<!--                                <a-col :span="6" :order="4">-->
+<!--                                    <a-form-item label="条码">-->
+<!--                                        <a-input v-model="formInline.logisticsNo">-->
+<!--                                        </a-input>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
                             </a-row>
-                            <a-row type="flex" v-if="advanced">
-                                <a-col :span="6" :order="1">
-                                    <a-form-item label="商家编码">
-                                        <a-input v-model="formInline.shopName">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6" :order="2">
-                                    <a-form-item label="品牌">
-                                        <a-input v-model="formInline.Phone">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6" :order="3">
-                                    <a-form-item label="规格名称">
-                                        <a-input v-model="formInline.Type">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6" :order="4">
-                                    <a-form-item label="货品简称">
-                                        <a-input v-model="formInline.Type">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                            </a-row>
+<!--                            <a-row type="flex" v-if="advanced">-->
+<!--                                <a-col :span="6" :order="1">-->
+<!--                                    <a-form-item label="商家编码">-->
+<!--                                        <a-input v-model="formInline.shopName">-->
+<!--                                        </a-input>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :span="6" :order="2">-->
+<!--                                    <a-form-item label="品牌">-->
+<!--                                        <a-input v-model="formInline.Phone">-->
+<!--                                        </a-input>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :span="6" :order="3">-->
+<!--                                    <a-form-item label="规格名称">-->
+<!--                                        <a-input v-model="formInline.Type">-->
+<!--                                        </a-input>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :span="6" :order="4">-->
+<!--                                    <a-form-item label="货品简称">-->
+<!--                                        <a-input v-model="formInline.Type">-->
+<!--                                        </a-input>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                            </a-row>-->
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
                         <a-button type="primary" @click="submitList">查询</a-button>
@@ -259,7 +259,7 @@
             },
             resetInput(){
                 const that = this
-                document.getElementById("myForm").reset()
+                document.getElementById("pForm").reset()
                 this.formInline = {
                     goodsNo: '',
                     goodsName: '',
