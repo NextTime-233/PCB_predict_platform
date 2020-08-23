@@ -102,15 +102,17 @@
             <!--路由占位符-->
                 <bread></bread>
                 <router-view></router-view>
+                <page-footer></page-footer>
             </a-layout-content>
         </a-layout>
     </a-layout>
 </template>
 <script>
     import Bread from "../components/Bread";
+    import PageFooter from "../layouts/PageFooter";
     export default {
         name: 'index',
-        components: {Bread},
+        components: {Bread, PageFooter},
         data() {
             return {
                 user: window.sessionStorage.getItem('user'),

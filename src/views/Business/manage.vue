@@ -250,23 +250,23 @@
                                 bordered
                                 :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }"
                         >
-<!--                            <a-descriptions-item label="平台">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="货品名称">{{details.apiGoodsName}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="规格名称">{{details.apiSpecName}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="原始订单编号">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="子订单编号">{{details.zidanTid}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="商家编码">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="货品编号">{{details.goodsNo}}</a-descriptions-item>-->
+                            <a-descriptions-item label="平台">{{valueOfCol.platformType}}</a-descriptions-item>
+                            <a-descriptions-item label="货品名称">{{details.apiGoodsName}}</a-descriptions-item>
+                            <a-descriptions-item label="规格名称">{{details.apiSpecName}}</a-descriptions-item>
+                            <a-descriptions-item label="货品编号">{{details.goodsNo}}</a-descriptions-item>
+                            <a-descriptions-item label="原始订单编号">{{details.sonSrcTid}}</a-descriptions-item>
+                            <a-descriptions-item label="子订单编号">{{details.zidanTid}}</a-descriptions-item>
+                            <a-descriptions-item label="商家编码">{{valueOfCol.singleSpecNo}}</a-descriptions-item>
 <!--                            <a-descriptions-item label="规格码">{{}}</a-descriptions-item>-->
 <!--                            <a-descriptions-item label="主条码">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="标价">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="优惠">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="成交价">{{}}</a-descriptions-item>-->
+                            <a-descriptions-item label="标价">{{details.price}}</a-descriptions-item>
+                            <a-descriptions-item label="优惠">{{valueOfCol.discount}}</a-descriptions-item>
+                            <a-descriptions-item label="成交价">{{details.orderPrice}}</a-descriptions-item>
 <!--                            <a-descriptions-item label="分摊后价格">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="折扣">{{details.discount}}</a-descriptions-item>-->
+                            <a-descriptions-item label="折扣">{{details.discount}}</a-descriptions-item>
 <!--                            <a-descriptions-item label="成本价">{{}}</a-descriptions-item>-->
 <!--                            <a-descriptions-item label="下单数量">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="实发数">{{details.actualNum}}</a-descriptions-item>-->
+                            <a-descriptions-item label="实发数">{{details.actualNum}}</a-descriptions-item>
 <!--                            <a-descriptions-item label="库存">{{}}</a-descriptions-item>-->
 <!--                            <a-descriptions-item label="可审核库存">{{}}</a-descriptions-item>-->
 <!--                            <a-descriptions-item label="分摊后总价">{{}}</a-descriptions-item>-->
@@ -300,27 +300,27 @@
                         <a-icon type="unordered-list" />
                         订单详情
                       </span>
-                        <template>
+                        <template v-if="dt">
                             <a-descriptions title="" bordered>
-<!--                                <a-descriptions-item label="订单编号">{{details.tradeNo}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="原始单号">{{details.sonSrcTid}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="店铺">{{details.shopName}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="仓库">{{details.warehouseName}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="物流公司">{{details.logisticsName}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="客户网名">{{details.buyerNick}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="收件人">{{details.receiverName}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="地区">{{details.receiverArea}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="地址">{{details.receiverAddress}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="邮编">{{details.receiverZip}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="手机">{{details.receiverMobil}}</a-descriptions-item>-->
+                                <a-descriptions-item label="订单编号">{{details.tradeNo}}</a-descriptions-item>
+                                <a-descriptions-item label="原始单号">{{details.sonSrcTid}}</a-descriptions-item>
+                                <a-descriptions-item label="店铺">{{details.shopName}}</a-descriptions-item>
+                                <a-descriptions-item label="仓库">{{details.warehouseName}}</a-descriptions-item>
+                                <a-descriptions-item label="物流公司">{{details.logisticsName}}</a-descriptions-item>
+                                <a-descriptions-item label="客户网名">{{details.buyerNick}}</a-descriptions-item>
+                                <a-descriptions-item label="收件人">{{details.receiverName}}</a-descriptions-item>
+                                <a-descriptions-item label="地区">{{details.receiverArea}}</a-descriptions-item>
+                                <a-descriptions-item label="地址">{{details.receiverAddress}}</a-descriptions-item>
+                                <a-descriptions-item label="邮编">{{details.receiverZip}}</a-descriptions-item>
+                                <a-descriptions-item label="手机">{{details.receiverMobil}}</a-descriptions-item>
 <!--                                <a-descriptions-item label="固话">{{details.receiverTelno}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="送货时间">{{details.}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="包装">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="货到付款">{{details.cashOnDelivery}}</a-descriptions-item>-->
+                                <a-descriptions-item label="货到付款">{{details.cashOnDelivery}}</a-descriptions-item>
 <!--                                <a-descriptions-item label="退款状态">{{details.}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="分校类别">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="下单时间">{{details.tradeTime}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="付款时间">{{details.payTime}}</a-descriptions-item>-->
+                                <a-descriptions-item label="下单时间">{{details.tradeTime}}</a-descriptions-item>
+                                <a-descriptions-item label="付款时间">{{details.payTime}}</a-descriptions-item>
 <!--                                &lt;!&ndash; 一共分为四份 :span="2"  &ndash;&gt;-->
 <!--                                <a-descriptions-item label="总货款">{{details.orderPrice}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="邮费">-->
@@ -339,23 +339,21 @@
 <!--                                <a-descriptions-item label="发票内容">{{details.}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="佣金">{{details.}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="买家COD费用">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="订单类别">{{details.}}</a-descriptions-item>-->
+                                <a-descriptions-item label="订单类别">{{details.tradeType}}</a-descriptions-item>
 <!--                                <a-descriptions-item label="标旗">{{details.}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="业务员">{{details.checker}}</a-descriptions-item>-->
 <!--                                <a-descriptions-item label="签出人">{{details.fchecker}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="递交时间">{{details.}}</a-descriptions-item>-->
+                                <a-descriptions-item label="递交时间">{{valueOfCol.submitTime}}</a-descriptions-item>
                             </a-descriptions>
                         </template>
                     </a-tab-pane>
                 </a-tabs>
             </div>
-            <page-footer></page-footer>
         </a-card>
     </div>
 </template>
 
 <script>
-    import PageFooter from "../../layouts/PageFooter";
     const columns = [
         { title: '订单编号', width: 100, dataIndex: 'tradeNo', key: 'tradeNo', 'fixed': 'left' },
         { title: '平台类型', width: 100, dataIndex: 'platformType', key: 'platformType', 'fixed': 'left' },
@@ -419,7 +417,7 @@
         { title: '标记名称', width: 100, dataIndex: 'flagName', key: '58' },
         { title: '处理天数', width: 100, dataIndex: 'disposeDays', key: '59' },
         { title: '订单来源', width: 100, dataIndex: 'tradeFrom', key: '60' },
-        { title: '货品商家编码', width: 100, dataIndex: 'singleSpecNo', key: '61' },
+        { title: '商家编码', width: 100, dataIndex: 'singleSpecNo', key: '61' },
         { title: '原始货品种类数', width: 100, dataIndex: 'rawGoodsCount', key: '62' },
         { title: '原始货品数量', width: 100, dataIndex: 'rawGoodsTypeCount', key: '63' },
         { title: '递交时间', width: 100, dataIndex: 'submitTime', key: '64' },
@@ -441,7 +439,6 @@
     const data = [];
     export default {
         name: "manage",
-        components: {PageFooter},
         data() {
             return {
                 // 搜索栏
@@ -473,7 +470,9 @@
             //    token
                 tokenStr: '',
             //    详情标签页
-                details:''
+                details:{},
+                dt: false,
+                valueOfCol:{},
             };
         },
         created() {
@@ -592,8 +591,9 @@
             },
             //表格操作
             orderInfo(value){
-                // console.log(value.tradeNo)
+                console.log(value)
                 this.moreDetail(value.tradeNo)
+                this.valueOfCol = value
                 console.log("此处应该有货品信息")
             },
             // 分页
@@ -634,8 +634,10 @@
                     tokenBackend : this.tokenStr
                 }).then( res => {
                     console.log(res.data)
-                    this.details = res.data.data
+                    this.details = res.data.data[0]
                 }).catch()
+                console.log(this.details)
+                this.dt = true
             }
         },
     }

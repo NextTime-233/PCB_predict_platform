@@ -19,9 +19,10 @@
                 :columns="columns"
                 :dataSource="dataSource"
                 :rowKey="rowKey"
-                :pagination="pagination"
+                :pagination=false
                 @change="onChange"
                 :rowSelection="selectedRows ? {selectedRowKeys: selectedRowKeys, onChange: updateSelect} : undefined"
+                :scroll="{ x: 1500, y: 600 }"
         >
             <template slot-scope="text, record, index" :slot="slot" v-for="slot in scopedSlots">
                 <slot :name="slot" v-bind="{text, record, index}"></slot>
@@ -44,10 +45,6 @@
             rowKey: {
                 type: [String, Function],
                 default: 'key'
-            },
-            pagination: {
-                type: [Object, Boolean],
-                default: true
             },
             selectedRows: Array
         },
