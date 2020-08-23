@@ -4,7 +4,7 @@
         <div class="employee-list-display">
             <div class="global-search-wrapper" style="width: 350px; display: flex">
                 <a-input-search placeholder="请输入用户名" enter-button @search="onSearch" />
-                <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" :size="size" />
+                <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" :size="size" @click="reNew"/>
             </div>
             <form :autoFormCreate="(form) => this.form = form">
                 <a-table
@@ -161,8 +161,25 @@
             }).catch()
         },
         methods: {
-            handleSubmit (e) {
-                e.preventDefault()
+            reNew() {
+                console.log("here")
+                const that = this
+                const data = []
+                axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+                        token: that.tokenStr}}).then( res => {
+                    // console.log(res.data.msg)
+                    // console.log(res)
+                    for(let i = 0; i< res.data.data.length; i++){
+                        let c = {
+                            key : i+1,
+                            name: res.data.data[i].userAccount,
+                            code: res.data.data[i].userPwd,
+                            editable: false,
+                        }
+                        data.push(c)
+                    }
+                    that.dataSource = data
+                }).catch()
             },
             newMember () {
                 this.dataSource.push({
@@ -218,7 +235,7 @@
             },
             // 搜索框
             onSearch(value) {
-                console.log(value);
+                // console.log(value);
                 if(!value){
                     alert("请输入要搜索的用户名！")
                 } else {

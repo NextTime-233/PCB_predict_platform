@@ -2,14 +2,14 @@
 <template>
     <div id ='data-analysis'>
         <el-row :gutter="20">
-            <el-col :span="6"><div class="grid-content">
+            <el-col :span="6"><div class="gc">
                 <div class="data-tab" style="width: 95%;">
                     <a-statistic title="今日订单总量" :value="112893" style="margin-right: 100px" />
                     </br>
                     <a-statistic title="订单流水 (CNY)" :precision="2" :value="112893" />
                 </div>
             </div></el-col>
-            <el-col :span="6"><div class="grid-content">
+            <el-col :span="6"><div class="gc">
                 <div style="border: 1px solid grey; padding: 20px 25px; height: 200px">
                     <a-row :gutter="18">
                         <a-col :span="12">
@@ -47,7 +47,7 @@
                     </a-row>
                 </div>
             </div></el-col>
-            <el-col :span="6"><div class="grid-content">
+            <el-col :span="6"><div class="gc">
                 <div style="padding: 20px; border: 1px solid darkgray; height: 200px">
                     <h3>线上购物转化率</h3>
                     <div style="font-size: 40px">78%</div>
@@ -55,7 +55,7 @@
                 </div>
 
             </div></el-col>
-            <el-col :span="6"><div class="grid-content">
+            <el-col :span="6"><div class="gc">
                 <div style="border: 1px solid grey; height: 200px">
                     <div id="myChart4" :style="{width: '100%', height: '200px', float: 'left'}"></div>
                 </div>
@@ -379,6 +379,10 @@
     }
     .el-col {
         border-radius: 4px;
+    }
+    .gc {
+        border-radius: 4px;
+        margin-top: 25px;
     }
     .grid-content {
         border-radius: 4px;
