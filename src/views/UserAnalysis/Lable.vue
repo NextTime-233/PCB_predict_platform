@@ -2,238 +2,103 @@
 <template>
     <div>
         <el-row  :gutter="280">
-            <el-col span="4">
+            <el-col :span="4">
                 <div class="order-form-searchBar">
                     <div class="global-search-wrapper" style="width: 300px">
-                        <el-input placeholder="标签搜索"  ><el-button slot="append" icon="el-icon-search"></el-button>
-                        </el-input>
+                        <a-input-search placeholder="请输入标签名" enter-button @search="onSearch" />
                     </div>
                 </div>
             </el-col>
-            <el-col span="4">
+            <el-col :span="4">
                 <div class="global-search-wrapper" style="width: 200px">
-                    <el-button type="primary" @click="addLabelVisible = true">新增标签</el-button>
+                    <el-button type="primary" @click="dialogFormVisible = true" size="small">新增标签</el-button>
+                    <el-button type="success" icon="el-icon-refresh-left" circle size="small" @click="getLabel"></el-button>
                 </div>
             </el-col>
+
         </el-row>
-        <a-table :columns="dataColumns" :dataSource="dataSource" :pagination="false">
-            <template  v-for="(col, i) in ['labelDimension', 'labelVal']" :slot="col" slot-scope="text, record">
-                <a-input
-                        :key="col"
-                        v-if="record.editable"
-                        style="margin: -5px 0"
-                        :value="text"
-                        :placeholder="columns[i].title"
-                        @change="e => handleChange(e.target.value, record.key, col)"
-                />
-                <template v-else>{{text}}</template>
-            </template>
-            <template slot="operation" slot-scope="text, record">
-                <template v-if="record.editable">
-                          <span v-if="record.isNew">
-                            <a @click="saveRow(record.key, record.labelDimension, record.labelVal)">添加</a>
-                            <a-divider type="vertical" />
-                            <a-popconfirm title="确认删除？" @confirm="remove(record.key)">
-                              <a>删除</a>
-                            </a-popconfirm>
-                          </span>
-                    <span v-else>
-                                <a @click="saveRow(record.key, record.labelDimension, record.labelVal)">save</a>
-                                <a-divider type="vertical" />
-                                <a @click="cancle(record.key)">取消</a>
-                            </span>
-                </template>
-                <span v-else>
-                          <a @click="toggle(record.key)">编辑</a>
-                          <a-divider type="vertical" />
-                          <a-popconfirm title='确认删除？' @confirm="remove(record.key,record.labelDimension)">
-                            <a>删除</a>
-                          </a-popconfirm>
-                        </span>
+        <div>
+           <el-table :data="tableData" border style="width: 100%">
+               <el-table-column fixed prop="labelDimension" label="所属维度" width="150">
+               </el-table-column>
+               <el-table-column fixed prop="labelVal" label="标签名称" width="150">
+               </el-table-column>
+               <el-table-column fixed prop="labelRule" label="标签描述" width="230">
+               </el-table-column>
+               <el-table-column
+                       fixed="right"
+                       label="操作"
+                       width="150">
+                   <template slot-scope="scope">
+                       <el-button
+                               @click.native.prevent="deleteRow(scope.$index, tableData)"
+                               type="text"
+                               size="small">
+                           删除
+                       </el-button>
+                       <el-button type="text" size="small">编辑</el-button>
+                   </template>
+               </el-table-column>
+           </el-table>
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="queryInfo.pageNum"
+                    :page-sizes="[5, 10, 15, 20]"
+                    :page-size="queryInfo.pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
                 <!-- 新增标签-->
                 <el-dialog
                         title="新增标签"
-                        :visible.sync="addLabelVisible"
+                        :visible.sync="dialogFormVisible"
                         width="60%"
-                        :before-close="handleClose">
-                    <el-form :model="addform" >
-                        <el-form-item label="新增标签名称" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
+                        @close='closeDialog'>
+                    <el-form :model="addForm" >
+                        <el-form-item label="新增标签名称" :label-width="formLabelWidth" v-model="addForm.labelVal">
+                            <el-input v-model="tableData.labelVal" autocomplete="off" ></el-input>
                         </el-form-item>
-                        <el-row :gutter="1">
-                            <el-col  span="4">
-                                <div class="block">
-                                    <span class="demonstration">用户登记时间</span>
-                                </div>
-                            </el-col>
-                            <el-rol  span="'7">
-                                <div class="block">
-                                    <el-date-picker
-                                            v-model="value2"
-                                            type="datetimerange"
-                                            :picker-options="pickerOptions"
-                                            range-separator="至"
-                                            start-placeholder="开始日期"
-                                            end-placeholder="结束日期"
-                                    >
-                                    </el-date-picker>
-                                </div>
-                            </el-rol>
-                        </el-row>
-                        <el-row :gutter="1">
-                            <el-col  span="4">
-                                <div class="block">
-                                    <span class="demonstration">付款时间</span>
-                                </div>
-                            </el-col>
-                            <el-rol  span="'7">
-                                <div class="block">
-                                    <el-date-picker
-                                            v-model="value2"
-                                            type="datetimerange"
-                                            :picker-options="pickerOptions"
-                                            range-separator="至"
-                                            start-placeholder="开始日期"
-                                            end-placeholder="结束日期"
-                                    >
-                                    </el-date-picker>
-                                </div>
-                            </el-rol>
-                        </el-row>
-                        <el-form-item label="购买次数" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
+                        <el-form-item label="所属维度" :label-width="formLabelWidth" v-model="addForm.labelDimension">
+                            <el-input v-model="tableData.labelDimension" autocomplete="off" ></el-input>
                         </el-form-item>
-                        <el-form-item label="所在店铺" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
-                        </el-form-item>
-                        <el-form-item label="地区" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
-                        </el-form-item>
-                        <el-form-item label="购买总金额" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
-                        </el-form-item>
-                        <el-row :gutter="1">
-                            <el-col  span="4">
-                                <div class="block">
-                                    <span class="demonstration">上次购买时间</span>
-                                </div>
-                            </el-col>
-                            <el-rol  span="'7">
-                                <div class="block">
-                                    <el-date-picker
-                                            v-model="value2"
-                                            type="datetimerange"
-                                            :picker-options="pickerOptions"
-                                            range-separator="至"
-                                            start-placeholder="开始日期"
-                                            end-placeholder="结束日期"
-                                    >
-                                    </el-date-picker>
-                                </div>
-                            </el-rol>
-                        </el-row>
-                        <el-form-item label="货品种类数" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
-                        </el-form-item>
-                        <el-form-item label="货品数量总数" :label-width="formLabelWidth">
-                            <el-input v-model="dataSource.labelDimension" autocomplete="off" ></el-input>
-                        </el-form-item>
+                        <!--<el-form-item label="标签规则" :label-width="formLabelWidth">-->
+                            <!--<el-input v-model="tableData.labelRule" autocomplete="off" ></el-input>-->
+                        <!--</el-form-item>-->
                     </el-form>
                     <span slot="footer" class="dialog-footer">
-                           <el-button @click="addLabelVisible= false">重置</el-button>
-                           <el-button @click="addLabelVisible= false">取 消</el-button>
-                           <el-button type="primary" @click="addLabelVisible = false">确 定</el-button>
+                           <el-button @click="dialogFormVisible= false">重置</el-button>
+                           <el-button @click="dialogFormVisible= false">取 消</el-button>
+                           <el-button type="primary"  @click="addLabel()">确 定</el-button>
                     </span>
                 </el-dialog>
-            </template>
-        </a-table>
-        <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="current"
-                :page-sizes="[5, 10, 15, 20]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="19">
-        </el-pagination>
+        </div>
     </div>
-
 </template>
 
 <script>
-    const columns = [
-        {
-            title: '所属维度',
-            dataIndex: 'labelDimension',
-            key: 'labelDimension',
-            width: '20%',
-            scopedSlots: { customRender: 'labelDimension' }
-        },
-        {
-            title: '标签名称',
-            dataIndex: 'labelVal',
-            key: 'labelVal',
-            width: '20%',
-            scopedSlots: { customRender: 'labelVal' }
-        },
-        {
-            title: '标签描述',
-            key: 'labelRule',
-            scopedSlots: { customRender: 'labelRule' }
-        },
-
-        {
-            title: '操作',
-            key: 'operation',
-            scopedSlots: { customRender: 'operation' }
-        }
-    ]
 
     export default {
         data() {
             return {
-                columns,
-                dataSource: [],
-                tokenStr: '',
-                //  divided pages
-                current: 1,
-                pageSize: 10,
-                total: 0,
-                //  新增对话框的显示与否
-                addLabelVisible:false,
-                // 表单数据
-                addform: {},
-                // 时间选择
-                formLabelWidth: '100px',
-                pickerOptions: {
-                    shortcuts: [{
-                        text: '最近一周',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近一个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近三个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
+                //分页
+                queryInfo:{
+                    pageNum:1,
+                    pageSize:5,
                 },
-                value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-                value2: ''
+                pageSize: '',
+                total: '',
+                tableData:[],
+                tokenStr: '',
+                //  新增对话框的显示与否
+                dialogFormVisible:false,
+                // 表单数据
+                addForm: {
+                    labelVal:'',
+                    labelDimension:'',
+                },
+                formLabelWidth:'120px',
+                dialogCode:true,
             }
 
         },
@@ -257,61 +122,100 @@
                 axios.get('http://localhost:8080/backend/label/findAllLabelVal',{headers:{
                         token: tokenStr
                     }}).then( res => {
-                    console.log(res.data)
-                    const dataset=0;
-                    console.log(dataset);
-                    for(let i = 0; i< res.data.data.length; i++){
-                        let c = {
-                            key : i+1,
-                            labelDimension: res.data.data[i].labelDimension,
-                            labelVal: res.data.data[i].labelVal,
-                            labelRule: res.data.data[i].labelRule,
-                            editable: false,
-                        }
-                        this.dataSource.push(c)
-                    }
+                    console.log(res.data);
+                    that.tableData = res.data.data;
+                    that.total=res.data.data.length;
+                }).catch()
+                axios.get('http://localhost:8080/backend/label/findAllLabelVal/1/5').then(res => {
+                    console.log(res.data.data)
+                    that.tableData = res.data.data
                 }).catch()
             },
-            onSearch(value) {
-                console.log(value);
-                if(!value){http://localhost:8080/
-                    alert("请输入要搜索的用户名！")
-                } else {
-                    axios.get('backend/user/getUserByUserAccount?userAccount='+value, {headers:{
-                            token: this.tokenStr}}).then( res => {
-                        // console.log(res.data.msg)
-                        // console.log(res.data.data)
-                        // 暂时采用的方法，直接重写数据源
-                        this.dataSource = [{
-                            key : 1,
-                            name: res.data.data.userAccount,
-                            code: res.data.data.userPwd,
-                            editable: false,
-                        }]
+            submitList(){
+                const that = this
+                const list = this.formInline
+                console.log(list)
+                if(0) {
+                    console.log("暂时未执行")
+                } else{
+                    console.log("提交表单")
+                    axios.get('http://localhost:8080/backend/label/findLabelValByName/', {
+                        headers:{token : this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then( res => {
+                        console.log(res.data)
+                        that.tableData = res.data.data;
+                        that.total=res.data.data.length;
                     }).catch()
                 }
             },
-            // onShowSizeChange(current, pageSize) {
-            //     this.pageSize = pageSize;
-            //     sessionStorage.setItem('current', current);
-            //     sessionStorage.setItem('pageSize', pageSize);
+            // 分页, 加载缓慢
+            handleCurrentChange(currentPage){
+                console.log("当前页码")
+                console.log(currentPage)
+                this.queryInfo.pageNum = currentPage
+                const that = this
+                axios.get('http://localhost:8080/backend/label/findAllLabelVal/'+currentPage+'/'+this.queryInfo.pageSize).then(res => {
+                    console.log(res.data.data)
+                    that.tableData = res.data.data
+                }).catch()
+            },
+            handleSizeChange(size) {
+                console.log("页面数据量")
+                console.log(size)
+                this.queryInfo.pageSize = size;
+                const that = this
+                axios.get('http://localhost:8080/backend/label/findAllLabelVal/'+this.queryInfo.pageNum+'/'+size).then(res => {
+                    // console.log(res.data.data)
+                    that.tableData = res.data.data
+                }).catch()
+            },
+            // 模糊查询ok
+            onSearch(labelVal) {
+                console.log(labelVal);
+                const that = this;
+                let tokenStr =  window.sessionStorage.getItem('token')
+                if(!labelVal){
+                    alert("请输入要搜索的用户名！")
+                } else {
+                    axios.get('http://localhost:8080/backend/label/findLabelValByName/'+labelVal, {headers:{
+                            token: this.tokenStr}}).then( res => {
+                        console.log(res.data);
+                        const dataset=0;
+                        console.log(dataset);
+                        that.tableData = res.data.data;
+                        that.total=res.data.data.length;
+
+                    }).catch()
+                }
+            },
+            closeDialog() {
+                this.dialogCode = false
+            },
+            // 新增标签ok
+           addLabel() {
+                       axios.post('http://localhost:8080/backend/label/saveLabel?labelDimension='
+                           +this.addForm.labelDimension+'&labelVal='+this.addForm.labelVal).then(res=>{
+                           console.log(res)
+                       })
+            },
+            deleteRow(index, rows) {
+                rows.splice(index, 1);
+            },
+            // deleteLabel(){
+            //          axios.put('http://localhost:8080/backend/label/delLabel?labelVal='
+            //         +this.addForm.labelVal).then(res=>{
+            //         console.log(res)
+            //     })
             // },
-            newMember() {
-
-            },
-            //pagesize改变
-            handleSizeChange(newSize){
-                console.log(newSize)
-                this.pageSize=newSize
-                this.getLabel()
-
-            },
-            // 页码值改变
-            handleCurrentChange(newPage){
-                console.log(newPage)
-                this.getLabel()
-            }
-
+            // //pagesize改变
+            // handleSizeChange(newSize) {
+            //     console.log(`每页 ${newSize} 条`);
+            // },
+            // // 页码值改变
+            // handleCurrentChange(newPage) {
+            //     console.log(`当前页: ${newPage}`);
+            // }
         },
     }
 </script>
@@ -321,4 +225,5 @@
         padding-right: 50px;
         margin: 20px 0;
     }
+
 </style>
