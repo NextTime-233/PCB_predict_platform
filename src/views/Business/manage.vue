@@ -523,41 +523,53 @@
             },
             // 提交
             submitList(){
-                const list = this.orderForm
-                if(0){
-                    console.log(list)
+                const that = this
+                const midlist = {}
+                const l = this.orderForm
+                for(let i in l){
+                    let key = i
+                    let value = l[i]
+                    if (value === "") {
+                        console.log(key,"空值")
+                    } else {
+                        midlist[key] = value
+                    }
                 }
-                else{
-                    console.log("提交表单")
-                    axios.get('http://localhost:8080/backend/order/getOrders', {
-                        params:{
-                            trade_no: list.trade_no,
-                            shop_name: list.shop_name,
-                            pay_account:  list.pay_account,
-                            trade_status: list.trade_status,
-                            goods_name: list.goods_name,
-                            trade_type: list.trade_type,
-                            refund_status: list.refund_status,
-                            receiver_name: list.receiver_name,
-                            orderDateStart: list.orderDateStart,
-                            orderDateEnd: list.orderDateEnd,
-                            orderPayDateStart: list.orderPayDateStart,
-                            orderPayDateEnd: list.orderPayDateEnd,
-                            orderSubmitDateStart: list.orderSubmitDateStart,
-                            orderSubmitDateEnd: list.orderSubmitDateEnd,
-                        },
-                        headers:{token : this.tokenStr},
-                        tokenBackend: this.tokenStr
-                    }).then( res => {
-                        console.log(res.data)
+                console.log(midlist)
+                console.log("提交表单")
+                const params = midlist
+                axios.get('http://localhost:8080/backend/order/getOrders', {
+                    params: midlist
+                        // trade_no: list.trade_no,
+                        // shop_name: list.shop_name,
+                        // pay_account:  list.pay_account,
+                        // trade_status: list.trade_status,
+                        // goods_name: list.goods_name,
+                        // trade_type: list.trade_type,
+                        // refund_status: list.refund_status,
+                        // receiver_name: list.receiver_name,
+                        // orderDateStart: list.orderDateStart,
+                        // orderDateEnd: list.orderDateEnd,
+                        // orderPayDateStart: list.orderPayDateStart,
+                        // orderPayDateEnd: list.orderPayDateEnd,
+                        // orderSubmitDateStart: list.orderSubmitDateStart,
+                        // orderSubmitDateEnd: list.orderSubmitDateEnd,
+                    ,
+                    headers:{token : this.tokenStr},
+                    tokenBackend: this.tokenStr
+                }).then( res => {
+                    console.log(res.data)
+                    if(res.data.data === null){
+                        console.log("列表为空")
+                    }else{
                         let list = []
                         for (let i = 0; i < res.data.data.length; i++) {
                             res.data.data[i]['key'] = i
                             list.push(res.data.data[i])
                         }
                         this.data = list
-                    }).catch()
-                }
+                    }
+                }).catch()
             },
             resetInput(){
                 const that = this

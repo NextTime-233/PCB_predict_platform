@@ -4,7 +4,7 @@
         <a-card>
             <div class="detail-list-display">
                 <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin: 10px 0">
-                    <a-form id="odForm" layout="horizontal" :model="formInline" @submit.native.prevent>
+                    <a-form id="odForm" layout="horizontal" @submit.native.prevent>
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row :gutter="16" >
                                 <a-col :span="6">
@@ -18,7 +18,7 @@
                                 </a-col>
                                 <a-col :span="6" >
                                     <a-form-item label="订单编号" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="formInline.trade_no" />
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6" >
@@ -130,19 +130,19 @@
                 </div>
             </div>
             <div>
-                <div class="operator">
-                    <a-button @click="addNew" type="primary">新建</a-button>
-                    <a-button >批量操作</a-button>
-                    <a-dropdown>
-                        <a-menu @click="handleMenuClick" slot="overlay">
-                            <a-menu-item key="delete">删除</a-menu-item>
-                            <a-menu-item key="audit">审批</a-menu-item>
-                        </a-menu>
-                        <a-button>
-                            更多操作 <a-icon type="down" />
-                        </a-button>
-                    </a-dropdown>
-                </div>
+<!--                <div class="operator">-->
+<!--                    <a-button @click="addNew" type="primary">新建</a-button>-->
+<!--                    <a-button >批量操作</a-button>-->
+<!--                    <a-dropdown>-->
+<!--                        <a-menu @click="handleMenuClick" slot="overlay">-->
+<!--                            <a-menu-item key="delete">删除</a-menu-item>-->
+<!--                            <a-menu-item key="audit">审批</a-menu-item>-->
+<!--                        </a-menu>-->
+<!--                        <a-button>-->
+<!--                            更多操作 <a-icon type="down" />-->
+<!--                        </a-button>-->
+<!--                    </a-dropdown>-->
+<!--                </div>-->
                 <standard-table
                         :columns="columns"
                         :dataSource="dataSource"
@@ -155,17 +155,17 @@
                     <div slot="description" slot-scope="{text}">
                         {{text}}
                     </div>
-                    <div slot="action" slot-scope="{text, record}">
-                        <a style="margin-right: 8px">
-                            <a-icon type="plus"/>新增
-                        </a>
-                        <a style="margin-right: 8px">
-                            <a-icon type="edit"/>编辑
-                        </a>
-                        <a @click="deleteRecord(record.key)" v-auth="`delete`">
-                            <a-icon type="delete"/>删除
-                        </a>
-                    </div>
+<!--                    <div slot="action" slot-scope="{text, record}">-->
+<!--                        <a style="margin-right: 8px">-->
+<!--                            <a-icon type="plus"/>新增-->
+<!--                        </a>-->
+<!--                        <a style="margin-right: 8px">-->
+<!--                            <a-icon type="edit"/>编辑-->
+<!--                        </a>-->
+<!--                        <a @click="deleteRecord(record.key)" v-auth="`delete`">-->
+<!--                            <a-icon type="delete"/>删除-->
+<!--                        </a>-->
+<!--                    </div>-->
                     <template slot="statusTitle">
                         <a-icon @click.native="onStatusTitleClick" type="info-circle" />
                     </template>
@@ -266,12 +266,12 @@
         {title: '证件号码', width: 100, dataIndex: 'idCard', key: 66},
         {title: '标记名称', width: 100, dataIndex: 'flagName', key: 67},
         {title: '激活时间', width: 120, dataIndex: 'activationTime', key: 68},
-        {
-            title: '操作',
-            width: 120,
-            fixed: 'right',
-            scopedSlots: {customRender: 'action'}
-        }
+        // {
+        //     title: '操作',
+        //     width: 120,
+        //     fixed: 'right',
+        //     scopedSlots: {customRender: 'action'}
+        // }
     ]
 
     const dataSource = []
@@ -281,6 +281,22 @@
         components: {StandardTable},
         data () {
             return {
+                formInline: {
+                    trade_no: '',
+                    shop_name: '',
+                    pay_account: '',
+                    trade_status: '',
+                    goods_name: '',
+                    trade_type: '',
+                    refund_status: '',
+                    receiver_name: '',
+                    orderDateStart: '',
+                    orderDateEnd: '',
+                    orderPayDateStart: '',
+                    orderPayDateEnd: '',
+                    orderSubmitDateStart: '',
+                    orderSubmitDateEnd: '',
+                },
                 advanced: true,
                 columns: columns,
                 dataSource: dataSource,
@@ -324,15 +340,12 @@
         methods: {
             // 搜索
             submitList(){
-                const list = this.orderForm
-                if(0){
-                    console.log(list)
-                }
-                else{
+                if(this.formInline.trade_no!== null){
                     console.log("提交表单")
+                    console.log(this.formInline.trade_no)
                     axios.get('http://localhost:8080/backend/order/getOrderDetail', {
                         params:{
-                            trade_no: list.trade_no,
+                            trade_no: this.formInline.trade_no,
                         },
                         headers:{token : this.tokenStr},
                         tokenBackend: this.tokenStr
@@ -346,6 +359,39 @@
                         this.data = list
                     }).catch()
                 }
+                else{
+                    alert("空表单")
+                }
+            },
+            resetInput(){
+                const that = this
+                document.getElementById("omForm").reset()
+                this.formInline = {
+                    trade_no: '',
+                    shop_name: '',
+                    pay_account: '',
+                    trade_status: '',
+                    goods_name: '',
+                    trade_type: '',
+                    refund_status: '',
+                    receiver_name: '',
+                    orderDateStart: '',
+                    orderDateEnd: '',
+                    orderPayDateStart: '',
+                    orderPayDateEnd: '',
+                    orderSubmitDateStart: '',
+                    orderSubmitDateEnd: '',
+                }
+                axios.get('http://localhost:8080/backend/order/listOrderDetail/1/10', {headers:{
+                        token: this.tokenStr
+                    }}).then( res => {
+                    let list = []
+                    for (let i = 0; i < res.data.data.length; i++) {
+                        res.data.data[i]['key'] = i
+                        list.push(res.data.data[i])
+                    }
+                    this.data = list
+                }).catch()
             },
             deleteRecord(key) {
                 this.dataSource = this.dataSource.filter(item => item.key !== key)

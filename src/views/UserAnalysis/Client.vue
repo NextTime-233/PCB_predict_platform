@@ -389,7 +389,7 @@ const tableData =[];
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            // console.log(that.tokenStr)
+            console.log(that.tokenStr)
           axios.get('http://localhost:8080/backend/customer/listCustomers/1/10', {headers:{
                 token: tokenStr
             }}).then( res => {

@@ -2,7 +2,7 @@
 <template>
     <div>
         <div class="employee-list-display">
-            <div class="global-search-wrapper" style="width: 350px; display: flex">
+            <div class="global-search-wrapper" style="width: 350px; display: flex; margin: 30px auto">
                 <a-input-search placeholder="请输入用户名" enter-button @search="onSearch" />
                 <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" :size="size" @click="reNew"/>
             </div>
@@ -12,7 +12,7 @@
                         :dataSource="dataSource"
                         :pagination="false"
                 >
-                    <template  v-for="(col, i) in ['name', 'code']" :slot="col" slot-scope="text, record">
+                    <template  v-for="(col, i) in ['用户', '密码']" :slot="col" slot-scope="text, record">
                         <a-input
                                 :key="col"
                                 v-if="record.editable"
@@ -27,28 +27,28 @@
                     <template slot="operation" slot-scope="text, record">
                         <template v-if="record.editable">
                           <span v-if="record.isNew">
-                            <a @click="saveRow(record.key, record.name, record.code)">add</a>
+                            <a @click="saveRow(record.key, record.name, record.code)">添加</a>
                             <a-divider type="vertical" />
-                            <a-popconfirm title="deleteConfirm" @confirm="remove(record.key)">
-                              <a>delete</a>
+                            <a-popconfirm title="确认删除" @confirm="remove(record.key)">
+                              <a>删除</a>
                             </a-popconfirm>
                           </span>
                             <span v-else>
-                                <a @click="saveRow(record.key, record.name, record.code)">save</a>
+                                <a @click="saveRow(record.key, record.name, record.code)">保存</a>
                                 <a-divider type="vertical" />
                                 <a @click="cancle(record.key)">cancel</a>
                             </span>
                         </template>
                         <span v-else>
-                          <a @click="toggle(record.key)">edit</a>
+                          <a @click="toggle(record.key)">编辑</a>
                           <a-divider type="vertical" />
-                          <a-popconfirm title='deleteConfirm' @confirm="remove(record.key,record.name)">
-                            <a>delete</a>
+                          <a-popconfirm title='确认删除' @confirm="remove(record.key,record.name)">
+                            <a>删除</a>
                           </a-popconfirm>
                         </span>
                     </template>
                 </a-table>
-                <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">newMember</a-button>
+                <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">添加新用户</a-button>
             </form>
             <span>共{{total}}条数据</span>
             <div class="page-roll">
@@ -78,20 +78,20 @@
         {
             title: '用户名',
             dataIndex: 'name',
-            key: 'name',
+            key: '用户',
             width: '20%',
             scopedSlots: { customRender: 'name' }
         },
         {
             title: '密码',
             dataIndex: 'code',
-            key: 'code',
+            key: '密码',
             width: '20%',
             scopedSlots: { customRender: 'code' }
         },
         {
             title: '操作',
-            key: 'operation',
+            key: '操作',
             scopedSlots: { customRender: 'operation' }
         }
     ]
