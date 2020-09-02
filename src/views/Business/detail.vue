@@ -28,14 +28,14 @@
                                 </a-col>
                                 <a-col :md="6" >
                                     <a-form-item label="客户网名" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                        <a-input style="width: 100%" placeholder="请输入" size="small"/>
                                     </a-form-item>
                                 </a-col>
                             </a-row>
                             <a-row v-if="advanced"  :gutter="8">
                                 <a-col :md="6" >
                                     <a-form-item label="电话号码" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small"/>
+                                        <a-input style="width: 100%" placeholder="请输入" size="small"/>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="6" >
@@ -53,22 +53,22 @@
                                 <a-col :md="6" >
                                     <a-form-item label="订单状态" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
                                         <a-select placeholder="请选择" size=small>
-                                            <a-select-option value="1">已取消</a-select-option>
-                                            <a-select-option value="2">未付款</a-select-option>
-                                            <a-select-option value="3">待尾款</a-select-option>
-                                            <a-select-option value="4">待选仓</a-select-option>
-                                            <a-select-option value="5">等未付</a-select-option>
-                                            <a-select-option value="6">延时审核</a-select-option>
-                                            <a-select-option value="7">预订单</a-select-option>
-                                            <a-select-option value="8">待抢单</a-select-option>
-                                            <a-select-option value="9">待客审</a-select-option>
-                                            <a-select-option value="10">待财审</a-select-option>
-                                            <a-select-option value="11">已递交仓库</a-select-option>
-                                            <a-select-option value="12">已审核</a-select-option>
-                                            <a-select-option value="13">已发货</a-select-option>
-                                            <a-select-option value="14">部分打款</a-select-option>
-                                            <a-select-option value="15">已完成</a-select-option>
-                                            <a-select-option value="16">异常发货</a-select-option>
+                                            <a-select-option value="已取消">已取消</a-select-option>
+                                            <a-select-option value="未付款">未付款</a-select-option>
+                                            <a-select-option value="待尾款">待尾款</a-select-option>
+                                            <a-select-option value="待选仓">待选仓</a-select-option>
+                                            <a-select-option value="等未付">等未付</a-select-option>
+                                            <a-select-option value="延时审核">延时审核</a-select-option>
+                                            <a-select-option value="预订单">预订单</a-select-option>
+                                            <a-select-option value="待抢单">待抢单</a-select-option>
+                                            <a-select-option value="待客审">待客审</a-select-option>
+                                            <a-select-option value="待财审">待财审</a-select-option>
+                                            <a-select-option value="已递交仓库">已递交仓库</a-select-option>
+                                            <a-select-option value="已审核">已审核</a-select-option>
+                                            <a-select-option value="已发货">已发货</a-select-option>
+                                            <a-select-option value="部分打款">部分打款</a-select-option>
+                                            <a-select-option value="已完成">已完成</a-select-option>
+                                            <a-select-option value="异常发货">异常发货</a-select-option>
                                         </a-select>
                                     </a-form-item>
                                 </a-col>
@@ -130,19 +130,6 @@
                 </div>
             </div>
             <div>
-<!--                <div class="operator">-->
-<!--                    <a-button @click="addNew" type="primary">新建</a-button>-->
-<!--                    <a-button >批量操作</a-button>-->
-<!--                    <a-dropdown>-->
-<!--                        <a-menu @click="handleMenuClick" slot="overlay">-->
-<!--                            <a-menu-item key="delete">删除</a-menu-item>-->
-<!--                            <a-menu-item key="audit">审批</a-menu-item>-->
-<!--                        </a-menu>-->
-<!--                        <a-button>-->
-<!--                            更多操作 <a-icon type="down" />-->
-<!--                        </a-button>-->
-<!--                    </a-dropdown>-->
-<!--                </div>-->
                 <standard-table
                         :columns="columns"
                         :dataSource="dataSource"
@@ -266,12 +253,6 @@
         {title: '证件号码', width: 100, dataIndex: 'idCard', key: 66},
         {title: '标记名称', width: 100, dataIndex: 'flagName', key: 67},
         {title: '激活时间', width: 120, dataIndex: 'activationTime', key: 68},
-        // {
-        //     title: '操作',
-        //     width: 120,
-        //     fixed: 'right',
-        //     scopedSlots: {customRender: 'action'}
-        // }
     ]
 
     const dataSource = []
@@ -310,9 +291,6 @@
                 tokenStr: '',
             }
         },
-        authorize: {
-            deleteRecord: 'delete'
-        },
         created() {
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
@@ -340,12 +318,14 @@
         methods: {
             // 搜索
             submitList(){
+                const that = this
                 if(this.formInline.trade_no!== null){
                     console.log("提交表单")
                     console.log(this.formInline.trade_no)
+                    console.log(this.tokenStr)
                     axios.get('http://localhost:8080/backend/order/getOrderDetail', {
                         params:{
-                            trade_no: this.formInline.trade_no,
+                            tradeNo: that.formInline.trade_no,
                         },
                         headers:{token : this.tokenStr},
                         tokenBackend: this.tokenStr
@@ -365,8 +345,8 @@
             },
             resetInput(){
                 const that = this
-                document.getElementById("omForm").reset()
-                this.formInline = {
+                document.getElementById("odForm").reset()
+                that.formInline = {
                     trade_no: '',
                     shop_name: '',
                     pay_account: '',
@@ -415,16 +395,6 @@
             },
             onSelectChange() {
                 this.$message.info('选中行改变了')
-            },
-            addNew () {
-                this.dataSource.unshift({
-                    key: this.dataSource.length,
-                    no: 'NO ' + this.dataSource.length,
-                    description: '这是一段描述',
-                    callNo: Math.floor(Math.random() * 1000),
-                    status: Math.floor(Math.random() * 10) % 4,
-                    updatedAt: '2018-07-26'
-                })
             },
             handleMenuClick (e) {
                 if (e.key === 'delete') {

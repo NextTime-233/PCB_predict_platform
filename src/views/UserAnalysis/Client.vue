@@ -292,7 +292,7 @@
             <div class="detail-display">
                 <div>
                     <a-tabs default-active-key="1" @change="callback">
-                        <a-tab-pane key="1" tab="订单明细">
+                        <a-tab-pane key="1" tab="历史订单">
                             <template>
                                 <a-descriptions title="" bordered>
                                     <a-descriptions-item label="Product">
@@ -327,9 +327,6 @@
                                     </a-descriptions-item>
                                 </a-descriptions>
                             </template>
-                        </a-tab-pane>
-                        <a-tab-pane key="2" tab="历史订单" force-render>
-                            Content of Tab Pane 2
                         </a-tab-pane>
                     </a-tabs>
                 </div>

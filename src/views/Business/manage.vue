@@ -295,58 +295,6 @@
                         </a-descriptions>
                     </div>
                     </a-tab-pane>
-                    <a-tab-pane key="2">
-                      <span slot="tab">
-                        <a-icon type="unordered-list" />
-                        订单详情
-                      </span>
-                        <template v-if="dt">
-                            <a-descriptions title="" bordered>
-                                <a-descriptions-item label="订单编号">{{details.tradeNo}}</a-descriptions-item>
-                                <a-descriptions-item label="原始单号">{{details.sonSrcTid}}</a-descriptions-item>
-                                <a-descriptions-item label="店铺">{{details.shopName}}</a-descriptions-item>
-                                <a-descriptions-item label="仓库">{{details.warehouseName}}</a-descriptions-item>
-                                <a-descriptions-item label="物流公司">{{details.logisticsName}}</a-descriptions-item>
-                                <a-descriptions-item label="客户网名">{{details.buyerNick}}</a-descriptions-item>
-                                <a-descriptions-item label="收件人">{{details.receiverName}}</a-descriptions-item>
-                                <a-descriptions-item label="地区">{{details.receiverArea}}</a-descriptions-item>
-                                <a-descriptions-item label="地址">{{details.receiverAddress}}</a-descriptions-item>
-                                <a-descriptions-item label="邮编">{{details.receiverZip}}</a-descriptions-item>
-                                <a-descriptions-item label="手机">{{details.receiverMobil}}</a-descriptions-item>
-<!--                                <a-descriptions-item label="固话">{{details.receiverTelno}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="送货时间">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="包装">{{details.}}</a-descriptions-item>-->
-                                <a-descriptions-item label="货到付款">{{details.cashOnDelivery}}</a-descriptions-item>
-<!--                                <a-descriptions-item label="退款状态">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="分校类别">{{details.}}</a-descriptions-item>-->
-                                <a-descriptions-item label="下单时间">{{details.tradeTime}}</a-descriptions-item>
-                                <a-descriptions-item label="付款时间">{{details.payTime}}</a-descriptions-item>
-<!--                                &lt;!&ndash; 一共分为四份 :span="2"  &ndash;&gt;-->
-<!--                                <a-descriptions-item label="总货款">{{details.orderPrice}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="邮费">-->
-<!--                                    <a-badge status="processing" text="Running" />-->
-<!--                                </a-descriptions-item>-->
-<!--                                <a-descriptions-item label="优惠">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="应收">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="货到付款金额">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="邮费估算成本">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="货品估算成本">{{details.goodsCost}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="估重">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="物流单号">{{details.logisticsNo}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="已付">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="发票类型">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="发票抬头">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="发票内容">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="佣金">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="买家COD费用">{{details.}}</a-descriptions-item>-->
-                                <a-descriptions-item label="订单类别">{{details.tradeType}}</a-descriptions-item>
-<!--                                <a-descriptions-item label="标旗">{{details.}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="业务员">{{details.checker}}</a-descriptions-item>-->
-<!--                                <a-descriptions-item label="签出人">{{details.fchecker}}</a-descriptions-item>-->
-                                <a-descriptions-item label="递交时间">{{valueOfCol.submitTime}}</a-descriptions-item>
-                            </a-descriptions>
-                        </template>
-                    </a-tab-pane>
                 </a-tabs>
             </div>
         </a-card>
@@ -437,6 +385,7 @@
         },
     ];
     const data = [];
+    const details={};
     export default {
         name: "manage",
         data() {
@@ -466,7 +415,7 @@
                 pageSizeOptions: ['10', '20', '30', '40', '50'],
                 current: 1,
                 pageSize: 10,
-                total: 0,
+                total: 200,
             //    token
                 tokenStr: '',
             //    详情标签页
@@ -495,7 +444,7 @@
             const tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://localhost:8080/backend/order/countOrders',{headers:{
                     token : tokenStr}}).then( res => {
-                // console.log(res.data)
+                console.log(res.data)
                 that.total = res.data.data;
             }).catch()
         },
@@ -524,50 +473,37 @@
             // 提交
             submitList(){
                 const that = this
-                const midlist = {}
-                const l = this.orderForm
-                for(let i in l){
-                    let key = i
-                    let value = l[i]
-                    if (value === "") {
-                        console.log(key,"空值")
-                    } else {
-                        midlist[key] = value
-                    }
-                }
-                console.log(midlist)
-                console.log("提交表单")
-                const params = midlist
+                const list = this.orderForm
+                const datalist = []
                 axios.get('http://localhost:8080/backend/order/getOrders', {
-                    params: midlist
-                        // trade_no: list.trade_no,
-                        // shop_name: list.shop_name,
-                        // pay_account:  list.pay_account,
-                        // trade_status: list.trade_status,
-                        // goods_name: list.goods_name,
-                        // trade_type: list.trade_type,
-                        // refund_status: list.refund_status,
-                        // receiver_name: list.receiver_name,
-                        // orderDateStart: list.orderDateStart,
-                        // orderDateEnd: list.orderDateEnd,
-                        // orderPayDateStart: list.orderPayDateStart,
-                        // orderPayDateEnd: list.orderPayDateEnd,
-                        // orderSubmitDateStart: list.orderSubmitDateStart,
-                        // orderSubmitDateEnd: list.orderSubmitDateEnd,
-                    ,
-                    headers:{token : this.tokenStr},
-                    tokenBackend: this.tokenStr
+                    params: {
+                        trade_no: list.trade_no,
+                        shop_name: list.shop_name,
+                        pay_account:  list.pay_account,
+                        trade_status: list.trade_status,
+                        goods_name: list.goods_name,
+                        trade_type: list.trade_type,
+                        refund_status: list.refund_status,
+                        receiver_name: list.receiver_name,
+                        orderDateStart: list.orderDateStart,
+                        orderDateEnd: list.orderDateEnd,
+                        orderPayDateStart: list.orderPayDateStart,
+                        orderPayDateEnd: list.orderPayDateEnd,
+                        orderSubmitDateStart: list.orderSubmitDateStart,
+                        orderSubmitDateEnd: list.orderSubmitDateEnd,
+                    },
+                    headers:{token : that.tokenStr},
+                    tokenBackend: that.tokenStr
                 }).then( res => {
                     console.log(res.data)
                     if(res.data.data === null){
                         console.log("列表为空")
                     }else{
-                        let list = []
                         for (let i = 0; i < res.data.data.length; i++) {
                             res.data.data[i]['key'] = i
-                            list.push(res.data.data[i])
+                            datalist.push(res.data.data[i])
                         }
-                        this.data = list
+                        this.data = datalist
                     }
                 }).catch()
             },
@@ -589,16 +525,17 @@
                     orderPayDateEnd: '',
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
-            }
+                }
+                const datalist = []
                 axios.get('http://localhost:8080/backend/order/listOrders/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
-                        let list = []
+
                         for (let i = 0; i <10; i++) {
                             res.data.data[i]['key'] = i
-                            list.push(res.data.data[i])
+                            datalist.push(res.data.data[i])
                         }
-                        this.data = list
+                        this.data = datalist
                 }).catch()
             },
             //表格操作
@@ -640,15 +577,16 @@
             },
             //订单详情
             moreDetail(record_no){
+                const that = this
                 axios.get('http://localhost:8080/backend/order/getOrderDetail', {
                     params : {tradeNo : record_no},
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
                 }).then( res => {
                     console.log(res.data)
-                    this.details = res.data.data[0]
+                    that.details = res.data.data[0]
                 }).catch()
-                console.log(this.details)
+                console.log(that.details)
                 this.dt = true
             }
         },

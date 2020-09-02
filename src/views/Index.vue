@@ -75,7 +75,10 @@
                         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
                         @click="() => (collapsed = !collapsed)"
                 />
-                <template>
+                <div>
+                    <a-badge title="Custom hover text" :count="99" :overflow-count="10" style="position: relative; right: 30px;">
+                       <a-icon type="bell" size="middle" class="head-example" :style="{ fontSize: '25px'}"/>
+                    </a-badge>
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                             <a-avatar style="backgroundColor:#87d068" icon="user" />
@@ -86,17 +89,20 @@
                                 <router-link to="/Home" tag="div">
                                     <span>个人中心</span>
                                 </router-link>
-<!--                                <a href="javascript:;"></a>-->
+                                <!--                                <a href="javascript:;"></a>-->
                             </a-menu-item>
                             <a-menu-item>
-                                <a href="javascript:;">修改密码</a>
+                                <router-link to="/ResetPassword" tag="div">
+                                    <span>修改密码</span>
+                                </router-link>
                             </a-menu-item>
                             <a-menu-item>
                                 <a href="javascript:;" @click="logOut">退出登录</a>
                             </a-menu-item>
                         </a-menu>
                     </a-dropdown>
-                </template>
+                </div>
+
             </a-layout-header>
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '106vh'}">
             <!--路由占位符-->
@@ -190,5 +196,14 @@
             font-weight: bold;
             letter-spacing: 1px;
         }
+        .head-example {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            padding-top: 5px;
+            /*background: #eee;*/
+            display: inline-block;
+        }
+
     }
 </style>

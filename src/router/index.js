@@ -19,10 +19,6 @@ const router = new Router({
             },
         },
         {
-            path: '/SignUp',
-            component:() => import('../components/SignUp')
-        },
-        {
             path: '/Index',
             component:() => import('../views/Index'),
             children: [
@@ -105,6 +101,14 @@ const router = new Router({
                     component:() => import('../components/Home'),
                     meta: {
                         title: '个人中心',
+                        module: '我的账号'
+                    },
+                },
+                {
+                    path: '/ResetPassword',
+                    component:() => import('../components/ResetPassword'),
+                    meta: {
+                        title: '修改密码',
                         module: '我的账号'
                     },
                 },
