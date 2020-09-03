@@ -123,22 +123,22 @@
                                 <a-col :span="6">
                                     <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
                                         <a-select placeholder="请选择" v-model="orderForm.trade_status">
-                                            <a-select-option value="1">已取消</a-select-option>
-                                            <a-select-option value="2">未付款</a-select-option>
-                                            <a-select-option value="3">待尾款</a-select-option>
-                                            <a-select-option value="4">待选仓</a-select-option>
-                                            <a-select-option value="5">等未付</a-select-option>
-                                            <a-select-option value="6">延时审核</a-select-option>
-                                            <a-select-option value="7">预订单</a-select-option>
-                                            <a-select-option value="8">待抢单</a-select-option>
-                                            <a-select-option value="9">待客审</a-select-option>
-                                            <a-select-option value="10">待财审</a-select-option>
-                                            <a-select-option value="11">已递交仓库</a-select-option>
-                                            <a-select-option value="12">已审核</a-select-option>
-                                            <a-select-option value="13">已发货</a-select-option>
-                                            <a-select-option value="14">部分打款</a-select-option>
-                                            <a-select-option value="15">已完成</a-select-option>
-                                            <a-select-option value="16">异常发货</a-select-option>
+                                            <a-select-option value="已取消">已取消</a-select-option>
+                                            <a-select-option value="未付款">未付款</a-select-option>
+                                            <a-select-option value="待尾款">待尾款</a-select-option>
+                                            <a-select-option value="待选仓">待选仓</a-select-option>
+                                            <a-select-option value="等未付">等未付</a-select-option>
+                                            <a-select-option value="延时审核">延时审核</a-select-option>
+                                            <a-select-option value="预订单">预订单</a-select-option>
+                                            <a-select-option value="待抢单">待抢单</a-select-option>
+                                            <a-select-option value="待客审">待客审</a-select-option>
+                                            <a-select-option value="待财审">待财审</a-select-option>
+                                            <a-select-option value="已递交仓库">已递交仓库</a-select-option>
+                                            <a-select-option value="已审核">已审核</a-select-option>
+                                            <a-select-option value="已发货">已发货</a-select-option>
+                                            <a-select-option value="部分打款">部分打款</a-select-option>
+                                            <a-select-option value="已完成">已完成</a-select-option>
+                                            <a-select-option value="异常发货">异常发货</a-select-option>
                                         </a-select>
                                     </a-form-item>
                                 </a-col>
@@ -473,13 +473,14 @@
             // 提交
             submitList(){
                 const that = this
-                const list = this.orderForm
+                const list = that.orderForm
                 const datalist = []
+                console.log(list.trade_no)
                 axios.get('http://localhost:8080/backend/order/getOrders', {
                     params: {
                         trade_no: list.trade_no,
                         shop_name: list.shop_name,
-                        pay_account:  list.pay_account,
+                        pay_account: list.pay_account,
                         trade_status: list.trade_status,
                         goods_name: list.goods_name,
                         trade_type: list.trade_type,
@@ -492,7 +493,7 @@
                         orderSubmitDateStart: list.orderSubmitDateStart,
                         orderSubmitDateEnd: list.orderSubmitDateEnd,
                     },
-                    headers:{token : that.tokenStr},
+                    headers:{token: that.tokenStr},
                     tokenBackend: that.tokenStr
                 }).then( res => {
                     console.log(res.data)
@@ -503,7 +504,7 @@
                             res.data.data[i]['key'] = i
                             datalist.push(res.data.data[i])
                         }
-                        this.data = datalist
+                        that.data = datalist
                     }
                 }).catch()
             },
