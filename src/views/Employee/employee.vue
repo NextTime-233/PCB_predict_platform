@@ -4,7 +4,7 @@
         <div class="employee-list-display">
             <div class="global-search-wrapper" style="width: 350px; display: flex; margin: 30px auto">
                 <a-input-search placeholder="请输入用户名" enter-button @search="onSearch" />
-                <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" :size="size" @click="reNew"/>
+                <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" @click="reNew"/>
             </div>
             <form :autoFormCreate="(form) => this.form = form">
                 <a-table
@@ -110,7 +110,6 @@
         data () {
             return {
                 // search reload
-                size: 'middle',
                 columns,
                 dataSource: [],
                 tokenStr: '',
@@ -135,8 +134,6 @@
             that.tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                     token: that.tokenStr}}).then( res => {
-                // console.log(res.data.msg)
-                // console.log(res)
                 for(let i = 0; i< res.data.data.length; i++){
                     let c = {
                         key : i+1,
@@ -152,17 +149,14 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            // console.log(tokenStr)
-            // 如果改变了咋办呢，这个只在创建时候有用
             axios.get('http://localhost:8080/backend/user/countUser',{headers:{
                     token : tokenStr}}).then( res => {
-                // console.log(res.data)
                 that.total = res.data.data;
             }).catch()
         },
         methods: {
             reNew() {
-                console.log("here")
+                // console.log("here")
                 const that = this
                 const data = []
                 axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
@@ -261,7 +255,7 @@
                 const datalist = []
                 axios.get('http://localhost:8080/backend/user/listUsers/'+currentPage+'/'+size).then(res => {
                     // console.log(res.data.data)
-                    for (let i = 0; i <10; i++) {
+                    for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
                         datalist.push(res.data.data[i]);
                     }
@@ -269,13 +263,10 @@
                 }).catch()
             },
             onShowSizeChange(current, size) {
-                console.log("页面数据量")
-                console.log(size)
                 this.pageSize = size;
                 const that = this
                 const datalist = []
                 axios.get('http://localhost:8080/backend/user/listUsers/'+current+'/'+size).then(res => {
-                    // console.log(res.data.data)
                     for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
                         datalist.push(res.data.data[i]);
@@ -311,6 +302,4 @@
         align-items: flex-end;
         margin-top: 20px;
     }
-
-
 </style>

@@ -107,7 +107,7 @@
         box-shadow: 0 0 25px #cac6c6;
     }
     .avatar_box{
-        height: 130px;
+        height: 160px;
         width: 250px;
         border-radius:50%;
         /*position: absolute;*/
@@ -115,7 +115,7 @@
         /*top: 23%;*/
         position: relative;
         left: 50%;
-        top: 230px;
+        top: 290px;
         transform:translate(-50%,-50%);
         img{
              width:100%;

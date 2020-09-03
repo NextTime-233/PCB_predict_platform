@@ -77,7 +77,7 @@
                 />
                 <div>
                     <a-badge title="Custom hover text" :count="99" :overflow-count="10" style="position: relative; right: 30px;">
-                       <a-icon type="bell" size="middle" class="head-example" :style="{ fontSize: '25px'}"/>
+                       <a-icon type="bell" class="head-example" :style="{ fontSize: '25px'}"/>
                     </a-badge>
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">

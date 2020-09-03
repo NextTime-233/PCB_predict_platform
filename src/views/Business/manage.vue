@@ -11,11 +11,11 @@
                                     <a-form-item label="店铺名称" :labelCol="{span: 8}" :wrapperCol="{span: 10, offset: 1}">
                                         <a-row>
                                             <a-col :span="23">
-                                                <a-input v-model="orderForm.shop_name" >
+                                                <a-input v-model="orderForm.shop_name" size="small">
                                                 </a-input>
                                             </a-col>
                                            <a-col :span="1">
-                                               <a-popover style="" placement="bottomRight">
+                                               <a-popover style="height:24px" placement="bottomRight" >
                                                    <template slot="title">
                                                        <a-input placeholder="输入关键字查询" />
                                                    </template>
@@ -110,19 +110,19 @@
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="订单编号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.trade_no">
+                                        <a-input v-model="orderForm.trade_no" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="付款账户" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.pay_account">
+                                        <a-input v-model="orderForm.pay_account" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select placeholder="请选择" v-model="orderForm.trade_status">
+                                        <a-select placeholder="请选择" v-model="orderForm.trade_status" size="small">
                                             <a-select-option value="已取消">已取消</a-select-option>
                                             <a-select-option value="未付款">未付款</a-select-option>
                                             <a-select-option value="待尾款">待尾款</a-select-option>
@@ -146,25 +146,25 @@
                             <a-row type="flex" v-if="advanced">
                                 <a-col :span="6">
                                     <a-form-item label="货品名称" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.goods_name">
+                                        <a-input v-model="orderForm.goods_name" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="订单类型" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.trade_type">
+                                        <a-input v-model="orderForm.trade_type" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="退款状态" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.refund_status">
+                                        <a-input v-model="orderForm.refund_status" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="收件人姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.receiver_name">
+                                        <a-input v-model="orderForm.receiver_name" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
@@ -176,7 +176,7 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="orderOnChange">
+                                        <a-range-picker @change="orderOnChange" size="small">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -187,7 +187,7 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="moneyOnChange">
+                                        <a-range-picker @change="moneyOnChange" size="small">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -198,7 +198,7 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="deliverOnChange">
+                                        <a-range-picker @change="deliverOnChange" size="small">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -215,8 +215,8 @@
                         </a>
                     </a-form>
                 </div>
-                <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 300 }" :pagination="false" size="small" style="margin-top: 10px">
-                    <a slot="action" slot-scope="text,record" @click="orderInfo(record)">查看</a>
+                <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500 }" :pagination="false" size="small" style="margin-top: 10px">
+                    <a slot="action" slot-scope="text,record" @click="orderInfo(record)">查看详情</a>
                 </a-table>
                 <span>共{{total}}条数据</span>
                 <div class="page-roll">
@@ -231,69 +231,90 @@
                             @change="currentPage"
                     >
                         <template slot="buildOptionText" slot-scope="props">
-                            <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
-                            <span v-if="props.value === '50'">全部</span>
+                            <span v-if="props.value !== '25'">{{ props.value }}条/页</span>
+                            <span v-if="props.value === '25'">全部</span>
                         </template>
                     </a-pagination>
                 </div>
             </div>
             <div class="detail-display">
                 <a-tabs default-active-key="2">
-                    <a-tab-pane key="1" @click="moreDetail('YX97899')">
+                    <a-tab-pane key="1">
                       <span slot="tab">
                         <a-icon type="apple" />
                         货品列表
                       </span>
-                        <div>
-                        <a-descriptions
-                                title=""
-                                bordered
-                                :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }"
-                        >
-                            <a-descriptions-item label="平台">{{valueOfCol.platformType}}</a-descriptions-item>
-                            <a-descriptions-item label="货品名称">{{details.apiGoodsName}}</a-descriptions-item>
-                            <a-descriptions-item label="规格名称">{{details.apiSpecName}}</a-descriptions-item>
-                            <a-descriptions-item label="货品编号">{{details.goodsNo}}</a-descriptions-item>
-                            <a-descriptions-item label="原始订单编号">{{details.sonSrcTid}}</a-descriptions-item>
-                            <a-descriptions-item label="子订单编号">{{details.zidanTid}}</a-descriptions-item>
-                            <a-descriptions-item label="商家编码">{{valueOfCol.singleSpecNo}}</a-descriptions-item>
-<!--                            <a-descriptions-item label="规格码">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="主条码">{{}}</a-descriptions-item>-->
-                            <a-descriptions-item label="标价">{{details.price}}</a-descriptions-item>
-                            <a-descriptions-item label="优惠">{{valueOfCol.discount}}</a-descriptions-item>
-                            <a-descriptions-item label="成交价">{{details.orderPrice}}</a-descriptions-item>
-<!--                            <a-descriptions-item label="分摊后价格">{{}}</a-descriptions-item>-->
-                            <a-descriptions-item label="折扣">{{details.discount}}</a-descriptions-item>
-<!--                            <a-descriptions-item label="成本价">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="下单数量">{{}}</a-descriptions-item>-->
-                            <a-descriptions-item label="实发数">{{details.actualNum}}</a-descriptions-item>
-<!--                            <a-descriptions-item label="库存">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="可审核库存">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="分摊后总价">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="分摊邮费">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="已付">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="佣金">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="拆自组合装">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="组合打印方式">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="组合装数量">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="估重">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="体积">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="担保方式">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="退款状态">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="赠品方式">{{details.giftType}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="发票">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="平台货品名称">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="平台规格名称">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="原始单标记">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="备注">{{details.buyerMessage}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="品牌名称">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="税率">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="采购在途量">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="采购到货量">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="待采购量">{{}}</a-descriptions-item>-->
-<!--                            <a-descriptions-item label="生产在途量">{{}}</a-descriptions-item>-->
-                        </a-descriptions>
-                    </div>
+                        <el-table
+                                :data="tableData"
+                                border
+                                style="width: 100%">
+                            <el-table-column
+                                    fixed
+                                    prop="goodsNo"
+                                    label="货品编号"
+                                    width="150">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="goodsName"
+                                    label="货品名称"
+                                    width="300">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="shortName"
+                                    label="货品简称"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="货品别名"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="className"
+                                    label="分类"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="brandName"
+                                    label="品牌"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="goodsType"
+                                    label="货品类别"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="specCount"
+                                    label="规格数"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="unit"
+                                    label="基本单位"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="auxUnit"
+                                    label="辅助单位"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="origin"
+                                    label="产地"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="flagName"
+                                    label="标记名称"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="prop1"
+                                    label="自定义属性"
+                                    width="120">
+                            </el-table-column>
+                        </el-table>
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -303,7 +324,7 @@
 
 <script>
     const columns = [
-        { title: '订单编号', width: 100, dataIndex: 'tradeNo', key: 'tradeNo', 'fixed': 'left' },
+        { title: '订单编号', width: 100, dataIndex: 'tradeNo', key: 'tradeNo', 'fixed': 'left'},
         { title: '平台类型', width: 100, dataIndex: 'platformType', key: 'platformType', 'fixed': 'left' },
         { title: '店铺名称', width: 100, dataIndex: 'shopName', key: '1' },
         { title: '仓库名称', width: 100, dataIndex: 'warehouseName', key: '2' },
@@ -324,7 +345,7 @@
         { title: '客户网名', width: 100, dataIndex: 'buyerNick', key: '17' },
         { title: '收件人', width: 100, dataIndex: 'receiverName', key: '18' },
         { title: '省市县', width: 100, dataIndex: 'receiverArea', key: '19' },
-        { title: '地址', width: 100, dataIndex: 'receiverAddress', key: '20' },
+        { title: '地址', width: 400, dataIndex: 'receiverAddress', key: '20' },
         { title: '手机', width: 100, dataIndex: 'receiverMobile', key: '21' },
         { title: '电话', width: 100, dataIndex: 'receiverTelno', key: '22' },
         { title: '邮编', width: 100, dataIndex: 'receiverZip', key: '23' },
@@ -377,14 +398,13 @@
         { title: '证件号码', width: 100, dataIndex: 'idCard', key: '70' },
         { title: '加载时间', width: 100, dataIndex: 'loadTime', key: '71' },
         {
-            title: '操作',
+            title: '订单操作',
             key: 'operation',
             fixed: 'right',
-            width: 100,
+            width: 80,
             scopedSlots: { customRender: 'action' },
         },
     ];
-    const data = [];
     const details={};
     export default {
         name: "manage",
@@ -407,34 +427,36 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 },
-                advanced: true,
+                advanced: false,
                 // 列表
-                data,
+                data:[],
                 columns,
                 // 分页
-                pageSizeOptions: ['10', '20', '30', '40', '50'],
+                pageSizeOptions: ['5', '10', '15', '20', '25'],
                 current: 1,
-                pageSize: 10,
+                pageSize: 5,
                 total: 200,
-            //    token
+                // token
                 tokenStr: '',
-            //    详情标签页
-                details:{},
+                // 详情标签页
+                details,
                 dt: false,
                 valueOfCol:{},
+                // 标签
+                tableData:[]
             };
         },
         created() {
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            axios.get('http://localhost:8080/backend/order/listOrders/1/10', {headers:{
+            axios.get('http://localhost:8080/backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
                 console.log(res.data)
-                for (let i = 0; i <10; i++) {
+                for (let i = 0; i <5; i++) {
                     res.data.data[i]['key'] = i
-                    this.data.push(res.data.data[i])
+                    that.data.push(res.data.data[i])
                 }
             }).catch()
         },
@@ -476,6 +498,7 @@
                 const list = that.orderForm
                 const datalist = []
                 console.log(list.trade_no)
+                console.log(this.tokenStr)
                 axios.get('http://localhost:8080/backend/order/getOrders', {
                     params: {
                         trade_no: list.trade_no,
@@ -497,8 +520,8 @@
                     tokenBackend: that.tokenStr
                 }).then( res => {
                     console.log(res.data)
-                    if(res.data.data === null){
-                        console.log("列表为空")
+                    if(res.data.code === '3'){
+                        alert('未能查找到订单相关信息，订单明细缺失！！')
                     }else{
                         for (let i = 0; i < res.data.data.length; i++) {
                             res.data.data[i]['key'] = i
@@ -528,11 +551,11 @@
                     orderSubmitDateEnd: '',
                 }
                 const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/1/10', {headers:{
+                axios.get('http://localhost:8080/backend/order/listOrders/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
 
-                        for (let i = 0; i <10; i++) {
+                        for (let i = 0; i <5; i++) {
                             res.data.data[i]['key'] = i
                             datalist.push(res.data.data[i])
                         }
@@ -544,17 +567,14 @@
                 console.log(value)
                 this.moreDetail(value.tradeNo)
                 this.valueOfCol = value
-                console.log("此处应该有货品信息")
             },
             // 分页
             currentPage(currentPage, size){
-                // console.log("当前页码")
-                // console.log(currentPage)
                 const that = this
                 const datalist = []
                 axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size).then(res => {
                     // console.log(res.data.data)
-                    for (let i = 0; i <10; i++) {
+                    for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
                         datalist.push(res.data.data[i]);
                     }
@@ -584,6 +604,7 @@
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
                 }).then( res => {
+                    console.log("此处应该有货品信息")
                     console.log(res.data)
                     that.details = res.data.data[0]
                 }).catch()

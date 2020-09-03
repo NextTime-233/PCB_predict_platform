@@ -72,7 +72,7 @@
                 <el-table
                         :data="tableData"
                         border
-                        style="width: 100%">
+                        style="width: 100%; margin-top: 10px">
                     <el-table-column
                             fixed
                             prop="goodsNo"
@@ -142,10 +142,9 @@
                     <el-table-column
                             fixed="right"
                             label="操作"
-                            width="100">
+                            width="50">
                         <template slot-scope="scope">
-                            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                            <el-button type="text" size="small">编辑</el-button>
+                            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -192,7 +191,7 @@
                     Phone: '',
                     Type: '',
                 },
-                advanced: true,
+                advanced: false,
                 // table数据
                 tableData: [],
                 // 分页

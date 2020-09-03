@@ -142,17 +142,6 @@
                     <div slot="description" slot-scope="{text}">
                         {{text}}
                     </div>
-<!--                    <div slot="action" slot-scope="{text, record}">-->
-<!--                        <a style="margin-right: 8px">-->
-<!--                            <a-icon type="plus"/>新增-->
-<!--                        </a>-->
-<!--                        <a style="margin-right: 8px">-->
-<!--                            <a-icon type="edit"/>编辑-->
-<!--                        </a>-->
-<!--                        <a @click="deleteRecord(record.key)" v-auth="`delete`">-->
-<!--                            <a-icon type="delete"/>删除-->
-<!--                        </a>-->
-<!--                    </div>-->
                     <template slot="statusTitle">
                         <a-icon @click.native="onStatusTitleClick" type="info-circle" />
                     </template>
@@ -197,8 +186,8 @@
         {title: '付款时间', width: 120, dataIndex: 'payTime', key: 10},
         {title: '客户网名', width: 100, dataIndex: 'buyerNick', key: 11},
         {title: '收件人', width: 100, dataIndex: 'receiverName', key: 12},
-        {title: '收货地区', width: 100, dataIndex: 'receiverArea', key: 13},
-        {title: '收货地址', width: 200, dataIndex: 'receiverAddress', key: 14},
+        {title: '收货地区', width: 200, dataIndex: 'receiverArea', key: 13},
+        {title: '收货地址', width: 400, dataIndex: 'receiverAddress', key: 14},
         {title: '收件人手机', width: 100, dataIndex: 'receiverMobile', key: 15},
         {title: '分销商', width: 100, dataIndex: 'fenxiaoNick', key: 16},
         {title: '子单原始子单号', width: 150, dataIndex: 'zidanTid', key: 17},
@@ -255,8 +244,6 @@
         {title: '激活时间', width: 120, dataIndex: 'activationTime', key: 68},
     ]
 
-    const dataSource = []
-
     export default {
         name: "detail",
         components: {StandardTable},
@@ -278,14 +265,14 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 },
-                advanced: true,
+                advanced: false,
                 columns: columns,
-                dataSource: dataSource,
+                dataSource: [],
                 selectedRows: [],
                 // 分页
-                pageSizeOptions: ['10', '20', '30', '40', '50'],
+                pageSizeOptions: ['5', '10', '15', '20', '25'],
                 current: 1,
-                pageSize: 10,
+                pageSize: 5,
                 total: 0,
                 //    token
                 tokenStr: '',
@@ -295,23 +282,21 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            axios.get('http://localhost:8080//backend/order/listOrderDetail/1/10', {headers:{
+            axios.get('http://localhost:8080//backend/order/listOrderDetail/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
-                console.log(res.data)
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 5; i++) {
                         res.data.data[i]['key'] = i
                         this.dataSource.push(res.data.data[i])
                     }
                 }).catch()
         },
         mounted(){
-            // data amount of book maps
+            // data amount
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://localhost:8080/backend/order/countOrderDetail',{headers:{
                     token : tokenStr}}).then( res => {
-                // console.log(res.data)
                 that.total = res.data.data;
             }).catch()
         },
@@ -320,7 +305,7 @@
             submitList(){
                 const that = this
                 if(this.formInline.trade_no!== null){
-                    console.log("提交表单")
+                    console.log("提交订单号：")
                     console.log(this.formInline.trade_no)
                     console.log(this.tokenStr)
                     axios.get('http://localhost:8080/backend/order/getOrderDetail', {
@@ -328,15 +313,20 @@
                             tradeNo: that.formInline.trade_no,
                         },
                         headers:{token : this.tokenStr},
-                        tokenBackend: this.tokenStr
+                        // tokenBackend: this.tokenStr
                     }).then( res => {
                         console.log(res.data)
-                        let list = []
-                        for (let i = 0; i < res.data.data.length; i++) {
-                            res.data.data[i]['key'] = i
-                            list.push(res.data.data[i])
+                        if(!res.data.data.length){
+                            alert("未能查找到订单相关信息，订单数据缺失！！")
                         }
-                        this.data = list
+                        else{
+                            let list = []
+                            for (let i = 0; i < res.data.data.length; i++) {
+                                res.data.data[i]['key'] = i
+                                list.push(res.data.data[i])
+                            }
+                            this.dataSource = list
+                        }
                     }).catch()
                 }
                 else{
@@ -362,7 +352,7 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 }
-                axios.get('http://localhost:8080/backend/order/listOrderDetail/1/10', {headers:{
+                axios.get('http://localhost:8080/backend/order/listOrderDetail/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     let list = []
@@ -370,7 +360,7 @@
                         res.data.data[i]['key'] = i
                         list.push(res.data.data[i])
                     }
-                    this.data = list
+                    this.dataSource = list
                 }).catch()
             },
             deleteRecord(key) {
@@ -409,7 +399,7 @@
                 const datalist = []
                 axios.get('http://localhost:8080/backend/order/listOrderDetail/'+currentPage+'/'+size).then(res => {
                     // console.log(res.data.data)
-                    for (let i = 0; i <10; i++) {
+                    for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
                         datalist.push(res.data.data[i]);
                     }
