@@ -19,6 +19,10 @@ const router = new Router({
             },
         },
         {
+            path: '/SignUp',
+            component:() => import('../components/SignUp')
+        },
+        {
             path: '/Index',
             component:() => import('../views/Index'),
             children: [
@@ -68,14 +72,6 @@ const router = new Router({
                     component:() => import('../views/Business/manage'),
                     meta: {
                         title: '订单管理',
-                        module: '订单管理'
-                    },
-                },
-                {
-                    path: '/detail',
-                    component:() => import('../views/Business/detail'),
-                    meta: {
-                        title: '订单明细',
                         module: '订单管理'
                     },
                 },

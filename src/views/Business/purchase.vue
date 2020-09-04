@@ -216,6 +216,8 @@
             axios.get('http://localhost:8080/backend/goods/listGoods/1/10', {headers:{
                     token: tokenStr
                 }}).then( res => {
+                console.log(res.data.data)
+
                 // console.log(res.data)
                 that.tableData = res.data.data
             }).catch()
@@ -274,7 +276,6 @@
                 axios.get('http://localhost:8080/backend/goods/listGoods/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
-                    // console.log(res.data)
                     that.tableData = res.data.data
                 }).catch()
             },
@@ -289,7 +290,8 @@
                 // console.log(currentPage)
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/goods/listGoods/'+currentPage+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
+                        token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -300,7 +302,8 @@
                 this.pageSize = size;
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/goods/listGoods/'+current+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
+                        token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()

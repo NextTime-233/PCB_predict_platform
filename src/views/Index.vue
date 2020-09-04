@@ -48,11 +48,6 @@
                 <a-sub-menu key="sub2">
                     <span slot="title"><a-icon type="hdd" /><span>订单管理</span></span>
                         <a-menu-item key="6">
-                            <router-link to="/detail" tag="div">
-                                <span>订单明细</span>
-                            </router-link>
-                        </a-menu-item>
-                        <a-menu-item key="7">
                             <router-link to="/manage" tag="div">
                                 <span>订单管理</span>
                             </router-link>
@@ -60,7 +55,7 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub3">
                     <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>货品管理</span></span>
-                    <a-menu-item key="8">
+                    <a-menu-item key="7">
                         <router-link to="/purchase" tag="div">
                             <span>货品档案</span>
                         </router-link>

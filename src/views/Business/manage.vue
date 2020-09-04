@@ -238,7 +238,7 @@
                 </div>
             </div>
             <div class="detail-display">
-                <a-tabs default-active-key="2">
+                <a-tabs default-active-key="1">
                     <a-tab-pane key="1">
                       <span slot="tab">
                         <a-icon type="apple" />
@@ -250,18 +250,83 @@
                                 style="width: 100%">
                             <el-table-column
                                     fixed
-                                    prop="goodsNo"
-                                    label="货品编号"
+                                    prop="shopName"
+                                    label="平台"
                                     width="150">
                             </el-table-column>
                             <el-table-column
                                     prop="goodsName"
                                     label="货品名称"
-                                    width="300">
+                                    width="150">
                             </el-table-column>
                             <el-table-column
                                     prop="shortName"
                                     label="货品简称"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="apiSpecName"
+                                    label="规格名称"
+                                    width="150">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="sonSrcTid"
+                                    label="原始订单编号"
+                                    width="150">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="zidanTid"
+                                    label="子订单编号"
+                                    width="150">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="specNo"
+                                    label="商家编码"
+                                    width="150">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="goodsNo"
+                                    label="货品编号"
+                                    width="150">
+                            </el-table-column>
+<!--                            <el-table-column-->
+<!--                                    prop="specCount"-->
+<!--                                    label="规格码"-->
+<!--                                    width="120">-->
+<!--                            </el-table-column>-->
+                            <el-table-column
+                                    prop="goodsNo"
+                                    label="主条码"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="price"
+                                    label="标价"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="优惠"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="成交价"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="分摊后价格"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="折扣"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="成本价"
                                     width="120">
                             </el-table-column>
                             <el-table-column
@@ -270,48 +335,113 @@
                                     width="120">
                             </el-table-column>
                             <el-table-column
-                                    prop="className"
-                                    label="分类"
+                                    prop="alias"
+                                    label="下单数量"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="实发数"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="库存"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="可审核库存"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="分摊后总价"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="分摊邮费"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="已付"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="佣金"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="组合装数量"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="preWeight"
+                                    label="估重"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="体积"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="担保方式"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="退款状态"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="赠品方式"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="发票"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="平台货品名称"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="平台规格名称"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="原始单标记"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="alias"
+                                    label="备注"
                                     width="120">
                             </el-table-column>
                             <el-table-column
                                     prop="brandName"
-                                    label="品牌"
+                                    label="品牌名称"
+                                    width="120">
+                            </el-table-column>
+                            <el-table-column
+                                    prop=""
+                                    label="税率"
                                     width="120">
                             </el-table-column>
                             <el-table-column
                                     prop="goodsType"
                                     label="货品类别"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="specCount"
-                                    label="规格数"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="unit"
-                                    label="基本单位"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="auxUnit"
-                                    label="辅助单位"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="origin"
-                                    label="产地"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="flagName"
-                                    label="标记名称"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="prop1"
-                                    label="自定义属性"
                                     width="120">
                             </el-table-column>
                         </el-table>
@@ -562,17 +692,34 @@
                         this.data = datalist
                 }).catch()
             },
-            //表格操作
+            //表格操作JY201904290699
             orderInfo(value){
-                console.log(value)
-                this.moreDetail(value.tradeNo)
+                console.log(value.tradeNo)
                 this.valueOfCol = value
+                const that = this
+                axios.get('http://localhost:8080/backend/order/getOrderDetail', {
+                    params : {tradeNo : value.tradeNo},
+                    headers : {token : this.tokenStr},
+                    tokenBackend : this.tokenStr
+                }).then( res => {
+                    console.log("此处应该有货品信息")
+                    if(res.data.data.length){
+                        console.log(res.data.data)
+                        that.tableData = res.data.data
+                    }
+                    else{
+                        alert("未能查找到订单相关信息，订单明细缺失！！")
+                    }
+                }).catch()
+                console.log(that.details)
+                this.dt = true
             },
             // 分页
             currentPage(currentPage, size){
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size, {headers:{
+                        token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
@@ -587,7 +734,8 @@
                 this.pageSize = size;
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/'+current+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
+                        token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     for (let i = 0; i <size; i++) {
                         res.data.data[i]['key'] = i
@@ -596,21 +744,6 @@
                     that.data = datalist
                 }).catch()
             },
-            //订单详情
-            moreDetail(record_no){
-                const that = this
-                axios.get('http://localhost:8080/backend/order/getOrderDetail', {
-                    params : {tradeNo : record_no},
-                    headers : {token : this.tokenStr},
-                    tokenBackend : this.tokenStr
-                }).then( res => {
-                    console.log("此处应该有货品信息")
-                    console.log(res.data)
-                    that.details = res.data.data[0]
-                }).catch()
-                console.log(that.details)
-                this.dt = true
-            }
         },
     }
 

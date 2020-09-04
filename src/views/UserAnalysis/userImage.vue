@@ -245,15 +245,33 @@
                         <el-table-column  prop="cycleDimension" label="周期维度" width="100">
                         </el-table-column >
                     </el-table>
-                    <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="queryInfo.pageNum"
-                            :page-sizes="[5, 10, 15, 20]"
-                            :page-size="queryInfo.pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
-                    </el-pagination>
+                    <span>共{{total}}条数据</span>
+                    <div class="page-roll">
+                        <a-pagination
+                                v-model="current"
+                                :page-size-options="pageSizeOptions"
+                                :total="total"
+                                show-size-changer
+                                show-quick-jumper
+                                :page-size="pageSize"
+                                @showSizeChange="handleSizeChange"
+                                @change="handleCurrentChange"
+                        >
+                            <template slot="buildOptionText" slot-scope="props">
+                                <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+                                <span v-if="props.value === '50'">全部</span>
+                            </template>
+                        </a-pagination>
+                    </div>
+<!--                    <el-pagination-->
+<!--                            @size-change="handleSizeChange"-->
+<!--                            @current-change="handleCurrentChange"-->
+<!--                            :current-page="queryInfo.pageNum"-->
+<!--                            :page-sizes="[5, 10, 15, 20]"-->
+<!--                            :page-size="queryInfo.pageSize"-->
+<!--                            layout="total, sizes, prev, pager, next, jumper"-->
+<!--                            :total="total">-->
+<!--                    </el-pagination>-->
                 </div>
             </el-tabs>
         </a-card>
@@ -271,16 +289,14 @@
         components: {StandardTable},
         data () {
             return {
-                //分页
-                queryInfo:{
-                    pageNum:1,
-                    pageSize:5,
-                },
+                // 分页
+                pageSizeOptions: ['5', '10', '15', '20', '25'],
+                current: 1,
+                pageSize: 5,
+                total: 0,
                 advanced: true,
                 tableData:[],
                 selectedRows: [],
-                pageSize: '',
-                total: '',
                 tokenStr:'',
                 activeName: 'second',
                 // 复选框
@@ -335,53 +351,59 @@
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
                 that.tokenStr = tokenStr
-                console.log(that.tokenStr)
+                console.log('用户画像findall')
                 axios.put('http://localhost:8080/backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
-                    console.log(res.data)
-                    that.tableData = res.data.data;
-                    that.total = res.data.length;
+                        console.log('用户画像findall')
+                        console.log(res.data)
+                        // that.tableData = res.data.data
+                        // that.total = res.data.length;
                 }).catch()
             },
             finduserImage(){
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
                 // that.tokenStr = tokenStr
-                // console.log(that.tokenStr)
+                console.log(that.tokenStr)
                 axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
-                    console.log(res.data)
+                    console.log(res.data.data.length)
                     // 去掉缓存，不对tableData重复赋值不会出现增量列表问题
                     // that.tableData = res.data.data
-                    that.total = res.data.length
+                    that.total = res.data.data.length
                 }).catch()
-                axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/5').then(res => {
+                axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/5',{headers:{
+                        token: tokenStr
+                    }}).then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
-                    // that.total=res.data.length
                 }).catch()
             },
             // 分页ok
-            handleCurrentChange(currentPage){
+            handleCurrentChange(currentPage, size){
                 console.log("当前页码")
                 console.log(currentPage)
                 this.queryInfo.pageNum = currentPage
                 const that = this
                 axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
-                    +this.queryInfo.pageSize).then(res => {
+                    +size).then(res => {
+                // axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+                    //     +this.queryInfo.pageSize).then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
             },
-            handleSizeChange(size) {
+            handleSizeChange(current, size) {
                 console.log("页面数据量")
                 console.log(size)
                 this.queryInfo.pageSize = size;
                 const that = this
                 axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
-                    +this.queryInfo.pageNum+'/'+size).then(res => {
+                    +current+'/'+size).then(res => {
+                // axios.get('http://localhost:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
+                //     +this.queryInfo.pageNum+'/'+size).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -408,7 +430,7 @@
                 }).then( res => {
                     console.log(res.data)
                     that.tableData = res.data.data;
-                    that.total = res.data.length;
+                    this.total = res.data.length;
                 }).catch()
             },
             //条件查询
@@ -538,5 +560,10 @@
         .fold {
             width: 100%;
         }
+    }
+    .page-roll {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
     }
 </style>

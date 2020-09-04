@@ -609,10 +609,10 @@
             // 分页, 加载缓慢
             currentPage(currentPage, size){
                 const that = this
-                const datalist = []
-                axios.get('http://localhost:8080/backend/customer/listCustomers/'+currentPage+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
+                    token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
-                    this.tableData = res.data.data
+                    that.tableData = res.data.data
                 }).catch()
             },
             onShowSizeChange(current, size) {
@@ -620,10 +620,10 @@
                 console.log(size)
                 this.pageSize = size;
                 const that = this
-                const datalist = []
-                axios.get('http://localhost:8080/backend/customer/listCustomers/'+current+'/'+size).then(res => {
+                axios.get('http://localhost:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
+                        token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
-                    this.tableData = res.data.data
+                    that.tableData = res.data.data
                 }).catch()
             },
             // 标签页
