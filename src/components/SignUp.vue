@@ -86,7 +86,7 @@
                         axios.post('http://localhost:8080/backend/user/saveUser?userAccount='+this.ruleForm.userAccount+'&userPwd='+this.ruleForm.userPwd).then(res=>{
                             console.log(res.data.code)
                             if (!res.data.code) {
-                                this.$router.push({path: '/Map'}).catch(err => {});
+                                this.$router.push({path: '/Login'}).catch(err => {});
                             }
                         })
                     } else {
