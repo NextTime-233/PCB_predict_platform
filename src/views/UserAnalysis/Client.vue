@@ -630,38 +630,54 @@
             submitList(){
                 const that = this
                 const list = this.clientForm
-                console.log('此处应有列表判空:')
-                if(0){
-                    console.log(list)
-                }
-                else{
-                    // console.log("提交表单")
-                    axios.get('http://localhost:8080/backend/customer/getCustomers', {
-                        params:{
-                            customerName: list.customerName,
-                            registrationTimeDateStart: list.registrationTimeDateStart,
-                            registrationTimeDateEnd: list.registrationTimeDateEnd,
-                            PayDateStart: list.PayDateStart,
-                            PayDateEnd: list.PayDateEnd,
-                            BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                            BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                            shopName: list.shopName,
-                            goodsCount: list.goodsCount,
-                            TotalPurchaseAmount: list.TotalPurchaseAmount,
-                            TotalPurchaseNum: list.TotalPurchaseNum,
-                            goodsTypeCount: list.goodsTypeCount,
-                            BrandName: list.BrandName,
-                            LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                            LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                for(let i in list) {
+                    console.log(list[i])
+                    if (list[i]) {
+                        // console.log("提交表单")
+                        axios.get('http://localhost:8080/backend/customer/getCustomers', {
+                            params: {
+                                customerName: list.customerName,
+                                registrationTimeDateStart: list.registrationTimeDateStart,
+                                registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                PayDateStart: list.PayDateStart,
+                                PayDateEnd: list.PayDateEnd,
+                                BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                shopName: list.shopName,
+                                goodsCount: list.goodsCount,
+                                TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                TotalPurchaseNum: list.TotalPurchaseNum,
+                                goodsTypeCount: list.goodsTypeCount,
+                                BrandName: list.BrandName,
+                                LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
                             },
-                        headers:{token : this.tokenStr},
-                        tokenBackend: this.tokenStr
-                    }).then( res => {
-                        console.log(res.data)
-                        that.tableData = res.data.data
-                    }).catch()
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            // console.log(res.data)
+                            if (res.data.code === 3) {
+                                // this.$message({
+                                //     showClose: "true",
+                                //     message: '查询失败',
+                                //     type:'error'
+                                // })
+                                alert('未能查找到该客户的相关信息！！')
+                            }
+                            else if(res.data.code === 0) {
+                                that.tableData = res.data.data
+                            }
+                        }).catch()
+                        break
+                    }
+                else if(i === 'LastPurchaseTimeDateEnd' && list[i] === ''){
+                        alert("请输入查询信息！！")
+                    }
+                    else {
+                        continue
+                    }
                 }
-            },
+                },
             resetInput(){
                 const that = this
                 document.getElementById("cForm").reset()
@@ -734,7 +750,7 @@
                 console.log(key);
             },
         },
-    };
+    }
 </script>
 <style lang="less" scoped>
 

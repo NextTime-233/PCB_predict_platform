@@ -767,17 +767,17 @@
                             headers: {token: that.tokenStr},
                             tokenBackend: that.tokenStr
                         }).then( res => {
-                            console.log(res.data.code)
-                            if (res.data.code === '3') {
-                                this.$message({
-                                    showClose: "true",
-                                    message: '查询失败',
-                                    type:'error'
-                                })
-                                // alert('未能查找到订单相关信息，订单明细缺失！！')
-                                // console.log('cuowu')
+                            console.log(typeof (res.data.code))
+                            if (res.data.code === 3) {
+                                // this.$message({
+                                //     showClose: "true",
+                                //     message: '查询失败',
+                                //     type:'error'
+                                // })
+                                alert('未能查找到订单相关信息，订单明细缺失！！')
+                                console.log('cuowu')
                             }
-                            else if(res.data.code === '0') {
+                            else if(res.data.code === 0) {
                                 for (let i = 0; i < res.data.data.length; i++) {
                                     res.data.data[i]['key'] = i
                                     datalist.push(res.data.data[i])

@@ -237,22 +237,31 @@
                 const that = this
                 const list = this.formInline
                 console.log(list)
-                if(0) {
-                    console.log("暂时未执行")
-                } else{
-                    console.log("提交表单")
-                    axios.get('http://localhost:8080/backend/goods/getGoods', {
-                        params:{
-                            goodsNo: list.goodsNo,
-                            goodsName: list.goodsName,
-                            goodsType: list.goodsType,
-                        },
-                        headers:{token : this.tokenStr},
-                        tokenBackend: this.tokenStr
-                    }).then( res => {
-                        console.log(res.data)
-                        that.tableData = res.data.data;
-                    }).catch()
+                for(let i in list) {
+                    console.log(list[i])
+                    if (list[i]) {
+                        console.log("提交表单")
+                        axios.get('http://localhost:8080/backend/goods/getGoods', {
+                            params: {
+                                goodsNo: list.goodsNo,
+                                goodsName: list.goodsName,
+                                goodsType: list.goodsType,
+                            },
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            if (res.data.code === 3) {
+                                alert('未能查找到该货品的相关信息！！')
+                            } else if (res.data.code === 0) {
+                                that.tableData = res.data.data
+                            }
+                        }).catch()
+                        break
+                    } else if (i === 'goodsType' && list[i] === '') {
+                        alert("请输入查询信息！！")
+                    } else {
+                        continue
+                    }
                 }
             },
             resetInput(){
