@@ -743,39 +743,57 @@
                 const that = this
                 const list = that.orderForm
                 const datalist = []
-                console.log(list.trade_no)
-                console.log(this.tokenStr)
-                axios.get('http://localhost:8080/backend/order/getOrders', {
-                    params: {
-                        trade_no: list.trade_no,
-                        shop_name: list.shop_name,
-                        pay_account: list.pay_account,
-                        trade_status: list.trade_status,
-                        goods_name: list.goods_name,
-                        trade_type: list.trade_type,
-                        refund_status: list.refund_status,
-                        receiver_name: list.receiver_name,
-                        orderDateStart: list.orderDateStart,
-                        orderDateEnd: list.orderDateEnd,
-                        orderPayDateStart: list.orderPayDateStart,
-                        orderPayDateEnd: list.orderPayDateEnd,
-                        orderSubmitDateStart: list.orderSubmitDateStart,
-                        orderSubmitDateEnd: list.orderSubmitDateEnd,
-                    },
-                    headers:{token: that.tokenStr},
-                    tokenBackend: that.tokenStr
-                }).then( res => {
-                    console.log(res.data)
-                    if(res.data.code === '3'){
-                        alert('未能查找到订单相关信息，订单明细缺失！！')
-                    }else{
-                        for (let i = 0; i < res.data.data.length; i++) {
-                            res.data.data[i]['key'] = i
-                            datalist.push(res.data.data[i])
-                        }
-                        that.data = datalist
+                console.log(list)
+                for(let i in list){
+                    console.log(list[i])
+                    if(list[i]){
+                        axios.get('http://localhost:8080/backend/order/getOrders', {
+                            params: {
+                                trade_no: list.trade_no,
+                                shop_name: list.shop_name,
+                                pay_account: list.pay_account,
+                                trade_status: list.trade_status,
+                                goods_name: list.goods_name,
+                                trade_type: list.trade_type,
+                                refund_status: list.refund_status,
+                                receiver_name: list.receiver_name,
+                                orderDateStart: list.orderDateStart,
+                                orderDateEnd: list.orderDateEnd,
+                                orderPayDateStart: list.orderPayDateStart,
+                                orderPayDateEnd: list.orderPayDateEnd,
+                                orderSubmitDateStart: list.orderSubmitDateStart,
+                                orderSubmitDateEnd: list.orderSubmitDateEnd,
+                            },
+                            headers: {token: that.tokenStr},
+                            tokenBackend: that.tokenStr
+                        }).then( res => {
+                            console.log(res.data.code)
+                            if (res.data.code === '3') {
+                                this.$message({
+                                    showClose: "true",
+                                    message: '查询失败',
+                                    type:'error'
+                                })
+                                // alert('未能查找到订单相关信息，订单明细缺失！！')
+                                // console.log('cuowu')
+                            }
+                            else if(res.data.code === '0') {
+                                for (let i = 0; i < res.data.data.length; i++) {
+                                    res.data.data[i]['key'] = i
+                                    datalist.push(res.data.data[i])
+                                }
+                                that.data = datalist
+                            }
+                        }).catch()
+                        break
                     }
-                }).catch()
+                else if(i === 'orderSubmitDateEnd' && list[i] === ''){
+                    alert("请输入查询信息！！")
+                    }
+                else {
+                        continue
+                    }
+                }
             },
             resetInput(){
                 const that = this
@@ -800,7 +818,6 @@
                 axios.get('http://localhost:8080/backend/order/listOrders/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
-
                         for (let i = 0; i <5; i++) {
                             res.data.data[i]['key'] = i
                             datalist.push(res.data.data[i])
@@ -809,17 +826,18 @@
                 }).catch()
             },
             //表格操作JY201904290699
-            orderInfo(value){
-                console.log(value.tradeNo)
-                this.valueOfCol = value
+            orderInfo(row){
+                console.log(row.tradeNo)
+                this.valueOfCol = row
                 const that = this
                 axios.get('http://localhost:8080/backend/order/getOrderDetail', {
-                    params : {tradeNo : value.tradeNo},
+                    params : {tradeNo : row.tradeNo},
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
                 }).then( res => {
                     console.log("此处应该有货品信息")
-                    if(res.data.data.length){
+                    // console.log(res.data)
+                    if(res.data.data != null){
                         console.log(res.data.data)
                         that.tableData = res.data.data
                     }

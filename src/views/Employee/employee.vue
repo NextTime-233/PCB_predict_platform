@@ -3,49 +3,23 @@
     <div>
         <a-card>
             <div class="employee-list-display">
-                <div class="global-search-wrapper" style="width: 350px; display: flex; margin: 30px auto">
+                <div class="global-search-wrapper" style="width: 350px; display: flex; margin: 30px auto; border-bottom: ">
                     <a-input-search placeholder="请输入用户名" enter-button @search="onSearch" />
                     <a-button style="margin-left: 20px" type="primary" shape="round" icon="reload" @click="reNew"/>
                 </div>
-                <form :autoFormCreate="(form) => this.form = form">
-                    <a-table
-                            :columns="dataColumns"
-                            :dataSource="dataSource"
-                            :pagination="false"
-                    >
-                        <template  v-for="(col, i) in ['用户', '账号权限', '注册时间']" :slot="col" slot-scope="text, record">
-                            <a-input
-                                    :key="col"
-                                    v-if="record.editable"
-                                    style="margin: -5px 0"
-                                    :value="text"
-                                    :placeholder="columns[i].title"
-                                    @change="e => handleChange(e.target.value, record.key, col)"
-                            />
-                            <template v-else>{{text}}</template>
-                        </template>
-                        <template slot="operation" slot-scope="text, record">
-                            <template v-if="record.editable">
-                          <span v-if="record.isNew">
-                            <a @click="saveRow(record.key, record.name, record.code)">添加</a>
-                            <a-divider type="vertical" />
-                            <a-popconfirm title="确认删除" @confirm="remove(record.key)">
-                              <a>删除</a>
-                            </a-popconfirm>
-                          </span>
-                                <span v-else>
-                                <a @click="saveRow(record.key, record.name, record.code)">保存</a>
-                                <a-divider type="vertical" />
-                                <a @click="cancle(record.key)">cancel</a>
+                <div style="height: 30px; width: 80px; background-color:#fff;margin-left: 62%; z-index:1"></div>
+                <form :autoFormCreate="(form) => this.form = form" >
+                    <a-table :columns="dataColumns" :dataSource="dataSource" :pagination="false">
+                        <div slot="operation" slot-scope="text, record">
+                            <span v-if="record.editable">
+                                <a>-</a>
                             </span>
-                            </template>
                             <span v-else>
-                              <a-divider type="vertical" />
                               <a-popconfirm title='确认删除' @confirm="remove(record.key,record.name)">
                                 <a>删除用户</a>
                               </a-popconfirm>
                             </span>
-                        </template>
+                        </div>
                     </a-table>
                     <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="() => (modalVisible = true)">添加新用户</a-button>
                     <div id="components-modal-demo-position">
@@ -53,19 +27,22 @@
                                 v-model="modalVisible"
                                 title="添加新用户"
                                 centered
-                                destroyOnClose="true"
+                                :destroyOnClose="true"
                                 :footer="null"
                                 @ok="() => setModalVisible(false)"
                         >
-                            <a-form :form="form" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
+                            <a-form ref="form" :form="form" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
                                 <a-form-item label="用户名">
-                                    <a-input v-decorator="['userAccount', { rules: [{ required: true, message: '请输入用户名!' }] }]"/>
+<!--                                    <a-input v-decorator="['userAccount', { rules: [{ required: true, message: '请输入用户名!' }, { validator: userAccount, trigger: 'change' }] }]"/>-->
+                                    <a-input v-decorator="['userAccount', { rules: [{ required: true, message: '请输入用户名!' }, { validator: userAccount, trigger: 'blur' }] }]"/>
                                 </a-form-item>
                                 <a-form-item label="密码">
-                                    <a-input v-decorator="['userPwd', { rules: [{ required: true, message: '请输入密码!' }] }]" type="password"/>
+<!--                                    <a-input v-decorator="['userPwd', { rules: [{ required: true, message: '请输入密码!' }, { validator: validatePass, trigger: 'change' }] }]" type="password"/>-->
+                                    <a-input v-decorator="['userPwd', { rules: [{ required: true, message: '请输入密码!' }, { validator: validatePass, trigger: 'blur' }] }]" type="password"/>
                                 </a-form-item>
                                 <a-form-item label="确认密码">
-                                    <a-input v-decorator="['checkPass', { rules: [{ required: true, message: '请确认密码!' }] }]" type="password"/>
+<!--                                    <a-input v-decorator="['checkPass', { rules: [{ required: true, message: '请确认密码!' }, { validator: validatePass2, trigger: 'change' }] }]" type="password"/>-->
+                                    <a-input v-decorator="['checkPass', { rules: [{ required: true, message: '请确认密码!' },  { validator: validatePass2, trigger: 'blur' }] }]" type="password"/>
                                 </a-form-item>
                                 <a-form-item :wrapper-col="{ span: 100, offset: 12 }">
                                     <a-button type="primary" html-type="submit">
@@ -103,7 +80,6 @@
 </template>
 
 <script>
-    import SignUp from "../../components/SignUp";
     const columns = [
         {
             title: '用户名',
@@ -128,6 +104,7 @@
         },
         {
             title: '操作',
+            dataIndex: 'operation',
             key: '操作',
             // width: '20%',
             scopedSlots: { customRender: 'operation' }
@@ -135,14 +112,13 @@
     ]
     export default {
         name: 'employee',
-        component:[SignUp],
         data () {
             return {
                 // search reload
                 columns,
                 dataSource: [],
                 tokenStr: '',
-            //  divided pages
+                //  divided pages
                 pageSizeOptions: ['5', '10', '15', '20', '25'],
                 current: 1,
                 pageSize: 5,
@@ -151,6 +127,34 @@
                 modalVisible: false,
                 formLayout: 'horizontal',
                 form: this.$form.createForm(this, { name: 'coordinated' }),
+                pwdValue:'',
+                userAccount: (rule, value, callback) => {
+                    const reg = /^([a-zA-Z]|[0-9])/;
+                    if (!value) {
+                        return callback(new Error('用户名不能为空'));
+                    }else if (reg.test(value)){
+                        callback();
+                    } else {
+                        callback(new Error('用户名格式不正确，只能用数字或字母'));
+                    }
+                },
+                validatePass: (rule, value, callback) => {
+                    this.pwdValue = value
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else {
+                        callback();
+                    }
+                },
+                validatePass2: (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value !== this.pwdValue) {
+                        callback(new Error("两次密码输入不匹配！"));
+                    } else {
+                        callback();
+                    }
+                }
             }
         },
         computed: {
@@ -162,19 +166,18 @@
             }
         },
         created() {
-            // 可能需要异步刷新
             const that = this
             that.tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                     token: that.tokenStr}}).then( res => {
-                    console.log(res.data.data)
                     for(let i = 0; i< res.data.data.length; i++){
+                        // console.log(res.data.data[i].userLimit)
                         let c = {
                             key : i+1,
                             name: res.data.data[i].userAccount,
-                            limit: res.data.data[i].userLimit,
+                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
                             time: res.data.data[i].gmtCreate,
-                            editable: false,
+                            editable: res.data.data[i].userLimit!=='0',
                         }
                         this.dataSource.push(c)
                     }
@@ -191,7 +194,6 @@
         },
         methods: {
             reNew() {
-                // console.log("here")
                 const that = this
                 const data = []
                 axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
@@ -202,7 +204,7 @@
                             key : i+1,
                             name: res.data.data[i].userAccount,
                             code: res.data.data[i].userPwd,
-                            editable: false,
+                            editable: res.data.data[i].userLimit!=='0',
                         }
                         data.push(c)
                     }
@@ -210,8 +212,9 @@
                 }).catch()
             },
             handleSubmit(e) {
-                e.preventDefault();
+                e.preventDefault(); // 阻止页面自动刷新
                 this.form.validateFields((err, values) => {
+                    console.log(err)
                     if (!err) {
                         console.log('Received values of form: ', values);
                         console.log('usr: ', values.userAccount);
@@ -230,42 +233,27 @@
                 this.modalVisible = modalVisible;
             },
             remove (key, name) {
-                const newData = this.dataSource.filter(item => item.key !== key)
-                this.dataSource = newData
-                // 删除成功
-                axios.put('http://localhost:8080/backend/user/deleteUser', {
-                    tokenBackend: this.tokenStr,
-                    userList: [name],
-                    Headers:{token: this.tokenStr},
-                    }
-                ).then( res => {
-                    console.log(res.data)
+                axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+name, {headers:{
+                        token: this.tokenStr}}).then( res => {
+                            console.log(res.data.data)
+                        if (res.data.data.userLimit>0) {
+                            alert("不能删除管理员用户!!请联系开发人员进行相关操作，或从数据库中进行删除操作！")
+                        }
+                        else {
+                            alert("已删除用户"+name)
+                            const newData = this.dataSource.filter(item => item.key !== key)
+                            this.dataSource = newData
+                            // 删除成功
+                            axios.put('http://localhost:8080/backend/user/deleteUser', {
+                                    tokenBackend: this.tokenStr,
+                                    userList: [name],
+                                    Headers:{token: this.tokenStr},
+                                }
+                            ).then( res => {
+                                console.log(res.data)
+                            }).catch()
+                        }
                 }).catch()
-            },
-            saveRow (key, name, code) {
-                let target = this.dataSource.filter(item => item.key === key)[0]
-                target.editable = false
-                target.isNew = false
-                // 未完成功能
-                axios.post('http://localhost:8080/backend/user/saveUser?userAccount='+name+'&userPwd='+code).then(res=>{
-                    console.log(res.data)
-                }).catch()
-            },
-            // getRowByKey (key, newData) {
-            //     const data = this.dataSource
-            //     return (newData || data).filter(item => item.key === key)[0]
-            // },
-            cancle (key) {
-                let target = this.dataSource.filter(item => item.key === key)[0]
-                target.editable = false
-            },
-            handleChange (value, key, column) {
-                const newData = [...this.dataSource]
-                const target = newData.filter(item => key === item.key)[0]
-                if (target) {
-                    target[column] = value
-                    this.dataSource = newData
-                }
             },
             // 搜索框
             onSearch(value) {
@@ -276,13 +264,14 @@
                     axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+value, {headers:{
                             token: this.tokenStr}}).then( res => {
                         // console.log(res.data.msg)
-                        // console.log(res.data.data)
+                        console.log(res.data.data)
                         // 暂时采用的方法，直接重写数据源
                         this.dataSource = [{
                             key : 1,
                             name: res.data.data.userAccount,
-                            code: res.data.data.userPwd,
-                            editable: false,
+                            limit: res.data.data.userLimit>0?'管理员':'普通用户',
+                            time: res.data.data.gmtCreate,
+                            editable: res.data.data.userLimit!=='0',
                         }]
                     }).catch()
                 }
@@ -294,12 +283,18 @@
                 const that = this
                 const datalist = []
                 axios.get('http://localhost:8080/backend/user/listUsers/'+currentPage+'/'+size).then(res => {
-                    // console.log(res.data.data)
-                    for (let i = 0; i <size; i++) {
-                        res.data.data[i]['key'] = i
-                        datalist.push(res.data.data[i]);
+                    console.log(res.data.data)
+                    for (let i = 0; i <res.data.data.length; i++) {
+                        let c = {
+                            key : i+1,
+                            name: res.data.data[i].userAccount,
+                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
+                            time: res.data.data[i].gmtCreate,
+                            editable: res.data.data[i].userLimit!=='0',
+                        }
+                        datalist.push(c)
                     }
-                    that.data = datalist
+                    that.dataSource = datalist
                 }).catch()
             },
             onShowSizeChange(current, size) {
@@ -307,11 +302,17 @@
                 const that = this
                 const datalist = []
                 axios.get('http://localhost:8080/backend/user/listUsers/'+current+'/'+size).then(res => {
-                    for (let i = 0; i <size; i++) {
-                        res.data.data[i]['key'] = i
-                        datalist.push(res.data.data[i]);
+                    for (let i = 0; i <res.data.data.length; i++) {
+                        let c = {
+                            key : i+1,
+                            name: res.data.data[i].userAccount,
+                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
+                            time: res.data.data[i].gmtCreate,
+                            editable: res.data.data[i].userLimit!=='0',
+                        }
+                        datalist.push(c)
                     }
-                    that.data = datalist
+                    that.dataSource = datalist
                 }).catch()
             },
         }

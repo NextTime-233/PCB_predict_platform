@@ -139,14 +139,14 @@
                             label="自定义属性"
                             width="120">
                     </el-table-column>
-                    <el-table-column
-                            fixed="right"
-                            label="操作"
-                            width="50">
-                        <template slot-scope="scope">
-                            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-                        </template>
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            fixed="right"-->
+<!--                            label="操作"-->
+<!--                            width="50">-->
+<!--                        <template slot-scope="scope">-->
+<!--                            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>-->
+<!--                        </template>-->
+<!--                    </el-table-column>-->
                 </el-table>
                 <span>共{{total}}条数据</span>
                 <div class="page-roll">
@@ -204,9 +204,6 @@
             };
         },
         computed: {
-        },
-        updated() {
-            // console.log('updated');
         },
         created() {
             const that = this

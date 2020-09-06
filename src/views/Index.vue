@@ -162,7 +162,7 @@
             },
             // 导航栏
             handleClick(e) {
-                console.log('click ', e);
+                // console.log('click ', e);
                 this.current = e.key;
             },
         }
