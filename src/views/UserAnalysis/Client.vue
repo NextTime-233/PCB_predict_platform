@@ -40,7 +40,7 @@
                                             :labelCol="{span:7}"
                                             :wrapperCol="{span: 12, offset: 1}"
                                     >
-                                        <a-select show-search placeholder="请选择" size="small" v-model="clientForm.BrandName">
+                                        <a-select placeholder="请选择" size="small" v-model="clientForm.BrandName">
                                             <a-select-option value="1">四喜</a-select-option>
                                             <a-select-option value="2">八宝</a-select-option>
                                         </a-select>
@@ -48,18 +48,19 @@
                                 </a-col>
                                 <a-col :md="6" >
                                     <a-form-item label="客户标签" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.clientLabel">
-                                            <a-select-option value="地区">地区</a-select-option>
-                                            <a-select-option value="年龄">年龄</a-select-option>
+                                        <a-select placeholder="请选择" size=small v-model="clientForm.clientLabel">
+                                            <a-select-option value="1">地区</a-select-option>
+                                            <a-select-option value="2">年龄</a-select-option>
+                                            <a-select-option value="3">性别</a-select-option>
                                         </a-select>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :md="6" >
                                     <a-form-item label="所属店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.shopName">
-                                            <a-select-option value="天猫">天猫</a-select-option>
-                                            <a-select-option value="淘宝">淘宝</a-select-option>
-                                            <a-select-option value="其他">其他</a-select-option>
+                                        <a-select placeholder="请选择" size=small v-model="clientForm.shopName">
+                                            <a-select-option value="1">天猫</a-select-option>
+                                            <a-select-option value="2">淘宝</a-select-option>
+                                            <a-select-option value="2">其他</a-select-option>
                                         </a-select>
                                     </a-form-item>
                                 </a-col>
@@ -121,343 +122,172 @@
                         </a>
                     </a-form>
                 </div>
-                <el-tabs v-model="activeName" type="card" @tab-click="showClient" style="margin-top: 10px">
-                    <el-tab-pane label="重要客户" name="first">
-                        <el-table
-                                :data="impTableData"
-                                border
-                                v-loading="loading"
-                                style="width: 150%">
-                            <el-table-column
-                                    fixed
-                                    prop="customerType"
-                                    label="客户类型"
-                                    width="100">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="customerNo"
-                                    label="客户编号"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="customerName"
-                                    label="姓名"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="buyerNick"
-                                    label="客户网名"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="gender"
-                                    label="性别"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="country"
-                                    label="国家"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="province"
-                                    label="省份"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="city"
-                                    label="市区"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="district"
-                                    label="区县"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="address"
-                                    label="地址"
-                                    width="300">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="zip"
-                                    label="邮编"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="telno"
-                                    label="固话"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="mobile"
-                                    label="手机"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="email"
-                                    label="电子邮件"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="qq"
-                                    label="QQ"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="wangwang"
-                                    label="旺旺"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="birthday"
-                                    label="生日"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="totalPurchaseAmount"
-                                    label="购买总金额"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="totalPurchaseNum"
-                                    label="购买总次数"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="lastPurchaseTime"
-                                    label="上次购买时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="lable"
-                                    label="用户标签"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="bwlist"
-                                    label="黑/白名单"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="stopped"
-                                    label="停用"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="lastVisDays"
-                                    label="距离上次回访天数"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="modifiedTime"
-                                    label="修正时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="registrationTime"
-                                    label="登记时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="remark"
-                                    label="备注"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="afterBuyingRate"
-                                    label="复购率"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="drain_cycle"
-                                    label="流失比率"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="loadTime"
-                                    label="载入时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    fixed="right"
-                                    label="操作"
-                                    width="100">
-                                <template slot-scope="scope">
-                                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看历史订单</el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </el-tab-pane>
-                    <el-tab-pane label="普通客户" name="second">
-                        <el-table
-                                :data="tableData"
-                                border
-                                v-loading="loading"
-                                style="width: 150%">
-                            <el-table-column
-                                    fixed
-                                    prop="customerType"
-                                    label="客户类型"
-                                    width="100">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="customerNo"
-                                    label="客户编号"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="customerName"
-                                    label="姓名"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="buyerNick"
-                                    label="客户网名"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="gender"
-                                    label="性别"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="country"
-                                    label="国家"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="province"
-                                    label="省份"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="city"
-                                    label="市区"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="district"
-                                    label="区县"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="address"
-                                    label="地址"
-                                    width="300">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="zip"
-                                    label="邮编"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="telno"
-                                    label="固话"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="mobile"
-                                    label="手机"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="email"
-                                    label="电子邮件"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="qq"
-                                    label="QQ"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="wangwang"
-                                    label="旺旺"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="birthday"
-                                    label="生日"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="totalPurchaseAmount"
-                                    label="购买总金额"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="totalPurchaseNum"
-                                    label="购买总次数"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="lastPurchaseTime"
-                                    label="上次购买时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="lable"
-                                    label="用户标签"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="bwlist"
-                                    label="黑/白名单"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="stopped"
-                                    label="停用"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="lastVisDays"
-                                    label="距离上次回访天数"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="modifiedTime"
-                                    label="修正时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="registrationTime"
-                                    label="登记时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="remark"
-                                    label="备注"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="afterBuyingRate"
-                                    label="复购率"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="drain_cycle"
-                                    label="流失比率"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="loadTime"
-                                    label="载入时间"
-                                    width="120">
-                            </el-table-column>
-                            <el-table-column
-                                    fixed="right"
-                                    label="操作"
-                                    width="100">
-                                <template slot-scope="scope">
-                                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看历史订单</el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </el-tab-pane>
-                </el-tabs>
-
+                <a-button style="margin-left: 10px; margin-bottom: 10px" type="primary" @click="OrdinaryClient">普通客户</a-button>
+                <a-button style="margin-left: 10px; margin-bottom: 10px" @click="ImportantClient">重要客户</a-button>
+                <el-table
+                        :data="tableData"
+                        border
+                        style="width: 150%">
+                    <el-table-column
+                            fixed
+                            prop="customerType"
+                            label="客户类型"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="customerNo"
+                            label="客户编号"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="customerName"
+                            label="姓名"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="buyerNick"
+                            label="客户网名"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="gender"
+                            label="性别"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="country"
+                            label="国家"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="province"
+                            label="省份"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="city"
+                            label="市区"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="district"
+                            label="区县"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="address"
+                            label="地址"
+                            width="300">
+                    </el-table-column>
+                    <el-table-column
+                            prop="zip"
+                            label="邮编"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="telno"
+                            label="固话"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="mobile"
+                            label="手机"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="email"
+                            label="电子邮件"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="qq"
+                            label="QQ"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="wangwang"
+                            label="旺旺"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="birthday"
+                            label="生日"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="totalPurchaseAmount"
+                            label="购买总金额"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="totalPurchaseNum"
+                            label="购买总次数"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="lastPurchaseTime"
+                            label="上次购买时间"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="lable"
+                            label="用户标签"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="bwlist"
+                            label="黑/白名单"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="stopped"
+                            label="停用"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="lastVisDays"
+                            label="距离上次回访天数"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="modifiedTime"
+                            label="修正时间"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="registrationTime"
+                            label="登记时间"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="remark"
+                            label="备注"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="afterBuyingRate"
+                            label="复购率"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="drain_cycle"
+                            label="流失比率"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="loadTime"
+                            label="载入时间"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="100">
+                        <template slot-scope="scope">
+                            <el-button @click="handleClick(scope.row)" type="text" size="small">查看历史订单</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
                 <span>共{{total}}条数据</span>
                 <div class="page-roll">
                     <a-pagination
@@ -688,15 +518,13 @@
     </div>
 </template>
 <script>
+    const tableData =[];
     export default {
         name: "Client",
         data() {
             return {
                 // 数据
                 tableData: [],
-                impTableData: [],
-                loading: true,
-                activeName: 'second',
                 // 搜索栏
                 clientForm: {
                     customerName:'',
@@ -725,7 +553,6 @@
                 current: 1,
                 pageSize: 5,
                 total: 0,
-                amount: 0,
                 //  token
                 tokenStr: '',
                 // 标签页
@@ -744,61 +571,43 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-          axios.get('http://192.168.1.102:8080/backend/customer/listCustomers/1/5', {headers:{
+          axios.get('http://localhost:8080/backend/customer/listCustomers/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
+              // console.log(res.data.data)
               this.tableData = res.data.data
-              this.loading=false
           }).catch()
         },
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.102:8080/backend/customer/countCustomer',{headers:{
+            axios.get('http://localhost:8080/backend/customer/countCustomer',{headers:{
                     token : tokenStr}}).then( res => {
-                that.total = res.data.data
-                that.amount = res.data.data
+                // console.log(res.data)
+                that.total = res.data.data;
             }).catch()
         },
         methods: {
             // 客户类型
-            showClient(tab, event) {
-                console.log("这里importantClick")
-                const that = this
-                if(tab.index === '0'){
-                    console.log(tab.index, event)
-                    axios.get('http://192.168.1.102:8080/backend/customer/listImpCustomers/1/5', {headers:{
-                            token: this.tokenStr
-                        }}).then( res => {
-                        console.log(res)
-                        that.imptableData = res.data.data
-                        that.loading=false
-                    }).catch()
-                    axios.get('http://192.168.1.102:8080/backend/customer/countImpCustomers', {headers:{
-                            token: that.tokenStr
-                        }}).then( res => {
-                        console.log(res)
-                        that.total = res.data.data
-                    }).catch()
-                }
-                if(tab.index === '1') {
-                    console.log(tab.index)
-                    axios.get('http://192.168.1.102:8080/backend/customer/listCustomers/1/5', {headers:{
-                            token: this.tokenStr
-                        }}).then( res => {
-                            console.log(res)
-                        this.tableData = res.data.data
-                        this.loading=false
-                    }).catch()
-                    axios.get('http://192.168.1.102:8080/backend/customer/countCustomer',{headers:{
-                            token : that.tokenStr}}).then( res => {
-                        that.total = res.data.data
-                        that.amount = res.data.data
-                    }).catch()
-                }
+            ImportantClient() {
+                axios.get('http://localhost:8080/backend/customer/getImpCustomers', {headers:{
+                        token: this.tokenStr
+                    }}).then( res => {
+                    // console.log(res.data)
+                    this.tableData = res.data.data
+                }).catch()
+            },
+            OrdinaryClient() {
+                axios.get('http://localhost:8080/backend/customer/listCustomers/1/5', {headers:{
+                        token: this.tokenStr
+                    }}).then( res => {
+                    // console.log(res.data.data)
+                    this.tableData = res.data.data
+                }).catch()
             },
             // 日期选择框
             birthdayOnChange(date, dateString) {
+                // console.log(dateString);
                 this.clientForm.BirthdayTimeDateStart = dateString[0]
                 this.clientForm.BirthdayTimeDateEnd = dateString[1]
             },
@@ -811,7 +620,7 @@
                 this.clientForm.LastPurchaseTimeDateEnd = dateString[1]
             },
             registerOnChange(date, dateString) {
-                this.clientForm.registrationTimeDateStart = dateString[0]
+                this.clientForm.registrationTimeDateStart =dateString[0]
                 this.clientForm.registrationTimeDateEnd = dateString[1]
             },
             // 展开，搜索结果的翻页存在问题
@@ -825,41 +634,41 @@
                     console.log(list[i])
                     if (list[i]) {
                         // console.log("提交表单")
-                        if(1){
-                            axios.get('http://192.168.1.102:8080/backend/customer/getCustomers', {
-                                params: {
-                                    customerName: list.customerName,
-                                    registrationTimeDateStart: list.registrationTimeDateStart,
-                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                    PayDateStart: list.PayDateStart,
-                                    PayDateEnd: list.PayDateEnd,
-                                    BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                    BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                    shopName: list.shopName,
-                                    goodsCount: list.goodsCount,
-                                    TotalPurchaseAmount: list.TotalPurchaseAmount,
-                                    TotalPurchaseNum: list.TotalPurchaseNum,
-                                    goodsTypeCount: list.goodsTypeCount,
-                                    BrandName: list.BrandName,
-                                    LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                                    LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                                },
-                                headers: {token: this.tokenStr},
-                                tokenBackend: this.tokenStr
-                            }).then(res => {
-                                // console.log(res.data)
-                                if (res.data.code === 3) {
-
-                                    alert('未能查找到该客户的相关信息！！')
-                                }
-                                else if(res.data.code === 0) {
-                                    that.tableData = res.data.data
-                                    this.loading=false
-                                }
-                            }).catch()
-                            break
-                        }
-
+                        axios.get('http://localhost:8080/backend/customer/getCustomers', {
+                            params: {
+                                customerName: list.customerName,
+                                registrationTimeDateStart: list.registrationTimeDateStart,
+                                registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                PayDateStart: list.PayDateStart,
+                                PayDateEnd: list.PayDateEnd,
+                                BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                shopName: list.shopName,
+                                goodsCount: list.goodsCount,
+                                TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                TotalPurchaseNum: list.TotalPurchaseNum,
+                                goodsTypeCount: list.goodsTypeCount,
+                                BrandName: list.BrandName,
+                                LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            // console.log(res.data)
+                            if (res.data.code === 3) {
+                                // this.$message({
+                                //     showClose: "true",
+                                //     message: '查询失败',
+                                //     type:'error'
+                                // })
+                                alert('未能查找到该客户的相关信息！！')
+                            }
+                            else if(res.data.code === 0) {
+                                that.tableData = res.data.data
+                            }
+                        }).catch()
+                        break
                     }
                 else if(i === 'LastPurchaseTimeDateEnd' && list[i] === ''){
                         alert("请输入查询信息！！")
@@ -890,13 +699,11 @@
                     LastPurchaseTimeDateEnd:'',
                     clientLabel:''
                 }
-                axios.get('http://192.168.1.102:8080/backend/customer/listCustomers/1/5', {headers:{
+                axios.get('http://localhost:8080/backend/customer/listCustomers/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
                     that.tableData = res.data.data
-                    this.loading=false
-                    that.total = that.amount
                 }).catch()
             },
             // el表格
@@ -904,7 +711,7 @@
                 const that = this
                 console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
-                axios.get('http://192.168.1.102:8080/backend/order/OrderHistory',{
+                axios.get('http://localhost:8080/backend/order/OrderHistory',{
                     params: {
                         buyerNick: row.buyerNick,
                     },
@@ -921,11 +728,10 @@
             // 分页, 加载缓慢
             currentPage(currentPage, size){
                 const that = this
-                axios.get('http://192.168.1.102:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
+                axios.get('http://localhost:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
                     token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
-                    this.loading=false
                 }).catch()
             },
             onShowSizeChange(current, size) {
@@ -933,11 +739,10 @@
                 console.log(size)
                 this.pageSize = size;
                 const that = this
-                axios.get('http://192.168.1.102:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
+                axios.get('http://localhost:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
-                    this.loading=false
                 }).catch()
             },
             // 标签页
