@@ -91,7 +91,14 @@ const router = new Router({
                         module: '用户管理'
                     },
                 },
-
+                {
+                    path: '/increment',
+                    component:() => import('../components/Developer'),
+                    meta: {
+                        title: '个人中心',
+                        module: '我的账号'
+                    },
+                },
                 {
                     path: '/Home',
                     component:() => import('../components/Home'),

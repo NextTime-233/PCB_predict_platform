@@ -8,104 +8,18 @@
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row :gutter="16">
                                 <a-col :span="6">
-                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" :wrapperCol="{span: 10, offset: 1}">
-                                        <a-row>
-                                            <a-col :span="23">
-                                                <a-input v-model="orderForm.shop_name" size="small">
-                                                </a-input>
-                                            </a-col>
-                                           <a-col :span="1">
-                                               <a-popover style="height:24px" placement="bottomRight" >
-                                                   <template slot="title">
-                                                       <a-input placeholder="输入关键字查询" />
-                                                   </template>
-                                                   <div slot="content" style=" overflow-y:auto; overflow-x:auto; width:300px; height:200px;">
-                                                       <a-checkbox @change="onChange">林家铺子天猫旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子京东旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子京东自营旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子拼购旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">KU</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子苏宁旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">有赞</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子贝贝网旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">唯品会</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">每日优鲜</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">云集微店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">达令家</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子阿里巴巴店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子每日一淘店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">一淘POP</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">拼多多旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子拼多多</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">拼多多工厂旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子淘宝分销</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">魔筷星选</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">萌推</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">洋葱</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">BA</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">小红书</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">蘑菇街</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子抖音小店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子人人店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">尽果旗舰店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">林家铺子贝店仓</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">尚品先锋</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">海狸先生</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">米九</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">环球APP</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">惠买APP</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">张燕</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">微信</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">补单</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">FL</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">三浦堂</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">国美在线</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">中盈</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">钻技生态链</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">海豚家</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">推推购</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">和赢农业</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">天成汇业</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">薛婷</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">吴吉芳</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">陈思宇</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">海嘉</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">悦淘</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">梦想小店</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">嗨吃宝宝</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">禾田青</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">侠侣</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">益划</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">诗颖</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">链上优品</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">高鑫晶</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">亿海</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">悟空掌柜</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">华榕</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">镭殿</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">罗马优鲜</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">壹周壹花</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">顺大厨</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">食货星球</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">笙之鸣</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">联联周边游</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">云货优选</a-checkbox><br />
-                                                       <a-checkbox @change="onChange">阿浩优选</a-checkbox><br />
-                                                       <a-button-group>
-                                                           <a-button type="primary">
-                                                               全选
-                                                           </a-button>
-                                                           <a-button>反选</a-button>
-                                                           <a-button>重置</a-button>
-                                                           <a-button type="dashed">
-                                                               确定
-                                                           </a-button>
-                                                       </a-button-group>
-                                                   </div>
-                                                   <a-button><a-icon type="down" /></a-button>
-                                               </a-popover>
-                                           </a-col>
-                                        </a-row>
+                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">
+                                        <a-select
+                                                mode="multiple"
+                                                placeholder="输入或选择"
+                                                :value="selectedItems"
+                                                size="small"
+                                                @change="handleChange"
+                                        >
+                                            <a-select-option v-for="item in filteredOptions" :key="item" :value="item">
+                                                {{ item }}
+                                            </a-select-option>
+                                        </a-select>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
@@ -122,7 +36,12 @@
                                 </a-col>
                                 <a-col :span="6">
                                     <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select placeholder="请选择" v-model="orderForm.trade_status" size="small">
+                                        <a-select
+                                                show-search
+                                                option-filter-prop="children"
+                                                :filter-option="filterOption"
+                                                placeholder="请选择" v-model="orderForm.trade_status" size="small"
+                                        >
                                             <a-select-option value="已取消">已取消</a-select-option>
                                             <a-select-option value="未付款">未付款</a-select-option>
                                             <a-select-option value="待尾款">待尾款</a-select-option>
@@ -145,7 +64,7 @@
                             </a-row>
                             <a-row type="flex" v-if="advanced">
                                 <a-col :span="6">
-                                    <a-form-item label="货品名称" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-form-item label="货品名称" :labelCol="{span: 8}" :wrapperCol="{span: 14, offset: 1}">
                                         <a-input v-model="orderForm.goods_name" size="small">
                                         </a-input>
                                     </a-form-item>
@@ -218,7 +137,8 @@
                 <el-table
                         :data="data"
                         border
-                        style="width: 150%; margin-top: 10px">
+                        style="width: 150%; margin-top: 10px"
+                        v-loading="loading">
                     <el-table-column
                             fixed
                             prop="tradeNo"
@@ -654,11 +574,19 @@
 </template>
 
 <script>
+    const OPTIONS = ['林家铺子天猫旗舰店','林家铺子京东旗舰店','林家铺子京东自营旗舰店','林家铺子拼购旗舰店','KU','林家铺子苏宁旗舰店',
+        '有赞','林家铺子贝贝网旗舰店','唯品会','每日优鲜','云集微店','达令家','林家铺子阿里巴巴店','林家铺子每日一淘店','一淘POP',
+        '拼多多旗舰店','林家铺子拼多多','拼多多工厂旗舰店','林家铺子淘宝分销','魔筷星选','萌推','洋葱','BA','小红书','蘑菇街',
+        '林家铺子抖音小店','林家铺子人人店','尽果旗舰店','林家铺子贝店仓','尚品先锋','海狸先生','米九','环球APP','惠买APP','张燕',
+        '微信','补单','FL','三浦堂','国美在线','中盈','钻技生态链','海豚家','推推购','和赢农业','天成汇业','薛婷','吴吉芳','陈思宇',
+        '海嘉','悦淘','梦想小店','嗨吃宝宝','禾田青','侠侣','益划','诗颖','链上优品','高鑫晶','亿海','悟空掌柜','华榕','镭殿','罗马优鲜',
+        '壹周壹花','顺大厨','食货星球','笙之鸣','联联周边游','云货优选','阿浩优选'];
     export default {
         name: "manage",
         data() {
             return {
                 // 搜索栏
+                selectedItems: [],
                 orderForm: {
                     trade_no: '',
                     shop_name: '',
@@ -678,11 +606,13 @@
                 advanced: false,
                 // 列表
                 data:[],
+                loading: true,
                 // 分页
                 pageSizeOptions: ['5', '10', '15', '20', '25'],
                 current: 1,
                 pageSize: 5,
                 total: 200,
+                amount: 0,
                 // token
                 tokenStr: '',
                 // 详情标签页
@@ -692,31 +622,44 @@
                 tableData:[]
             };
         },
+        computed: {
+            filteredOptions() {
+                return OPTIONS.filter(o => !this.selectedItems.includes(o));
+            },
+        },
         created() {
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            axios.get('http://localhost:8080/backend/order/listOrders/1/5', {headers:{
+            axios.get('http://192.168.1.102:8080/backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
                 console.log(res.data)
-                for (let i = 0; i <5; i++) {
-                    res.data.data[i]['key'] = i
-                    that.data.push(res.data.data[i])
-                }
+                that.data = res.data.data
+                this.loading=false
             }).catch()
         },
         mounted(){
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080/backend/order/countOrders',{headers:{
+            axios.get('http://192.168.1.102:8080/backend/order/countOrders',{headers:{
                     token : tokenStr}}).then( res => {
                 console.log(res.data)
-                that.total = res.data.data;
+                that.total = res.data.data
+                that.amount = res.data.data
             }).catch()
         },
         methods: {
+            // 选择器
+            filterOption(input, option) {
+                return (
+                    option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                );
+            },
+            handleChange(selectedItems) {
+                this.selectedItems = selectedItems;
+            },
             // 多选
             onChange(checkedValues) {
                 console.log('checked = ', checkedValues);
@@ -742,12 +685,11 @@
             submitList(){
                 const that = this
                 const list = that.orderForm
-                const datalist = []
                 console.log(list)
                 for(let i in list){
                     console.log(list[i])
                     if(list[i]){
-                        axios.get('http://localhost:8080/backend/order/getOrders', {
+                        axios.get('http://192.168.1.102:8080/backend/order/getOrders', {
                             params: {
                                 trade_no: list.trade_no,
                                 shop_name: list.shop_name,
@@ -778,11 +720,9 @@
                                 console.log('cuowu')
                             }
                             else if(res.data.code === 0) {
-                                for (let i = 0; i < res.data.data.length; i++) {
-                                    res.data.data[i]['key'] = i
-                                    datalist.push(res.data.data[i])
-                                }
-                                that.data = datalist
+                                that.data = res.data.data
+                                this.loading=false
+                                that.total = res.data.data.length
                             }
                         }).catch()
                         break
@@ -814,15 +754,12 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 }
-                const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/1/5', {headers:{
+                axios.get('http://192.168.1.102:8080/backend/order/listOrders/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
-                        for (let i = 0; i <5; i++) {
-                            res.data.data[i]['key'] = i
-                            datalist.push(res.data.data[i])
-                        }
-                        this.data = datalist
+                    that.data = res.data.data
+                    this.loading=false
+                    this.total = this.amount
                 }).catch()
             },
             //表格操作JY201904290699
@@ -830,7 +767,7 @@
                 console.log(row.tradeNo)
                 this.valueOfCol = row
                 const that = this
-                axios.get('http://localhost:8080/backend/order/getOrderDetail', {
+                axios.get('http://192.168.1.102:8080/backend/order/getOrderDetail', {
                     params : {tradeNo : row.tradeNo},
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
@@ -845,7 +782,7 @@
                         alert("未能查找到订单相关信息，订单明细缺失！！")
                     }
                 }).catch()
-                // axios.get('http://localhost:8080/backend/goods/getGoods', {
+                // axios.get('http://192.168.1.102:8080/backend/goods/getGoods', {
                 //     params : {tradeNo : value.tradeNo},
                 //     headers : {token : this.tokenStr},
                 // }).then( res => {
@@ -863,15 +800,11 @@
             // 分页
             currentPage(currentPage, size){
                 const that = this
-                const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/'+currentPage+'/'+size, {headers:{
+                axios.get('http://192.168.1.102:8080/backend/order/listOrders/'+currentPage+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
-                    for (let i = 0; i <size; i++) {
-                        res.data.data[i]['key'] = i
-                        datalist.push(res.data.data[i]);
-                    }
-                    that.data = datalist
+                    that.data = res.data.data
+                    this.loading=false
                 }).catch()
             },
             onShowSizeChange(current, size) {
@@ -879,15 +812,10 @@
                 console.log(size)
                 this.pageSize = size;
                 const that = this
-                const datalist = []
-                axios.get('http://localhost:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
+                axios.get('http://192.168.1.102:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
-                    // console.log(res.data.data)
-                    for (let i = 0; i <size; i++) {
-                        res.data.data[i]['key'] = i
-                        datalist.push(res.data.data[i]);
-                    }
-                    that.data = datalist
+                    that.data = res.data.data
+                    this.loading=false
                 }).catch()
             },
         },

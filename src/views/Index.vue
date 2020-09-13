@@ -15,20 +15,23 @@
                     :selected-keys="[current]"
                     @click="handleClick">
                 <a-sub-menu  key="sub0">
-                    <span slot="title"><a-icon type="home" /><span>公司管理</span></span>
+                    <span slot="title"><a-icon type="home" /><span>数据分析</span></span>
                     <a-menu-item key="1">
                         <router-link to="/Analysis" tag="div">
                             <span>数据分析</span>
                         </router-link>
                     </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu  key="sub1">
+                    <span slot="title"><a-icon type="home" /><span>用户管理</span></span>
                     <a-menu-item v-show="boss" key="2">
-                    <router-link to="/employee" tag="div">
-                        <span>员工管理</span>
-                    </router-link>
+                        <router-link to="/employee" tag="div">
+                            <span>用户管理</span>
+                        </router-link>
                     </a-menu-item>
                 </a-sub-menu>
-                <a-sub-menu key="sub1">
-                    <span slot="title"><a-icon type="edit" /><span>用户管理</span></span>
+                <a-sub-menu key="sub2">
+                    <span slot="title"><a-icon type="edit" /><span>客户管理</span></span>
                     <a-menu-item key="3">
                         <router-link to="/Lable" tag="div">
                             <span>标签管理</span>
@@ -39,25 +42,30 @@
                             <span>客户画像</span>
                         </router-link>
                     </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu key="sub3">
+                    <span slot="title"><a-icon type="hdd" theme="filled"/><span>数据管理</span></span>
                     <a-menu-item key="5">
                         <router-link to="/Client" tag="div">
                             <span>客户档案</span>
                         </router-link>
                     </a-menu-item>
-                </a-sub-menu>
-                <a-sub-menu key="sub2">
-                    <span slot="title"><a-icon type="hdd" /><span>订单管理</span></span>
-                        <a-menu-item key="6">
-                            <router-link to="/manage" tag="div">
-                                <span>订单管理</span>
-                            </router-link>
-                        </a-menu-item>
-                </a-sub-menu>
-                <a-sub-menu key="sub3">
-                    <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>货品管理</span></span>
+                    <a-menu-item key="6">
+                        <router-link to="/manage" tag="div">
+                            <span>订单管理</span>
+                        </router-link>
+                    </a-menu-item>
                     <a-menu-item key="7">
                         <router-link to="/purchase" tag="div">
                             <span>货品档案</span>
+                        </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu key="sub4">
+                    <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>增量维护</span></span>
+                    <a-menu-item key="8">
+                        <router-link to="/increment" tag="div">
+                            <span>增量维护</span>
                         </router-link>
                     </a-menu-item>
                 </a-sub-menu>

@@ -168,7 +168,7 @@
         created() {
             const that = this
             that.tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+            axios.get('http://192.168.1.102:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                     token: that.tokenStr}}).then( res => {
                     for(let i = 0; i< res.data.data.length; i++){
                         // console.log(res.data.data[i].userLimit)
@@ -187,7 +187,7 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080/backend/user/countUser',{headers:{
+            axios.get('http://192.168.1.102:8080/backend/user/countUser',{headers:{
                     token : tokenStr}}).then( res => {
                 that.total = res.data.data;
             }).catch()
@@ -196,7 +196,7 @@
             reNew() {
                 const that = this
                 const data = []
-                axios.get('http://localhost:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+                axios.get('http://192.168.1.102:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                         token: that.tokenStr}}).then( res => {
                     // console.log(res.data.msg)
                     for(let i = 0; i< res.data.data.length; i++){
@@ -218,7 +218,7 @@
                     if (!err) {
                         console.log('Received values of form: ', values);
                         console.log('usr: ', values.userAccount);
-                        axios.post('http://localhost:8080/backend/user/saveUser?userAccount='+values.userAccount+'&userPwd='+values.userPwd ).then(res=>{
+                        axios.post('http://192.168.1.102:8080/backend/user/saveUser?userAccount='+values.userAccount+'&userPwd='+values.userPwd ).then(res=>{
                             console.log(res.data.code)
                             this.modalVisible=false
                             alert("成功添加新用户!")
@@ -233,7 +233,7 @@
                 this.modalVisible = modalVisible;
             },
             remove (key, name) {
-                axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+name, {headers:{
+                axios.get('http://192.168.1.102:8080/backend/user/getUserByUserAccount?userAccount='+name, {headers:{
                         token: this.tokenStr}}).then( res => {
                             console.log(res.data.data)
                         if (res.data.data.userLimit>0) {
@@ -244,7 +244,7 @@
                             const newData = this.dataSource.filter(item => item.key !== key)
                             this.dataSource = newData
                             // 删除成功
-                            axios.put('http://localhost:8080/backend/user/deleteUser', {
+                            axios.put('http://192.168.1.102:8080/backend/user/deleteUser', {
                                     tokenBackend: this.tokenStr,
                                     userList: [name],
                                     Headers:{token: this.tokenStr},
@@ -261,10 +261,13 @@
                 if(!value){
                     alert("请输入要搜索的用户名！")
                 } else {
-                    axios.get('http://localhost:8080/backend/user/getUserByUserAccount?userAccount='+value, {headers:{
+                    axios.get('http://192.168.1.102:8080/backend/user/getUserByUserAccount?userAccount='+value, {headers:{
                             token: this.tokenStr}}).then( res => {
                         // console.log(res.data.msg)
                         console.log(res.data.data)
+                        if(res.data.data.length){
+                            this.total = res.data.data.length
+                        }
                         // 暂时采用的方法，直接重写数据源
                         this.dataSource = [{
                             key : 1,
@@ -282,7 +285,7 @@
                 // console.log(currentPage)
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/user/listUsers/'+currentPage+'/'+size).then(res => {
+                axios.get('http://192.168.1.102:8080/backend/user/listUsers/'+currentPage+'/'+size).then(res => {
                     console.log(res.data.data)
                     for (let i = 0; i <res.data.data.length; i++) {
                         let c = {
@@ -301,7 +304,7 @@
                 this.pageSize = size;
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/user/listUsers/'+current+'/'+size).then(res => {
+                axios.get('http://192.168.1.102:8080/backend/user/listUsers/'+current+'/'+size).then(res => {
                     for (let i = 0; i <res.data.data.length; i++) {
                         let c = {
                             key : i+1,

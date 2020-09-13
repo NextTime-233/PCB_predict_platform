@@ -78,13 +78,13 @@
                     if (valid) {
                         alert('submit!')
                         console.log("此处提交修改")
-                        // axios.put('http://localhost:8080/backend/user/updateUserPwd', {
+                        // axios.put('http://192.168.1.102:8080/backend/user/updateUserPwd', {
                         //         params:{
                         //             userAccount: this.user,
                         //             userPwd: that.rform.pass,
                         //             tokenBackend: this.tokenStr,
                         //         },
-                        axios.put('http://localhost:8080/backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr, {
+                        axios.put('http://192.168.1.102:8080/backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr, {
                                 Headers:{token: this.tokenStr},
                             }).then( res => {
                             console.log(res.data)

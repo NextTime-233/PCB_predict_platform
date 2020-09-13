@@ -71,6 +71,7 @@
                 </div>
                 <el-table
                         :data="tableData"
+                        v-loading="loading"
                         border
                         style="width: 100%; margin-top: 10px">
                     <el-table-column
@@ -173,7 +174,6 @@
 </template>
 
 <script>
-    const tableData =[];
     export default {
         name: "purchase",
         data() {
@@ -194,11 +194,13 @@
                 advanced: false,
                 // table数据
                 tableData: [],
+                loading: true,
                 // 分页
                 pageSizeOptions: ['10', '20', '30', '40', '50'],
                 current: 1,
                 pageSize: 10,
                 total: 0,
+                amount: 0,
                 // token
                 tokenStr: '',
             };
@@ -210,11 +212,11 @@
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
             // console.log(that.tokenStr)
-            axios.get('http://localhost:8080/backend/goods/listGoods/1/10', {headers:{
+            axios.get('http://192.168.1.102:8080/backend/goods/listGoods/1/10', {headers:{
                     token: tokenStr
                 }}).then( res => {
                 console.log(res.data.data)
-
+                this.loading=false
                 // console.log(res.data)
                 that.tableData = res.data.data
             }).catch()
@@ -222,10 +224,11 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://localhost:8080/backend/goods/countGoods',{headers:{
+            axios.get('http://192.168.1.102:8080/backend/goods/countGoods',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
-                that.total = res.data.data;
+                that.total = res.data.data
+                that.amount = res.data.data
             }).catch()
         },
         methods: {
@@ -241,7 +244,7 @@
                     console.log(list[i])
                     if (list[i]) {
                         console.log("提交表单")
-                        axios.get('http://localhost:8080/backend/goods/getGoods', {
+                        axios.get('http://192.168.1.102:8080/backend/goods/getGoods', {
                             params: {
                                 goodsNo: list.goodsNo,
                                 goodsName: list.goodsName,
@@ -254,6 +257,8 @@
                                 alert('未能查找到该货品的相关信息！！')
                             } else if (res.data.code === 0) {
                                 that.tableData = res.data.data
+                                this.loading=false
+                                that.total = res.data.data.length
                             }
                         }).catch()
                         break
@@ -279,10 +284,11 @@
                     Phone: '',
                     Type: '',
                 }
-                axios.get('http://localhost:8080/backend/goods/listGoods/1/10', {headers:{
+                axios.get('http://192.168.1.102:8080/backend/goods/listGoods/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.tableData = res.data.data
+                    this.total = this.amount
                 }).catch()
             },
             // table
@@ -292,26 +298,23 @@
             },
             // 分页
             currentPage(currentPage, size){
-                // console.log("当前页码")
-                // console.log(currentPage)
                 const that = this
                 const datalist = []
-                axios.get('http://localhost:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
+                axios.get('http://192.168.1.102:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
+                    this.loading=false
                 }).catch()
             },
             onShowSizeChange(current, size) {
-                // console.log("页面数据量")
-                // console.log(size)
                 this.pageSize = size;
                 const that = this
-                const datalist = []
-                axios.get('http://localhost:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
+                axios.get('http://192.168.1.102:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
+                    this.loading=false
                 }).catch()
             },
         }

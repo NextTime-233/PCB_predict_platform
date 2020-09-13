@@ -59,13 +59,14 @@
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        axios.post('http://localhost:8080/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
+                        axios.post('http://192.168.1.102:8080/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
                             console.log(res)
                             if(!res.data.code){
                                 this.logining = false;
                                 sessionStorage.setItem('user', this.LoginForm.userAccount);
                                 sessionStorage.setItem('token',res.data.data.tokenBackend);
                                 sessionStorage.setItem('limit',res.data.data.userLimit);
+                                sessionStorage.setItem('dis', 'true')
                                 // 首页展示
                                 this.$router.push('/Analysis').catch(err => {});
                             }else{

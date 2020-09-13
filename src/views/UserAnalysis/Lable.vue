@@ -119,14 +119,14 @@
             getLabel(){
                 const that = this;
                 let tokenStr =  window.sessionStorage.getItem('token')
-                axios.get('http://localhost:8080/backend/label/findAllLabelVal',{headers:{
+                axios.get('http://192.168.1.102:8080/backend/label/findAllLabelVal',{headers:{
                         token: tokenStr
                     }}).then( res => {
                     console.log(res.data);
                     that.tableData = res.data.data;
                     that.total=res.data.data.length;
                 }).catch()
-                axios.get('http://localhost:8080/backend/label/findAllLabelVal/1/5').then(res => {
+                axios.get('http://192.168.1.102:8080/backend/label/findAllLabelVal/1/5').then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -139,7 +139,7 @@
                     console.log("暂时未执行")
                 } else{
                     console.log("提交表单")
-                    axios.get('http://localhost:8080/backend/label/findLabelValByName/', {
+                    axios.get('http://192.168.1.102:8080/backend/label/findLabelValByName/', {
                         headers:{token : this.tokenStr},
                         tokenBackend: this.tokenStr
                     }).then( res => {
@@ -155,7 +155,7 @@
                 console.log(currentPage)
                 this.queryInfo.pageNum = currentPage
                 const that = this
-                axios.get('http://localhost:8080/backend/label/findAllLabelVal/'+currentPage+'/'+this.queryInfo.pageSize).then(res => {
+                axios.get('http://192.168.1.102:8080/backend/label/findAllLabelVal/'+currentPage+'/'+this.queryInfo.pageSize).then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -165,7 +165,7 @@
                 console.log(size)
                 this.queryInfo.pageSize = size;
                 const that = this
-                axios.get('http://localhost:8080/backend/label/findAllLabelVal/'+this.queryInfo.pageNum+'/'+size).then(res => {
+                axios.get('http://192.168.1.102:8080/backend/label/findAllLabelVal/'+this.queryInfo.pageNum+'/'+size).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -178,7 +178,7 @@
                 if(!labelVal){
                     alert("请输入要搜索的用户名！")
                 } else {
-                    axios.get('http://localhost:8080/backend/label/findLabelValByName/'+labelVal, {headers:{
+                    axios.get('http://192.168.1.102:8080/backend/label/findLabelValByName/'+labelVal, {headers:{
                             token: this.tokenStr}}).then( res => {
                         console.log(res.data);
                         const dataset=0;
@@ -194,7 +194,7 @@
             },
             // 新增标签ok
            addLabel() {
-                       axios.post('http://localhost:8080/backend/label/saveLabel?labelDimension='
+                       axios.post('http://192.168.1.102:8080/backend/label/saveLabel?labelDimension='
                            +this.addForm.labelDimension+'&labelVal='+this.addForm.labelVal).then(res=>{
                            console.log(res)
                        })
@@ -203,7 +203,7 @@
                 rows.splice(index, 1);
             },
             // deleteLabel(){
-            //          axios.put('http://localhost:8080/backend/label/delLabel?labelVal='
+            //          axios.put('http://192.168.1.102:8080/backend/label/delLabel?labelVal='
             //         +this.addForm.labelVal).then(res=>{
             //         console.log(res)
             //     })
