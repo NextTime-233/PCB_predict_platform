@@ -35,6 +35,14 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/A',
+                    component:() => import('../views/Employee/A'),
+                    meta: {
+                        title: '数据分析',
+                        module: '公司管理'
+                    },
+                },
+                {
                     path: '/employee',
                     component:() => import('../views/Employee/employee'),
                     beforeEnter:(to,from,next)=>{
@@ -95,8 +103,8 @@ const router = new Router({
                     path: '/increment',
                     component:() => import('../components/Developer'),
                     meta: {
-                        title: '个人中心',
-                        module: '我的账号'
+                        title: '增量维护',
+                        module: '数据库更新'
                     },
                 },
                 {

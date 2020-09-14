@@ -1,7 +1,19 @@
 <template>
     <div>
         <a-card style="margin-top: 10px; padding: 20px 60px" v-if="dev">
-            <el-steps :active="active" finish-status="success" style="margin: 10px 30px 60px 60px">
+            <span>选择更新的数据库表单>>>  </span>
+            <a-select label="更新数据库表单" default-value="客户档案" style="width: 120px" @change="handleChange">
+                <a-select-option value="客户档案">
+                    客户档案
+                </a-select-option>
+                <a-select-option value="订单管理">
+                    订单管理
+                </a-select-option>
+                <a-select-option value="订单详情">
+                    订单详情
+                </a-select-option>
+            </a-select>
+            <el-steps :active="active" finish-status="success" style="margin:60px 30px 60px 60px">
                 <el-step title="上传数据"></el-step>
                 <el-step title="筛选重要客户"></el-step>
                 <el-step title="数据导入"></el-step>
@@ -12,7 +24,8 @@
                 <el-upload
                         class="upload-demo"
                         ref="upload"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        action="https://192.168.1.102:8080"
+                        :headers=myHeaders
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
                         :file-list="fileList"
@@ -54,7 +67,9 @@
                 b4: false,
                 b5: false,
                 // upload
-                fileList: []
+                fileList: [],
+                tokenStr: window.sessionStorage.getItem('token'),
+                myHeaders: {token: this.tokenStr}
             };
         },
 
@@ -84,13 +99,20 @@
             // upload
             submitUpload() {
                 this.$refs.upload.submit();
+                console.log()
             },
             handleRemove(file, fileList) {
+                console.log("输出文件和文件列表，移除")
                 console.log(file, fileList);
             },
             handlePreview(file) {
+                console.log("文件预览")
                 console.log(file);
-            }
+            },
+            // 选择器
+            handleChange(value) {
+                console.log(`selected ${value}`);
+            },
         }
     }
 </script>

@@ -71,8 +71,10 @@
       <el-col>
         <el-col :span="12">
           <el-card shadow="hover">
-            <div ref="Distribute" style="width: 500px;height:300px;"></div>
+<!--            <div ref="Distribute" id="myChartChina" style="width: 500px;height:300px;"></div>-->
 <!--            <script src="./map/js/china.js" charset="utf-8"></script>-->
+            <div id="myChartChina" :style="{width: '100%', height: '500px', background: 'pink'}"></div>
+
           </el-card>
         </el-col>
         <el-col :span="12">
@@ -274,6 +276,7 @@ export default {
     this.getPlatPortrait()
     this.getLeft()
     this.getAlignTarget()
+    // map
     this.getDistribute()
     // CusRegPortrait
   },
@@ -996,202 +999,108 @@ export default {
     //   _this.$nextTick(() => { _this.chart.map.resize() })
     // },
     getDistribute() {
-      const Distribute = this.$refs.Distribute
-      console.log('地区维度')
-      const myChart1 = this.$echarts.init(Distribute)
-      const that = this
-      const data = that.data
-      let province = that.province
-      let num = that.num
-      axios.get('http://192.168.1.102:8080/backend/data/CusRegPortraitAnalysis').then(
-          res => {
-            // 输出调用接口的返回值
-            console.log(res)
-            // 地图的 注释 右侧
-            const yData = [];
-            const barData = [];
+      // 基于准备好的dom，初始化echarts实例
+      const myChartContainer = document.getElementById('myChartChina');
+      const resizeMyChartContainer = function(){
+        myChartContainer.style.width=(document.body.offsetWidth/2)+'px'//页面一半的大小
+      }
+      resizeMyChartContainer();
+      const myChartChina = this.$echarts.init(myChartContainer);
 
-            for (let i = 0; i < 10; i++) {
-              barData.push(data[i]);
-              yData.push(i + data[i].name);
-              const option = {
-                title: [{
-                  show: true,
-                  text: '排名情况',
-                  textStyle: {
-                    color: '#2D3E53',
-                    fontSize: 18
-                  },
-                  right: 180,
-                  top: 100
-                }],
-                tooltip: {
-                  show: true,
-                  formatter: function (params) {
-                    return params.name + '：' + params.data['value'] + '%'
-                  },
-                },
-                visualMap: {
-                  type: 'continuous',
-                  orient: 'horizontal',
-                  itemWidth: 10,
-                  itemHeight: 80,
-                  text: ['高', '低'],
-                  showLabel: true,
-                  seriesIndex: [0],
-                  min: 0,
-                  max: 2,
-                  inRange: {
-                    color: ['#6FCF6A', '#FFFD64', '#FF5000']
-                  },
-                  textStyle: {
-                    color: '#7B93A7'
-                  },
-                  bottom: 30,
-                  left: 'left',
-                },
-                grid: {
-                  right: 10,
-                  top: 135,
-                  bottom: 100,
-                  width: '20%'
-                },
-                xAxis: {
-                  show: false
-                },
-                yAxis: {
-                  type: 'category',
-                  inverse: true,
-                  nameGap: 16,
-                  axisLine: {
-                    show: false,
-                    lineStyle: {
-                      color: '#ddd'
-                    }
-                  },
-                  axisTick: {
-                    show: false,
-                    lineStyle: {
-                      color: '#ddd'
-                    }
-                  },
-                  axisLabel: {
-                    interval: 0,
-                    margin: 85,
-                    textStyle: {
-                      color: '#455A74',
-                      align: 'left',
-                      fontSize: 14
-                    },
-                    rich: {
-                      a: {
-                        color: '#fff',
-                        backgroundColor: '#FAAA39',
-                        width: 20,
-                        height: 20,
-                        align: 'center',
-                        borderRadius: 2
-                      },
-                      b: {
-                        color: '#fff',
-                        backgroundColor: '#4197FD',
-                        width: 20,
-                        height: 20,
-                        align: 'center',
-                        borderRadius: 2
-                      }
-                    },
-                    formatter: function (params) {
-                      if (parseInt(params.slice(0, 1)) < 3) {
-                        return [
-                          '{a|' + (parseInt(params.slice(0, 1)) + 1) + '}' + '  ' + params.slice(1)
-                        ].join('\n')
-                      } else {
-                        return [
-                          '{b|' + (parseInt(params.slice(0, 1)) + 1) + '}' + '  ' + params.slice(1)
-                        ].join('\n')
-                      }
-                    }
-                  },
-                  data: yData
-                },
-                geo: {
-                  // roam: true,
-                  map: 'china',
-                  left: 'left',
-                  right: '300',
-                  // layoutSize: '80%',
-                  label: {
-                    emphasis: {
-                      show: false
-                    }
-                  },
-                  itemStyle: {
-                    emphasis: {
-                      areaColor: '#fff464'
-                    }
-                  }
-                },
-                series: [{
-                  name: 'mapSer',
-                  type: 'map',
-                  roam: false,
-                  geoIndex: 0,
-                  label: {
-                    show: false,
-                  },
-                  data: data
-                }, {
-                  name: 'barSer',
-                  type: 'bar',
-                  roam: false,
-                  visualMap: false,
-                  zlevel: 2,
-                  barMaxWidth: 8,
-                  barGap: 0,
-                  itemStyle: {
-                    normal: {
-                      color: function (params) {
-                        // build a color map as your need.
-                        const colorList = [{
-                          colorStops: [{
-                            offset: 0,
-                            color: '#FFD119' // 0% 处的颜色
-                          }, {
-                            offset: 1,
-                            color: '#FFAC4C' // 100% 处的颜色
-                          }]
-                        },
-                          {
-                            colorStops: [{
-                              offset: 0,
-                              color: '#00C0FA' // 0% 处的颜色
-                            }, {
-                              offset: 1,
-                              color: '#2F95FA' // 100% 处的颜色
-                            }]
-                          }
-                        ];
-                        if (params.dataIndex < 3) {
-                          return colorList[0]
-                        } else {
-                          return colorList[1]
-                        }
-                      },
-                      barBorderRadius: 15
-                    }
-                  },
-                  data: barData
-                }]
-              };
-              myChart1.setOption(option);
-              window.addEventListener("resize", function () {
-                myChart1.resize();
-                //myCharts是你的初始化echarts图表时取的名字
-              })
-            }
-          }).catch()
-    },
+      function randomData() {
+        return Math.round(Math.random()*500);
+      }
+      // 绘制图表
+      const optionMap = {
+        tooltip: {},
+        legend: {
+          orient: 'horizontal',
+          left: 'left',
+          data:['']
+        },
+        visualMap: {
+          min: 0,
+          max: 1500,
+          left: '10%',
+          top: 'bottom',
+          text: ['高','低'],
+          calculable : true,
+          color:['#0b50b9','#c3e2f4'],
+          show: false
+        },
+        selectedMode: 'single',
+        series : [
+          {
+            name: '',
+            type: 'map',
+            mapType: 'china',
+            itemStyle: {
+              normal:{
+                borderColor: 'rgba(0, 0, 0, 0.2)'
+              },
+              emphasis:{
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowBlur: 20,
+                borderWidth: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            showLegendSymbol: true,
+            label: {
+              normal: {
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            data:[
+              {name: '北京',value: randomData() },
+              {name: '天津',value: randomData() },
+              {name: '上海',value: randomData() },
+              {name: '重庆',value: randomData() },
+              {name: '河北',value: randomData() },
+              {name: '河南',value: randomData() },
+              {name: '云南',value: randomData() },
+              {name: '辽宁',value: randomData() },
+              {name: '黑龙江',value: randomData() },
+              {name: '湖南',value: randomData() },
+              {name: '安徽',value: randomData() },
+              {name: '山东',value: randomData() },
+              {name: '新疆',value: randomData() },
+              {name: '江苏',value: randomData() },
+              {name: '浙江',value: randomData() },
+              {name: '江西',value: randomData() },
+              {name: '湖北',value: randomData() },
+              {name: '广西',value: randomData() },
+              {name: '甘肃',value: randomData() },
+              {name: '山西',value: randomData() },
+              {name: '内蒙古',value: randomData() },
+              {name: '陕西',value: randomData() },
+              {name: '吉林',value: randomData() },
+              {name: '福建',value: randomData() },
+              {name: '贵州',value: randomData() },
+              {name: '广东',value: randomData() },
+              {name: '青海',value: randomData() },
+              {name: '西藏',value: randomData() },
+              {name: '四川',value: randomData() },
+              {name: '宁夏',value: randomData() },
+              {name: '海南',value: randomData() },
+              {name: '台湾',value: randomData() },
+              {name: '香港',value: randomData() },
+              {name: '澳门',value: randomData() }
+            ]
+          }
+        ]
+      }
+
+      myChartChina.setOption(optionMap);
+      window.onresize=function(){
+        resizeMyChartContainer();
+        myChartChina.resize();
+      }
+    }
   }
 }
 </script>

@@ -17,13 +17,14 @@
                 <a-sub-menu  key="sub0">
                     <span slot="title"><a-icon type="home" /><span>数据分析</span></span>
                     <a-menu-item key="1">
-                        <router-link to="/Analysis" tag="div">
+                        <router-link to="/A" tag="div">
+<!--                            <router-link to="/Analysis" tag="div">-->
                             <span>数据分析</span>
                         </router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu  key="sub1">
-                    <span slot="title"><a-icon type="home" /><span>用户管理</span></span>
+                    <span slot="title"><a-icon type="team" /><span>用户管理</span></span>
                     <a-menu-item v-show="boss" key="2">
                         <router-link to="/employee" tag="div">
                             <span>用户管理</span>

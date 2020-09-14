@@ -44,8 +44,8 @@
             return {
                 logining: false,
                 LoginForm: {
-                    userAccount: '2',
-                    userPwd: '2',
+                    userAccount: 'limlin',
+                    userPwd: 'limlin',
                 },
                 rules2: {
                     userAccount: [{required: true, message: 'please enter your account', trigger: 'blur'}],
