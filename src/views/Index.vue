@@ -17,11 +17,6 @@
                 <a-sub-menu  key="sub0">
                     <span slot="title"><a-icon type="home" /><span>数据分析</span></span>
                     <a-menu-item key="1">
-                        <router-link to="/A" tag="div">
-                            <span>数据分析</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="9">
                         <router-link to="/Analysis" tag="div">
                             <span>数据分析</span>
                         </router-link>

@@ -35,14 +35,6 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/A',
-                    component:() => import('../views/Employee/A'),
-                    meta: {
-                        title: '数据分析',
-                        module: '公司管理'
-                    },
-                },
-                {
                     path: '/employee',
                     component:() => import('../views/Employee/employee'),
                     beforeEnter:(to,from,next)=>{

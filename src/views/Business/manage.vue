@@ -589,7 +589,7 @@
                 selectedItems: [],
                 orderForm: {
                     trade_no: '',
-                    shop_name: '',
+                    shop_name: [],
                     pay_account: '',
                     trade_status: '',
                     goods_name: '',

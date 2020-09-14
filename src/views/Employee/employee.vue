@@ -56,7 +56,7 @@
                         </a-modal>
                     </div>
                 </form>
-<!--                <span>共{{total}}条数据</span>-->
+                <span>共{{total}}条数据</span>
                 <div class="page-roll">
                     <a-pagination
                             v-model="current"
@@ -123,6 +123,7 @@
                 current: 1,
                 pageSize: 5,
                 total: 0,
+                amount: 0,  // 用来存储 总页数
                 // 弹框注册
                 modalVisible: false,
                 formLayout: 'horizontal',
@@ -189,7 +190,8 @@
             const tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://192.168.1.100:8080/backend/user/countUser',{headers:{
                     token : tokenStr}}).then( res => {
-                that.total = res.data.data;
+                that.total = res.data.data
+                that.amount = res.data.data
             }).catch()
         },
         methods: {
@@ -203,13 +205,15 @@
                         let c = {
                             key : i+1,
                             name: res.data.data[i].userAccount,
-                            code: res.data.data[i].userPwd,
+                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
+                            time: res.data.data[i].gmtCreate,
                             editable: res.data.data[i].userLimit!=='0',
                         }
                         data.push(c)
                     }
                     that.dataSource = data
                 }).catch()
+                that.total = that.amount
             },
             handleSubmit(e) {
                 e.preventDefault(); // 阻止页面自动刷新
@@ -257,7 +261,7 @@
             },
             // 搜索框
             onSearch(value) {
-                // console.log(value);
+                const that = this
                 if(!value){
                     alert("请输入要搜索的用户名！")
                 } else {
@@ -265,9 +269,7 @@
                             token: this.tokenStr}}).then( res => {
                         // console.log(res.data.msg)
                         console.log(res.data.data)
-                        if(res.data.data.length){
-                            this.total = res.data.data.length
-                        }
+                        this.total = 1
                         // 暂时采用的方法，直接重写数据源
                         this.dataSource = [{
                             key : 1,
