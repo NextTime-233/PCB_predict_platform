@@ -588,7 +588,7 @@
                 this.loading=true
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
                     console.log(res.data)
@@ -598,7 +598,7 @@
                     this.loading=false
                     that.total = res.data.data.length
                 }).catch()
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10').then(res => {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10').then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -610,7 +610,7 @@
                 const tokenStr = window.sessionStorage.getItem('token')
                 that.tokenStr = tokenStr
                 console.log(that.tokenStr)
-                axios.put('http://192.168.1.102:8080/backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
                     console.log(res.data)
@@ -629,7 +629,7 @@
                 console.log(currentPage)
                 this.queryInfo.pageNum = currentPage
                 const that = this
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
                     +this.queryInfo.pageSize).then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
@@ -640,7 +640,7 @@
                 console.log(size)
                 this.queryInfo.pageSize = size;
                 const that = this
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
                     +this.queryInfo.pageNum+'/'+size).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
@@ -665,7 +665,7 @@
                 }
                 console.log(midlist)
                 console.log("提交表单")
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findCusPortraitByLabel', {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel', {
                     params: midlist,
                 }).then( res => {
                     console.log(res.data)
@@ -702,7 +702,7 @@
                 }
                 console.log(midlist)
                 console.log("提交表单")
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {
                     params: midlist,
                 }).then( res => {
                     console.log(res.data)
@@ -740,7 +740,7 @@
                     promotionDimension:'',
                     cycleDimension:'',
                 }
-                axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)

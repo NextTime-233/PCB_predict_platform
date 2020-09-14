@@ -212,7 +212,7 @@
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
             // console.log(that.tokenStr)
-            axios.get('http://192.168.1.102:8080/backend/goods/listGoods/1/10', {headers:{
+            axios.get('http://192.168.1.100:8080/backend/goods/listGoods/1/10', {headers:{
                     token: tokenStr
                 }}).then( res => {
                 console.log(res.data.data)
@@ -224,7 +224,7 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.102:8080/backend/goods/countGoods',{headers:{
+            axios.get('http://192.168.1.100:8080/backend/goods/countGoods',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
                 that.total = res.data.data
@@ -244,7 +244,7 @@
                     console.log(list[i])
                     if (list[i]) {
                         console.log("提交表单")
-                        axios.get('http://192.168.1.102:8080/backend/goods/getGoods', {
+                        axios.get('http://192.168.1.100:8080/backend/goods/getGoods', {
                             params: {
                                 goodsNo: list.goodsNo,
                                 goodsName: list.goodsName,
@@ -284,7 +284,7 @@
                     Phone: '',
                     Type: '',
                 }
-                axios.get('http://192.168.1.102:8080/backend/goods/listGoods/1/10', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/goods/listGoods/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.tableData = res.data.data
@@ -300,7 +300,7 @@
             currentPage(currentPage, size){
                 const that = this
                 const datalist = []
-                axios.get('http://192.168.1.102:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
+                axios.get('http://192.168.1.100:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
@@ -310,7 +310,7 @@
             onShowSizeChange(current, size) {
                 this.pageSize = size;
                 const that = this
-                axios.get('http://192.168.1.102:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
+                axios.get('http://192.168.1.100:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data

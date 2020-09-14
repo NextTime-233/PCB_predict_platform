@@ -24,7 +24,7 @@
                 <el-upload
                         class="upload-demo"
                         ref="upload"
-                        action="https://192.168.1.102:8080"
+                        action="https://192.168.1.100:8080"
                         :headers=myHeaders
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
