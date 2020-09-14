@@ -1,6 +1,21 @@
 <template>
-    <div id="myChartChina" :style="{width: '100%', height: '500px', background: 'pink'}"></div>
+    <el-row :gutter="12">
+        <el-col>
+            <el-col :span="16">
+                <el-card shadow="hover">
+                    <!--            <div ref="Distribute" id="myChartChina" style="width: 500px;height:300px;"></div>-->
+                    <!--            <script src="./map/js/china.js" charset="utf-8"></script>-->
+                    <div ref="Distribute" id="myChina" :style="{width: '100%', height: '500px', background: 'pink'}"></div>
 
+                </el-card>
+            </el-col>
+            <el-col :span="8">
+                <el-card shadow="hover">
+                    <div id="data" style="width: 500px;height:300px;">data</div>
+                </el-card>
+            </el-col>
+        </el-col>
+    </el-row>
 </template>
 
 <script>
@@ -12,7 +27,8 @@ export default {
     methods: {
         getDistribute() {
             // 基于准备好的dom，初始化echarts实例
-            const myChartContainer = document.getElementById('myChartChina');
+
+            const myChartContainer = document.getElementById('myChina');
             const resizeMyChartContainer = function(){
                 myChartContainer.style.width=(document.body.offsetWidth/2)+'px'//页面一半的大小
             }
@@ -34,17 +50,17 @@ export default {
                     left: 'left',
                     data:['']
                 },
-                visualMap: {
-                    min: 0,
-                    max: 1500,
-                    left: '10%',
-                    top: 'bottom',
-                    text: ['高','低'],
-                    calculable : true,
-                    color:['#0b50b9','#c3e2f4'],
-                    // 控制注释条的显示
-                    show: false
-                },
+                // visualMap: {
+                //     min: 0,
+                //     max: 1500,
+                //     left: '10%',
+                //     top: 'bottom',
+                //     text: ['高','低'],
+                //     calculable : true,
+                //     color:['#0b50b9','#c3e2f4'],
+                //     // 控制注释条的显示
+                //     show: false
+                // },
                 selectedMode: 'single',
                 series : [
                     {
@@ -63,7 +79,7 @@ export default {
                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
                             }
                         },
-                        showLegendSymbol: true,
+                        showLegendSymbol: false,
                         label: {
                             normal: {
                                 show: true

@@ -69,17 +69,55 @@
     </el-row>
     <el-row :gutter="12">
       <el-col>
-        <el-col :span="12">
-          <el-card shadow="hover">
-<!--            <div ref="Distribute" id="myChartChina" style="width: 500px;height:300px;"></div>-->
-<!--            <script src="./map/js/china.js" charset="utf-8"></script>-->
-            <div id="myChartChina" :style="{width: '100%', height: '500px', background: 'pink'}"></div>
-
-          </el-card>
+        <el-col :span="16">
+          <div id="myChartChina" :style="{width: '100%', height: '500px', background: 'white'}"></div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-card shadow="hover">
-            <div id="data" style="width: 500px;height:300px;">data</div>
+            <div id="data" style="width: 500px; height: 300px;">
+              省级分布
+              <a-form-item
+                      label="日期"
+                      :labelCol="{span: 2}"
+                      :wrapperCol="{span: 10}"
+              >
+                <a-range-picker @change="dateOnChange" size="small">
+                  <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                </a-range-picker>
+              </a-form-item>
+              <el-table
+                      :data="data"
+                      style="width: 100%"
+                      v-loading="loading"
+                      element-loading-text="拼命加载中"
+                      element-loading-spinner="el-icon-loading"
+                      element-loading-background="rgba(255, 255, 255, 0.8)">
+                <el-table-column
+                        prop="date"
+                        label="省份"
+                        width="90">
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        label="用户数"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        label="占比"
+                        width="100">
+                </el-table-column>
+              </el-table>
+              <el-pagination
+                      @size-change="handleSizeChange"
+                      @current-change="handleCurrentChange"
+                      :current-page="queryInfo.pageNum"
+                      :page-sizes="[5, 10, 15, 20]"
+                      :page-size="queryInfo.pageSize"
+                      layout="total, sizes, prev, pager, next, jumper"
+                      :total="total">
+              </el-pagination>
+            </div>
           </el-card>
         </el-col>
       </el-col>
@@ -261,7 +299,19 @@ export default {
           name: '澳门',
           value: 0.1
         }
-      ]
+      ],
+      Form:{
+        orderDateStart: '',
+        orderDateEnd: '',
+      },
+      loading: true,
+      //分页
+      queryInfo:{
+        pageNum:1,
+        pageSize:5,
+      },
+      pageSize: '',
+      total: 0,
     }
   },
   mounted() {
@@ -274,8 +324,8 @@ export default {
     this.getRegPortrait()
     this.getCyclePortrait()
     this.getPlatPortrait()
-    this.getLeft()
-    this.getAlignTarget()
+    // this.getLeft()
+    // this.getAlignTarget()
     // map
     this.getDistribute()
     // CusRegPortrait
@@ -822,182 +872,6 @@ export default {
             })
           }).catch()
     },
-    //   myChart1.setOption(option1);
-    //   setTimeout(function () {
-    //
-    //     const option2 = {
-    //       legend: {},
-    //       tooltip: {
-    //         trigger: 'axis',
-    //         showContent: false
-    //       },
-    //       dataset: {
-    //         source: [
-    //           ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-    //           ['天猫', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
-    //           ['淘宝', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
-    //           ['有赞', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
-    //           ['京东', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
-    //         ]
-    //       },
-    //       xAxis: {type: 'category'},
-    //       yAxis: {gridIndex: 0},
-    //       grid: {top: '60%'},
-    //       series: [
-    //         {type: 'line', smooth: true, seriesLayoutBy: 'row'},
-    //         {type: 'line', smooth: true, seriesLayoutBy: 'row'},
-    //         {type: 'line', smooth: true, seriesLayoutBy: 'row'},
-    //         {type: 'line', smooth: true, seriesLayoutBy: 'row'},
-    //         {
-    //           type: 'pie',
-    //           id: 'pie',
-    //           radius: '40%',
-    //           center: ['40%', '30%'],
-    //           label: {
-    //             formatter: '{b}: {@2012} ({d}%)'
-    //           },
-    //           encode: {
-    //             itemName: 'product',
-    //             value: '2012',
-    //             tooltip: '2012'
-    //           }
-    //         }
-    //       ]
-    //     };
-    //     myChart2.on('updateAxisPointer', function (event) {
-    //       var xAxisInfo = event.axesInfo[0];
-    //       if (xAxisInfo) {
-    //         var dimension = xAxisInfo.value + 1;
-    //         myChart2.setOption({
-    //           series: {
-    //             id: 'pie',
-    //             label: {
-    //               formatter: '{b}: {@[' + dimension + ']} ({d}%)'
-    //             },
-    //             encode: {
-    //               value: dimension,
-    //               tooltip: dimension
-    //             }
-    //           }
-    //         });
-    //       }
-    //     });
-    //
-    //     myChart2.setOption(option2);
-    //   })
-    // },
-    // initChart() {
-    //   let _this = this
-    //   _this.windowSize = [document.body.clientWidth, document.body.clientHeight];
-    //   window.addEventListener('resize', () => { _this.windowSize = [document.body.clientWidth, document.body.clientHeight]; });
-    //   _this.chart.map = _this.$echarts.init(document.getElementById(_this.chartId))
-    // },
-    // drawChart() {
-    //   let _this = this;
-    //   let mapName = 'china'
-    //   let geoCoordMap = {};
-    //   let tempData = [			//模拟数据
-    //     {city:'北京',value:'55'},
-    //     {city:'天津',value:'20'},
-    //     {city:'西藏',value:'100'},
-    //     {city:'辽宁',value:'58'},
-    //   ]
-    //
-    //   _this.chart.map.showLoading();		//loading样式
-    //
-    //   let mapFeatures = _this.$echarts.getMap(mapName).geoJson.features;	//获取全国地区的经纬度（只包含了一级城市、省份经纬度）
-    //   _this.chart.map.hideLoading();			//隐藏loading样式
-    //   mapFeatures.forEach(function (v) { //获取一级城市、省份经纬度
-    //     let name = v.properties.name; // 地区名称
-    //     geoCoordMap[name] = v.properties.cp; // 地区经纬度
-    //   });
-    //
-    //   let convertData = function (tempData) { 				//通过该方法获取自己数据中各地区的经纬度
-    //     let tempRes = [];
-    //     for (let i = 0; i < tempData.length; i++) {
-    //       let geoCoord = geoCoordMap[tempData[i].name] || [];
-    //       if (geoCoord) {
-    //         tempRes.push({
-    //           name: tempData[i].name,
-    //           value: geoCoord.concat(tempData[i].value) || [],
-    //         });
-    //       }
-    //     }
-    //     for (let i = 0; i < tempRes.length; i++) {
-    //       let tempGeoCoord = geoData.rows.filter(t => { return t.name.includes(tempRes[i].name) })
-    //       if (tempGeoCoord && tempRes[i].value.length == 1) {
-    //         tempRes[i].value.unshift(tempGeoCoord[0].lat)
-    //         tempRes[i].value.unshift(tempGeoCoord[0].lng)
-    //       }
-    //     }
-    //     return tempRes;
-    //   };
-    //   _this.chart.map.setOption({					//开始画图
-    //     geo: {
-    //       map: 'china',
-    //       label: { show: false, }, 				// 是否显示对应地名
-    //       roam: true,
-    //       itemStyle: {
-    //         normal: {
-    //           borderWidth: 1, // 地图边框宽度
-    //           borderColor: '#fff', // 地图边框颜色
-    //           areaColor: '#0FADFF' // 地图颜色
-    //         },
-    //         emphasis: { areaColor: '#0FADFF', borderWidth: 2 }		//高亮时的样式
-    //       },
-    //       emphasis: { areaColor: '#0FADFF', borderWidth: 2, label: { show: false } }
-    //     },
-    //     tooltip: {
-    //       triggerOn: 'mousemove',
-    //       trigger: 'item',
-    //       extraCssText: 'background:transparent;border:none;',
-    //       formatter: function (params) {
-    //         let count = eval(convertData(tempData).map(a => { return a.value[2] }).join('+'))
-    //         let content = `<div class='tooltip'>${params.name}&nbsp;${params.value[2]}户&nbsp;${(params.value[2]/count*100).toFixed(2)}%`;
-    //         return (content += `</div>`);
-    //       }
-    //     },
-    //     series: [{
-    //       name: '散点',
-    //       type: 'scatter',
-    //       coordinateSystem: 'geo',
-    //       color: "#5ADD8B", 				//点的颜色
-    //       data: convertData(tempData),
-    //       symbolSize: 10, 				//点的大小
-    //       symbol: "circle", 				//点的样式
-    //       cursor: "pointer", 			//鼠标放上去的效果
-    //       label: {
-    //         normal: { show: false }, 		//默认展示
-    //         emphasis: { show: false }	 //滑过展示
-    //       },
-    //       itemStyle: { color: '#5ADD8B', emphasis: { borderColor: '#fff', borderWidth: 1 } }
-    //     },
-    //       {
-    //         type: 'map',
-    //         map: 'china',
-    //         geoIndex: 0,
-    //         silent: true,
-    //         hoverable: false,
-    //         aspectScale: 0.75,
-    //         tooltip: { show: false }
-    //       },
-    //     ],
-    //   });
-    //   // 取消框架自带的高亮，只高亮散点
-    //   // _this.chart.map.on('mouseover', (v) => {
-    //   //   let enlarge = convertData(tempData).map(a => { return a.name })
-    //   //   let point = enlarge.findIndex(t => { return t == v.name })
-    //   //   if (point < 0) { _this.chart.map.dispatchAction({ type: 'downplay', dataIndex: v.dataIndex }); }
-    //   // });
-    //
-    //   // 鼠标滑动到散点外不显示tip
-    //   _this.chart.map.on('mouseover', (v) => {
-    //     let enlarge = convertData(tempData).map(a => { return a.name })
-    //     let point = enlarge.findIndex(t => { return t == v.name })
-    //     if (point < 0) { _this.chart.map.dispatchAction({ type: 'hideTip', dataIndex: v.dataIndex }); }
-    //   });
-    //   _this.$nextTick(() => { _this.chart.map.resize() })
-    // },
     getDistribute() {
       // 基于准备好的dom，初始化echarts实例
       const myChartContainer = document.getElementById('myChartChina');
@@ -1046,7 +920,8 @@ export default {
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
             },
-            showLegendSymbol: true,
+            // 是否显示红点标记
+            showLegendSymbol: false,
             label: {
               normal: {
                 show: true
@@ -1055,42 +930,7 @@ export default {
                 show: true
               }
             },
-            data:[
-              {name: '北京',value: randomData() },
-              {name: '天津',value: randomData() },
-              {name: '上海',value: randomData() },
-              {name: '重庆',value: randomData() },
-              {name: '河北',value: randomData() },
-              {name: '河南',value: randomData() },
-              {name: '云南',value: randomData() },
-              {name: '辽宁',value: randomData() },
-              {name: '黑龙江',value: randomData() },
-              {name: '湖南',value: randomData() },
-              {name: '安徽',value: randomData() },
-              {name: '山东',value: randomData() },
-              {name: '新疆',value: randomData() },
-              {name: '江苏',value: randomData() },
-              {name: '浙江',value: randomData() },
-              {name: '江西',value: randomData() },
-              {name: '湖北',value: randomData() },
-              {name: '广西',value: randomData() },
-              {name: '甘肃',value: randomData() },
-              {name: '山西',value: randomData() },
-              {name: '内蒙古',value: randomData() },
-              {name: '陕西',value: randomData() },
-              {name: '吉林',value: randomData() },
-              {name: '福建',value: randomData() },
-              {name: '贵州',value: randomData() },
-              {name: '广东',value: randomData() },
-              {name: '青海',value: randomData() },
-              {name: '西藏',value: randomData() },
-              {name: '四川',value: randomData() },
-              {name: '宁夏',value: randomData() },
-              {name: '海南',value: randomData() },
-              {name: '台湾',value: randomData() },
-              {name: '香港',value: randomData() },
-              {name: '澳门',value: randomData() }
-            ]
+            data: this.data
           }
         ]
       }
@@ -1100,7 +940,34 @@ export default {
         resizeMyChartContainer();
         myChartChina.resize();
       }
-    }
+    },
+    dateOnChange(){
+      this.Form.orderPayDateStart = dateString[0]
+      this.Form.orderPayDateEnd = dateString[1]
+    },
+    // 分页
+    handleCurrentChange(currentPage){
+      console.log("当前页码")
+      console.log(currentPage)
+      this.queryInfo.pageNum = currentPage
+      const that = this
+      axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+              +this.queryInfo.pageSize).then(res => {
+        console.log(res.data.data)
+        that.tableData = res.data.data
+      }).catch()
+    },
+    handleSizeChange(size) {
+      console.log("页面数据量")
+      console.log(size)
+      this.queryInfo.pageSize = size;
+      const that = this
+      axios.get('http://192.168.1.102:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
+              +this.queryInfo.pageNum+'/'+size).then(res => {
+        // console.log(res.data.data)
+        that.tableData = res.data.data
+      }).catch()
+    },
   }
 }
 </script>
