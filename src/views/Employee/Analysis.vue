@@ -71,7 +71,8 @@
       <el-col>
         <el-col :span="12">
           <el-card shadow="hover">
-            <div id="chartId" style="width: 500px;height:300px;">map</div>
+            <div ref="Distribute" style="width: 500px;height:300px;"></div>
+<!--            <script src="./map/js/china.js" charset="utf-8"></script>-->
           </el-card>
         </el-col>
         <el-col :span="12">
@@ -98,7 +99,8 @@ export default {
       // chartId: `map-${this.$root.UUID()}`,		//用UUID生成图表id，防止id重复
       // chart: {map: null, chartData: [],}
       topData: [],
-      buyerNick: [],
+      buyerNick1: [],
+      buyerNick2: [],
       sumTotalPurchaseNum: [],
       sumTotalPurchaseAmount: [],
       terminalCus: [],
@@ -118,7 +120,146 @@ export default {
       jingDongCus:[],
       offlineCus:[],
       otherCus:[],
-      mulPlatformsCus:[]
+      mulPlatformsCus:[],
+      // 地图数据
+      data: [
+        {
+          name: '江苏',
+          value: 5.3
+        },
+        {
+          name: '北京',
+          value: 3.8
+        },
+        {
+          name: '上海',
+          value: 4.6
+        },
+        {
+          name: '重庆',
+          value: 3.6
+        },
+        {
+          name: '河北',
+          value: 3.4
+        },
+        {
+          name: '河南',
+          value: 3.2
+        },
+        {
+          name: '云南',
+          value: 1.6
+        },
+        {
+          name: '辽宁',
+          value: 4.3
+        },
+        {
+          name: '黑龙江',
+          value: 4.1
+        },
+        {
+          name: '湖南',
+          value: 2.4
+        },
+        {
+          name: '安徽',
+          value: 3.3
+        },
+        {
+          name: '山东',
+          value: 3.0
+        },
+        {
+          name: '新疆',
+          value: 1
+        },
+        {
+          name: '江苏',
+          value: 3.9
+        },
+        {
+          name: '浙江',
+          value: 3.5
+        },
+        {
+          name: '江西',
+          value: 2.0
+        },
+        {
+          name: '湖北',
+          value: 2.1
+        },
+        {
+          name: '广西',
+          value: 3.0
+        },
+        {
+          name: '甘肃',
+          value: 1.2
+        },
+        {
+          name: '山西',
+          value: 3.2
+        },
+        {
+          name: '内蒙古',
+          value: 3.5
+        },
+        {
+          name: '陕西',
+          value: 2.5
+        },
+        {
+          name: '吉林',
+          value: 4.5
+        },
+        {
+          name: '福建',
+          value: 2.8
+        },
+        {
+          name: '贵州',
+          value: 1.8
+        },
+        {
+          name: '广东',
+          value: 3.7
+        },
+        {
+          name: '青海',
+          value: 0.6
+        },
+        {
+          name: '西藏',
+          value: 0.4
+        },
+        {
+          name: '四川',
+          value: 3.3
+        },
+        {
+          name: '宁夏',
+          value: 0.8
+        },
+        {
+          name: '海南',
+          value: 1.9
+        },
+        {
+          name: '台湾',
+          value: 0.1
+        },
+        {
+          name: '香港',
+          value: 0.1
+        },
+        {
+          name: '澳门',
+          value: 0.1
+        }
+      ]
     }
   },
   mounted() {
@@ -131,123 +272,118 @@ export default {
     this.getRegPortrait()
     this.getCyclePortrait()
     this.getPlatPortrait()
-    // this.getLeft()
-    // this.getAlignTarget()
-
+    this.getLeft()
+    this.getAlignTarget()
+    this.getDistribute()
+    // CusRegPortrait
   },
   methods: {
     getEchart() {
       const topTen = this.$refs.topTen
       console.log('购买次数top10')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(topTen)
+      const myChart1 = this.$echarts.init(topTen)
       const that = this
       let sumTotalPurchaseNum = that.sumTotalPurchaseNum
-      let buyerNick = that.buyerNick
-        axios.get('http://192.168.1.102:8080/backend/data/getTPNTopTen').then(
-            res=>{
-              console.log('购买次数top10res数据' + res.data)
-              // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
-              // console.log(sumTotalPurchaseNum)
-              for(let i = 0; i < res.data.data.length; i++) {
-                //这里我展示的是后台返回的每条数据里面的bookname和num
-                // buyerNick.push(data[i].buyerNick);
-                // sumTotalPurchaseNum.push(data[i].sumTotalPurchaseNum);
-                sumTotalPurchaseNum[i] = res.data.data[i].sumTotalPurchaseNum
-                buyerNick[i] = res.data.data[i].buyerNick
+      let buyerNick1 = that.buyerNick1
+      axios.get('http://192.168.1.102:8080/backend/data/getTPNTopTen').then(
+          res => {
+            console.log('购买次数top10res数据' + res.data)
+            // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
+            // console.log(sumTotalPurchaseNum)
+            for (let i = 9; i >= 0; i--) {
+              //这里我展示的是后台返回的每条数据里面的bookname和num
+              buyerNick1.push(res.data.data[i].buyerNick);
+              sumTotalPurchaseNum.push(res.data.data[i].sumTotalPurchaseNum);
+            }
+            console.log('top10数据' + sumTotalPurchaseNum)
+            console.log('网名' + buyerNick1)
+            // console.log('---------------')
+            const option1 = {
+              //color: ['#c23531','#1e6290', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
+              title: {
+                text: '客户购买总次数top10',
+              },
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow'
+                }
+              },
+              legend: {
+                data: ['2020年']
+              },
+              grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+              },
+              xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
 
-              }
-              console.log('top10数据'+ sumTotalPurchaseNum)
-              console.log('网名'+buyerNick)
-              // console.log('---------------')
-              const option1 = {
-                //color: ['#c23531','#1e6290', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
-                title: {
-                  text: '客户购买总次数top10',
-                },
-                tooltip: {
-                  trigger: 'axis',
-                  axisPointer: {
-                    type: 'shadow'
+              },
+              yAxis: {
+                type: 'category',
+                // data: ['A', 'B', 'C', 'D', 'E', 'F','G','H','I','J',],
+                data: that.buyerNick1,
+              },
+              series: [
+                {
+                  name: '2020年',
+                  type: 'bar',
+                  data: sumTotalPurchaseNum,
+                  itemStyle: {
+                    normal: {
+                      //这里是重点
+                      color: function (params) {
+                        //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                        var colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622'];
+                        return colorList[params.dataIndex]
+                      }
+                    }
+
                   }
                 },
-                legend: {
-                  data: ['2020年']
-                },
-                grid: {
-                  left: '3%',
-                  right: '4%',
-                  bottom: '3%',
-                  containLabel: true
-                },
-                xAxis: {
-                  type: 'value',
-                  boundaryGap: [0, 0.01],
-
-                },
-                yAxis: {
-                  type: 'category',
-                  // data: ['A', 'B', 'C', 'D', 'E', 'F','G','H','I','J',],
-                  data: that.buyerNick,
-                },
-                series: [
-                  {
-                    name: '2020年',
-                    type: 'bar',
-                    data:sumTotalPurchaseNum,
-                    itemStyle: {
-                      normal: {
-                        //这里是重点
-                        color: function(params) {
-                          //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
-                          var colorList = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83', '#ca8622'];
-                          return colorList[params.dataIndex]
-                        }
-                      }
-
-                    }
-                  },
-                  // {
-                  //   name: '2019年',
-                  //   type: 'bar',
-                  //   data: [31000, 23438, 19325, 121594, 134141, 681807]
-                  // }
-                ]
-              }
-              myChart1.setOption(option1);
-              window.addEventListener("resize", function () {
-                myChart1.resize();
-                //myCharts是你的初始化echarts图表时取的名字
-              })
-            }).catch()
+                // {
+                //   name: '2019年',
+                //   type: 'bar',
+                //   data: [31000, 23438, 19325, 121594, 134141, 681807]
+                // }
+              ]
+            }
+            myChart1.setOption(option1);
+            window.addEventListener("resize", function () {
+              myChart1.resize();
+              //myCharts是你的初始化echarts图表时取的名字
+            })
+          }).catch()
       // console.log(sumTotalPurchaseNum)
     },
-    getNumTop(){
+    getNumTop() {
       const numTop = this.$refs.numTop
       console.log('购买金额top10')
       // const myChart1 = echarts.init(document.getElementById('main'));
       // const myChart2 = echarts.init(document.getElementById('numTop'));
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(numTop)
+      const myChart1 = this.$echarts.init(numTop)
       const that = this//
       let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
-      let buyerNick = that.buyerNick
+      let buyerNick2 = that.buyerNick2
       axios.get('http://192.168.1.102:8080/backend/data/getTPATopTen').then(
-          res=>{
-            console.log('金额top10res数据'+res.data)
+          res => {
+            console.log('金额top10res数据' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
             // console.log(sumTotalPurchaseNum)
-            console.log('for前金额：'+sumTotalPurchaseAmount)
-            for(let i = 0; i < res.data.data.length; i++) {
+            console.log('for前金额：' + sumTotalPurchaseAmount)
+            for (let i = 9; i >= 0; i--) {
               //这里我展示的是后台返回的每条数据里面的bookname和num
-              // buyerNick.push(data[i].buyerNick);
-              // sumTotalPurchaseNum.push(data[i].sumTotalPurchaseNum);
-              sumTotalPurchaseAmount[i] = res.data.data[i].sumTotalPurchaseAmount
-              buyerNick[i] = res.data.data[i].buyerNick
-
+              buyerNick2.push(res.data.data[i].buyerNick);
+              sumTotalPurchaseAmount.push(res.data.data[i].sumTotalPurchaseAmount);
             }
-            console.log('for后金额'+sumTotalPurchaseAmount)
-            console.log('网名'+buyerNick)
+            console.log('for后金额' + sumTotalPurchaseAmount)
+            console.log('网名' + buyerNick2)
             // console.log('---------------')
             const option1 = {
               title: {
@@ -276,13 +412,13 @@ export default {
               yAxis: {
                 type: 'category',
                 // data: ['A', 'B', 'C', 'D', 'E', 'F','G','H','I','J',],
-                data: that.buyerNick,
+                data: that.buyerNick2,
               },
               series: [
                 {
                   name: '2020年',
                   type: 'bar',
-                  data:sumTotalPurchaseAmount,
+                  data: sumTotalPurchaseAmount,
                   itemStyle: {
                     normal: {
                       //这里是重点
@@ -305,21 +441,21 @@ export default {
           }).catch()
       // console.log(sumTotalPurchaseNum)
     },
-    getCateProtrait(){
+    getCateProtrait() {
       const CatePortrait = this.$refs.CatePortrait
       console.log('分类维度')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(CatePortrait)
+      const myChart1 = this.$echarts.init(CatePortrait)
       const that = this
       let terminalCus = that.terminalCus
       let distributionCus = that.distributionCus
       axios.get('http://192.168.1.102:8080/backend/data/CusCatePortraitAnalysis').then(
-          res=>{
-            console.log('分类维度res数据'+res.data)
+          res => {
+            console.log('分类维度res数据' + res.data)
             terminalCus[0] = res.data.data[0].terminalCus
             distributionCus[0] = res.data.data[0].distributionCus
-            console.log('终端客户'+terminalCus[0])
-            console.log('分销客户'+distributionCus[0])
+            console.log('终端客户' + terminalCus[0])
+            console.log('分销客户' + distributionCus[0])
             // console.log('---------------')
             const option1 = {
               title: {
@@ -341,7 +477,7 @@ export default {
                 {
                   name: '2020年',
                   type: 'bar',
-                  data: [ terminalCus[0],distributionCus[0]+100 ]
+                  data: [terminalCus[0], distributionCus[0] + 100]
                 },
                 // {
                 //   name: '2020年',
@@ -364,21 +500,21 @@ export default {
       // console.log(sumTotalPurchaseNum)
 
     },
-    getTimePortrait(){
+    getTimePortrait() {
       const TimePortrait = this.$refs.TimePortrait
       console.log('时间维度')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(TimePortrait)
+      const myChart1 = this.$echarts.init(TimePortrait)
       const that = this
       let oldCustomer = that.oldCustomer
       let newCustomer = that.newCustomer
       axios.get('http://192.168.1.102:8080/backend/data/CusTimePortraitAnalysis').then(
-          res=>{
-            console.log('时间维度res数据'+res.data)
+          res => {
+            console.log('时间维度res数据' + res.data)
             oldCustomer[0] = res.data.data[0].oldCustomer
             newCustomer[0] = res.data.data[0].newCustomer
-            console.log('老用户数据'+ oldCustomer[0])
-            console.log('新用户数据'+ newCustomer[0])
+            console.log('老用户数据' + oldCustomer[0])
+            console.log('新用户数据' + newCustomer[0])
             // console.log('---------------')
             const option1 = {
               title: {
@@ -400,7 +536,7 @@ export default {
                 {
                   name: '2020年',
                   type: 'bar',
-                  data: [oldCustomer[0],newCustomer[0]+1]
+                  data: [oldCustomer[0], newCustomer[0] + 1]
                 },
               ]
             }
@@ -413,21 +549,21 @@ export default {
       // console.log(sumTotalPurchaseNum)
 
     },
-    getSalesPortrait(){
+    getSalesPortrait() {
       const SalesPortrait = this.$refs.SalesPortrait
       console.log('销量维度')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(SalesPortrait)
+      const myChart1 = this.$echarts.init(SalesPortrait)
       const that = this
       let lowSales = that.lowSales
       let highSales = that.highSales
       axios.get('http://192.168.1.102:8080/backend/data/CusSalesPortraitAnalysis').then(
-          res=>{
-            console.log('销量维度res数据'+res.data)
+          res => {
+            console.log('销量维度res数据' + res.data)
             lowSales[0] = res.data.data[0].lowSales
             highSales[0] = res.data.data[0].highSales
-            console.log('低销量：'+ lowSales[0])
-            console.log('高销量'+ highSales[0])
+            console.log('低销量：' + lowSales[0])
+            console.log('高销量' + highSales[0])
             // console.log('---------------')
             const option1 = {
               title: {
@@ -449,7 +585,7 @@ export default {
                 {
                   name: '2020年',
                   type: 'bar',
-                  data: [ lowSales[0],highSales[0]+10 ]
+                  data: [lowSales[0], highSales[0] + 10]
                 },
               ]
             }
@@ -460,23 +596,23 @@ export default {
             })
           }).catch()
     },
-    getValPortrait(){
+    getValPortrait() {
       const ValPortrait = this.$refs.ValPortrait
       console.log('价值维度')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(ValPortrait)
+      const myChart1 = this.$echarts.init(ValPortrait)
       const that = this
       let lowVal = that.lowVal
       let highVal = that.highVal
       axios.get('http://192.168.1.102:8080/backend/data/CusValPortraitAnalysis').then(
-          res=>{
-            console.log('价值res数据：'+res.data.data[0].lowVal)
+          res => {
+            console.log('价值res数据：' + res.data.data[0].lowVal)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
             // console.log(sumTotalPurchaseNum)
             lowVal[0] = res.data.data[0].lowVal
             highVal[0] = res.data.data[0].highVal
-            console.log('低价值：'+ lowVal[0])
-            console.log('高价值'+ highVal[0])
+            console.log('低价值：' + lowVal[0])
+            console.log('高价值' + highVal[0])
             const option1 = {
               title: {
                 text: '价值维度',
@@ -497,7 +633,7 @@ export default {
                 {
                   name: '2020年',
                   type: 'bar',
-                  data:[lowVal[0],highVal[0]+1]
+                  data: [lowVal[0], highVal[0] + 1]
                 },
               ]
             }
@@ -510,23 +646,23 @@ export default {
       // console.log(sumTotalPurchaseNum)
 
     },
-    getRegPortrait(){
+    getRegPortrait() {
       const RegPortrait = this.$refs.RegPortrait
       console.log('复购维度')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(RegPortrait)
+      const myChart1 = this.$echarts.init(RegPortrait)
       const that = this
       let highRepurchase = that.highRepurchase
       let lowRepurchase = that.lowRepurchase
       axios.get('http://192.168.1.102:8080/backend/data/CusRepurchasePortraitAnalysis').then(
-          res=>{
-            console.log('复购res数据：'+res.data)
+          res => {
+            console.log('复购res数据：' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
             // console.log(sumTotalPurchaseNum)
             highRepurchase[0] = res.data.data[0].highRepurchase
             lowRepurchase[0] = res.data.data[0].lowRepurchase
-            console.log('高复购：'+ highRepurchase[0])
-            console.log('低复购'+ lowRepurchase[0])
+            console.log('高复购：' + highRepurchase[0])
+            console.log('低复购' + lowRepurchase[0])
             const option1 = {
               title: {
                 text: '复购维度',
@@ -547,7 +683,7 @@ export default {
                 {
                   name: '2020年',
                   type: 'bar',
-                  data:[ highRepurchase[0] ,lowRepurchase[0] ]
+                  data: [highRepurchase[0], lowRepurchase[0]]
                 },
               ]
             }
@@ -558,26 +694,26 @@ export default {
             })
           }).catch()
     },
-    getCyclePortrait(){
+    getCyclePortrait() {
       const CyclePortrait = this.$refs.CyclePortrait
       console.log('周期维度')
       // // 指定图表的配置项和数据
-      const myChart1= this.$echarts.init(CyclePortrait)
+      const myChart1 = this.$echarts.init(CyclePortrait)
       const that = this
       let stableCus = that.stableCus
       let potentialCus = that.potentialCus
       let lossCus = that.lossCus
       axios.get('http://192.168.1.102:8080/backend/data/CusCyclePortraitAnalysis').then(
-          res=>{
-            console.log('周期res数据：'+res.data)
+          res => {
+            console.log('周期res数据：' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
             // console.log(sumTotalPurchaseNum)
             stableCus[0] = res.data.data[0].stableCus
             potentialCus[0] = res.data.data[0].potentialCus
             lossCus[0] = res.data.data[0].lossCus
-            console.log('稳定：'+ stableCus[0])
-            console.log('流失：'+ potentialCus[0])
-            console.log('潜在：'+ lossCus[0])
+            console.log('稳定：' + stableCus[0])
+            console.log('流失：' + potentialCus[0])
+            console.log('潜在：' + lossCus[0])
             const option1 = {
               title: {
                 text: '周期维度',
@@ -588,7 +724,7 @@ export default {
                 data: ['人数']
               },
               xAxis: {
-                data: ["稳定客户", "流失客户","潜在客户"]
+                data: ["稳定客户", "流失客户", "潜在客户"]
               },
               yAxis: {
                 // data : that.terminalCus,
@@ -598,7 +734,7 @@ export default {
                 {
                   name: '2020年',
                   type: 'bar',
-                  data:[ stableCus[0] ,potentialCus[0] ,lossCus[0] ]
+                  data: [stableCus[0], potentialCus[0], lossCus[0]]
                 },
               ]
             }
@@ -668,10 +804,10 @@ export default {
                   },
                   data: [
                     {value: tianMaoCus[0], name: '天猫'},
-                    {value: jingDongCus[0]+100, name: '京东'},
-                    {value: offlineCus[0]+200, name: '线下'},
-                    {value: otherCus[0]+300, name: '其他'},
-                    {value: mulPlatformsCus[0]+400, name: '多平台'}
+                    {value: jingDongCus[0] + 100, name: '京东'},
+                    {value: offlineCus[0] + 200, name: '线下'},
+                    {value: otherCus[0] + 300, name: '其他'},
+                    {value: mulPlatformsCus[0] + 400, name: '多平台'}
                   ]
                 }
               ]
@@ -859,135 +995,205 @@ export default {
     //   });
     //   _this.$nextTick(() => { _this.chart.map.resize() })
     // },
-  },
+    getDistribute() {
+      const Distribute = this.$refs.Distribute
+      console.log('地区维度')
+      const myChart1 = this.$echarts.init(Distribute)
+      const that = this
+      const data = that.data
+      let province = that.province
+      let num = that.num
+      axios.get('http://192.168.1.102:8080/backend/data/CusRegPortraitAnalysis').then(
+          res => {
+            // 输出调用接口的返回值
+            console.log(res)
+            // 地图的 注释 右侧
+            const yData = [];
+            const barData = [];
 
-    //   getAllNames() {
-    //     const myChart1 = echarts.init(document.getElementById('myChartChina'));
-    //     const myChart2 = echarts.init(document.getElementById('data'));
-    //     指定图表的配置项和数据
-    //     const option1 = {
-    //       tooltip: {
-    //         trigger: 'item',
-    //         formatter: '{a} <br/>{b}: {c} ({d}%)'
-    //       },
-    //       legend: {
-    //         orient: 'vertical',
-    //         left: 10,
-    //         data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-    //       },
-    //       series: [
-    //         {
-    //           name: '访问来源',
-    //           type: 'pie',
-    //           radius: ['50%', '70%'],
-    //           avoidLabelOverlap: false,
-    //           label: {
-    //             show: false,
-    //             position: 'center'
-    //           },
-    //           emphasis: {
-    //             label: {
-    //               show: true,
-    //               fontSize: '30',
-    //               fontWeight: 'bold'
-    //             }
-    //           },
-    //           labelLine: {
-    //             show: false
-    //           },
-    //           data: [
-    //             {value: 335, name: '直接访问'},
-    //             {value: 310, name: '邮件营销'},
-    //             {value: 234, name: '联盟广告'},
-    //             {value: 135, name: '视频广告'},
-    //             {value: 1548, name: '搜索引擎'}
-    //           ]
-    //         }
-    //       ]
-    //
-    //     };
-    //
-    //     const option2 = {
-    //       backgroundColor: '#2c343c',
-    //
-    //       title: {
-    //         text: 'Customized Pie',
-    //         left: 'center',
-    //         top: 20,
-    //         textStyle: {
-    //           color: '#ccc'
-    //         }
-    //       },
-    //
-    //       tooltip: {
-    //         trigger: 'item',
-    //         formatter: '{a} <br/>{b} : {c} ({d}%)'
-    //       },
-    //
-    //       visualMap: {
-    //         show: false,
-    //         min: 80,
-    //         max: 600,
-    //         inRange: {
-    //           colorLightness: [0, 1]
-    //         }
-    //       },
-    //       series: [
-    //         {
-    //           name: '访问来源',
-    //           type: 'pie',
-    //           radius: '55%',
-    //           center: ['50%', '50%'],
-    //           data: [
-    //             {value: 335, name: '直接访问'},
-    //             {value: 310, name: '邮件营销'},
-    //             {value: 274, name: '联盟广告'},
-    //             {value: 235, name: '视频广告'},
-    //             {value: 400, name: '搜索引擎'}
-    //           ].sort(function (a, b) {
-    //             return a.value - b.value;
-    //           }),
-    //           roseType: 'radius',
-    //           label: {
-    //             color: 'rgba(255, 255, 255, 0.3)'
-    //           },
-    //           labelLine: {
-    //             lineStyle: {
-    //               color: 'rgba(255, 255, 255, 0.3)'
-    //             },
-    //             smooth: 0.2,
-    //             length: 10,
-    //             length2: 20
-    //           },
-    //           itemStyle: {
-    //             color: '#c23531',
-    //             shadowBlur: 200,
-    //             shadowColor: 'rgba(0, 0, 0, 0.5)'
-    //           },
-    //
-    //           animationType: 'scale',
-    //           animationEasing: 'elasticOut',
-    //           animationDelay: function (idx) {
-    //             return Math.random() * 200;
-    //           }
-    //         }
-    //       ]
-    //     };
-    //     // 使用刚指定的配置项和数据显示图表。
-    //     myChart1.setOption(option1);
-    //     myChart2.setOption(option2);
-    //     window.addEventListener("resize", function () {
-    //       myChart1.resize();
-    //       myChart2.resize();
-    //       //myCharts是你的初始化echarts图表时取的名字
-    //     });
-    //   }
-
-
+            for (let i = 0; i < 10; i++) {
+              barData.push(data[i]);
+              yData.push(i + data[i].name);
+              const option = {
+                title: [{
+                  show: true,
+                  text: '排名情况',
+                  textStyle: {
+                    color: '#2D3E53',
+                    fontSize: 18
+                  },
+                  right: 180,
+                  top: 100
+                }],
+                tooltip: {
+                  show: true,
+                  formatter: function (params) {
+                    return params.name + '：' + params.data['value'] + '%'
+                  },
+                },
+                visualMap: {
+                  type: 'continuous',
+                  orient: 'horizontal',
+                  itemWidth: 10,
+                  itemHeight: 80,
+                  text: ['高', '低'],
+                  showLabel: true,
+                  seriesIndex: [0],
+                  min: 0,
+                  max: 2,
+                  inRange: {
+                    color: ['#6FCF6A', '#FFFD64', '#FF5000']
+                  },
+                  textStyle: {
+                    color: '#7B93A7'
+                  },
+                  bottom: 30,
+                  left: 'left',
+                },
+                grid: {
+                  right: 10,
+                  top: 135,
+                  bottom: 100,
+                  width: '20%'
+                },
+                xAxis: {
+                  show: false
+                },
+                yAxis: {
+                  type: 'category',
+                  inverse: true,
+                  nameGap: 16,
+                  axisLine: {
+                    show: false,
+                    lineStyle: {
+                      color: '#ddd'
+                    }
+                  },
+                  axisTick: {
+                    show: false,
+                    lineStyle: {
+                      color: '#ddd'
+                    }
+                  },
+                  axisLabel: {
+                    interval: 0,
+                    margin: 85,
+                    textStyle: {
+                      color: '#455A74',
+                      align: 'left',
+                      fontSize: 14
+                    },
+                    rich: {
+                      a: {
+                        color: '#fff',
+                        backgroundColor: '#FAAA39',
+                        width: 20,
+                        height: 20,
+                        align: 'center',
+                        borderRadius: 2
+                      },
+                      b: {
+                        color: '#fff',
+                        backgroundColor: '#4197FD',
+                        width: 20,
+                        height: 20,
+                        align: 'center',
+                        borderRadius: 2
+                      }
+                    },
+                    formatter: function (params) {
+                      if (parseInt(params.slice(0, 1)) < 3) {
+                        return [
+                          '{a|' + (parseInt(params.slice(0, 1)) + 1) + '}' + '  ' + params.slice(1)
+                        ].join('\n')
+                      } else {
+                        return [
+                          '{b|' + (parseInt(params.slice(0, 1)) + 1) + '}' + '  ' + params.slice(1)
+                        ].join('\n')
+                      }
+                    }
+                  },
+                  data: yData
+                },
+                geo: {
+                  // roam: true,
+                  map: 'china',
+                  left: 'left',
+                  right: '300',
+                  // layoutSize: '80%',
+                  label: {
+                    emphasis: {
+                      show: false
+                    }
+                  },
+                  itemStyle: {
+                    emphasis: {
+                      areaColor: '#fff464'
+                    }
+                  }
+                },
+                series: [{
+                  name: 'mapSer',
+                  type: 'map',
+                  roam: false,
+                  geoIndex: 0,
+                  label: {
+                    show: false,
+                  },
+                  data: data
+                }, {
+                  name: 'barSer',
+                  type: 'bar',
+                  roam: false,
+                  visualMap: false,
+                  zlevel: 2,
+                  barMaxWidth: 8,
+                  barGap: 0,
+                  itemStyle: {
+                    normal: {
+                      color: function (params) {
+                        // build a color map as your need.
+                        const colorList = [{
+                          colorStops: [{
+                            offset: 0,
+                            color: '#FFD119' // 0% 处的颜色
+                          }, {
+                            offset: 1,
+                            color: '#FFAC4C' // 100% 处的颜色
+                          }]
+                        },
+                          {
+                            colorStops: [{
+                              offset: 0,
+                              color: '#00C0FA' // 0% 处的颜色
+                            }, {
+                              offset: 1,
+                              color: '#2F95FA' // 100% 处的颜色
+                            }]
+                          }
+                        ];
+                        if (params.dataIndex < 3) {
+                          return colorList[0]
+                        } else {
+                          return colorList[1]
+                        }
+                      },
+                      barBorderRadius: 15
+                    }
+                  },
+                  data: barData
+                }]
+              };
+              myChart1.setOption(option);
+              window.addEventListener("resize", function () {
+                myChart1.resize();
+                //myCharts是你的初始化echarts图表时取的名字
+              })
+            }
+          }).catch()
+    },
+  }
 }
-
-
-
 </script>
 
 <style lang="less" scoped>
