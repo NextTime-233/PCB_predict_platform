@@ -757,7 +757,7 @@
             getLabel(){
                 const that = this;
                 let tokenStr =  window.sessionStorage.getItem('token')
-                axios.get('http://172.20.10.2:8080/backend/label/findAllLabelVal/1/5').then(res => {
+                axios.get('http://192.168.1.106:8080/backend/label/findAllLabelVal/1/5').then(res => {
                     that.tableData = res.data.data;
                     that.total=res.data.data.length;
                     console.log((that.tableData));
@@ -773,7 +773,7 @@
                         that.dis4 = true;
                     }
                 }).catch()
-                axios.get('http://172.20.10.2:8080/backend/label/findAllLabelVal',{headers:{
+                axios.get('http://192.168.1.106:8080/backend/label/findAllLabelVal',{headers:{
                         token: tokenStr
                     }}).then( res => {
                     console.log(res.data.data)
@@ -816,7 +816,7 @@
                     console.log("暂时未执行")
                 } else{
                     console.log("提交表单")
-                    axios.get('http://172.20.10.2:8080/backend/label/findLabelValByName/', {
+                    axios.get('http://192.168.1.106:8080/backend/label/findLabelValByName/', {
                         headers:{token : this.tokenStr},
                         tokenBackend: this.tokenStr
                     }).then( res => {
@@ -832,7 +832,7 @@
                 console.log(currentPage)
                 this.queryInfo.pageNum = currentPage
                 const that = this
-                axios.get('http://172.20.10.2:8080/backend/label/findAllLabelVal/'+currentPage+'/'+this.queryInfo.pageSize).then(res => {
+                axios.get('http://192.168.1.106:8080/backend/label/findAllLabelVal/'+currentPage+'/'+this.queryInfo.pageSize).then(res => {
                     console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -842,7 +842,7 @@
                 console.log(size)
                 this.queryInfo.pageSize = size;
                 const that = this
-                axios.get('http://172.20.10.2:8080/backend/label/findAllLabelVal/'+this.queryInfo.pageNum+'/'+size).then(res => {
+                axios.get('http://192.168.1.106:8080/backend/label/findAllLabelVal/'+this.queryInfo.pageNum+'/'+size).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                 }).catch()
@@ -855,7 +855,7 @@
                 if(!labelVal){
                     alert("请输入要搜索的用户名！")
                 } else {
-                    axios.get('http://172.20.10.2:8080/backend/label/findLabelValByName/'+labelVal, {headers:{
+                    axios.get('http://192.168.1.106:8080/backend/label/findLabelValByName/'+labelVal, {headers:{
                             token: this.tokenStr}}).then( res => {
                         console.log(res.data);
                         const dataset=0;
@@ -873,7 +873,7 @@
             // 新增标签ok
             addLabel() {
                 // this.dis=false
-                axios.post('http://172.20.10.2:8080/backend/label/saveLabelProp1?labelVal='
+                axios.post('http://192.168.1.106:8080/backend/label/saveLabelProp1?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
@@ -884,7 +884,7 @@
             },
             addLabel2(){
                 // this.dis1=false
-                axios.post('http://172.20.10.2:8080//backend/label/saveLabelProp2?labelVal='
+                axios.post('http://192.168.1.106:8080//backend/label/saveLabelProp2?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
@@ -895,7 +895,7 @@
             },
             addLabel3(){
                 // this.dis2=false
-                axios.post('http://172.20.10.2:8080//backend/label/saveLabelProp3?labelVal='
+                axios.post('http://192.168.1.106:8080//backend/label/saveLabelProp3?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
@@ -904,7 +904,7 @@
             },
             addLabel4(){
                 // this.dis3=false
-                axios.post('http://172.20.10.2:8080//backend/label/saveLabelProp4?labelVal='
+                axios.post('http://192.168.1.106:8080//backend/label/saveLabelProp4?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
@@ -913,7 +913,7 @@
             },
             addLabel5(){
                 // this.dis4=false
-                axios.post('http://172.20.10.2:8080//backend/label/saveLabelProp5?labelVal='
+                axios.post('http://192.168.1.106:8080//backend/label/saveLabelProp5?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
@@ -933,7 +933,7 @@
                 const list={}
                 list[0]= rows[0].labelVal
                 console.log( list[0])
-                axios.put('http://172.20.10.2:8080/backend/label/delLabel', {params:list}).then(res=>{
+                axios.put('http://192.168.1.106:8080/backend/label/delLabel', {params:list}).then(res=>{
                     console.log(res)
                     console.log(rows)
                 }).catch()

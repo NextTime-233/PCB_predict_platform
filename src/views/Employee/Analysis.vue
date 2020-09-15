@@ -339,7 +339,7 @@ export default {
       const that = this
       let sumTotalPurchaseNum = that.sumTotalPurchaseNum
       let buyerNick1 = that.buyerNick1
-      axios.get('http://172.20.10.2:8080/backend/data/getTPNTopTen').then(
+      axios.get('http://192.168.1.106:8080/backend/data/getTPNTopTen').then(
           res => {
             console.log('购买次数top10res数据' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -424,7 +424,7 @@ export default {
       const that = this//
       let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
       let buyerNick2 = that.buyerNick2
-      axios.get('http://172.20.10.2:8080/backend/data/getTPATopTen').then(
+      axios.get('http://192.168.1.106:8080/backend/data/getTPATopTen').then(
           res => {
             console.log('金额top10res数据' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -502,7 +502,7 @@ export default {
       const that = this
       let terminalCus = that.terminalCus
       let distributionCus = that.distributionCus
-      axios.get('http://172.20.10.2:8080/backend/data/CusCatePortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusCatePortraitAnalysis').then(
           res => {
             console.log('分类维度res数据' + res.data)
             terminalCus[0] = res.data.data[0].terminalCus
@@ -561,7 +561,7 @@ export default {
       const that = this
       let oldCustomer = that.oldCustomer
       let newCustomer = that.newCustomer
-      axios.get('http://172.20.10.2:8080/backend/data/CusTimePortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusTimePortraitAnalysis').then(
           res => {
             console.log('时间维度res数据' + res.data)
             oldCustomer[0] = res.data.data[0].oldCustomer
@@ -610,7 +610,7 @@ export default {
       const that = this
       let lowSales = that.lowSales
       let highSales = that.highSales
-      axios.get('http://172.20.10.2:8080/backend/data/CusSalesPortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusSalesPortraitAnalysis').then(
           res => {
             console.log('销量维度res数据' + res.data)
             lowSales[0] = res.data.data[0].lowSales
@@ -657,7 +657,7 @@ export default {
       const that = this
       let lowVal = that.lowVal
       let highVal = that.highVal
-      axios.get('http://172.20.10.2:8080/backend/data/CusValPortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusValPortraitAnalysis').then(
           res => {
             console.log('价值res数据：' + res.data.data[0].lowVal)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -707,7 +707,7 @@ export default {
       const that = this
       let highRepurchase = that.highRepurchase
       let lowRepurchase = that.lowRepurchase
-      axios.get('http://172.20.10.2:8080/backend/data/CusRepurchasePortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusRepurchasePortraitAnalysis').then(
           res => {
             console.log('复购res数据：' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -756,7 +756,7 @@ export default {
       let stableCus = that.stableCus
       let potentialCus = that.potentialCus
       let lossCus = that.lossCus
-      axios.get('http://172.20.10.2:8080/backend/data/CusCyclePortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusCyclePortraitAnalysis').then(
           res => {
             console.log('周期res数据：' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -808,7 +808,7 @@ export default {
       let offlineCus = that.offlineCus//线下
       let otherCus = that.otherCus//其他平台
       let mulPlatformsCus = that.mulPlatformsCus//其他平台
-      axios.get('http://172.20.10.2:8080/backend/data/CusPlatPortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusPlatPortraitAnalysis').then(
           res => {
             console.log('平台res数据：' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -885,7 +885,7 @@ export default {
         return Math.round(Math.random()*500);
       }
 
-      axios.get('http://172.20.10.2:8080/backend/data/CusRegPortraitAnalysis').then(
+      axios.get('http://192.168.1.106:8080/backend/data/CusRegPortraitAnalysis').then(
               res => {
                 console.log('map-res数据：' + res.data)
                 // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
@@ -962,7 +962,7 @@ export default {
       console.log(currentPage)
       this.queryInfo.pageNum = currentPage
       const that = this
-      axios.get('http://172.20.10.2:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+      axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
               +this.queryInfo.pageSize).then(res => {
         console.log(res.data.data)
         that.tableData = res.data.data
@@ -973,7 +973,7 @@ export default {
       console.log(size)
       this.queryInfo.pageSize = size;
       const that = this
-      axios.get('http://172.20.10.2:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
+      axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
               +this.queryInfo.pageNum+'/'+size).then(res => {
         // console.log(res.data.data)
         that.tableData = res.data.data

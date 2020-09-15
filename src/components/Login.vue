@@ -59,7 +59,7 @@
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        axios.post(' http://172.20.10.2:8080/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
+                        axios.post(' http://192.168.1.106:8080/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
                             console.log(res)
                             if(!res.data.code){
                                 this.logining = false;

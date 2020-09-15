@@ -632,7 +632,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            axios.get('http://172.20.10.2:8080/backend/order/listOrders/1/5', {headers:{
+            axios.get('http://192.168.1.106:8080/backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
                 console.log(res.data)
@@ -644,7 +644,7 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://172.20.10.2:8080/backend/order/countOrders',{headers:{
+            axios.get('http://192.168.1.106:8080/backend/order/countOrders',{headers:{
                     token : tokenStr}}).then( res => {
                 console.log(res.data)
                 that.total = res.data.data
@@ -691,7 +691,7 @@
                     for (let i in list) {
                         console.log(list[i])
                         if (list[i]) {
-                            axios.get('http://172.20.10.2:8080/backend/order/getOrders', {
+                            axios.get('http://192.168.1.106:8080/backend/order/getOrders', {
                                 params: {
                                     trade_no: list.trade_no,
                                     shop_name: list.shop_name,
@@ -730,7 +730,7 @@
                     }
                 }
                 else {
-                    axios.get('http://172.20.10.2:8080/backend/order/getOrders', {
+                    axios.get('http://192.168.1.106:8080/backend/order/getOrders', {
                         params: {
                             trade_no: list.trade_no,
                             shop_name: list.shop_name,
@@ -781,7 +781,7 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 }
-                axios.get('http://172.20.10.2:8080/backend/order/listOrders/1/5', {headers:{
+                axios.get('http://192.168.1.106:8080/backend/order/listOrders/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.data = res.data.data
@@ -795,7 +795,7 @@
                 console.log(row.tradeNo)
                 this.valueOfCol = row
                 const that = this
-                axios.get('http://172.20.10.2:8080/backend/order/getOrderDetail', {
+                axios.get('http://192.168.1.106:8080/backend/order/getOrderDetail', {
                     params : {tradeNo : row.tradeNo},
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
@@ -810,7 +810,7 @@
                         alert("未能查找到订单相关信息，订单明细缺失！！")
                     }
                 }).catch()
-                // axios.get('http://172.20.10.2:8080/backend/goods/getGoods', {
+                // axios.get('http://192.168.1.106:8080/backend/goods/getGoods', {
                 //     params : {tradeNo : value.tradeNo},
                 //     headers : {token : this.tokenStr},
                 // }).then( res => {
@@ -829,7 +829,7 @@
             currentPage(currentPage, size){
                 const that = this
                 if(that.flag===0) {
-                    axios.get('http://172.20.10.2:8080/backend/order/listOrders/' + currentPage + '/' + size, {
+                    axios.get('http://192.168.1.106:8080/backend/order/listOrders/' + currentPage + '/' + size, {
                         headers: {
                             token: this.tokenStr
                         }
@@ -849,7 +849,7 @@
                 this.pageSize = size;
                 const that = this
                 if(that.flag===0) {
-                    axios.get('http://172.20.10.2:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
+                    axios.get('http://192.168.1.106:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         that.data = res.data.data
                         this.loading=false

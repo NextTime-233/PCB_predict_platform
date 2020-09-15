@@ -212,7 +212,7 @@
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
             // console.log(that.tokenStr)
-            axios.get('http://172.20.10.2:8080/backend/goods/listGoods/1/10', {headers:{
+            axios.get('http://192.168.1.106:8080/backend/goods/listGoods/1/10', {headers:{
                     token: tokenStr
                 }}).then( res => {
                 console.log(res.data.data)
@@ -224,7 +224,7 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://172.20.10.2:8080/backend/goods/countGoods',{headers:{
+            axios.get('http://192.168.1.106:8080/backend/goods/countGoods',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
                 that.total = res.data.data
@@ -246,7 +246,7 @@
                         if (list[i]) {
                             console.log("提交表单")
                             // 一会儿改成当前设置的页面
-                            axios.get('http://172.20.10.2:8080/backend/goods/getGoods/1/10', {
+                            axios.get('http://192.168.1.106:8080/backend/goods/getGoods/1/10', {
                                 params: {
                                     goodsNo: list.goodsNo,
                                     goodsName: list.goodsName,
@@ -272,7 +272,7 @@
                     }
                 }
                 else {
-                    axios.get('http://172.20.10.2:8080/backend/goods/getGoods'+this.current+'/'+this.pageSize, {
+                    axios.get('http://192.168.1.106:8080/backend/goods/getGoods'+this.current+'/'+this.pageSize, {
                         params: {
                             goodsNo: list.goodsNo,
                             goodsName: list.goodsName,
@@ -306,7 +306,7 @@
                     Phone: '',
                     Type: '',
                 }
-                axios.get('http://172.20.10.2:8080/backend/goods/listGoods/1/10', {headers:{
+                axios.get('http://192.168.1.106:8080/backend/goods/listGoods/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.tableData = res.data.data
@@ -324,7 +324,7 @@
                 const that = this
                 const datalist = []
                 if(that.flag===0){
-                    axios.get('http://172.20.10.2:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
+                    axios.get('http://192.168.1.106:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         // console.log(res.data.data)
                         that.tableData = res.data.data
@@ -339,7 +339,7 @@
                 this.pageSize = size;
                 const that = this
                 if(that.flag===0){
-                    axios.get('http://172.20.10.2:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
+                    axios.get('http://192.168.1.106:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
