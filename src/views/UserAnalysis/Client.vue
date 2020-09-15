@@ -70,7 +70,7 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="birthdayOnChange" size="small">
+                                        <a-range-picker @change="birthdayOnChange" size="small" :value="createValueB">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -81,7 +81,7 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="registerOnChange" size="small">
+                                        <a-range-picker @change="registerOnChange" size="small" :value="createValueR">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -92,7 +92,7 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="payOnChange" size="small">
+                                        <a-range-picker @change="payOnChange" size="small" :value="createValueP">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
@@ -103,8 +103,8 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="shoppingOnChange" size="small">
-                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                        <a-range-picker @change="shoppingOnChange" size="small" :value="createValueS">
+                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon"/>
                                         </a-range-picker>
                                     </a-form-item>
                                 </a-col>
@@ -715,6 +715,10 @@
                     clientLabel:''
                 },
                 advanced: false,
+                createValueB:[],
+                createValueP:[],
+                createValueS:[],
+                createValueR:[],
                 // 类型
                 cType: "客户类型",
                 rowData:{},
@@ -748,7 +752,6 @@
             axios.get('http://172.20.10.2:8080/backend/customer/countCustomer',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
-                that.total = res.data.data
                 that.total = res.data.data
                 that.amount = res.data.data
             }).catch()
@@ -792,19 +795,23 @@
             },
             // 日期选择框
             birthdayOnChange(date, dateString) {
+                this.createValueB = date;
                 this.clientForm.BirthdayTimeDateStart = dateString[0]
                 this.clientForm.BirthdayTimeDateEnd = dateString[1]
             },
             payOnChange(date, dateString) {
+                this.createValueP = date;
+
                 this.clientForm.PayDateStart = dateString[0]
                 this.clientForm.PayDateEnd = dateString[1]
             },
             shoppingOnChange(date, dateString) {
+                this.createValueS = date
                 this.clientForm.LastPurchaseTimeDateStart = dateString[0]
                 this.clientForm.LastPurchaseTimeDateEnd = dateString[1]
             },
             registerOnChange(date, dateString) {
-                console.log(dateString)
+                this.createValueR = date;
                 this.clientForm.registrationTimeDateStart = dateString[0]
                 this.clientForm.registrationTimeDateEnd = dateString[1]
             },
@@ -891,7 +898,6 @@
             },
             resetInput(){
                 const that = this
-                this.$refs.ruleForm.resetFields();
                 document.getElementById("cForm").reset()
                 that.clientForm = {
                     customerName:'',
@@ -911,6 +917,10 @@
                     LastPurchaseTimeDateEnd:'',
                     clientLabel:''
                 }
+                that.createValueB=[]
+                that.createValueP=[]
+                that.createValueR=[]
+                that.createValueS=[]
                 axios.get('http://172.20.10.2:8080/backend/customer/listCustomers/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
