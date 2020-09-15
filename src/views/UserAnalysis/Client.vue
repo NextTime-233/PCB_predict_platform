@@ -798,10 +798,11 @@
                 this.createValueB = date;
                 this.clientForm.BirthdayTimeDateStart = dateString[0]
                 this.clientForm.BirthdayTimeDateEnd = dateString[1]
+                // console.log(typeof (dataString))
+                // console.log(this.clientForm.BirthdayTimeDateEnd)
             },
             payOnChange(date, dateString) {
                 this.createValueP = date;
-
                 this.clientForm.PayDateStart = dateString[0]
                 this.clientForm.PayDateEnd = dateString[1]
             },
@@ -847,13 +848,15 @@
                                 headers: {token: this.tokenStr},
                                 tokenBackend: this.tokenStr
                             }).then(res => {
-                                // console.log(res.data)
+                                console.log("此处为查询的返回值")
+                                console.log(res)
                                 if (res.data.code === 3) {
                                     alert('未能查找到该客户的相关信息！！')
                                 }
                                 else if(res.data.code === 0) {
                                     that.tableData = res.data.data
-                                    this.loading=false
+                                    this.loading = false
+                                    that.total = res.data.data.length
                                     this.flag = 1
                                 }
                             }).catch()

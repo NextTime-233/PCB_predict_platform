@@ -8,18 +8,21 @@
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row :gutter="16">
                                 <a-col :span="6">
+<!--                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">-->
+<!--                                        <a-select-->
+<!--                                                mode="multiple"-->
+<!--                                                placeholder="输入或选择"-->
+<!--                                                :value="selectedItems"-->
+<!--                                                size="small"-->
+<!--                                                @change="handleChange"-->
+<!--                                        >-->
+<!--                                            <a-select-option v-for="item in filteredOptions" :key="item" :value="item">-->
+<!--                                                {{ item }}-->
+<!--                                            </a-select-option>-->
+<!--                                        </a-select>-->
+<!--                                    </a-form-item>-->
                                     <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">
-                                        <a-select
-                                                mode="multiple"
-                                                placeholder="输入或选择"
-                                                :value="selectedItems"
-                                                size="small"
-                                                @change="handleChange"
-                                        >
-                                            <a-select-option v-for="item in filteredOptions" :key="item" :value="item">
-                                                {{ item }}
-                                            </a-select-option>
-                                        </a-select>
+                                        <a-input v-model="orderForm.shop_name" size="small"></a-input>
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
@@ -589,7 +592,7 @@
                 selectedItems: [],
                 orderForm: {
                     trade_no: '',
-                    shop_name: [],
+                    shop_name: '',
                     pay_account: '',
                     trade_status: '',
                     goods_name: '',
@@ -687,11 +690,12 @@
                 const that = this
                 const list = that.orderForm
                 console.log(list)
+                console.log(that.tokenStr)
                 if(that.flag===0) {
                     for (let i in list) {
                         console.log(list[i])
                         if (list[i]) {
-                            axios.get('http://192.168.1.106:8080/backend/order/getOrders', {
+                            axios.get('http://192.168.1.106:8080/backend/order/getOrders/1/5', {
                                 params: {
                                     trade_no: list.trade_no,
                                     shop_name: list.shop_name,
@@ -730,7 +734,7 @@
                     }
                 }
                 else {
-                    axios.get('http://192.168.1.106:8080/backend/order/getOrders', {
+                    axios.get('http://192.168.1.106:8080/backend/order/getOrders'+this.current+'/'+ this.pageSize, {
                         params: {
                             trade_no: list.trade_no,
                             shop_name: list.shop_name,
