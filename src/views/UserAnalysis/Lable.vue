@@ -15,91 +15,91 @@
                     <el-button type="success" icon="el-icon-refresh-left" circle size="small" @click="getLabel"></el-button>
                 </div>
             </el-col>
-             </el-row>
-             <el-row :gutter="20">
-             <el-col :span="16">
-                 <div>
-                     <a-collapse  :bordered="false">
-                         <template #expandIcon="props">
-                             <a-icon type="tags" :rotate="props.isActive ? 90 : 0" />
-                         </template>
-                         <a-collapse-panel key="1" header="新增标签维度" :style="customStyle">
-                             <el-row :gutter="20">
-                                 <el-col :span="4">
-                                     <div class="grid-content bg-purple">
-                                         <a-button type="primary" :disabled=dis0 @click="dialogFormVisible = true">
-                                             标签1
-                                         </a-button>
-                                     </div>
-                                 </el-col>
-                                 <el-col :span="4" >
-                                     <div class="grid-content bg-purple" >
-                                         <a-button type="primary" :disabled=dis1 @click="dialogForm2 = true">
-                                             标签2
-                                         </a-button>
-                                     </div>
-                                 </el-col>
-                                 <el-col :span="4">
-                                     <div class="grid-content bg-purple">
-                                         <a-button type="primary"  :disabled=dis2 @click="dialogForm3 = true">
-                                             标签3
-                                         </a-button>
-                                     </div>
-                                 </el-col>
-                                 <el-col :span="4" >
-                                     <div class="grid-content bg-purple">
-                                         <a-button type="primary" v-bind:disabled=dis3 @click="dialogForm4 = true">
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <div>
+                    <a-collapse  :bordered="false">
+                        <template #expandIcon="props">
+                            <a-icon type="tags" :rotate="props.isActive ? 90 : 0" />
+                        </template>
+                        <a-collapse-panel key="1" header="新增标签维度" :style="customStyle">
+                            <el-row :gutter="20">
+                                <el-col :span="4">
+                                    <div class="grid-content bg-purple">
+                                        <a-button type="primary" :disabled=dis0 @click="dialogFormVisible = true">
+                                            标签1
+                                        </a-button>
+                                    </div>
+                                </el-col>
+                                <el-col :span="4" >
+                                    <div class="grid-content bg-purple" >
+                                        <a-button type="primary" :disabled=dis1 @click="dialogForm2 = true">
+                                            标签2
+                                        </a-button>
+                                    </div>
+                                </el-col>
+                                <el-col :span="4">
+                                    <div class="grid-content bg-purple">
+                                        <a-button type="primary"  :disabled=dis2 @click="dialogForm3 = true">
+                                            标签3
+                                        </a-button>
+                                    </div>
+                                </el-col>
+                                <el-col :span="4" >
+                                    <div class="grid-content bg-purple">
+                                        <a-button type="primary" v-bind:disabled=dis3 @click="dialogForm4 = true">
                                             标签4
-                                         </a-button>
-                                     </div>
-                                 </el-col>
-                                 <el-col :span="4" >
-                                     <div class="grid-content bg-purple">
-                                         <a-button type="primary" v-bind:disabled=dis4 @click="dialogForm5 = true">
+                                        </a-button>
+                                    </div>
+                                </el-col>
+                                <el-col :span="4" >
+                                    <div class="grid-content bg-purple">
+                                        <a-button type="primary" v-bind:disabled=dis4 @click="dialogForm5 = true">
                                             标签5
-                                         </a-button>
-                                     </div>
-                                 </el-col>
+                                        </a-button>
+                                    </div>
+                                </el-col>
 
-                             </el-row>
+                            </el-row>
 
-                         </a-collapse-panel>
-                     </a-collapse>
-                 </div>
-             </el-col>
-             <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-             </el-row>
+                        </a-collapse-panel>
+                    </a-collapse>
+                </div>
+            </el-col>
+            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+        </el-row>
 
         <div>
-           <el-table :data="tableData" border style="width: 100%" @sort-change="changeTableSort" :default-sort = "{prop: 'updateTime', order: 'descending'}">
-               <el-table-column fixed prop="labelDimension" label="所属维度" width="180">
-               </el-table-column>
-               <el-table-column fixed prop="labelVal" label="标签名称" width="180">
-               </el-table-column>
-               <el-table-column fixed prop="state" label="标签描述" width="200">
-               </el-table-column>
-               <el-table-column fixed prop="updateTime" label="创建时间" width="222" :sortable="'custom'">
-               </el-table-column>
-               <el-table-column
-                       fixed
-                       label="操作"
-                       width="200">
-                   <template slot-scope="scope">
+            <el-table :data="tableData" border style="width: 200%"   @sort-change="changeTableSort" :default-sort = "{prop: 'updateTime', order: 'descending'}">
+                <el-table-column fixed prop="labelDimension" label="所属维度" width="">
+                </el-table-column>
+                <el-table-column fixed prop="labelVal" label="标签名称" width="">
+                </el-table-column>
+                <el-table-column fixed prop="state" label="标签描述" width="">
+                </el-table-column>
+                <el-table-column fixed prop="updateTime" label="创建时间" width="" :sortable="'custom'">
+                </el-table-column>
+                <el-table-column
+                        fixed
+                        label="操作"
+                        width="">
+                    <template slot-scope="scope">
                        <span v-if="scope.row.status===3">
                            <a>-</a>
                        </span>
-                       <span v-else>
+                        <span v-else>
                             <el-button
-                                    @click.native.prevent="deleteRow(scope.$index, tableData, scope.row)"
+                                    @click.native.prevent="deleteRow(scope.$index, tableData)"
                                     type="text"
                                     size="small">
                                 删除
                             </el-button>
                        </span>
 
-                   </template>
-               </el-table-column>
-           </el-table>
+                    </template>
+                </el-table-column>
+            </el-table>
             <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
@@ -109,83 +109,83 @@
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
             </el-pagination>
-                <!-- 新增标签1-->
-                <el-dialog
-                        title="新增标签1"
-                        :visible.sync="dialogFormVisible"
-                        width="60%"
-                        @close='closeDialog'>
-                    <el-form :model="addForm" >
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="新增标签名称：" :label-width="formLabelWidth" v-model="addForm.labelVal">
-                                    <el-input v-model="addForm.labelVal" autocomplete="off"  size="small"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="新增标签说明：" :label-width="formLabelWidth" v-model="addForm.state">
+            <!-- 新增标签1-->
+            <el-dialog
+                    title="新增标签1"
+                    :visible.sync="dialogFormVisible"
+                    width="60%"
+                    @close='closeDialog'>
+                <el-form :model="addForm" >
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="新增标签名称：" :label-width="formLabelWidth" v-model="addForm.labelVal">
+                                <el-input v-model="addForm.labelVal" autocomplete="off"  size="small"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="新增标签说明：" :label-width="formLabelWidth" v-model="addForm.state">
                                 <el-input v-model="addForm.state" autocomplete="off" size="small" ></el-input>
                             </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="最低购买金额：" :label-width="formLabelWidth" v-model="addForm.totalPurchaseAmountLow">
-                                    <el-input v-model="addForm.totalPurchaseAmountLow" autocomplete="off"  size="small"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最高购买金额：" :label-width="formLabelWidth" v-model="addForm.totalPurchaseAmountHigh">
-                                    <el-input v-model="addForm.totalPurchaseAmountHigh" autocomplete="off" size="small" ></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                                <el-col :span="12">
-                                    <el-form-item label="付款起始时间：" :label-width="formLabelWidth" v-model="addForm.reStartTime">
-                                        <el-date-picker
-                                                v-model="addForm.reStartTime"
-                                                type="date"
-                                                placeholder="选择日期"
-                                                size="small">
-                                        </el-date-picker>
-                                    </el-form-item>
-                                </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="付款结束时间：" :label-width="formLabelWidth" v-model="addForm.reEndTime">
-                                    <el-date-picker
-                                            v-model="addForm.reEndTime"
-                                            type="date"
-                                            placeholder="选择日期"
-                                            size="small">
-                                    </el-date-picker>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                    <el-form-item label="购买起始时间：" :label-width="formLabelWidth" v-model="addForm.lastStartTime">
-                                        <el-date-picker
-                                                v-model="addForm.lastStartTime"
-                                                type="date"
-                                                placeholder="选择日期"
-                                                size="small">
-                                        </el-date-picker>
-                                    </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="购买结束时间：" :label-width="formLabelWidth" v-model="addForm.lastEndTime">
-                                    <el-date-picker
-                                            v-model="addForm.lastEndTime"
-                                            type="date"
-                                            placeholder="选择日期"
-                                            size="small">
-                                    </el-date-picker>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-form-item label="客户所在省份：" :label-width="formLabelWidth" v-model="addForm.labelVal">
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="最低购买金额：" :label-width="formLabelWidth" v-model="addForm.totalPurchaseAmountLow">
+                                <el-input v-model="addForm.totalPurchaseAmountLow" autocomplete="off"  size="small"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="最高购买金额：" :label-width="formLabelWidth" v-model="addForm.totalPurchaseAmountHigh">
+                                <el-input v-model="addForm.totalPurchaseAmountHigh" autocomplete="off" size="small" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="付款起始时间：" :label-width="formLabelWidth" v-model="addForm.reStartTime">
+                                <el-date-picker
+                                        v-model="addForm.reStartTime"
+                                        type="date"
+                                        placeholder="选择日期"
+                                        size="small">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="付款结束时间：" :label-width="formLabelWidth" v-model="addForm.reEndTime">
+                                <el-date-picker
+                                        v-model="addForm.reEndTime"
+                                        type="date"
+                                        placeholder="选择日期"
+                                        size="small">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="购买起始时间：" :label-width="formLabelWidth" v-model="addForm.lastStartTime">
+                                <el-date-picker
+                                        v-model="addForm.lastStartTime"
+                                        type="date"
+                                        placeholder="选择日期"
+                                        size="small">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="购买结束时间：" :label-width="formLabelWidth" v-model="addForm.lastEndTime">
+                                <el-date-picker
+                                        v-model="addForm.lastEndTime"
+                                        type="date"
+                                        placeholder="选择日期"
+                                        size="small">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="客户所在省份：" :label-width="formLabelWidth" v-model="addForm.labelVal">
                             <el-select v-model="value" filterable placeholder="请选择" size="small">
                                 <el-option
                                         v-for="item in options"
@@ -194,17 +194,17 @@
                                         :value="item.value">
                                 </el-option>
                             </el-select>
-                            </el-form-item>
-                        </el-row>
-                    </el-form>
-                    <span slot="footer" class="dialog-footer">
+                        </el-form-item>
+                    </el-row>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
                            <el-button @click="dialogFormVisible= false">重置</el-button>
                            <el-button @click="dialogFormVisible= false">取 消</el-button>
-                           <el-button type="primary"  @click="addLabel();open1();dialogFormVisible=false " >确 定</el-button>
+                           <el-button type="primary"  @click="addLabel();open1();getLabel();dialogFormVisible=false " >确 定</el-button>
                     </span>
-                </el-dialog>
-                <!-- 新增标签2-->
-                <el-dialog
+            </el-dialog>
+            <!-- 新增标签2-->
+            <el-dialog
                     title="新增标签2"
                     :visible.sync="dialogForm2"
                     width="60%"
@@ -297,8 +297,8 @@
                            <el-button type="primary"  @click="addLabel2();open1();dialogForm2=false " >确 定</el-button>
                     </span>
             </el-dialog>
-                <!-- 新增标签3-->
-                 <el-dialog
+            <!-- 新增标签3-->
+            <el-dialog
                     title="新增标签3"
                     :visible.sync="dialogForm3"
                     width="60%"
@@ -391,8 +391,8 @@
                            <el-button type="primary"  @click="addLabel3();open1();dialogForm3=false " >确 定</el-button>
                     </span>
             </el-dialog>
-                 <!-- 新增标签4-->
-                  <el-dialog
+            <!-- 新增标签4-->
+            <el-dialog
                     title="新增标签4"
                     :visible.sync="dialogForm4"
                     width="60%"
@@ -485,8 +485,8 @@
                            <el-button type="primary"  @click="addLabel4();open1();dialogForm4=false " >确 定</el-button>
                     </span>
             </el-dialog>
-                 <!-- 新增标签5-->
-                 <el-dialog
+            <!-- 新增标签5-->
+            <el-dialog
                     title="新增标签5"
                     :visible.sync="dialogForm5"
                     width="60%"
@@ -590,18 +590,22 @@
         components: {ARow},
         data() {
             return {
+                dis0: false,
                 dis1: false,
                 dis2: false,
                 dis3: false,
                 dis4: false,
                 dis5: false,
+                // raw:{
+                //     labelVal:'',
+                // },
                 //分页
                 queryInfo:{
                     pageNum:1,
                     pageSize:5,
                 },
                 pageSize: '',
-                total: '',
+                total: 0,
                 tableData:[],
                 tokenStr: '',
                 //  新增对话框的显示与否
@@ -746,17 +750,17 @@
         created(){
             this.getLabel()
         },
+        activated(){
+            this.getLabel()
+        },
         methods: {
             getLabel(){
                 const that = this;
                 let tokenStr =  window.sessionStorage.getItem('token')
                 axios.get('http://172.20.10.2:8080/backend/label/findAllLabelVal/1/5').then(res => {
-                    // console.log(res.data.data)
                     that.tableData = res.data.data;
-                    // that.tableData = that.data.unshift(res.data.data);
-                    that.total = res.data.data.length;
+                    that.total=res.data.data.length;
                     console.log((that.tableData));
-
                     if (that.tableData[0].labelDimension === '自定义维度1') {
                         that.dis0 = true;
                     } else if (that.tableData[0].labelDimension === '自定义维度2') {
@@ -775,7 +779,7 @@
                     console.log(res.data.data)
                     // that.tableData = res.data.data;
                     // that.tableData = res.data.data.reverse();
-                    that.total = res.data.data.length;
+                    that.total=res.data.data.length;
                     // for (let i = 0; i <= 5; i++) {
                     //     let tableTemp = [total + 1];
                     //     tableTemp[i + 1] = tableData[i];
@@ -867,16 +871,16 @@
             },
 
             // 新增标签ok
-           addLabel() {
-                       // this.dis=false
-                       axios.post('http://172.20.10.2:8080/backend/label/saveLabelProp1?labelVal='
-                           +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
-                               +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
-                       +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
-                           console.log(res)
-                           // console.log(res)
-                       })
-                      // this.dis=true
+            addLabel() {
+                // this.dis=false
+                axios.post('http://172.20.10.2:8080/backend/label/saveLabelProp1?labelVal='
+                    +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
+                    +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
+                    +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
+                    console.log(res)
+                    // console.log(res)
+                })
+                // this.dis=true
             },
             addLabel2(){
                 // this.dis1=false
@@ -900,7 +904,7 @@
             },
             addLabel4(){
                 // this.dis3=false
-                axios.post('http://172.20.10.2:8080/backend/label/saveLabelProp4?labelVal='
+                axios.post('http://172.20.10.2:8080//backend/label/saveLabelProp4?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
@@ -909,20 +913,29 @@
             },
             addLabel5(){
                 // this.dis4=false
-                axios.post('http://172.20.10.2:8080/backend/label/saveLabelProp5?labelVal='
+                axios.post('http://172.20.10.2:8080//backend/label/saveLabelProp5?labelVal='
                     +this.addForm.labelVal+'&state='+this.addForm.state+'&totalPurchaseAmountLow='+this.addForm.totalPurchaseAmountLow
                     +'&totalPurchaseAmountHigh'+this.addForm.totalPurchaseAmountHigh+'&reStartTime'+this.addForm.reStartTime+'&reEndTime'+this.addForm.reEndTime
                     +'&lastStartTime'+this.addForm.lastStartTime+'&lastEndTime'+this.addForm.lastEndTime+'&province'+this.addForm.province).then(res=>{
                     console.log(res)
                 })
             },
-            deleteRow(index, rows, row) {
+            //删除标签
+            deleteRow(index, rows) {
+                // console.log(index)
                 rows.splice(index, 1);
-                console.log(row.labelVal)
-                axios.put('http://172.20.10.2:8080/backend/label/deleteLabel', {
-                        labelVal: row.labelVal
-                }).then(res=>{
+                // // console.log(row.labelVal)
+                // // console.log(rows[0].labelVal)
+                // console.log( rows[index].labelVal)
+                // rows.splice(index, 1)
+                // const params =new URLSearchParams()
+                // params.append("labelVal",rows.labelVal)
+                const list={}
+                list[0]= rows[0].labelVal
+                console.log( list[0])
+                axios.put('http://172.20.10.2:8080/backend/label/delLabel', {params:list}).then(res=>{
                     console.log(res)
+                    console.log(rows)
                 }).catch()
             },
             open1(){

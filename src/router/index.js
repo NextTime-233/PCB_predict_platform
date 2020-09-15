@@ -92,11 +92,27 @@ const router = new Router({
                     },
                 },
                 {
+                    path:'/important',
+                    component:() => import('../views/UserAnalysis/important'),
+                    meta: {
+                        title: '客户画像',
+                        module: '用户管理'
+                    },
+                },
+                {
                     path: '/increment',
                     component:() => import('../components/Developer'),
                     meta: {
                         title: '增量维护',
                         module: '数据库更新'
+                    },
+                },
+                {
+                    path:'/Repurchase',
+                    component:() => import('../views/UserAnalysis/Repurchase'),
+                    meta: {
+                        title: '客户画像',
+                        module: '用户管理'
                     },
                 },
                 {

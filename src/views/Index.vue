@@ -37,11 +37,23 @@
                             <span>标签管理</span>
                         </router-link>
                     </a-menu-item>
-                    <a-menu-item key="4">
-                        <router-link to="/userImage" tag="div">
-                            <span>客户画像</span>
-                        </router-link>
-                    </a-menu-item>
+                    <a-sub-menu key="4" title="客户画像">
+                        <a-menu-item key="8">
+                            <router-link to="/userImage" tag="div">
+                                <span>全体客户画像</span>
+                            </router-link>
+                        </a-menu-item>
+                        <a-menu-item key="9">
+                            <router-link to="/important" tag="div">
+                                <span>重要客户画像</span>
+                            </router-link>
+                        </a-menu-item>
+                        <a-menu-item key="10">
+                            <router-link to="/Repurchase" tag="div">
+                                <span>高复购客户画像</span>
+                            </router-link>
+                        </a-menu-item>
+                    </a-sub-menu>
                 </a-sub-menu>
                 <a-sub-menu key="sub3">
                     <span slot="title"><a-icon type="hdd" theme="filled"/><span>数据管理</span></span>

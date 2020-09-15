@@ -48,7 +48,22 @@
                                         </a-form-item>
 
                                     </a-col>
-
+                                    <a-col :md="8" :sm="24" >
+                                        <!--<a-form-item label="所在省市" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">-->
+                                        <!--<a-input placeholder="请输入" size="small" v-model="form.province" />-->
+                                        <!--</a-form-item>-->
+                                        <!--<a-form-item label="货品选择" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">-->
+                                        <!--<el-select v-model="form.province" filterable placeholder="请选择" size="small" style="">-->
+                                        <!--<el-option-->
+                                        <!--v-for="item in options"-->
+                                        <!--:key="item.value"-->
+                                        <!--:label="item.label"-->
+                                        <!--:value="item.value"-->
+                                        <!--&gt;-->
+                                        <!--</el-option>-->
+                                        <!--</el-select>-->
+                                        <!--</a-form-item>-->
+                                    </a-col>
                                 </a-row>
                                 <a-row v-if="advanced"  >
                                     <a-col :md="8" :sm="24" >
@@ -73,9 +88,21 @@
                                             </a-date-picker>
                                         </a-form-item>
                                     </a-col>
+                                    <a-col :md="8" :sm="24" >
+                                        <!--<a-form-item-->
+                                        <!--label="付款起始时间"-->
+                                        <!--:labelCol="{span: 7}"-->
+                                        <!--:wrapperCol="{span: 15, offset: 1}"-->
+                                        <!--&gt;-->
+                                        <!--<a-date-picker @change="payStartChange" size="small" placeholder="选择日期" clearable>-->
+                                        <!--<a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+                                        <!--</a-date-picker>-->
+                                        <!--</a-form-item>-->
+                                    </a-col>
                                 </a-row>
                                 <a-row v-if="advanced"  >
-
+                                    <a-col :md="8" :sm="24" >
+                                    </a-col>
                                     <a-col :md="8" :sm="24" >
                                         <a-form-item
                                                 label="上次购买起始时间"
