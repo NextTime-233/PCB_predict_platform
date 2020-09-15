@@ -613,6 +613,7 @@
                 pageSize: 5,
                 total: 200,
                 amount: 0,
+                flag: 0,
                 // token
                 tokenStr: '',
                 // 详情标签页
@@ -631,7 +632,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            axios.get('http://192.168.1.100:8080/backend/order/listOrders/1/5', {headers:{
+            axios.get('http://172.20.10.2:8080/backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
                 console.log(res.data)
@@ -643,7 +644,7 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/order/countOrders',{headers:{
+            axios.get('http://172.20.10.2:8080/backend/order/countOrders',{headers:{
                     token : tokenStr}}).then( res => {
                 console.log(res.data)
                 that.total = res.data.data
@@ -686,53 +687,79 @@
                 const that = this
                 const list = that.orderForm
                 console.log(list)
-                for(let i in list){
-                    console.log(list[i])
-                    if(list[i]){
-                        axios.get('http://192.168.1.100:8080/backend/order/getOrders', {
-                            params: {
-                                trade_no: list.trade_no,
-                                shop_name: list.shop_name,
-                                pay_account: list.pay_account,
-                                trade_status: list.trade_status,
-                                goods_name: list.goods_name,
-                                trade_type: list.trade_type,
-                                refund_status: list.refund_status,
-                                receiver_name: list.receiver_name,
-                                orderDateStart: list.orderDateStart,
-                                orderDateEnd: list.orderDateEnd,
-                                orderPayDateStart: list.orderPayDateStart,
-                                orderPayDateEnd: list.orderPayDateEnd,
-                                orderSubmitDateStart: list.orderSubmitDateStart,
-                                orderSubmitDateEnd: list.orderSubmitDateEnd,
-                            },
-                            headers: {token: that.tokenStr},
-                            tokenBackend: that.tokenStr
-                        }).then( res => {
-                            console.log(typeof (res.data.code))
-                            if (res.data.code === 3) {
-                                // this.$message({
-                                //     showClose: "true",
-                                //     message: '查询失败',
-                                //     type:'error'
-                                // })
-                                alert('未能查找到订单相关信息，订单明细缺失！！')
-                                console.log('cuowu')
-                            }
-                            else if(res.data.code === 0) {
-                                that.data = res.data.data
-                                this.loading=false
-                                that.total = res.data.data.length
-                            }
-                        }).catch()
-                        break
+                if(that.flag===0) {
+                    for (let i in list) {
+                        console.log(list[i])
+                        if (list[i]) {
+                            axios.get('http://172.20.10.2:8080/backend/order/getOrders', {
+                                params: {
+                                    trade_no: list.trade_no,
+                                    shop_name: list.shop_name,
+                                    pay_account: list.pay_account,
+                                    trade_status: list.trade_status,
+                                    goods_name: list.goods_name,
+                                    trade_type: list.trade_type,
+                                    refund_status: list.refund_status,
+                                    receiver_name: list.receiver_name,
+                                    orderDateStart: list.orderDateStart,
+                                    orderDateEnd: list.orderDateEnd,
+                                    orderPayDateStart: list.orderPayDateStart,
+                                    orderPayDateEnd: list.orderPayDateEnd,
+                                    orderSubmitDateStart: list.orderSubmitDateStart,
+                                    orderSubmitDateEnd: list.orderSubmitDateEnd,
+                                },
+                                headers: {token: that.tokenStr},
+                                tokenBackend: that.tokenStr
+                            }).then(res => {
+                                console.log(typeof (res.data.code))
+                                if (res.data.code === 3) {
+                                    alert('未能查找到订单相关信息，订单明细缺失！！')
+                                    console.log('cuowu')
+                                } else if (res.data.code === 0) {
+                                    that.data = res.data.data
+                                    this.loading = false
+                                    that.total = res.data.data.length
+                                }
+                            }).catch()
+                            break
+                        } else if (i === 'orderSubmitDateEnd' && list[i] === '') {
+                            alert("请输入查询信息！！")
+                        } else {
+                            continue
+                        }
                     }
-                else if(i === 'orderSubmitDateEnd' && list[i] === ''){
-                    alert("请输入查询信息！！")
-                    }
+                }
                 else {
-                        continue
-                    }
+                    axios.get('http://172.20.10.2:8080/backend/order/getOrders', {
+                        params: {
+                            trade_no: list.trade_no,
+                            shop_name: list.shop_name,
+                            pay_account: list.pay_account,
+                            trade_status: list.trade_status,
+                            goods_name: list.goods_name,
+                            trade_type: list.trade_type,
+                            refund_status: list.refund_status,
+                            receiver_name: list.receiver_name,
+                            orderDateStart: list.orderDateStart,
+                            orderDateEnd: list.orderDateEnd,
+                            orderPayDateStart: list.orderPayDateStart,
+                            orderPayDateEnd: list.orderPayDateEnd,
+                            orderSubmitDateStart: list.orderSubmitDateStart,
+                            orderSubmitDateEnd: list.orderSubmitDateEnd,
+                        },
+                        headers: {token: that.tokenStr},
+                        tokenBackend: that.tokenStr
+                    }).then(res => {
+                        console.log(typeof (res.data.code))
+                        if (res.data.code === 3) {
+                            alert('未能查找到订单相关信息，订单明细缺失！！')
+                            console.log('cuowu')
+                        } else if (res.data.code === 0) {
+                            that.data = res.data.data
+                            this.loading = false
+                            that.total = res.data.data.length
+                        }
+                    }).catch()
                 }
             },
             resetInput(){
@@ -754,11 +781,12 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 }
-                axios.get('http://192.168.1.100:8080/backend/order/listOrders/1/5', {headers:{
+                axios.get('http://172.20.10.2:8080/backend/order/listOrders/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.data = res.data.data
                     this.loading=false
+                    this.flag = 0
                     this.total = this.amount
                 }).catch()
             },
@@ -767,7 +795,7 @@
                 console.log(row.tradeNo)
                 this.valueOfCol = row
                 const that = this
-                axios.get('http://192.168.1.100:8080/backend/order/getOrderDetail', {
+                axios.get('http://172.20.10.2:8080/backend/order/getOrderDetail', {
                     params : {tradeNo : row.tradeNo},
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
@@ -782,7 +810,7 @@
                         alert("未能查找到订单相关信息，订单明细缺失！！")
                     }
                 }).catch()
-                // axios.get('http://192.168.1.100:8080/backend/goods/getGoods', {
+                // axios.get('http://172.20.10.2:8080/backend/goods/getGoods', {
                 //     params : {tradeNo : value.tradeNo},
                 //     headers : {token : this.tokenStr},
                 // }).then( res => {
@@ -800,25 +828,38 @@
             // 分页
             currentPage(currentPage, size){
                 const that = this
-                axios.get('http://192.168.1.100:8080/backend/order/listOrders/'+currentPage+'/'+size, {headers:{
-                        token : this.tokenStr}}).then(res => {
-                    // console.log(res.data.data)
-                    that.data = res.data.data
-                    this.loading=false
-                }).catch()
+                if(that.flag===0) {
+                    axios.get('http://172.20.10.2:8080/backend/order/listOrders/' + currentPage + '/' + size, {
+                        headers: {
+                            token: this.tokenStr
+                        }
+                    }).then(res => {
+                        // console.log(res.data.data)
+                        that.data = res.data.data
+                        this.loading = false
+                    }).catch()
+                }
+                else {
+                    this.submitList()
+                }
             },
             onShowSizeChange(current, size) {
                 console.log("页面数据量")
                 console.log(size)
                 this.pageSize = size;
                 const that = this
-                axios.get('http://192.168.1.100:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
-                        token : this.tokenStr}}).then(res => {
-                    that.data = res.data.data
-                    this.loading=false
-                }).catch()
-            },
+                if(that.flag===0) {
+                    axios.get('http://172.20.10.2:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
+                            token : this.tokenStr}}).then(res => {
+                        that.data = res.data.data
+                        this.loading=false
+                    }).catch()
+                }
+                else {
+                    this.submitList()
+                }
         },
+    }
     }
 
 </script>

@@ -168,7 +168,6 @@
                     </a-pagination>
                 </div>
             </div>
-
         </a-card>
     </div>
 </template>
@@ -201,6 +200,7 @@
                 pageSize: 10,
                 total: 0,
                 amount: 0,
+                flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页
                 // token
                 tokenStr: '',
             };
@@ -212,7 +212,7 @@
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
             // console.log(that.tokenStr)
-            axios.get('http://192.168.1.100:8080/backend/goods/listGoods/1/10', {headers:{
+            axios.get('http://172.20.10.2:8080/backend/goods/listGoods/1/10', {headers:{
                     token: tokenStr
                 }}).then( res => {
                 console.log(res.data.data)
@@ -224,7 +224,7 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/goods/countGoods',{headers:{
+            axios.get('http://172.20.10.2:8080/backend/goods/countGoods',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
                 that.total = res.data.data
@@ -240,33 +240,55 @@
                 const that = this
                 const list = this.formInline
                 console.log(list)
-                for(let i in list) {
-                    console.log(list[i])
-                    if (list[i]) {
-                        console.log("提交表单")
-                        axios.get('http://192.168.1.100:8080/backend/goods/getGoods', {
-                            params: {
-                                goodsNo: list.goodsNo,
-                                goodsName: list.goodsName,
-                                goodsType: list.goodsType,
-                            },
-                            headers: {token: this.tokenStr},
-                            tokenBackend: this.tokenStr
-                        }).then(res => {
-                            if (res.data.code === 3) {
-                                alert('未能查找到该货品的相关信息！！')
-                            } else if (res.data.code === 0) {
-                                that.tableData = res.data.data
-                                this.loading=false
-                                that.total = res.data.data.length
-                            }
-                        }).catch()
-                        break
-                    } else if (i === 'goodsType' && list[i] === '') {
-                        alert("请输入查询信息！！")
-                    } else {
-                        continue
+                if(that.flag===0) {
+                    for (let i in list) {
+                        console.log(list[i])
+                        if (list[i]) {
+                            console.log("提交表单")
+                            // 一会儿改成当前设置的页面
+                            axios.get('http://172.20.10.2:8080/backend/goods/getGoods/1/10', {
+                                params: {
+                                    goodsNo: list.goodsNo,
+                                    goodsName: list.goodsName,
+                                    goodsType: list.goodsType,
+                                },
+                                headers: {token: this.tokenStr},
+                                tokenBackend: this.tokenStr
+                            }).then(res => {
+                                if (res.data.code === 3) {
+                                    alert('未能查找到该货品的相关信息！！')
+                                } else if (res.data.code === 0) {
+                                    that.tableData = res.data.data
+                                    this.loading = false
+                                    that.total = res.data.data.length
+                                }
+                            }).catch()
+                            break
+                        } else if (i === 'goodsType' && list[i] === '') {
+                            alert("请输入查询信息！！")
+                        } else {
+                            continue
+                        }
                     }
+                }
+                else {
+                    axios.get('http://172.20.10.2:8080/backend/goods/getGoods'+this.current+'/'+this.pageSize, {
+                        params: {
+                            goodsNo: list.goodsNo,
+                            goodsName: list.goodsName,
+                            goodsType: list.goodsType,
+                        },
+                        headers: {token: this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then(res => {
+                        if (res.data.code === 3) {
+                            alert('未能查找到该货品的相关信息！！')
+                        } else if (res.data.code === 0) {
+                            that.tableData = res.data.data
+                            this.loading = false
+                            that.total = res.data.data.length
+                        }
+                    }).catch()
                 }
             },
             resetInput(){
@@ -284,10 +306,11 @@
                     Phone: '',
                     Type: '',
                 }
-                axios.get('http://192.168.1.100:8080/backend/goods/listGoods/1/10', {headers:{
+                axios.get('http://172.20.10.2:8080/backend/goods/listGoods/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.tableData = res.data.data
+                    that.flag = 0
                     this.total = this.amount
                 }).catch()
             },
@@ -300,22 +323,32 @@
             currentPage(currentPage, size){
                 const that = this
                 const datalist = []
-                axios.get('http://192.168.1.100:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
-                        token : this.tokenStr}}).then(res => {
-                    // console.log(res.data.data)
-                    that.tableData = res.data.data
-                    this.loading=false
-                }).catch()
+                if(that.flag===0){
+                    axios.get('http://172.20.10.2:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
+                            token : this.tokenStr}}).then(res => {
+                        // console.log(res.data.data)
+                        that.tableData = res.data.data
+                        this.loading=false
+                    }).catch()
+                }
+                else {
+                    this.submitList()
+                }
             },
             onShowSizeChange(current, size) {
                 this.pageSize = size;
                 const that = this
-                axios.get('http://192.168.1.100:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
+                if(that.flag===0){
+                    axios.get('http://172.20.10.2:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                     this.loading=false
-                }).catch()
+                    }).catch()
+                }
+                else {
+                    this.submitList()
+                }
             },
         }
     }

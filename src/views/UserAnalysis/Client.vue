@@ -735,7 +735,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-          axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
+          axios.get('http://172.20.10.2:8080/backend/customer/listCustomers/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
               this.tableData = res.data.data
@@ -745,7 +745,7 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/customer/countCustomer',{headers:{
+            axios.get('http://172.20.10.2:8080/backend/customer/countCustomer',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
                 that.total = res.data.data
@@ -760,14 +760,14 @@
                 const that = this
                 if(tab.index === '0'){
                     console.log(tab.index, event)
-                    axios.get('http://192.168.1.102:8080/backend/customer/listImpCustomers/1/5', {headers:{
+                    axios.get('http://172.20.10.2:8080/backend/customer/listImpCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
                         console.log(res)
                         that.imptableData = res.data.data
                         that.loading=false
                     }).catch()
-                    axios.get('http://192.168.1.102:8080/backend/customer/countImpCustomers', {headers:{
+                    axios.get('http://172.20.10.2:8080/backend/customer/countImpCustomers', {headers:{
                             token: that.tokenStr
                         }}).then( res => {
                         console.log(res)
@@ -776,14 +776,14 @@
                 }
                 if(tab.index === '1') {
                     console.log(tab.index)
-                    axios.get('http://192.168.1.102:8080/backend/customer/listCustomers/1/5', {headers:{
+                    axios.get('http://172.20.10.2:8080/backend/customer/listCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
                         console.log(res)
                         this.tableData = res.data.data
                         this.loading=false
                     }).catch()
-                    axios.get('http://192.168.1.102:8080/backend/customer/countCustomer',{headers:{
+                    axios.get('http://172.20.10.2:8080/backend/customer/countCustomer',{headers:{
                             token : that.tokenStr}}).then( res => {
                         that.total = res.data.data
                         that.amount = res.data.data
@@ -804,6 +804,7 @@
                 this.clientForm.LastPurchaseTimeDateEnd = dateString[1]
             },
             registerOnChange(date, dateString) {
+                console.log(dateString)
                 this.clientForm.registrationTimeDateStart = dateString[0]
                 this.clientForm.registrationTimeDateEnd = dateString[1]
             },
@@ -818,7 +819,7 @@
                     for(let i in list) {
                         console.log(list[i])
                         if (list[i]) {
-                            axios.get('http://192.168.1.100:8080/backend/customer/getCustomers/1/5', {
+                            axios.get('http://172.20.10.2:8080/backend/customer/getCustomers/1/5', {
                                 params: {
                                     customerName: list.customerName,
                                     registrationTimeDateStart: list.registrationTimeDateStart,
@@ -860,7 +861,7 @@
                     }
                 }
                 else {
-                    axios.get('http://192.168.1.100:8080/backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
+                    axios.get('http://172.20.10.2:8080/backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
                         params: {
                             customerName: list.customerName,
                             registrationTimeDateStart: list.registrationTimeDateStart,
@@ -890,8 +891,9 @@
             },
             resetInput(){
                 const that = this
+                this.$refs.ruleForm.resetFields();
                 document.getElementById("cForm").reset()
-                this.clientForm = {
+                that.clientForm = {
                     customerName:'',
                     registrationTimeDateStart:'',
                     registrationTimeDateEnd:'',
@@ -909,7 +911,7 @@
                     LastPurchaseTimeDateEnd:'',
                     clientLabel:''
                 }
-                axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
+                axios.get('http://172.20.10.2:8080/backend/customer/listCustomers/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
@@ -924,7 +926,7 @@
                 const that = this
                 console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
-                axios.get('http://192.168.1.100:8080/backend/order/OrderHistory',{
+                axios.get('http://172.20.10.2:8080/backend/order/OrderHistory',{
                     params: {
                         buyerNick: row.buyerNick,
                     },
@@ -942,7 +944,7 @@
             currentPage(currentPage, size){
                 const that = this
                 if(that.flag===0){
-                    axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
+                    axios.get('http://172.20.10.2:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         // console.log(res.data.data)
                         that.tableData = res.data.data
@@ -950,7 +952,7 @@
                     }).catch()
                 }
                 else {
-                    this.submitList(currentPage, size)
+                    this.submitList()
                 }
             },
             onShowSizeChange(current, size) {
@@ -958,12 +960,17 @@
                 // console.log(size)
                 this.pageSize = size
                 const that = this
-                axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
+                if(that.flag===0){
+                axios.get('http://172.20.10.2:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data
                     this.loading=false
                 }).catch()
+                }
+                else {
+                    this.submitList()
+                }
             },
             // 标签页
             callback(key) {
