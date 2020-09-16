@@ -24,7 +24,7 @@
                 <el-upload
                         class="upload-demo"
                         ref="upload"
-                        action="https://192.168.1.100:8080"
+                        action="http://localhost:8080/backend/customer/uploadExcel"
                         :headers=myHeaders
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
@@ -99,7 +99,6 @@
             // upload
             submitUpload() {
                 this.$refs.upload.submit();
-                console.log()
             },
             handleRemove(file, fileList) {
                 console.log("输出文件和文件列表，移除")
