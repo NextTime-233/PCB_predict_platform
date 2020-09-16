@@ -73,7 +73,7 @@
         <el-col :span="8">
           <el-card shadow="hover">
             <div id="data" style="width: 500px; height: 460px;">
-              省级分布
+              <h2>省级分布</h2>
               <a-form-item
                       label="日期"
                       :labelCol="{span: 2}"
@@ -84,37 +84,40 @@
                 </a-range-picker>
               </a-form-item>
               <el-table
-                      :data="tabledata"
+                      :data="pageFive"
                       style="width: 100%"
                       v-loading="loading"
                       element-loading-text="拼命加载中"
                       element-loading-spinner="el-icon-loading"
                       element-loading-background="rgba(255, 255, 255, 0.8)">
                 <el-table-column
-                        prop="date"
+                        prop="name"
                         label="省份"
                         width="90">
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="value"
                         label="用户数"
                         width="100">
                 </el-table-column>
-                <el-table-column
-                        prop="address"
-                        label="占比"
-                        width="100">
-                </el-table-column>
+                <!--                <el-table-column-->
+                <!--                        prop="math"-->
+                <!--                        label="占比"-->
+                <!--                        width="100">-->
+                <!--                </el-table-column>-->:current-page="queryInfo.pageNum"
               </el-table>
               <el-pagination
-                      @size-change="handleSizeChange"
                       @current-change="handleCurrentChange"
-                      :current-page="queryInfo.pageNum"
-                      :page-sizes="[5, 10, 15, 20]"
-                      :page-size="queryInfo.pageSize"
-                      layout="total, sizes, prev, pager, next, jumper"
+                      layout="prev, pager, next"
+                      page-size="5"
+                      pager-count="2"
                       :total="total">
               </el-pagination>
+              <!--              <el-pagination-->
+              <!--                  small-->
+              <!--                  layout="prev, pager, next"-->
+              <!--                  :total="50">-->
+              <!--              </el-pagination>-->
             </div>
           </el-card>
         </el-col>
@@ -127,6 +130,7 @@
   import echarts from "echarts";
   import '../../../node_modules/echarts/map/js/china.js';
   import geoData from "../../..//datas.json";
+  import {isString} from "element-ui";
   //import "echarts-wordcloud/dist/echarts-wordcloud";
   //import "echarts-wordcloud/dist/echarts-wordcloud.min";
   export default {
@@ -162,25 +166,153 @@
         lowSensitivity:[],
         mulPlatformsCus:[],
         // 地图数据
-        mapData: {
-          name:{},
-          value:{}
-        },
-        mname:{
-          name:{},
-          value:{}
-        },
+        mapData: [
+          {
+            name: '江苏',
+            value: 5.3
+          },
+          {
+            name: '北京',
+            value: 3.8
+          },
+          {
+            name: '上海',
+            value: 4.6
+          },
+          {
+            name: '重庆',
+            value: 3.6
+          },
+          {
+            name: '河北',
+            value: 3.4
+          },
+          {
+            name: '河南',
+            value: 3.2
+          },
+          {
+            name: '云南',
+            value: 1.6
+          },
+          {
+            name: '辽宁',
+            value: 4.3
+          },
+          {
+            name: '黑龙江',
+            value: 4.1
+          },
+          {
+            name: '湖南',
+            value: 2.4
+          },
+          {
+            name: '安徽',
+            value: 3.3
+          },
+          {
+            name: '山东',
+            value: 3.0
+          },
+          {
+            name: '新疆',
+            value: 1
+          },
+          {
+            name: '江苏',
+            value: 3.9
+          },
+          {
+            name: '浙江',
+            value: 3.5
+          },
+          {
+            name: '江西',
+            value: 2.0
+          },
+          {
+            name: '湖北',
+            value: 2.1
+          },
+          {
+            name: '广西',
+            value: 3.0
+          },
+          {
+            name: '甘肃',
+            value: 1.2
+          },
+          {
+            name: '山西',
+            value: 3.2
+          },
+          {
+            name: '内蒙古',
+            value: 3.5
+          },
+          {
+            name: '陕西',
+            value: 2.5
+          },
+          {
+            name: '吉林',
+            value: 4.5
+          },
+          {
+            name: '福建',
+            value: 2.8
+          },
+          {
+            name: '贵州',
+            value: 1.8
+          },
+          {
+            name: '广东',
+            value: 3.7
+          },
+          {
+            name: '青海',
+            value: 0.6
+          },
+          {
+            name: '西藏',
+            value: 0.4
+          },
+          {
+            name: '四川',
+            value: 3.3
+          },
+          {
+            name: '宁夏',
+            value: 0.8
+          },
+          {
+            name: '海南',
+            value: 1.9
+          },
+          {
+            name: '台湾',
+            value: 0.1
+          },
+          {
+            name: '香港',
+            value: 0.1
+          },
+          {
+            name: '澳门',
+            value: 0.1
+          }
+        ],
+        resData: [],
+        pageFive:[],
+        // 地图右侧表单日期
         Form:{
           orderDateStart: '',
           orderDateEnd: '',
         },
         loading: true,
         //分页
-        queryInfo:{
-          pageNum:1,
-          pageSize:5,
-        },
-        pageSize: '',
         total: 0,
       }
     },
@@ -199,6 +331,16 @@
       // CusRegPortrait
     },
     methods: {
+      _objToStrMap(parse) {
+        let strMap = new Map();
+        for (let k of Object.keys(obj)) {
+          strMap.set(k,obj[k]);
+        }
+        return strMap;
+      },
+      _jsonToMap(jsonStr){
+        return this._objToStrMap(JSON.parse(jsonStr));
+      },
       getEchart() {
         const topTen = this.$refs.topTen
         console.log('购买次数top10')
@@ -402,7 +544,7 @@
                       {
                         name: '2020年',
                         type: 'bar',
-                        data: [terminalCus[0], distributionCus[0] + 100],
+                        data: [terminalCus[0], distributionCus[0]],
                         itemStyle: {
                           normal: {
                             //这里是重点
@@ -475,7 +617,7 @@
                       {
                         name: '2020年',
                         type: 'bar',
-                        data: [oldCustomer[0], newCustomer[0] + 1],
+                        data: [oldCustomer[0], newCustomer[0]],
                         itemStyle: {
                           normal: {
                             //这里是重点
@@ -538,7 +680,7 @@
                       {
                         name: '2020年',
                         type: 'bar',
-                        data: [lowSales[0], highSales[0] + 10],
+                        data: [lowSales[0], highSales[0]],
                         itemStyle: {
                           normal: {
                             //这里是重点
@@ -601,7 +743,7 @@
                       {
                         name: '2020年',
                         type: 'bar',
-                        data: [lowVal[0], highVal[0] + 1],
+                        data: [lowVal[0], highVal[0]],
                         itemStyle: {
                           normal: {
                             //这里是重点
@@ -917,35 +1059,41 @@
         const that = this
         axios.get('http://192.168.1.106:8080/backend/data/CusRegPortraitAnalysis').then(
                 res => {
-                  // console.log(res.data.name);
-                  // this.$set (res.data.data.name, '省', ' ')
-                  // console.log("替换"+ res.data.data.name);
-                  let mapData = that.mapData
-                  console.log(res.data.data.name);//undifined
-                  mapFeatures.forEach(function(v) {
-                    that.mname.name = v.properties.name; // 地图 名称
-                    res.data.data.name =that.mname.name;
-                    console.log(res.data.data.name);
-                  });
-                  console.log('resname'+res.data.data.name);//澳门
-                  console.log('mname'+that.mname.name);//澳门
+                  that.total=res.data.data.length
+                  let mapname = ''
+                  let mapvalue = ''
                   for (let i = 0; i < res.data.data.length; i++) {
-                    //这里我展示的是后台返回的每条数据里面的bookname和num
-                    //that.mname.push(res.data.data[i].name )
-                    // that.mname =
-                    console.log("for赋值地名"+ res.data.data[i].name);
-                    console.log('for赋值mname'+that.mname.name)
+                    if ((res.data.data[i].name + "").search("省") != -1) {
+                      mapname = (res.data.data[i].name + "").replace(/省/, "")
+                      mapvalue = res.data.data[i].value
+                      let obj = {
+                        name: mapname,
+                        value: mapvalue
+                      }
+                      that.resData.push(obj)
+                    }
+                    else{
+                      let obj = {
+                        name: res.data.data[i].name,
+                        value: res.data.data[i].value
+                      }
+                      that.resData.push(obj)
+                    }
                   }
-                  // for (let i = 0; i < that.mapData.length; i++) {
-                  //   let name = that.mapData[i].name;
-                  //   console.log(name)
-                  // }
-                  // name = name.toString();
-                  // name.replace("省", "");
-                  // console.log(name)
-                  // name.toString().replaceAll("省", "");
-                  // console.log(name);
-                  // }
+                  console.log(that.resData)
+                  that.pageFive=that.resData.slice(0,5)
+                  that.loading=false
+                  // 将mapData转换为map
+                  // that.ans = that._jsonToMap(JSON.stringify(that.mapData))
+                  for (let i = 0; i < that.resData.length; i++) {
+                    for(let j = 0; j < that.mapData.length; j++) {
+                      if(that.mapData[j].name===that.resData[i].name){
+                        console.log(j)
+                        that.mapData[j].value = res.data.data[i].value
+                        console.log(that.mapData[j].name, that.mapData[j].value)
+                      }
+                    }
+                  }
                   function randomData() {
                     return Math.round(Math.random() * 500);
                   }
@@ -995,7 +1143,7 @@
                             show: true
                           }
                         },
-                        data: res.data.data
+                        data: that.mapData
                       }
                     ]
                   }
@@ -1006,32 +1154,35 @@
                   }
                 })
       },
-      dateOnChange(){
-        this.Form.orderPayDateStart = dateString[0]
-        this.Form.orderPayDateEnd = dateString[1]
+      dateOnChange(date, dateString){//date 绑定值，dateString日期数组
+        this.Form.orderPayDateStart = dateString[0]//开始日期
+        this.Form.orderPayDateEnd = dateString[1]//结束日期
       },
       // 分页
       handleCurrentChange(currentPage){
         console.log("当前页码")
         console.log(currentPage)
-        this.queryInfo.pageNum = currentPage
+        // this.queryInfo.pageNum = currentPage
         const that = this
-        axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
-                +this.queryInfo.pageSize).then(res => {
-          console.log(res.data.data)
-          that.tableData = res.data.data
-        }).catch()
-      },
-      handleSizeChange(size) {
-        console.log("页面数据量")
-        console.log(size)
-        this.queryInfo.pageSize = size;
-        const that = this
-        axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
-                +this.queryInfo.pageNum+'/'+size).then(res => {
-          // console.log(res.data.data)
-          that.tableData = res.data.data
-        }).catch()
+        if(currentPage===2){
+          that.pageFive=that.resData.slice(5,10)
+        }
+        if(currentPage===3){
+          that.pageFive=that.resData.slice(10,15)
+        }
+        if(currentPage===4){
+          that.pageFive=that.resData.slice(15,20)
+        }
+        if(currentPage===5){
+          that.pageFive=that.resData.slice(20,25)
+        }
+        if(currentPage===6){
+          that.pageFive=that.resData.slice(25,30)
+        }
+        if(currentPage===7){
+          that.pageFive=that.resData.slice(30,32)
+        }
+        // that.pageFive=that.resData.slice(start,end)
       },
     }
   }

@@ -856,7 +856,7 @@
                                 else if(res.data.code === 0) {
                                     that.tableData = res.data.data
                                     this.loading = false
-                                    that.total = res.data.data.length
+                                    that.total = res.data.total
                                     this.flag = 1
                                 }
                             }).catch()

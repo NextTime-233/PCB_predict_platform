@@ -258,9 +258,10 @@
                                 if (res.data.code === 3) {
                                     alert('未能查找到该货品的相关信息！！')
                                 } else if (res.data.code === 0) {
+                                    console.log(res)
                                     that.tableData = res.data.data
                                     this.loading = false
-                                    that.total = res.data.data.length
+                                    that.total = res.data.total
                                 }
                             }).catch()
                             break

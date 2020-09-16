@@ -635,6 +635,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
+            console.log(tokenStr)
             axios.get('http://192.168.1.106:8080/backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
@@ -713,7 +714,7 @@
                                     orderSubmitDateEnd: list.orderSubmitDateEnd,
                                 },
                                 headers: {token: that.tokenStr},
-                                tokenBackend: that.tokenStr
+                                tokenBackend: that.tokenStr,
                             }).then(res => {
                                 console.log(typeof (res.data.code))
                                 if (res.data.code === 3) {
@@ -722,7 +723,7 @@
                                 } else if (res.data.code === 0) {
                                     that.data = res.data.data
                                     this.loading = false
-                                    that.total = res.data.data.length
+                                    that.total = res.data.total
                                 }
                             }).catch()
                             break
