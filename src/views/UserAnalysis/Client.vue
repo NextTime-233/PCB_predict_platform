@@ -679,6 +679,23 @@
                                     <el-table-column prop="idCard" label="证件号码" width="100" />
                                     <el-table-column prop="loadTime" label="加载时间" width="100" />
                                 </el-table>
+                            <span>共{{total}}条数据</span>
+                            <div class="page-roll">
+                                <a-pagination
+                                        v-model="current"
+                                        :total="total"
+                                        show-size-changer
+                                        show-quick-jumper
+                                        :page-size="pageSize"
+                                        @showSizeChange="onShowSizeChange"
+                                        @change="currentPage"
+                                >
+                                    <template slot="buildOptionText" slot-scope="props">
+                                        <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+                                        <span v-if="props.value === '50'">全部</span>
+                                    </template>
+                                </a-pagination>
+                            </div>
                         </a-tab-pane>
                     </a-tabs>
                 </div>
@@ -731,6 +748,11 @@
                 total: 0,
                 amount: 0,
                 flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页
+                current0: 1,
+                pageSize0: 5,
+                total0: 0,
+                amount0: 0,
+                flag0: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页
                 //  token
                 tokenStr: '',
                 // 标签页
@@ -944,20 +966,38 @@
                 that.loading0 = true
                 console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
-                axios.get('http://192.168.1.106:8080/backend/order/OrderHistory',{
-                    params: {
-                        buyerNick: row.buyerNick,
-                    },
-                    headers:{token: that.tokenStr},
-                }).then(res => {
-                    console.log(res.data.data)
-                    that.loading0 = false
-                    if(res.data.data === null){
-                        alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
-                    }else{
-                        that.historyData = res.data.data
-                    }
-                }).catch()
+                if(this.flag === 0){
+                    axios.get('http://192.168.1.106:8080/backend/order/OrderHistory/1/5',{
+                        params: {
+                            buyerNick: row.buyerNick,
+                        },
+                        headers:{token: that.tokenStr},
+                    }).then(res => {
+                        console.log(res.data.data)
+                        if(res.data.data === null){
+                            alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
+                        }else{
+                            that.historyData = res.data.data
+                        }
+                        that.loading0 = false
+                    }).catch()
+                }
+               else {
+                    axios.get('http://192.168.1.106:8080/backend/order/OrderHistory/'+this.current+'/5'+this.pageSize,{
+                        params: {
+                            buyerNick: row.buyerNick,
+                        },
+                        headers:{token: that.tokenStr},
+                    }).then(res => {
+                        console.log(res.data.data)
+                        that.loading0 = false
+                        if(res.data.data === null){
+                            alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
+                        }else{
+                            that.historyData = res.data.data
+                        }
+                    }).catch()
+                }
             },
             // 分页
             currentPage(currentPage, size){
