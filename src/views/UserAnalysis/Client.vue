@@ -482,7 +482,8 @@
                             <el-table
                                     :data="historyData"
                                     style="width: 100%"
-                                    height="250">
+                                    height="250"
+                                    v-loading="loading0">
                                     <el-table-column
                                             fixed
                                             prop="tradeNo"
@@ -694,6 +695,7 @@
                 tableData: [],
                 impTableData: [],
                 loading: true,
+                loading0: false,
                 activeName: 'second',
                 // 搜索栏
                 clientForm: {
@@ -823,6 +825,7 @@
             submitList(){
                 const that = this
                 const list = this.clientForm
+                this.loading = true
                 if(that.flag===0){
                     for(let i in list) {
                         console.log(list[i])
@@ -854,7 +857,7 @@
                                     alert('未能查找到该客户的相关信息！！')
                                 }
                                 else if(res.data.code === 0) {
-                                    that.tableData = res.data.data
+                                    that.tableData = res.data.data.list
                                     this.loading = false
                                     that.total = res.data.total
                                     this.flag = 1
@@ -893,7 +896,7 @@
                         tokenBackend: this.tokenStr
                     }).then(res => {
                         if(res.data.code === 0) {
-                            that.tableData = res.data.data
+                            that.tableData = res.data.data.list
                             this.loading=false
                         }
                     }).catch()
@@ -901,6 +904,7 @@
             },
             resetInput(){
                 const that = this
+                that.loading = true
                 document.getElementById("cForm").reset()
                 that.clientForm = {
                     customerName:'',
@@ -937,6 +941,7 @@
             // el表格
             handleClick(row) {
                 const that = this
+                that.loading0 = true
                 console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
                 axios.get('http://192.168.1.106:8080/backend/order/OrderHistory',{
@@ -946,6 +951,7 @@
                     headers:{token: that.tokenStr},
                 }).then(res => {
                     console.log(res.data.data)
+                    that.loading0 = false
                     if(res.data.data === null){
                         alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
                     }else{
@@ -956,6 +962,7 @@
             // 分页
             currentPage(currentPage, size){
                 const that = this
+                that.loading = true
                 if(that.flag===0){
                     axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
@@ -969,10 +976,9 @@
                 }
             },
             onShowSizeChange(current, size) {
-                // console.log("页面数据量")
-                // console.log(size)
                 this.pageSize = size
                 const that = this
+                that.loading = true
                 if(that.flag===0){
                 axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {

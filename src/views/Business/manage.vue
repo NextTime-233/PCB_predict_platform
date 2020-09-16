@@ -374,7 +374,8 @@
                         <el-table
                                 :data="tableData"
                                 border
-                                style="width: 100%">
+                                style="width: 100%"
+                                v-loading="loading0">
                             <el-table-column
                                     fixed
                                     prop="shopName"
@@ -610,6 +611,7 @@
                 // 列表
                 data:[],
                 loading: true,
+                loading0: false,
                 // 分页
                 pageSizeOptions: ['5', '10', '15', '20', '25'],
                 current: 1,
@@ -689,6 +691,7 @@
             // 提交
             submitList(){
                 const that = this
+                that.loading = true
                 const list = that.orderForm
                 console.log(list)
                 console.log(that.tokenStr)
@@ -721,9 +724,10 @@
                                     alert('未能查找到订单相关信息，订单明细缺失！！')
                                     console.log('cuowu')
                                 } else if (res.data.code === 0) {
-                                    that.data = res.data.data
+                                    that.data = res.data.data.list
                                     this.loading = false
                                     that.total = res.data.total
+                                    this.flag = 1
                                 }
                             }).catch()
                             break
@@ -760,14 +764,14 @@
                             alert('未能查找到订单相关信息，订单明细缺失！！')
                             console.log('cuowu')
                         } else if (res.data.code === 0) {
-                            that.data = res.data.data
+                            that.data = res.data.data.list
                             this.loading = false
-                            that.total = res.data.data.length
                         }
                     }).catch()
                 }
             },
             resetInput(){
+                that.loading = true
                 const that = this
                 document.getElementById("omForm").reset()
                 this.orderForm = {
@@ -800,6 +804,7 @@
                 console.log(row.tradeNo)
                 this.valueOfCol = row
                 const that = this
+                that.loading0 = true
                 axios.get('http://192.168.1.106:8080/backend/order/getOrderDetail', {
                     params : {tradeNo : row.tradeNo},
                     headers : {token : this.tokenStr},
@@ -810,6 +815,7 @@
                     if(res.data.data != null){
                         console.log(res.data.data)
                         that.tableData = res.data.data
+                        that.loading0 = false
                     }
                     else{
                         alert("未能查找到订单相关信息，订单明细缺失！！")
@@ -832,6 +838,7 @@
             },
             // 分页
             currentPage(currentPage, size){
+                that.loading = true
                 const that = this
                 if(that.flag===0) {
                     axios.get('http://192.168.1.106:8080/backend/order/listOrders/' + currentPage + '/' + size, {
@@ -849,6 +856,7 @@
                 }
             },
             onShowSizeChange(current, size) {
+                that.loading = true
                 console.log("页面数据量")
                 console.log(size)
                 this.pageSize = size;

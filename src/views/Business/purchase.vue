@@ -237,6 +237,7 @@
                 this.advanced = !this.advanced
             },
             submitList(){
+                this.loading = true
                 const that = this
                 const list = this.formInline
                 console.log(list)
@@ -259,9 +260,10 @@
                                     alert('未能查找到该货品的相关信息！！')
                                 } else if (res.data.code === 0) {
                                     console.log(res)
-                                    that.tableData = res.data.data
+                                    that.tableData = res.data.data.list
                                     this.loading = false
-                                    that.total = res.data.total
+                                    that.total = res.data.data.total
+                                    this.flag = 1
                                 }
                             }).catch()
                             break
@@ -273,7 +275,9 @@
                     }
                 }
                 else {
-                    axios.get('http://192.168.1.106:8080/backend/goods/getGoods'+this.current+'/'+this.pageSize, {
+                    console.log("此处为跳页结果")
+                    console.log(this.current, this.pageSize)
+                    axios.get('http://192.168.1.106:8080/backend/goods/getGoods/'+this.current+'/'+this.pageSize, {
                         params: {
                             goodsNo: list.goodsNo,
                             goodsName: list.goodsName,
@@ -285,9 +289,8 @@
                         if (res.data.code === 3) {
                             alert('未能查找到该货品的相关信息！！')
                         } else if (res.data.code === 0) {
-                            that.tableData = res.data.data
+                            that.tableData = res.data.data.list
                             this.loading = false
-                            that.total = res.data.data.length
                         }
                     }).catch()
                 }
@@ -322,6 +325,7 @@
             },
             // 分页
             currentPage(currentPage, size){
+                this.loading=true
                 const that = this
                 const datalist = []
                 if(that.flag===0){
@@ -331,13 +335,16 @@
                         that.tableData = res.data.data
                         this.loading=false
                     }).catch()
+                    console.log("第一个")
                 }
                 else {
                     this.submitList()
+                    console.log("第二个")
                 }
             },
             onShowSizeChange(current, size) {
-                this.pageSize = size;
+                this.loading=true
+                this.pageSize = size
                 const that = this
                 if(that.flag===0){
                     axios.get('http://192.168.1.106:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
