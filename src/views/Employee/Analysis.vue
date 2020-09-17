@@ -1,6 +1,6 @@
 <!--数据分析-->
 <template>
-  <div>
+  <div class="hello">
     <el-row :gutter="12">
       <el-col :span="12">
         <el-card shadow="hover">
@@ -73,10 +73,11 @@
         <el-col :span="8">
           <el-card shadow="hover">
             <div id="data" style="width: 500px; height: 460px;">
-              <h2>省级分布</h2>
+              <h3>省级分布</h3>
+
               <a-form-item
                       label="日期"
-                      :labelCol="{span: 2}"
+                      :labelCol="{span:2}"
                       :wrapperCol="{span: 10}"
               >
                 <a-range-picker @change="dateOnChange" size="small">
@@ -85,7 +86,7 @@
               </a-form-item>
               <el-table
                       :data="pageFive"
-                      style="width: 100%"
+                      style="width: 80% ;height:80%"
                       v-loading="loading"
                       element-loading-text="拼命加载中"
                       element-loading-spinner="el-icon-loading"
@@ -100,24 +101,20 @@
                         label="用户数"
                         width="100">
                 </el-table-column>
-                <!--                <el-table-column-->
-                <!--                        prop="math"-->
-                <!--                        label="占比"-->
-                <!--                        width="100">-->
-                <!--                </el-table-column>-->:current-page="queryInfo.pageNum"
+                <el-table-column
+                        prop="math"
+                        label="占比"
+                        width="100">
+                </el-table-column>
               </el-table>
-              <el-pagination
-                      @current-change="handleCurrentChange"
-                      layout="prev, pager, next"
-                      page-size="5"
-                      pager-count="2"
-                      :total="total">
-              </el-pagination>
-              <!--              <el-pagination-->
-              <!--                  small-->
-              <!--                  layout="prev, pager, next"-->
-              <!--                  :total="50">-->
-              <!--              </el-pagination>-->
+              <div class="footer">
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        layout="prev, pager, next"
+                        page-size="5"
+                        pager-count="3"
+                        :total="total">
+                </el-pagination></div>
             </div>
           </el-card>
         </el-col>
@@ -164,6 +161,7 @@
         otherCus:[],
         highSensitivity:[],
         lowSensitivity:[],
+
         mulPlatformsCus:[],
         // 地图数据
         mapData: [
@@ -314,6 +312,10 @@
         loading: true,
         //分页
         total: 0,
+        // percent:[],
+        // percents:0,
+        totalPeople:0,
+        token:window.sessionStorage.getItem('token'),
       }
     },
     mounted() {
@@ -349,8 +351,9 @@
         const that = this
         let sumTotalPurchaseNum = that.sumTotalPurchaseNum
         let buyerNick1 = that.buyerNick1
-        axios.get('http://192.168.1.106:8080/backend/data/getTPNTopTen').then(
+        axios.get('http://192.168.1.100:8080/backend/data/getTPNTopTen').then(
                 res => {
+                  that.token
                   console.log('购买次数top10res数据' + res.data)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -385,6 +388,7 @@
                     xAxis: {
                       type: 'value',
                       boundaryGap: [0, 0.01],
+
                     },
                     yAxis: {
                       name: '客户网名',
@@ -405,6 +409,7 @@
                               return colorList[params.dataIndex]
                             }
                           }
+
                         }
                       },
                       // {
@@ -432,8 +437,9 @@
         const that = this//
         let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
         let buyerNick2 = that.buyerNick2
-        axios.get('http://192.168.1.106:8080/backend/data/getTPATopTen').then(
+        axios.get('http://192.168.1.100:8080/backend/data/getTPATopTen').then(
                 res => {
+                  that.token
                   console.log('金额top10res数据' + res.data)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -468,6 +474,7 @@
                     xAxis: {
                       type: 'value',
                       boundaryGap: [0, 0.001],
+
                     },
                     yAxis: {
                       name: '客户网名',
@@ -510,8 +517,9 @@
         const that = this
         let terminalCus = that.terminalCus
         let distributionCus = that.distributionCus
-        axios.get('http://192.168.1.106:8080/backend/data/CusCatePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusCatePortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('分类维度res数据' + res.data)
                   terminalCus[0] = res.data.data[0].terminalCus
                   distributionCus[0] = res.data.data[0].distributionCus
@@ -523,6 +531,7 @@
                       text: '分类维度',
                     },
                     tooltip: {},
+
                     legend: {
                       data: ['人数']
                     },
@@ -575,6 +584,7 @@
                   })
                 }).catch()
         // console.log(sumTotalPurchaseNum)
+
       },
       getTimePortrait() {
         const TimePortrait = this.$refs.TimePortrait
@@ -584,8 +594,9 @@
         const that = this
         let oldCustomer = that.oldCustomer
         let newCustomer = that.newCustomer
-        axios.get('http://192.168.1.106:8080/backend/data/CusTimePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusTimePortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('时间维度res数据' + res.data)
                   oldCustomer[0] = res.data.data[0].oldCustomer
                   newCustomer[0] = res.data.data[0].newCustomer
@@ -597,6 +608,7 @@
                       text: '时间维度',
                     },
                     tooltip: {},
+
                     legend: {
                       data: ['人数']
                     },
@@ -638,6 +650,7 @@
                   })
                 }).catch()
         // console.log(sumTotalPurchaseNum)
+
       },
       getSalesPortrait() {
         const SalesPortrait = this.$refs.SalesPortrait
@@ -647,8 +660,9 @@
         const that = this
         let lowSales = that.lowSales
         let highSales = that.highSales
-        axios.get('http://192.168.1.106:8080/backend/data/CusSalesPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusSalesPortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('销量维度res数据' + res.data)
                   lowSales[0] = res.data.data[0].lowSales
                   highSales[0] = res.data.data[0].highSales
@@ -660,6 +674,7 @@
                       text: '销量维度',
                     },
                     tooltip: {},
+
                     legend: {
                       data: ['人数']
                     },
@@ -709,8 +724,9 @@
         const that = this
         let lowVal = that.lowVal
         let highVal = that.highVal
-        axios.get('http://192.168.1.106:8080/backend/data/CusValPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusValPortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('价值res数据：' + res.data.data[0].lowVal)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -723,6 +739,7 @@
                       text: '价值维度',
                     },
                     tooltip: {},
+
                     legend: {
                       data: ['人数']
                     },
@@ -764,6 +781,7 @@
                   })
                 }).catch()
         // console.log(sumTotalPurchaseNum)
+
       },
       getRegPortrait() {
         const RegPortrait = this.$refs.RegPortrait
@@ -773,8 +791,9 @@
         const that = this
         let highRepurchase = that.highRepurchase
         let lowRepurchase = that.lowRepurchase
-        axios.get('http://192.168.1.106:8080/backend/data/CusRepurchasePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusRepurchasePortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('复购res数据：' + res.data)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -787,6 +806,7 @@
                       text: '复购维度',
                     },
                     tooltip: {},
+
                     legend: {
                       data: ['人数']
                     },
@@ -837,8 +857,9 @@
         let stableCus = that.stableCus
         let potentialCus = that.potentialCus
         let lossCus = that.lossCus
-        axios.get('http://192.168.1.106:8080/backend/data/CusCyclePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusCyclePortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('周期res数据：' + res.data)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -853,6 +874,7 @@
                       text: '周期维度',
                     },
                     tooltip: {},
+
                     legend: {
                       data: ['人数']
                     },
@@ -904,8 +926,9 @@
         let offlineCus = that.offlineCus//线下
         let otherCus = that.otherCus//其他平台
         let mulPlatformsCus = that.mulPlatformsCus//其他平台
-        axios.get('http://192.168.1.106:8080/backend/data/CusPlatPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusPlatPortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('平台res数据：' + res.data)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -975,8 +998,9 @@
         const that = this
         let highSensitivity = that.highSensitivity//促销敏感度高
         let lowSensitivity = that.lowSensitivity//促销敏感度低
-        axios.get('http://192.168.1.106:8080/backend/data/CusPromotionPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusPromotionPortraitAnalysis').then(
                 res => {
+                  that.token
                   console.log('促销res数据：' + res.data)
                   // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
                   // console.log(sumTotalPurchaseNum)
@@ -1002,6 +1026,7 @@
                       left: 10,
                       data: ['促销敏感度高', '促销敏感度低']
                     },
+
                     series: [
                       {
                         name: '访问来源',
@@ -1048,7 +1073,7 @@
       },
       getDistribute() {
         // 基于准备好的dom，初始化echarts实例
-        var mapName = "china";
+        const mapName = "china";
         const myChartContainer = document.getElementById('myChartChina');
         const resizeMyChartContainer = function(){
           myChartContainer.style.width=(document.body.offsetWidth/2)+'px'//页面一半的大小
@@ -1057,25 +1082,32 @@
         const myChartChina = this.$echarts.init(myChartContainer);
         const mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
         const that = this
-        axios.get('http://192.168.1.106:8080/backend/data/CusRegPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusRegPortraitAnalysis').then(
                 res => {
                   that.total=res.data.data.length
                   let mapname = ''
                   let mapvalue = ''
+                  //地区总人数
+                  for (let i = 0; i < res.data.data.length; i++) {
+                    that.totalPeople=parseInt(that.totalPeople)+parseInt(res.data.data[i].value)
+                    console.log("总人数"+that.totalPeople)
+                  }
                   for (let i = 0; i < res.data.data.length; i++) {
                     if ((res.data.data[i].name + "").search("省") != -1) {
                       mapname = (res.data.data[i].name + "").replace(/省/, "")
                       mapvalue = res.data.data[i].value
                       let obj = {
                         name: mapname,
-                        value: mapvalue
+                        value: mapvalue,
+                        math: ((parseInt(res.data.data[i].value)*100/that.totalPeople).toFixed(2))+ '%'
                       }
                       that.resData.push(obj)
                     }
                     else{
                       let obj = {
                         name: res.data.data[i].name,
-                        value: res.data.data[i].value
+                        value: res.data.data[i].value,
+                        math: ((parseInt(res.data.data[i].value)*100/that.totalPeople).toFixed(2))+ '%'
                       }
                       that.resData.push(obj)
                     }
@@ -1090,13 +1122,21 @@
                       if(that.mapData[j].name===that.resData[i].name){
                         console.log(j)
                         that.mapData[j].value = res.data.data[i].value
-                        console.log(that.mapData[j].name, that.mapData[j].value)
+                        //console.log(that.mapData[j].name, that.mapData[j].value)
+                        console.log(that.mapData[j].value)
                       }
                     }
                   }
+                  // 分布百分比计算
+                  // for(let i=0;i < that.resData.length; i++) {
+                  //   that.percent[i]=parseInt(that.resData[i].value)*100/that.totalPeople
+                  //   that.percent[i]=(that.percent[i].toFixed(2));
+                  //   console.log(that.percent[i])
+                  // }
                   function randomData() {
                     return Math.round(Math.random() * 500);
                   }
+
                   // 绘制图表
                   const optionMap = {
                     tooltip: {},
@@ -1163,6 +1203,8 @@
         console.log("当前页码")
         console.log(currentPage)
         // this.queryInfo.pageNum = currentPage
+
+
         const that = this
         if(currentPage===2){
           that.pageFive=that.resData.slice(5,10)
@@ -1183,12 +1225,18 @@
           that.pageFive=that.resData.slice(30,32)
         }
         // that.pageFive=that.resData.slice(start,end)
+
       },
     }
   }
 </script>
 
 <style lang="less" scoped>
+  //.hello{
+  //
+  //  width: 100%;
+  //  height: 100%;
+  //}
   .el-row {
     margin-bottom: 20px;
     &:last-child {
@@ -1198,10 +1246,23 @@
   .el-col {
     border-radius: 4px;
   }
+  .grid-content{
+    border-radius: 4px;
+    min-height: 36px;
+  }
+
   .tooltip {//0912map
     color: rgba(50, 50, 50, 1);
     padding: 6px 9px 11px 9px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.1);
+  }
+  .footer{
+    position: absolute;
+    bottom: 30px;/* 底部距离bai为0 */
+    right:40px;
+    //left:0;;/* 距离左右距离相等即可造成居中 */
+    background-color: #f6f5f5;
+
   }
 </style>

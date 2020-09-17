@@ -428,7 +428,7 @@
                             <el-table-column
                                     prop="remark"
                                     label="备注"
-                                    width="120">
+                                    width="300">
                             </el-table-column>
                             <el-table-column
                                     prop="afterBuyingRate"
@@ -715,6 +715,7 @@
                 loading0: false,
                 activeName: 'second',
                 // 搜索栏
+                clientType: '1',
                 clientForm: {
                     customerName:'',
                     registrationTimeDateStart:'',
@@ -763,7 +764,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-          axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/1/5', {headers:{
+          axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
               this.tableData = res.data.data
@@ -773,7 +774,7 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.106:8080/backend/customer/countCustomer',{headers:{
+            axios.get('http://192.168.1.100:8080/backend/customer/countCustomer',{headers:{
                     token : tokenStr}}).then( res => {
                 // console.log(res.data)
                 that.total = res.data.data
@@ -786,15 +787,16 @@
                 console.log("这里importantClick")
                 const that = this
                 if(tab.index === '0'){
+                    that.clientType = '0'
                     console.log(tab.index, event)
-                    axios.get('http://192.168.1.106:8080/backend/customer/listImpCustomers/1/5', {headers:{
+                    axios.get('http://192.168.1.100:8080/backend/customer/listImpCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
                         console.log(res)
                         that.imptableData = res.data.data
                         that.loading=false
                     }).catch()
-                    axios.get('http://192.168.1.106:8080/backend/customer/countImpCustomers', {headers:{
+                    axios.get('http://192.168.1.100:8080/backend/customer/countImpCustomers', {headers:{
                             token: that.tokenStr
                         }}).then( res => {
                         console.log(res)
@@ -802,15 +804,16 @@
                     }).catch()
                 }
                 if(tab.index === '1') {
+                    that.clientType = '1'
                     console.log(tab.index)
-                    axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/1/5', {headers:{
+                    axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
                         console.log(res)
                         this.tableData = res.data.data
                         this.loading=false
                     }).catch()
-                    axios.get('http://192.168.1.106:8080/backend/customer/countCustomer',{headers:{
+                    axios.get('http://192.168.1.100:8080/backend/customer/countCustomer',{headers:{
                             token : that.tokenStr}}).then( res => {
                         that.total = res.data.data
                         that.amount = res.data.data
@@ -848,80 +851,143 @@
                 const that = this
                 const list = this.clientForm
                 this.loading = true
-                if(that.flag===0){
-                    for(let i in list) {
+                if(that.flag===0) {
+                    for (let i in list) {
                         console.log(list[i])
                         if (list[i]) {
-                            axios.get('http://192.168.1.106:8080/backend/customer/getCustomers/1/5', {
-                                params: {
-                                    customerName: list.customerName,
-                                    registrationTimeDateStart: list.registrationTimeDateStart,
-                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                    PayDateStart: list.PayDateStart,
-                                    PayDateEnd: list.PayDateEnd,
-                                    BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                    BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                    shopName: list.shopName,
-                                    goodsCount: list.goodsCount,
-                                    TotalPurchaseAmount: list.TotalPurchaseAmount,
-                                    TotalPurchaseNum: list.TotalPurchaseNum,
-                                    goodsTypeCount: list.goodsTypeCount,
-                                    BrandName: list.BrandName,
-                                    LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                                    LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                                },
-                                headers: {token: this.tokenStr},
-                                tokenBackend: this.tokenStr
-                            }).then(res => {
-                                console.log("此处为查询的返回值")
-                                console.log(res)
-                                if (res.data.code === 3) {
-                                    alert('未能查找到该客户的相关信息！！')
-                                }
-                                else if(res.data.code === 0) {
-                                    that.tableData = res.data.data.list
-                                    this.loading = false
-                                    that.total = res.data.total
-                                    this.flag = 1
-                                }
-                            }).catch()
-                            break
-                        }
-                        else if(i === 'LastPurchaseTimeDateEnd' && list[i] === ''){
+                            if (that.clientType === '1') {
+                                axios.get('http://192.168.1.100:8080/backend/customer/getCustomers/1/5', {
+                                    params: {
+                                        customerName: list.customerName,
+                                        registrationTimeDateStart: list.registrationTimeDateStart,
+                                        registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                        PayDateStart: list.PayDateStart,
+                                        PayDateEnd: list.PayDateEnd,
+                                        BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                        BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                        shopName: list.shopName,
+                                        goodsCount: list.goodsCount,
+                                        TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                        TotalPurchaseNum: list.TotalPurchaseNum,
+                                        goodsTypeCount: list.goodsTypeCount,
+                                        BrandName: list.BrandName,
+                                        LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                        LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                                    },
+                                    headers: {token: this.tokenStr},
+                                    tokenBackend: this.tokenStr
+                                }).then(res => {
+                                    console.log("此处为查询的返回值")
+                                    console.log(res)
+                                    if (res.data.code === 3) {
+                                        alert('未能查找到该客户的相关信息！！')
+                                    } else if (res.data.code === 0) {
+                                        that.tableData = res.data.data.list
+                                        this.loading = false
+                                        that.total = res.data.total
+                                        this.flag = 1
+                                    }
+                                }).catch()
+                                break
+                            } else {
+                                axios.get('http://192.168.1.100:8080/backend/customer/selectImpCustomers/1/5', {
+                                    params: {
+                                        customerName: list.customerName,
+                                        registrationTimeDateStart: list.registrationTimeDateStart,
+                                        registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                        PayDateStart: list.PayDateStart,
+                                        PayDateEnd: list.PayDateEnd,
+                                        BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                        BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                        shopName: list.shopName,
+                                        goodsCount: list.goodsCount,
+                                        TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                        TotalPurchaseNum: list.TotalPurchaseNum,
+                                        goodsTypeCount: list.goodsTypeCount,
+                                        BrandName: list.BrandName,
+                                        LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                        LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                                    },
+                                    headers: {token: this.tokenStr},
+                                    tokenBackend: this.tokenStr
+                                }).then(res => {
+                                    console.log("此处为查询的返回值")
+                                    console.log(res)
+                                    if (res.data.code === 3) {
+                                        alert('未能查找到该客户的相关信息！！')
+                                    } else if (res.data.code === 0) {
+                                        that.tableData = res.data.data.list
+                                        this.loading = false
+                                        that.total = res.data.total
+                                        this.flag = 1
+                                    }
+                                }).catch()
+                                break
+                            }
+                        } else if (i === 'LastPurchaseTimeDateEnd' && list[i] === '') {
                             alert("请输入查询信息！！")
-                        }
-                        else {
+                        } else {
                             continue
                         }
                     }
                 }
                 else {
-                    axios.get('http://192.168.1.106:8080/backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
-                        params: {
-                            customerName: list.customerName,
-                            registrationTimeDateStart: list.registrationTimeDateStart,
-                            registrationTimeDateEnd: list.registrationTimeDateEnd,
-                            PayDateStart: list.PayDateStart,
-                            PayDateEnd: list.PayDateEnd,
-                            BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                            BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                            shopName: list.shopName,
-                            goodsCount: list.goodsCount,
-                            TotalPurchaseAmount: list.TotalPurchaseAmount,
-                            TotalPurchaseNum: list.TotalPurchaseNum,
-                            goodsTypeCount: list.goodsTypeCount,
-                            BrandName: list.BrandName,
-                            LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                            LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                        },
-                        headers: {token: this.tokenStr},
-                        tokenBackend: this.tokenStr
-                    }).then(res => {
-                        if(res.data.code === 0) {
-                            that.tableData = res.data.data.list
-                            this.loading=false
-                        }
-                    }).catch()
+                    if (that.clientType === '0'){
+                        axios.get('http://192.168.1.100:8080/backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
+                            params: {
+                                customerName: list.customerName,
+                                registrationTimeDateStart: list.registrationTimeDateStart,
+                                registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                PayDateStart: list.PayDateStart,
+                                PayDateEnd: list.PayDateEnd,
+                                BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                shopName: list.shopName,
+                                goodsCount: list.goodsCount,
+                                TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                TotalPurchaseNum: list.TotalPurchaseNum,
+                                goodsTypeCount: list.goodsTypeCount,
+                                BrandName: list.BrandName,
+                                LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            if(res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                this.loading=false
+                            }
+                        }).catch()
+                    }
+                    else {
+                        axios.get('http://192.168.1.100:8080/backend/customer/selectImpCustomers/'+this.current+'/'+ this.pageSize, {
+                            params: {
+                                customerName: list.customerName,
+                                registrationTimeDateStart: list.registrationTimeDateStart,
+                                registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                PayDateStart: list.PayDateStart,
+                                PayDateEnd: list.PayDateEnd,
+                                BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                shopName: list.shopName,
+                                goodsCount: list.goodsCount,
+                                TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                TotalPurchaseNum: list.TotalPurchaseNum,
+                                goodsTypeCount: list.goodsTypeCount,
+                                BrandName: list.BrandName,
+                                LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            if(res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                this.loading=false
+                            }
+                        }).catch()
+                    }
                 }
             },
             resetInput(){
@@ -950,7 +1016,7 @@
                 that.createValueP=[]
                 that.createValueR=[]
                 that.createValueS=[]
-                axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/1/5', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
@@ -967,7 +1033,7 @@
                 console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
                 if(this.flag === 0){
-                    axios.get('http://192.168.1.106:8080/backend/order/OrderHistory/1/5',{
+                    axios.get('http://192.168.1.100:8080/backend/order/OrderHistory/1/5',{
                         params: {
                             buyerNick: row.buyerNick,
                         },
@@ -983,7 +1049,7 @@
                     }).catch()
                 }
                else {
-                    axios.get('http://192.168.1.106:8080/backend/order/OrderHistory/'+this.current+'/5'+this.pageSize,{
+                    axios.get('http://192.168.1.100:8080/backend/order/OrderHistory/'+this.current+'/5'+this.pageSize,{
                         params: {
                             buyerNick: row.buyerNick,
                         },
@@ -1004,7 +1070,7 @@
                 const that = this
                 that.loading = true
                 if(that.flag===0){
-                    axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
+                    axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         // console.log(res.data.data)
                         that.tableData = res.data.data
@@ -1020,7 +1086,7 @@
                 const that = this
                 that.loading = true
                 if(that.flag===0){
-                axios.get('http://192.168.1.106:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
+                axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
                     // console.log(res.data.data)
                     that.tableData = res.data.data

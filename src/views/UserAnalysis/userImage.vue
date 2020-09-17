@@ -708,7 +708,7 @@
                 this.loading=true
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
                     console.log(res.data)
@@ -717,7 +717,7 @@
                     this.loading=false
                     that.total = res.data.data.length
                 }).catch()
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10').then(res => {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10').then(res => {
                     console.log(res.data.data)
                     console.log("看看数据")
                     that.tableData = res.data.data
@@ -730,7 +730,7 @@
                 const tokenStr = window.sessionStorage.getItem('token')
                 that.tokenStr = tokenStr
                 console.log(that.tokenStr)
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
                     console.log(res.data)
@@ -748,7 +748,7 @@
                 this.queryInfo.pageNum = currentPage
                 const that = this
                 if(this.flag===0){
-                    axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
                         +this.queryInfo.pageSize).then(res => {
                         console.log(res.data.data)
                         that.tableData = res.data.data
@@ -756,7 +756,7 @@
                     }).catch()
                 }
                 if(this.flag===1){
-                    axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'+currentPage+'/'
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'+currentPage+'/'
                         +this.queryInfo.pageSize).then(res => {
                         console.log(res.data.data)
                         that.tableData = res.data.data
@@ -770,7 +770,7 @@
                 this.queryInfo.pageSize = pageSize;
                 const that = this
                 if(this.flag===0){
-                    axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
                         +this.queryInfo.pageNum+'/'+pageSize).then(res => {
                         // console.log(res.data.data)
                         that.tableData = res.data.data
@@ -778,7 +778,7 @@
                     }).catch()
                 }
                 if(this.flag===1){
-                    axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'
                         +this.queryInfo.pageNum+'/'+pageSize).then(res => {
                         // console.log(res.data.data)
                         that.tableData = res.data.data
@@ -805,7 +805,7 @@
                 }
                 console.log(midlist)
                 console.log("提交表单")
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findCusPortraitByLabel', {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel', {
                     params: midlist,
                 }).then( res => {
                     console.log(res.data)
@@ -844,7 +844,7 @@
                 }
                 console.log(midlist)
                 console.log("提交表单")
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {
                     params:midlist,
                 }).then( res => {
                     console.log(res.data)
@@ -854,7 +854,7 @@
                     this.loading=false
                     // that.total = res.data.data.length
                 }).catch()
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
                     params:midlist,
                 }).then( res => {
                     that.tableData = res.data.data;
@@ -894,7 +894,7 @@
                     lastStartTime:'',
                     lastEndTime:'',
                 }
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
@@ -918,7 +918,7 @@
                     promotionDimension:'',
                     cycleDimension:'',
                 }
-                axios.get('http://192.168.1.106:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
@@ -930,7 +930,7 @@
             giveAllCusCatePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusCatePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCatePortrait').then( res => {
                     console.log(res.msg)
                     console.log("11111")
                     this.loading=false
@@ -944,7 +944,7 @@
             giveAllCusSalePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusSalePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusSalePortrait').then( res => {
                     console.log(res.msg)
                     console.log("22222")
                     this.loading=false
@@ -958,7 +958,7 @@
             giveAllCusTimePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusTimePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusTimePortrait').then( res => {
                     console.log(res.msg)
                     console.log("33333")
                     this.loading=false
@@ -972,7 +972,7 @@
             giveAllCusValPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusValPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusValPortrait').then( res => {
                     console.log(res.msg)
                     console.log("44444")
                     this.loading=false
@@ -986,7 +986,7 @@
             giveAllCusRegPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusRegPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusRegPortrait').then( res => {
                     console.log(res.msg)
                     console.log("55555")
                     this.loading=false
@@ -1000,7 +1000,7 @@
             giveAllCusPalPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait').then( res => {
                     console.log(res.msg)
                     console.log("66666")
                     this.loading=false
@@ -1014,7 +1014,7 @@
             giveAllCusRepurchasePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait').then( res => {
                     console.log(res.msg)
                     console.log("77777")
                     this.loading=false
@@ -1028,7 +1028,7 @@
             giveAllCusReputationPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusReputationPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusReputationPortrait').then( res => {
                     console.log(res.msg)
                     console.log("88888")
                     this.loading=false
@@ -1042,7 +1042,7 @@
             giveAllCusPromotionPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusPromotionPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPromotionPortrait').then( res => {
                     console.log(res.msg)
                     console.log("99999")
                     this.loading=false
@@ -1056,7 +1056,7 @@
             giveAllCusCyclePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusCyclePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCyclePortrait').then( res => {
                     console.log(res.msg)
                     console.log("！！！！")
                     this.loading=false
@@ -1070,7 +1070,7 @@
             giveAllCusProp1Portrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusProp1Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp1Portrait').then( res => {
                     console.log(res.msg)
                     console.log("？？？")
                     this.loading=false
@@ -1084,7 +1084,7 @@
             giveAllCusProp2Portrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusProp2Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp2Portrait').then( res => {
                     console.log(res.msg)
                     console.log("？!？!？!")
                     this.loading=false
@@ -1096,7 +1096,7 @@
             },
             //自定义维度3
             giveAllCusProp3Portrait(){
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusProp3Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp3Portrait').then( res => {
                     console.log(res.msg)
                     console.log("？!？!？!")
                     this.loading=false
@@ -1108,7 +1108,7 @@
             },
             //自定义维度4
             giveAllCusProp4Portrait(){
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusProp4Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp4Portrait').then( res => {
                     console.log(res.msg)
                     console.log("mmmmm")
                     this.loading=false
@@ -1120,7 +1120,7 @@
             },
             //自定义味素5
             giveAllCusProp5Portrait(){
-                axios.put('http://192.168.1.106:8080/backend/portrait/customerPortrait/giveAllCusProp5Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp5Portrait').then( res => {
                     console.log(res.msg)
                     console.log("mmmmm")
                     this.loading=false
