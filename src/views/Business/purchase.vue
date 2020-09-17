@@ -211,13 +211,11 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            // console.log(that.tokenStr)
             axios.get('http://192.168.1.100:8080/backend/goods/listGoods/1/10', {headers:{
                     token: tokenStr
                 }}).then( res => {
                 console.log(res.data.data)
                 this.loading=false
-                // console.log(res.data)
                 that.tableData = res.data.data
             }).catch()
         },
@@ -226,7 +224,6 @@
             const tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://192.168.1.100:8080/backend/goods/countGoods',{headers:{
                     token : tokenStr}}).then( res => {
-                // console.log(res.data)
                 that.total = res.data.data
                 that.amount = res.data.data
             }).catch()
@@ -241,12 +238,12 @@
                 const that = this
                 const list = this.formInline
                 console.log(list)
+
                 if(that.flag===0) {
                     for (let i in list) {
                         console.log(list[i])
                         if (list[i]) {
                             console.log("提交表单")
-                            // 一会儿改成当前设置的页面
                             axios.get('http://192.168.1.100:8080/backend/goods/getGoods/1/10', {
                                 params: {
                                     goodsNo: list.goodsNo,
@@ -274,7 +271,7 @@
                         }
                     }
                 }
-                else {
+                else {D
                     console.log("此处为跳页结果")
                     console.log(this.current, this.pageSize)
                     axios.get('http://192.168.1.100:8080/backend/goods/getGoods/'+this.current+'/'+this.pageSize, {
@@ -328,6 +325,7 @@
                 this.loading=true
                 const that = this
                 const datalist = []
+
                 if(that.flag===0){
                     axios.get('http://192.168.1.100:8080/backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
@@ -346,10 +344,10 @@
                 this.loading=true
                 this.pageSize = size
                 const that = this
+
                 if(that.flag===0){
                     axios.get('http://192.168.1.100:8080/backend/goods/listGoods/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
-                    // console.log(res.data.data)
                     that.tableData = res.data.data
                     this.loading=false
                     }).catch()

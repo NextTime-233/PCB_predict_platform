@@ -4,18 +4,6 @@ import Vue from 'vue';
 import axios from "axios";
 
 
-// axios.default.baseURL = 'http://192.168.1.100:8080/backend/'
-// axios.interceptors.request.use(config=>{
-//   console.log(config)
-//   return config
-// })
-
-let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
-};
-
 const _axios = axios.create(config);  // 创建axios实例
 
 _axios.interceptors.request.use(

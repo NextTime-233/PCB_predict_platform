@@ -776,7 +776,6 @@
             const tokenStr = window.sessionStorage.getItem('token')
             axios.get('http://192.168.1.100:8080/backend/customer/countCustomer',{headers:{
                     token : tokenStr}}).then( res => {
-                // console.log(res.data)
                 that.total = res.data.data
                 that.amount = res.data.data
             }).catch()

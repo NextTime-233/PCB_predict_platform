@@ -693,8 +693,8 @@
                 const that = this
                 that.loading = true
                 const list = that.orderForm
-                console.log(list)
-                console.log(that.tokenStr)
+                // console.log(list)
+                // console.log(that.tokenStr)
                 if(that.flag===0) {
                     for (let i in list) {
                         console.log(list[i])
@@ -801,7 +801,7 @@
             },
             //表格操作JY201904290699
             orderInfo(row){
-                console.log(row.tradeNo)
+                // console.log(row.tradeNo)
                 this.valueOfCol = row
                 const that = this
                 that.loading0 = true
@@ -840,13 +840,13 @@
             currentPage(currentPage, size){
                 that.loading = true
                 const that = this
+
                 if(that.flag===0) {
                     axios.get('http://192.168.1.100:8080/backend/order/listOrders/' + currentPage + '/' + size, {
                         headers: {
                             token: this.tokenStr
                         }
                     }).then(res => {
-                        // console.log(res.data.data)
                         that.data = res.data.data
                         this.loading = false
                     }).catch()
@@ -861,6 +861,7 @@
                 console.log(size)
                 this.pageSize = size;
                 const that = this
+
                 if(that.flag===0) {
                     axios.get('http://192.168.1.100:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
