@@ -3,7 +3,7 @@
     <div>
         <a-card>
             <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="条件查询" name="first">
+                <el-tab-pane label="条件查询" name="first">
                     <div :class="advanced ? 'search' : null">
                         <a-form id="qForm" layout="horizontal">
                             <div :class="advanced ? null: 'fold'">
@@ -21,18 +21,18 @@
                                     </a-col>
                                     <a-col :md="8" :sm="24" >
                                         <!--<a-form-item label="所在省市" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">-->
-                                            <!--<a-input placeholder="请输入" size="small" v-model="form.province" />-->
+                                        <!--<a-input placeholder="请输入" size="small" v-model="form.province" />-->
                                         <!--</a-form-item>-->
                                         <a-form-item label="所在省市" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">
-                                        <el-select v-model="form.province" filterable placeholder="请选择" size="small" style="">
-                                            <el-option
-                                                    v-for="item in options"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value"
-                                                     >
-                                            </el-option>
-                                        </el-select>
+                                            <el-select v-model="form.province" filterable placeholder="请选择" size="small" style="">
+                                                <el-option
+                                                        v-for="item in options"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                >
+                                                </el-option>
+                                            </el-select>
                                         </a-form-item>
                                     </a-col>
                                 </a-row>
@@ -119,35 +119,27 @@
                                 <div>
                                     <a-row :gutter="15" >
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange" >-->类别维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.categoryDimension" ></a-input>-->
+                                            类别维度
                                             <a-select placeholder="请选择" size="small" v-model="formInline.categoryDimension" allowClear>
                                                 <a-select-option value="终端客户">终端客户</a-select-option>
                                                 <a-select-option value="分销客户">分销客户</a-select-option>
                                             </a-select>
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange" >-->时间维度
-                                            <!--<a-input placeholder="请输入" size="small"  v-model="formInline.timeDimension"></a-input>-->
-                                            <!--</a-checkbox>-->
+                                            时间维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.timeDimension" allowClear>
                                                 <a-select-option value="老客户">老客户</a-select-option>
                                                 <a-select-option value="新客户">新客户</a-select-option>
                                             </a-select>
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange">-->销量维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.salesDimension"></a-input>-->
-                                            <!--</a-checkbox>-->
+                                            销量维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.salesDimension" allowClear>
                                                 <a-select-option value="高销量">高销量</a-select-option>
                                                 <a-select-option value="低销量">低销量</a-select-option>
                                             </a-select>
                                         </a-col>
-                                        <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange">-->价值维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.valueDimension"></a-input>-->
-                                            <!--</a-checkbox>-->
+                                        <a-col :md="4" :sm="24" >价值维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.valueDimension" allowClear>
                                                 <a-select-option value="高价值">高价值</a-select-option>
                                                 <a-select-option value="低价值">低价值</a-select-option>
@@ -155,17 +147,125 @@
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
                                             地区维度
-                                            <a-input placeholder="请输入省份" size="small" v-model="formInline.regionalDimension"></a-input>
-                                            <!--<a-select placeholder="Select a person" size=small v-model="formInline.regionalDimension">-->
-                                            <!--<a-select-option value="高价值">高价值</a-select-option>-->
-                                            <!--<a-select-option value="低价值">低价值</a-select-option>-->
-                                            <!--</a-select>-->
+                                            <a-select
+                                                    size=small
+                                                    show-search
+                                                    placeholder="Select a person"
+                                                    option-filter-prop="children"
+                                                    :filter-option="filterOption"
+                                                    @focus="handleFocus"
+                                                    @blur="handleBlur"
+                                                    @change="handleChange"
+                                                    v-model="formInline.regionalDimension"
+                                            >
+                                                <a-select-option value="河北省">
+                                                    河北省
+                                                </a-select-option>
+                                                <a-select-option value="山西省">
+                                                    山西省
+                                                </a-select-option>
+                                                <a-select-option value="辽宁省">
+                                                    辽宁省
+                                                </a-select-option>
+                                                <a-select-option value="吉林省">
+                                                    吉林省
+                                                </a-select-option>
+                                                <a-select-option value="黑龙江省">
+                                                    黑龙江
+                                                </a-select-option>
+                                                <a-select-option value="江苏省">
+                                                    江苏省
+                                                </a-select-option>
+                                                <a-select-option value="浙江省">
+                                                    浙江省
+                                                </a-select-option>
+                                                <a-select-option value="安徽省">
+                                                    安徽省
+                                                </a-select-option>
+                                                <a-select-option value="福建省">
+                                                    福建省
+                                                </a-select-option>
+                                                <a-select-option value="江西省">
+                                                    江西省
+                                                </a-select-option>
+                                                <a-select-option value="山东省">
+                                                    山东省
+                                                </a-select-option>
+                                                <a-select-option value="河南省">
+                                                    河南省
+                                                </a-select-option>
+                                                <a-select-option value="湖北省">
+                                                    湖北省
+                                                </a-select-option>
+                                                <a-select-option value="湖南省">
+                                                    湖南省
+                                                </a-select-option>
+                                                <a-select-option value="广东省">
+                                                    广东省
+                                                </a-select-option>
+                                                <a-select-option value="海南省">
+                                                    海南省
+                                                </a-select-option>
+                                                <a-select-option value="四川省">
+                                                    四川省
+                                                </a-select-option>
+                                                <a-select-option value="贵州省">
+                                                    贵州省
+                                                </a-select-option>
+                                                <a-select-option value="云南省">
+                                                    云南省
+                                                </a-select-option>
+                                                <a-select-option value="陕西省">
+                                                    陕西省
+                                                </a-select-option>
+                                                <a-select-option value="甘肃省">
+                                                    甘肃省
+                                                </a-select-option>
+                                                <a-select-option value="青海省">
+                                                    青海省
+                                                </a-select-option>
+                                                <a-select-option value="台湾省">
+                                                    台湾省
+                                                </a-select-option>
+                                                <a-select-option value="北京市">
+                                                    北京市
+                                                </a-select-option>
+                                                <a-select-option value="天津市">
+                                                    天津市
+                                                </a-select-option>
+                                                <a-select-option value="上海市">
+                                                    上海市
+                                                </a-select-option>
+                                                <a-select-option value="重庆市">
+                                                    重庆市
+                                                </a-select-option>
+                                                <a-select-option value="内蒙古自治区">
+                                                    内蒙古自治区
+                                                </a-select-option>
+                                                <a-select-option value="广西壮族自治区">
+                                                    广西壮族自治区
+                                                </a-select-option>
+                                                <a-select-option value="宁夏回族自治区">
+                                                    宁夏回族自治区
+                                                </a-select-option>
+                                                <a-select-option value="新疆维吾尔自治区">
+                                                    新疆维吾尔自治区
+                                                </a-select-option>
+                                                <a-select-option value="西藏自治区">
+                                                    西藏自治区
+                                                </a-select-option>
+                                                <a-select-option value="香港特别行政区">
+                                                    香港特别行政区
+                                                </a-select-option>
+                                                <a-select-option value="澳门特别行政区">
+                                                    澳门特别行政区
+                                                </a-select-option>
+                                            </a-select>
                                         </a-col>
                                     </a-row>
                                     <a-row v-if="advanced"  :gutter="15">
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange">-->平台维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.platformDimension"></a-input>-->
+                                            平台维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.platformDimension" allowClear>
                                                 <a-select-option value="淘宝">淘宝</a-select-option>
                                                 <a-select-option value="天猫">天猫</a-select-option>
@@ -174,18 +274,14 @@
                                             <!--</a-checkbox>-->
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange">-->复购维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.repurchaseDimension"></a-input>-->
-                                            <!--</a-checkbox>-->
+                                            复购维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.repurchaseDimension" allowClear>
                                                 <a-select-option value="高复购">高复购</a-select-option>
                                                 <a-select-option value="低复购">低复购</a-select-option>
                                             </a-select>
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange">-->信誉维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.reputationDimension"></a-input>-->
-                                            <!--</a-checkbox>-->
+                                            信誉维度
                                             <a-select placeholder="Select a person" size=small v-model="formInline.reputationDimension" allowClear>
                                                 <a-select-option value="高信誉">高信誉</a-select-option>
                                                 <a-select-option value="低信誉">低信誉</a-select-option>
@@ -201,9 +297,7 @@
                                             <!--</a-checkbox>-->
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
-                                            <!--<a-checkbox @change="onChange">-->周期维度
-                                            <!--<a-input placeholder="请输入" size="small" v-model="formInline.cycleDimension"></a-input>-->
-                                            <!--</a-checkbox>-->
+                                            周期维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.cycleDimension" allowClear>
                                                 <a-select-option value="稳定客户">稳定客户</a-select-option>
                                                 <a-select-option value="潜在客户">潜在客户</a-select-option>
@@ -231,17 +325,17 @@
                         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
                         <!--<a-row>-->
 
-                            <!--<el-tag type="success" >{{this.imageRow.salesDimension}}</el-tag>-->
-                            <!--<el-tag type="info" >{{this.imageRow.timeDimension}}</el-tag>-->
-                            <!--<el-tag type="warning" >{{this.imageRow.cycleDimension}}</el-tag>-->
-                            <!--<el-tag type="danger" >{{this.imageRow.platformDimension}}</el-tag>-->
+                        <!--<el-tag type="success" >{{this.imageRow.salesDimension}}</el-tag>-->
+                        <!--<el-tag type="info" >{{this.imageRow.timeDimension}}</el-tag>-->
+                        <!--<el-tag type="warning" >{{this.imageRow.cycleDimension}}</el-tag>-->
+                        <!--<el-tag type="danger" >{{this.imageRow.platformDimension}}</el-tag>-->
                         <!--</a-row>-->
                         <!--<a-row>-->
-                            <!--<el-tag >{{this.imageRow.promotionDimension}}</el-tag>-->
-                            <!--<el-tag type="success" >{{this.imageRow.regionalDimension}}</el-tag>-->
-                            <!--<el-tag type="info" e>{{this.imageRow.repurchaseDimension}}</el-tag>-->
-                            <!--<el-tag type="warning" >{{this.imageRow.valueDimension}}</el-tag>-->
-                            <!--<el-tag type="danger" >{{this.imageRow.reputationDimension}}</el-tag>-->
+                        <!--<el-tag >{{this.imageRow.promotionDimension}}</el-tag>-->
+                        <!--<el-tag type="success" >{{this.imageRow.regionalDimension}}</el-tag>-->
+                        <!--<el-tag type="info" e>{{this.imageRow.repurchaseDimension}}</el-tag>-->
+                        <!--<el-tag type="warning" >{{this.imageRow.valueDimension}}</el-tag>-->
+                        <!--<el-tag type="danger" >{{this.imageRow.reputationDimension}}</el-tag>-->
                         <!--</a-row>-->
                         <span slot="footer" class="dialog-footer">
                            <!--<el-button @click="dialogVisible = false">取 消</el-button>-->
@@ -249,7 +343,7 @@
                            </span>
                     </el-dialog>
                     <div style="margin-bottom: 10px">
-                    <el-button type="success" plain @click="getuserImage">生成画像</el-button>
+                        <el-button type="success" plain @click="getuserImage">生成画像</el-button>
                     </div>
                     <div>
                         <div>
@@ -314,7 +408,7 @@
                                         <el-col :span="4" >
                                             <div class="grid-content bg-purple" >
                                                 <a-button type="primary"  @click="giveAllCusReputationPortrait">
-                                                   信誉维度
+                                                    信誉维度
                                                 </a-button>
                                             </div>
                                         </el-col>
@@ -337,14 +431,14 @@
                                         <el-col :span="4" >
                                             <div class="grid-content bg-purple">
                                                 <a-button type="primary" @click="giveAllCusProp1Portrait">
-                                                   自定义标签1
+                                                    自定义标签1
                                                 </a-button>
                                             </div>
                                         </el-col>
                                         <el-col :span="4">
                                             <div class="grid-content bg-purple">
                                                 <a-button type="primary" @click="giveAllCusProp2Portrait" >
-                                                  自定义标签2
+                                                    自定义标签2
                                                 </a-button>
                                             </div>
                                         </el-col>
@@ -423,8 +517,8 @@
                                                 </el-form-item>
                                             </a-col>
                                             <a-col  :md="4" :sm="24">
-                                                 <div>
-                                                 </div>
+                                                <div>
+                                                </div>
                                             </a-col>
                                             <a-col  :md="4" :sm="24">
                                                 <div>
@@ -432,7 +526,7 @@
                                             </a-col>
                                             <a-col  :md="4" :sm="24">
 
-                                                    <a-input placeholder="请输入" size="small" ></a-input>
+                                                <a-input placeholder="请输入" size="small" ></a-input>
                                             </a-col>
                                         </a-row>
                                     </div>
@@ -440,27 +534,37 @@
                                 </el-form>
                             </template>
                         </el-table-column>
-                        <el-table-column  prop="buyerNick" fixed=""    label="客户网名" width="100">
+                        <el-table-column  prop="buyerNick" fixed=""    label="客户网名" >
                         </el-table-column>
-                        <el-table-column  prop="categoryDimension" label="类别维度" width="100">
+                        <el-table-column  prop="categoryDimension" label="类别维度" >
                         </el-table-column >
-                        <el-table-column  prop="salesDimension" label="销量维度" width="100">
+                        <el-table-column  prop="salesDimension" label="销量维度" >
                         </el-table-column >
-                        <el-table-column  prop="timeDimension" label="时间维度" width="100">
+                        <el-table-column  prop="timeDimension" label="时间维度" >
                         </el-table-column >
-                        <el-table-column  prop="valueDimension" label="价值维度" width="100">
+                        <el-table-column  prop="valueDimension" label="价值维度" >
                         </el-table-column >
-                        <el-table-column  prop="regionalDimension" label="地区维度" width="100">
+                        <el-table-column  prop="regionalDimension" label="地区维度" >
                         </el-table-column >
-                        <el-table-column  prop="platformDimension" label="平台维度" width="100">
+                        <el-table-column  prop="platformDimension" label="平台维度" >
                         </el-table-column >
-                        <el-table-column  prop="repurchaseDimension" label="复购维度" width="100">
+                        <el-table-column  prop="repurchaseDimension" label="复购维度">
                         </el-table-column >
-                        <el-table-column  prop="reputationDimension" label="信誉维度" width="100">
+                        <el-table-column  prop="reputationDimension" label="信誉维度" >
                         </el-table-column >
-                        <el-table-column  prop="promotionDimension" label="促销维度" width="100">
+                        <el-table-column  prop="promotionDimension" label="促销维度" >
                         </el-table-column >
-                        <el-table-column  prop="cycleDimension" label="周期维度" width="100">
+                        <el-table-column  prop="prop1" label="周期维度" >
+                        </el-table-column >
+                        <el-table-column  prop="prop2" label="自定义维度1" >
+                        </el-table-column >
+                        <el-table-column  prop="prop3" label="自定义维度2" >
+                        </el-table-column >
+                        <el-table-column  prop="prop4" label="自定义维度3">
+                        </el-table-column >
+                        <el-table-column  prop="prop5" label="自定义维度4" >
+                        </el-table-column >
+                        <el-table-column  prop="prop6" label="自定义维度5" >
                         </el-table-column >
                     </el-table>
                     <el-pagination
@@ -620,7 +724,7 @@
                 // 复选框
                 checked: true,
                 indeterminate: true,
-               //词云
+                //词云
                 worddata: [
                     {
                         name: "中国特色社会主义",
@@ -697,7 +801,18 @@
             deleteRecord: 'delete'
         },
         created() {
-            this.finduserImage()
+            this.loading=true
+            const that = this
+            const tokenStr = window.sessionStorage.getItem('token')
+            axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
+                    token: tokenStr
+                }}).then(res => {
+                this.loading=false
+                console.log(res.data.data)
+                console.log("看看数据")
+                that.tableData = res.data.data.list
+                that.total=res.data.data.total
+            }).catch()
         },
         mounted(){
             this.initChart();
@@ -708,19 +823,14 @@
                 this.loading=true
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
                         token: tokenStr
-                    }}).then( res => {
-                    console.log(res.data)
-                    // 去掉缓存，不对tableData重复赋值不会出现增量列表问题
-                    console.log("拿到数据")
+                    }}).then(res => {
                     this.loading=false
-                    that.total = res.data.data.length
-                }).catch()
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10').then(res => {
                     console.log(res.data.data)
                     console.log("看看数据")
-                    that.tableData = res.data.data
+                    that.tableData = res.data.data.list
+                    that.total=res.data.data.total
                 }).catch()
             },
             //生成画像
@@ -742,49 +852,55 @@
                     });
                 }).catch()
             },
-            // 分页ok
+            // 分页ok,首页是0，标签是1，条件是2
             handleCurrentChange(currentPage){
                 console.log(currentPage)
                 this.queryInfo.pageNum = currentPage
+                const tokenStr = window.sessionStorage.getItem('token')
                 const that = this
                 if(this.flag===0){
                     axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
-                        +this.queryInfo.pageSize).then(res => {
+                        +this.queryInfo.pageSize, {headers:{
+                            token: tokenStr
+                        }}).then(res => {
                         console.log(res.data.data)
-                        that.tableData = res.data.data
+                        that.tableData = res.data.data.list
+                        that.total=res.data.data.total
                         console.log("总接口当前页码")
                     }).catch()
                 }
-                if(this.flag===1){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'+currentPage+'/'
-                        +this.queryInfo.pageSize).then(res => {
-                        console.log(res.data.data)
-                        that.tableData = res.data.data
-                        console.log("分页接口当前页码")
-                    }).catch()
+                else if(this.flag===1){
+                    this.submitList()
                 }
+                else{
+                    this.submitButton()
+                }
+
             },
             handleSizeChange(pageSize) {
                 console.log("页面数据量")
                 console.log(pageSize)
                 this.queryInfo.pageSize = pageSize;
                 const that = this
+                const tokenStr = window.sessionStorage.getItem('token')
                 if(this.flag===0){
                     axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
-                        +this.queryInfo.pageNum+'/'+pageSize).then(res => {
+                        +this.queryInfo.pageNum+'/'+pageSize, {headers:{
+                            token: tokenStr
+                        }}).then(res => {
                         // console.log(res.data.data)
-                        that.tableData = res.data.data
+                        that.tableData = res.data.data.list
+                        that.total=res.data.data.total
                         console.log("总接口页面数据")
                     }).catch()
                 }
-                if(this.flag===1){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'
-                        +this.queryInfo.pageNum+'/'+pageSize).then(res => {
-                        // console.log(res.data.data)
-                        that.tableData = res.data.data
-                        console.log("分页接口页面数据")
-                    }).catch()
+                else if(this.flag===1){
+                    this.submitList()
                 }
+                else if(this.flag===2){
+                    this.submitButton()
+                }
+
 
             },
             // 标签查询
@@ -805,26 +921,47 @@
                 }
                 console.log(midlist)
                 console.log("提交表单")
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel', {
-                    params: midlist,
-                }).then( res => {
-                    console.log(res.data)
-                    that.tableData = res.data.data;
-                    that.total=res.data.length;
-                    this.loading=false
-                    if(res.data.data == null) {
-                        this.$message.error('未查询到相关用户！')
+                const tokenStr = window.sessionStorage.getItem('token')
+                if(that.flag===0){
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel/1/10', {
+                        params: midlist,
+                        headers: {token: this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then( res => {
+                        console.log(res.data)
+                        that.tableData = res.data.data.list;
+                        that.total=res.data.data.total;
+                        this.loading=false
+                        this.flag=1
+                        if(res.data.data.list == null) {
+                            this.$message.error('未查询到相关用户！')
 
-                    }else{
-                        console.log("成功！！")
-                        //遇到失效问题，解决
-                        vm.$message({
-                            showClose: true,
-                            message: '查询成功',
-                            type: 'success'
-                        });
-                    }
-                }).catch()
+                        }else{
+                            console.log("成功！！")
+                            //遇到失效问题，解决
+                            vm.$message({
+                                showClose: true,
+                                message: '查询成功',
+                                type: 'success'
+                            });
+                        }
+                    }).catch()
+                }
+                else if(this.flag===1){
+                    console.log("标签查询分页")
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel/'+
+                        this.queryInfo.pageNum+'/'+this.queryInfo.pageSize, {
+                        params: midlist,
+                        headers: {token: this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then( res => {
+                        console.log(res.data)
+                        that.tableData = res.data.data.list;
+                        that.total=res.data.data.total;
+                        this.loading=false
+                    }).catch()
+
+                }
             },
             //条件查询
             submitButton() {
@@ -842,41 +979,40 @@
                         midlist[i] = value
                     }
                 }
-                        console.log(midlist)
-                        console.log("提交表单")
-                        axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {
-                         params:midlist,
-                         }).then( res => {
+                console.log(midlist)
+                console.log("提交表单")
+                if(this.flag===0){
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
+                        params:midlist,
+                        headers: {token: this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then( res => {
                         console.log(res.data)
                         // 去掉缓存，不对tableData重复赋值不会出现增量列表问题
                         console.log("拿到查询数据")
-                            this.flag=1
-                       this.loading=false
-                       // that.total = res.data.data.length
-                        }).catch()
-                        axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
-                            params:midlist,
-                        }).then( res => {
-                            that.tableData = res.data.data;
-                            console.log(that.tableData )
-                            console.log("拿到分页数据")
-                            // that.total = res.data.data.length;
-                            // console.log(res.data.data.length)
-                            this.loading=false
-                            this.flag=1
-                            console.log(this.flag)
-                            if(res.data.data == null) {
-                                this.$message.error('未查询到相关用户！')
-                            }else{
-                                console.log("chengong")
-                                //遇到失效问题，解决
-                                vm.$message({
-                                    showClose: true,
-                                    message: '查询成功',
-                                    type: 'success'
-                                });
-                            }
-                        }).catch()
+                        this.flag=2
+                        this.loading=false
+                        that.tableData = res.data.data.list;
+                        this.total=res.data.data.total
+                    }).catch()
+                }
+                else if(this.flag===2){
+                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'
+                        +this.queryInfo.pageNum+'/'+this.queryInfo.pageSize, {
+                        params:midlist,
+                    }).then( res => {
+                        that.tableData = res.data.data.list;
+                        that.total = res.data.data.total
+                        console.log(that.tableData )
+                        console.log("拿到条件查询分页数据")
+                        // that.total = res.data.data.length;
+                        // console.log(res.data.data.length)
+                        this.loading=false
+                        // this.flag=1
+                        console.log(this.flag)
+                    }).catch()
+                }
+
             },
             //条件查询重置
             resetButton(){
@@ -897,7 +1033,8 @@
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
-                    that.tableData = res.data.data;
+                    that.tableData = res.data.data.list;
+                    that.total=res.data.data.total
                     // that.total=res.data.length;
                 }).catch()
             },
@@ -917,11 +1054,12 @@
                     promotionDimension:'',
                     cycleDimension:'',
                 }
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait', {headers:{
+                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     // console.log(res.data)
-                    that.tableData = res.data.data;
+                    that.tableData = res.data.data.list;
+                    that.total=res.data.data.total
                     // that.total=res.data.length;
                 }).catch()
             },
@@ -929,7 +1067,8 @@
             giveAllCusCatePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCatePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCatePortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("11111")
                     this.loading=false
@@ -943,7 +1082,8 @@
             giveAllCusSalePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusSalePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusSalePortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("22222")
                     this.loading=false
@@ -957,7 +1097,8 @@
             giveAllCusTimePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusTimePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusTimePortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("33333")
                     this.loading=false
@@ -967,11 +1108,12 @@
                     });
                 }).catch()
             },
-             //价值维度更新
+            //价值维度更新
             giveAllCusValPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusValPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusValPortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("44444")
                     this.loading=false
@@ -985,7 +1127,8 @@
             giveAllCusRegPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusRegPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusRegPortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("55555")
                     this.loading=false
@@ -999,7 +1142,8 @@
             giveAllCusPalPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("66666")
                     this.loading=false
@@ -1013,7 +1157,8 @@
             giveAllCusRepurchasePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("77777")
                     this.loading=false
@@ -1027,7 +1172,8 @@
             giveAllCusReputationPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusReputationPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusReputationPortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("88888")
                     this.loading=false
@@ -1041,7 +1187,8 @@
             giveAllCusPromotionPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPromotionPortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPromotionPortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("99999")
                     this.loading=false
@@ -1055,7 +1202,8 @@
             giveAllCusCyclePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCyclePortrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCyclePortrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("！！！！")
                     this.loading=false
@@ -1069,7 +1217,8 @@
             giveAllCusProp1Portrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp1Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp1Portrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("？？？")
                     this.loading=false
@@ -1083,7 +1232,8 @@
             giveAllCusProp2Portrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp2Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp2Portrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("？!？!？!")
                     this.loading=false
@@ -1095,7 +1245,8 @@
             },
             //自定义维度3
             giveAllCusProp3Portrait(){
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp3Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp3Portrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("？!？!？!")
                     this.loading=false
@@ -1107,7 +1258,8 @@
             },
             //自定义维度4
             giveAllCusProp4Portrait(){
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp4Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp4Portrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("mmmmm")
                     this.loading=false
@@ -1117,9 +1269,10 @@
                     });
                 }).catch()
             },
-            //自定义味素5
+            //自定义维度5
             giveAllCusProp5Portrait(){
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp5Portrait').then( res => {
+                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp5Portrait',{headers:{
+                        token : tokenStr}}).then( res => {
                     console.log(res.msg)
                     console.log("mmmmm")
                     this.loading=false
@@ -1156,52 +1309,52 @@
             },
             //词云
             initChart() {
-                    const WordCloud  = this.$refs.WordCloud
-                    console.log('lll');
-                    if (WordCloud){
-                        const myChart = this.$echarts.init(WordCloud)
-                        console.log('5555');
-                        const option = {
-                            backgroundColor: "#fff",
-                            series: [
-                                {
-                                    type: "wordCloud",
-                                    gridSize: 4,
-                                    sizeRange: [10, 25],
-                                    rotationRange: [0, 0],
-                                    textStyle: {
-                                        normal: {
-                                            color: function () {
-                                                return (
-                                                    "rgb(" +
-                                                    Math.round(Math.random() * 255) +
-                                                    ", " +
-                                                    Math.round(Math.random() * 255) +
-                                                    ", " +
-                                                    Math.round(Math.random() * 255) +
-                                                    ")"
-                                                );
-                                            }
+                const WordCloud  = this.$refs.WordCloud
+                console.log('lll');
+                if (WordCloud){
+                    const myChart = this.$echarts.init(WordCloud)
+                    console.log('5555');
+                    const option = {
+                        backgroundColor: "#fff",
+                        series: [
+                            {
+                                type: "wordCloud",
+                                gridSize: 4,
+                                sizeRange: [10, 25],
+                                rotationRange: [0, 0],
+                                textStyle: {
+                                    normal: {
+                                        color: function () {
+                                            return (
+                                                "rgb(" +
+                                                Math.round(Math.random() * 255) +
+                                                ", " +
+                                                Math.round(Math.random() * 255) +
+                                                ", " +
+                                                Math.round(Math.random() * 255) +
+                                                ")"
+                                            );
                                         }
-                                    },
-                                    right: null,
-                                    bottom: null,
-                                    width: "100%",
-                                    height: "100%",
-                                    //数据
-                                    data: this.worddata
-                                }
-                            ]
+                                    }
+                                },
+                                right: null,
+                                bottom: null,
+                                width: "100%",
+                                height: "100%",
+                                //数据
+                                data: this.worddata
+                            }
+                        ]
 
-                        }
-                        myChart.setOption(option)
-                        window.addEventListener("resize",function () {
-                            myChart.resize()
-                        })
-                        }
-                    // }
+                    }
+                    myChart.setOption(option)
+                    window.addEventListener("resize",function () {
+                        myChart.resize()
+                    })
+                }
+                // }
                 console.log('6666');
-                    // chart.setOption(option);
+                // chart.setOption(option);
             },
             handleClose(done) {
                 this.$confirm('确认关闭？')
@@ -1226,25 +1379,40 @@
             },
             //获取行内信息
             handle(row, event, column) {
-                    console.log("这是row")
-                    console.log(row)
-                    const that = this
-                    that.imageRow =row
-                    this.dialogVisible=true
-                    this.$nextTick(()=>{
-                        this.initChart()
-                    })
-                    let j = 0
-                     for(let i in row){
-                         // console.log(i)
-                         if (i!=='buyerNick'){
-                         console.log(row[i])
-                         this.worddata[j].name=row[i]
-                         j++
-                         }
+                console.log("这是row")
+                console.log(row)
+                const that = this
+                that.imageRow =row
+                this.dialogVisible=true
+                this.$nextTick(()=>{
+                    this.initChart()
+                })
+                let j = 0
+                for(let i in row){
+                    // console.log(i)
+                    if (i!=='buyerNick'){
+                        console.log(row[i])
+                        this.worddata[j].name=row[i]
+                        j++
+                    }
 
-                     }
-                      }
+                }
+            },
+            //省份选择
+            handleChange(value) {
+                console.log(`selected ${value}`);
+            },
+            handleBlur() {
+                console.log('blur');
+            },
+            handleFocus() {
+                console.log('focus');
+            },
+            filterOption(input, option) {
+                return (
+                    option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                );
+            },
 
         }
     }
