@@ -124,19 +124,12 @@
 </template>
 
 <script>
-  import echarts from "echarts";
   import '../../../node_modules/echarts/map/js/china.js';
-  import geoData from "../../..//datas.json";
-  import {isString} from "element-ui";
-  //import "echarts-wordcloud/dist/echarts-wordcloud";
-  //import "echarts-wordcloud/dist/echarts-wordcloud.min";
+
   export default {
-    // name: "VueWordCloud",
+    name: "Analysis",
     data() {
-      return {//0912return加入
-        // windowSize: [0, 0],
-        // chartId: `map-${this.$root.UUID()}`,		//用UUID生成图表id，防止id重复
-        // chart: {map: null, chartData: [],}
+      return {
         topData: [],
         buyerNick1: [],
         buyerNick2: [],
@@ -161,7 +154,6 @@
         otherCus:[],
         highSensitivity:[],
         lowSensitivity:[],
-
         mulPlatformsCus:[],
         // 地图数据
         mapData: [
@@ -312,11 +304,28 @@
         loading: true,
         //分页
         total: 0,
-        // percent:[],
-        // percents:0,
         totalPeople:0,
-        token:window.sessionStorage.getItem('token'),
+        // token: window.sessionStorage.getItem('token'),
+        tokenStr: '',
       }
+    },
+    created() {
+      const that = this
+      that.tokenStr = window.sessionStorage.getItem('token')
+      // axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+      //     token: that.tokenStr}}).then( res => {
+      //   for(let i = 0; i< res.data.data.length; i++){
+      //     // console.log(res.data.data[i].userLimit)
+      //     let c = {
+      //       key : i+1,
+      //       name: res.data.data[i].userAccount,
+      //       limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
+      //       time: res.data.data[i].gmtCreate,
+      //       editable: res.data.data[i].userLimit!=='0',
+      //     }
+      //     this.dataSource.push(c)
+      //   }
+      // }).catch()
     },
     mounted() {
       this.getEchart()
@@ -330,9 +339,9 @@
       this.getPlatPortrait()
       this.getPromotionPortrait()
       this.getDistribute()
-      // CusRegPortrait
     },
     methods: {
+
       _objToStrMap(parse) {
         let strMap = new Map();
         for (let k of Object.keys(obj)) {
@@ -351,22 +360,19 @@
         const that = this
         let sumTotalPurchaseNum = that.sumTotalPurchaseNum
         let buyerNick1 = that.buyerNick1
-        axios.get('http://192.168.1.100:8080/backend/data/getTPNTopTen').then(
+        axios.get('http://192.168.1.100:8080/backend/data/getTPNTopTen',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
-                  that.token
+                  // that.token
                   console.log('购买次数top10res数据' + res.data)
-                  // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
-                  // console.log(sumTotalPurchaseNum)
                   for (let i = 9; i >= 0; i--) {
                     //这里我展示的是后台返回的每条数据里面的bookname和num
                     buyerNick1.push(res.data.data[i].buyerNick);
                     sumTotalPurchaseNum.push(res.data.data[i].sumTotalPurchaseNum);
                   }
-                  console.log('top10数据' + sumTotalPurchaseNum)
-                  console.log('网名' + buyerNick1)
-                  // console.log('---------------')
+                  // console.log('top10数据' + sumTotalPurchaseNum)
+                  // console.log('网名' + buyerNick1)
                   const option1 = {
-                    //color: ['#c23531','#1e6290', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
                     title: {
                       text: '客户购买总次数top10',
                     },
@@ -437,7 +443,8 @@
         const that = this//
         let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
         let buyerNick2 = that.buyerNick2
-        axios.get('http://192.168.1.100:8080/backend/data/getTPATopTen').then(
+        axios.get('http://192.168.1.100:8080/backend/data/getTPATopTen',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('金额top10res数据' + res.data)
@@ -517,7 +524,8 @@
         const that = this
         let terminalCus = that.terminalCus
         let distributionCus = that.distributionCus
-        axios.get('http://192.168.1.100:8080/backend/data/CusCatePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusCatePortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('分类维度res数据' + res.data)
@@ -594,7 +602,8 @@
         const that = this
         let oldCustomer = that.oldCustomer
         let newCustomer = that.newCustomer
-        axios.get('http://192.168.1.100:8080/backend/data/CusTimePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusTimePortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('时间维度res数据' + res.data)
@@ -660,7 +669,8 @@
         const that = this
         let lowSales = that.lowSales
         let highSales = that.highSales
-        axios.get('http://192.168.1.100:8080/backend/data/CusSalesPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusSalesPortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('销量维度res数据' + res.data)
@@ -724,7 +734,8 @@
         const that = this
         let lowVal = that.lowVal
         let highVal = that.highVal
-        axios.get('http://192.168.1.100:8080/backend/data/CusValPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusValPortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('价值res数据：' + res.data.data[0].lowVal)
@@ -791,7 +802,8 @@
         const that = this
         let highRepurchase = that.highRepurchase
         let lowRepurchase = that.lowRepurchase
-        axios.get('http://192.168.1.100:8080/backend/data/CusRepurchasePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusRepurchasePortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('复购res数据：' + res.data)
@@ -857,7 +869,8 @@
         let stableCus = that.stableCus
         let potentialCus = that.potentialCus
         let lossCus = that.lossCus
-        axios.get('http://192.168.1.100:8080/backend/data/CusCyclePortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusCyclePortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('周期res数据：' + res.data)
@@ -926,7 +939,8 @@
         let offlineCus = that.offlineCus//线下
         let otherCus = that.otherCus//其他平台
         let mulPlatformsCus = that.mulPlatformsCus//其他平台
-        axios.get('http://192.168.1.100:8080/backend/data/CusPlatPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusPlatPortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('平台res数据：' + res.data)
@@ -998,7 +1012,8 @@
         const that = this
         let highSensitivity = that.highSensitivity//促销敏感度高
         let lowSensitivity = that.lowSensitivity//促销敏感度低
-        axios.get('http://192.168.1.100:8080/backend/data/CusPromotionPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusPromotionPortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.token
                   console.log('促销res数据：' + res.data)
@@ -1082,7 +1097,8 @@
         const myChartChina = this.$echarts.init(myChartContainer);
         const mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
         const that = this
-        axios.get('http://192.168.1.100:8080/backend/data/CusRegPortraitAnalysis').then(
+        axios.get('http://192.168.1.100:8080/backend/data/CusRegPortraitAnalysis',{headers:{
+            token: this.tokenStr}}).then(
                 res => {
                   that.total=res.data.data.length
                   let mapname = ''
@@ -1202,9 +1218,6 @@
       handleCurrentChange(currentPage){
         console.log("当前页码")
         console.log(currentPage)
-        // this.queryInfo.pageNum = currentPage
-
-
         const that = this
         if(currentPage===2){
           that.pageFive=that.resData.slice(5,10)
@@ -1232,11 +1245,6 @@
 </script>
 
 <style lang="less" scoped>
-  //.hello{
-  //
-  //  width: 100%;
-  //  height: 100%;
-  //}
   .el-row {
     margin-bottom: 20px;
     &:last-child {
@@ -1261,7 +1269,6 @@
     position: absolute;
     bottom: 30px;/* 底部距离bai为0 */
     right:40px;
-    //left:0;;/* 距离左右距离相等即可造成居中 */
     background-color: #f6f5f5;
 
   }

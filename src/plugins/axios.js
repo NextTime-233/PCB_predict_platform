@@ -4,29 +4,42 @@ import Vue from 'vue';
 import axios from "axios";
 
 
+
+// axios.default.baseURL = 'http://192.168.1.106:8080/backend/'
+// axios.interceptors.request.use(config=>{
+//   console.log(config)
+//   return config
+// })
+
+let config = {
+  // baseURL: process.env.baseURL || process.env.apiUrl || ""
+  // timeout: 60 * 1000, // Timeout
+  // withCredentials: true, // Check cross-site Access-Control
+};
+
 const _axios = axios.create(config);  // 创建axios实例
 
 _axios.interceptors.request.use(
-  function(config) {
-    // Do something before request is sent
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
+    function(config) {
+      // Do something before request is sent
+      return config;
+    },
+    function(error) {
+      // Do something with request error
+      return Promise.reject(error);
+    }
 );
 
 // Add a response interceptor
 _axios.interceptors.response.use(
-  function(response) {
-    // Do something with response data
-    return response;
-  },
-  function(error) {
-    // Do something with response error
-    return Promise.reject(error);
-  }
+    function(response) {
+      // Do something with response data
+      return response;
+    },
+    function(error) {
+      // Do something with response error
+      return Promise.reject(error);
+    }
 );
 
 Plugin.install = function(Vue, options) {

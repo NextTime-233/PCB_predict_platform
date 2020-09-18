@@ -838,16 +838,15 @@
             },
             // 分页
             currentPage(currentPage, size){
-                that.loading = true
                 const that = this
-
+                that.loading = true
                 if(that.flag===0) {
                     axios.get('http://192.168.1.100:8080/backend/order/listOrders/' + currentPage + '/' + size, {
                         headers: {
                             token: this.tokenStr
                         }
                     }).then(res => {
-                        that.data = res.data.data
+                        this.data = res.data.data
                         this.loading = false
                     }).catch()
                 }
@@ -861,11 +860,10 @@
                 console.log(size)
                 this.pageSize = size;
                 const that = this
-
                 if(that.flag===0) {
                     axios.get('http://192.168.1.100:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
-                        that.data = res.data.data
+                        this.data = res.data.data
                         this.loading=false
                     }).catch()
                 }

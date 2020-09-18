@@ -283,11 +283,12 @@
             },
             // 分页
             currentPage(currentPage, size){
-                // console.log("当前页码")
-                // console.log(currentPage)
+                console.log("当前页码")
+                console.log(currentPage)
                 const that = this
                 const datalist = []
-                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+currentPage+'/'+size).then(res => {
+                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+currentPage+'/'+size, {headers:{
+                        token: this.tokenStr}}).then(res => {
                     console.log(res.data.data)
                     for (let i = 0; i <res.data.data.length; i++) {
                         let c = {
@@ -306,7 +307,8 @@
                 this.pageSize = size;
                 const that = this
                 const datalist = []
-                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+current+'/'+size).then(res => {
+                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+current+'/'+size, {headers:{
+                        token: this.tokenStr}}).then(res => {
                     for (let i = 0; i <res.data.data.length; i++) {
                         let c = {
                             key : i+1,
