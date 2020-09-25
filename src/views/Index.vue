@@ -91,21 +91,21 @@
                         @click="() => (collapsed = !collapsed)"
                 />
                 <div>
-                    <a-badge title="Custom hover text" :count="99" :overflow-count="10" style="position: relative; right: 30px;">
-                       <a-icon type="bell" class="head-example" :style="{ fontSize: '25px'}"/>
-                    </a-badge>
+<!--                    <a-badge title="Custom hover text" :count="99" :overflow-count="10" style="position: relative; right: 30px;">-->
+<!--                       <a-icon type="bell" class="head-example" :style="{ fontSize: '25px'}"/>-->
+<!--                    </a-badge>-->
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                             <a-avatar style="backgroundColor:#87d068" icon="user" />
                             {{user}}<a-icon type="down" />
                         </a>
                         <a-menu slot="overlay">
-                            <a-menu-item>
-                                <router-link to="/Home" tag="div">
-                                    <span>个人中心</span>
-                                </router-link>
-                                <!--                                <a href="javascript:;"></a>-->
-                            </a-menu-item>
+<!--                            <a-menu-item>-->
+<!--                                <router-link to="/Home" tag="div">-->
+<!--                                    <span>个人中心</span>-->
+<!--                                </router-link>-->
+<!--                                &lt;!&ndash;                                <a href="javascript:;"></a>&ndash;&gt;-->
+<!--                            </a-menu-item>-->
                             <a-menu-item>
                                 <router-link to="/ResetPassword" tag="div">
                                     <span>修改密码</span>
@@ -123,17 +123,18 @@
             <!--路由占位符-->
                 <bread></bread>
                 <router-view></router-view>
-                <page-footer></page-footer>
+<!--                <page-footer></page-footer>-->
             </a-layout-content>
         </a-layout>
     </a-layout>
 </template>
 <script>
     import Bread from "../components/Bread";
-    import PageFooter from "../layouts/PageFooter";
+    // import PageFooter from "../layouts/PageFooter";
     export default {
         name: 'index',
-        components: {Bread, PageFooter},
+        components: {Bread},
+        // components: {Bread, PageFooter},
         data() {
             return {
                 user: window.sessionStorage.getItem('user'),
@@ -191,7 +192,7 @@
 
 <style lang="less" scoped>
     #layout-demo{
-        height: 100vh;
+        height: 100%;
         .trigger {
             font-size: 18px;
             line-height: 64px;
@@ -219,6 +220,5 @@
             /*background: #eee;*/
             display: inline-block;
         }
-
     }
 </style>

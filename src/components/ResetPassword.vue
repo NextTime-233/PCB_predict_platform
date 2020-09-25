@@ -76,21 +76,39 @@
                 const that = this
                 this.$refs[form].validate(valid => {
                     if (valid) {
-                        alert('submit!')
-                        console.log("此处提交修改")
-                        // axios.put('http://192.168.1.100:8080/backend/user/updateUserPwd', {
-                        //         params:{
-                        //             userAccount: this.user,
-                        //             userPwd: that.rform.pass,
-                        //             tokenBackend: this.tokenStr,
-                        //         },
-                        axios.put('http://192.168.1.100:8080/backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr, {
-                                Headers:{token: this.tokenStr},
-                            }).then( res => {
-                            console.log(res.data)
+                        alert('已提交!')
+                        // console.log("此处提交修改")
+                        let param = {
+                            userAccount: that.user,
+                            userPwd: that.rform.pass,
+                            tokenBackend: that.tokenStr
+                        }
+                        let config = {
+                            headers: {token: that.tokenStr},
+                            tokenBackend : this.tokenStr
+                        }
+                        // axios.put('backend/user/updateUserPwd', {params:param}, config
+                        //     ).then( res => {
+                        //     console.log(res.data)
+                        // }).catch()
+                        axios.put('backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr,'', config).then( res => {
+                            if(res.data.code === '0') {
+                                alert("修改密码成功！")
+                            }
                         }).catch()
+                        // axios.put('backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr, {
+                        //         Headers:{token: this.tokenStr},
+                        //     }).then( res => {
+                        //     console.log(res.data)
+                        // }).catch()
+                        // axios.put('backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass, {
+                        //         Headers:{token: this.tokenStr},
+                        //         tokenBackend: this.tokenStr
+                        //     }).then( res => {
+                        //     console.log(res.data)
+                        // }).catch()
                     } else {
-                        console.log('error submit!!');
+                        console.log('提交错误!!');
                         return false;
                     }
                 });

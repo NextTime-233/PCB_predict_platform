@@ -80,6 +80,7 @@
 </template>
 
 <script>
+    // import api from ../main
     const columns = [
         {
             title: '用户名',
@@ -169,10 +170,10 @@
         created() {
             const that = this
             that.tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+            axios.get('backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                     token: that.tokenStr}}).then( res => {
                     for(let i = 0; i< res.data.data.length; i++){
-                        // console.log(res.data.data[i].userLimit)
+                        // // console.log(res.data.data[i].userLimit)
                         let c = {
                             key : i+1,
                             name: res.data.data[i].userAccount,
@@ -188,7 +189,7 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/user/countUser',{headers:{
+            axios.get('backend/user/countUser',{headers:{
                     token : tokenStr}}).then( res => {
                 that.total = res.data.data
                 that.amount = res.data.data
@@ -198,9 +199,9 @@
             reNew() {
                 const that = this
                 const data = []
-                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
+                axios.get('backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                         token: that.tokenStr}}).then( res => {
-                    // console.log(res.data.msg)
+                    // // console.log(res.data.msg)
                     for(let i = 0; i< res.data.data.length; i++){
                         let c = {
                             key : i+1,
@@ -218,12 +219,12 @@
             handleSubmit(e) {
                 e.preventDefault(); // 阻止页面自动刷新
                 this.form.validateFields((err, values) => {
-                    console.log(err)
+                    // console.log(err)
                     if (!err) {
-                        console.log('Received values of form: ', values);
-                        console.log('usr: ', values.userAccount);
-                        axios.post('http://192.168.1.100:8080/backend/user/saveUser?userAccount='+values.userAccount+'&userPwd='+values.userPwd ).then(res=>{
-                            console.log(res.data.code)
+                        // console.log('Received values of form: ', values);
+                        // console.log('usr: ', values.userAccount);
+                        axios.post('backend/user/saveUser?userAccount='+values.userAccount+'&userPwd='+values.userPwd ).then(res=>{
+                            // console.log(res.data.code)
                             this.modalVisible=false
                             alert("成功添加新用户!")
                         }).catch()
@@ -237,27 +238,36 @@
                 this.modalVisible = modalVisible;
             },
             remove (key, name) {
-                axios.get('http://192.168.1.100:8080/backend/user/getUserByUserAccount?userAccount='+name, {headers:{
-                        token: this.tokenStr}}).then( res => {
-                            console.log(res.data.data)
-                        if (res.data.data.userLimit>0) {
-                            alert("不能删除管理员用户!!请联系开发人员进行相关操作，或从数据库中进行删除操作！")
-                        }
-                        else {
-                            alert("已删除用户"+name)
-                            const newData = this.dataSource.filter(item => item.key !== key)
-                            this.dataSource = newData
-                            // 删除成功
-                            axios.put('http://192.168.1.100:8080/backend/user/deleteUser', {
-                                    tokenBackend: this.tokenStr,
-                                    userList: [name],
-                                    Headers:{token: this.tokenStr},
-                                }
-                            ).then( res => {
-                                console.log(res.data)
-                            }).catch()
-                        }
-                }).catch()
+                const that = this
+                const newData = this.dataSource.filter(item => item.key !== key)
+                this.dataSource = newData
+                // 删除成功
+                axios.put('backend/user/deleteUser', {userList: [name], tokenBackend: this.tokenStr},
+                    {headers: {token: this.tokenStr}}
+                ).then( res => {
+                // let param = {
+                //     userList: [name],
+                //     tokenBackend: this.tokenStr
+                // }
+                // let config = {
+                //     headers: {token : this.tokenStr},
+                // }
+                // axios.put('backend/user/deleteUser', param, config
+                // ).then( res => {
+                    // console.log(res.data)
+                    alert("已删除用户"+name)
+                }).catch(function (error) {
+                    if (error.response) {
+                        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                        // console.log(error.response.data);
+                        // console.log(error.response.status);
+                        // console.log(error.response.headers);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        // console.log('Error', error.message);
+                    }
+                    // console.log(error.config);
+                })
             },
             // 搜索框
             onSearch(value) {
@@ -265,10 +275,8 @@
                 if(!value){
                     alert("请输入要搜索的用户名！")
                 } else {
-                    axios.get('http://192.168.1.100:8080/backend/user/getUserByUserAccount?userAccount='+value, {headers:{
+                    axios.get('backend/user/getUserByUserAccount?userAccount='+value, {headers:{
                             token: this.tokenStr}}).then( res => {
-                        // console.log(res.data.msg)
-                        console.log(res.data.data)
                         this.total = 1
                         // 暂时采用的方法，直接重写数据源
                         this.dataSource = [{
@@ -283,13 +291,10 @@
             },
             // 分页
             currentPage(currentPage, size){
-                console.log("当前页码")
-                console.log(currentPage)
                 const that = this
                 const datalist = []
-                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+currentPage+'/'+size, {headers:{
+                axios.get('backend/user/listUsers/'+currentPage+'/'+size, {headers:{
                         token: this.tokenStr}}).then(res => {
-                    console.log(res.data.data)
                     for (let i = 0; i <res.data.data.length; i++) {
                         let c = {
                             key : i+1,
@@ -307,7 +312,7 @@
                 this.pageSize = size;
                 const that = this
                 const datalist = []
-                axios.get('http://192.168.1.100:8080/backend/user/listUsers/'+current+'/'+size, {headers:{
+                axios.get('backend/user/listUsers/'+current+'/'+size, {headers:{
                         token: this.tokenStr}}).then(res => {
                     for (let i = 0; i <res.data.data.length; i++) {
                         let c = {

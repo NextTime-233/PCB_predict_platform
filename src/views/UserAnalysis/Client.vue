@@ -679,16 +679,16 @@
                                     <el-table-column prop="idCard" label="证件号码" width="100" />
                                     <el-table-column prop="loadTime" label="加载时间" width="100" />
                                 </el-table>
-                            <span>共{{total}}条数据</span>
+                            <span>共{{total0}}条数据</span>
                             <div class="page-roll">
                                 <a-pagination
-                                        v-model="current"
-                                        :total="total"
+                                        v-model="current0"
+                                        :total="total0"
                                         show-size-changer
                                         show-quick-jumper
-                                        :page-size="pageSize"
-                                        @showSizeChange="onShowSizeChange"
-                                        @change="currentPage"
+                                        :page-size="pageSize0"
+                                        @showSizeChange="onShowSizeChange0"
+                                        @change="currentPage0"
                                 >
                                     <template slot="buildOptionText" slot-scope="props">
                                         <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
@@ -748,12 +748,13 @@
                 pageSize: 5,
                 total: 0,
                 amount: 0,
-                flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页
+                flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；第一个分页
                 current0: 1,
                 pageSize0: 5,
                 total0: 0,
                 amount0: 0,
-                flag0: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页
+                flag0: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；第二个分页
+                jump: 'outer',
                 //  token
                 tokenStr: '',
                 // 标签页
@@ -764,7 +765,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-          axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
+          axios.get('backend/customer/listCustomers/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
               this.tableData = res.data.data
@@ -774,45 +775,45 @@
         mounted(){
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/customer/countCustomer',{headers:{
+            axios.get('backend/customer/countCustomer',{headers:{
                     token : tokenStr}}).then( res => {
-                that.total = res.data.data
+                that.total = res.data.data  // 普通用户表
                 that.amount = res.data.data
             }).catch()
         },
         methods: {
             // 客户类型
             showClient(tab, event) {
-                console.log("这里importantClick")
+                // console.log("这里importantClick")
                 const that = this
                 if(tab.index === '0'){
                     that.clientType = '0'
-                    console.log(tab.index, event)
-                    axios.get('http://192.168.1.100:8080/backend/customer/listImpCustomers/1/5', {headers:{
+                    // console.log(tab.index, event)
+                    axios.get('backend/customer/listImpCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
-                        console.log(res)
+                        // console.log(res)
                         that.imptableData = res.data.data
                         that.loading=false
                     }).catch()
-                    axios.get('http://192.168.1.100:8080/backend/customer/countImpCustomers', {headers:{
+                    axios.get('backend/customer/countImpCustomers', {headers:{
                             token: that.tokenStr
                         }}).then( res => {
-                        console.log(res)
+                        // console.log(res)
                         that.total = res.data.data
                     }).catch()
                 }
                 if(tab.index === '1') {
                     that.clientType = '1'
-                    console.log(tab.index)
-                    axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
+                    // console.log(tab.index)
+                    axios.get('backend/customer/listCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
-                        console.log(res)
+                        // console.log(res)
                         this.tableData = res.data.data
                         this.loading=false
                     }).catch()
-                    axios.get('http://192.168.1.100:8080/backend/customer/countCustomer',{headers:{
+                    axios.get('backend/customer/countCustomer', {headers:{
                             token : that.tokenStr}}).then( res => {
                         that.total = res.data.data
                         that.amount = res.data.data
@@ -824,8 +825,8 @@
                 this.createValueB = date;
                 this.clientForm.BirthdayTimeDateStart = dateString[0]
                 this.clientForm.BirthdayTimeDateEnd = dateString[1]
-                // console.log(typeof (dataString))
-                // console.log(this.clientForm.BirthdayTimeDateEnd)
+                // // console.log(typeof (dataString))
+                // // console.log(this.clientForm.BirthdayTimeDateEnd)
             },
             payOnChange(date, dateString) {
                 this.createValueP = date;
@@ -842,7 +843,6 @@
                 this.clientForm.registrationTimeDateStart = dateString[0]
                 this.clientForm.registrationTimeDateEnd = dateString[1]
             },
-            // 展开，搜索结果的翻页存在问题
             toggleAdvanced () {
                 this.advanced = !this.advanced
             },
@@ -850,12 +850,18 @@
                 const that = this
                 const list = this.clientForm
                 this.loading = true
+                if(this.jump === 'outer') {
+                    this.flag = 0
+                }
+                else{
+                    this.flag = 1
+                }
                 if(that.flag===0) {
                     for (let i in list) {
-                        console.log(list[i])
+                        // console.log(list[i])
                         if (list[i]) {
                             if (that.clientType === '1') {
-                                axios.get('http://192.168.1.100:8080/backend/customer/getCustomers/1/5', {
+                                axios.get('backend/customer/getCustomers/1/5', {
                                     params: {
                                         customerName: list.customerName,
                                         registrationTimeDateStart: list.registrationTimeDateStart,
@@ -876,8 +882,8 @@
                                     headers: {token: this.tokenStr},
                                     tokenBackend: this.tokenStr
                                 }).then(res => {
-                                    console.log("此处为查询的返回值")
-                                    console.log(res)
+                                    // console.log("此处为查询的返回值")
+                                    // console.log(res)
                                     if (res.data.code === 3) {
                                         alert('未能查找到该客户的相关信息！！')
                                     } else if (res.data.code === 0) {
@@ -889,7 +895,7 @@
                                 }).catch()
                                 break
                             } else {
-                                axios.get('http://192.168.1.100:8080/backend/customer/selectImpCustomers/1/5', {
+                                axios.get('backend/customer/getCustomersMid/1/5', {
                                     params: {
                                         customerName: list.customerName,
                                         registrationTimeDateStart: list.registrationTimeDateStart,
@@ -910,8 +916,8 @@
                                     headers: {token: this.tokenStr},
                                     tokenBackend: this.tokenStr
                                 }).then(res => {
-                                    console.log("此处为查询的返回值")
-                                    console.log(res)
+                                    // console.log("此处为查询的返回值")
+                                    // console.log(res)
                                     if (res.data.code === 3) {
                                         alert('未能查找到该客户的相关信息！！')
                                     } else if (res.data.code === 0) {
@@ -932,7 +938,7 @@
                 }
                 else {
                     if (that.clientType === '0'){
-                        axios.get('http://192.168.1.100:8080/backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
+                        axios.get('backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
                             params: {
                                 customerName: list.customerName,
                                 registrationTimeDateStart: list.registrationTimeDateStart,
@@ -960,7 +966,7 @@
                         }).catch()
                     }
                     else {
-                        axios.get('http://192.168.1.100:8080/backend/customer/selectImpCustomers/'+this.current+'/'+ this.pageSize, {
+                        axios.get('backend/customer/getCustomersMid/'+this.current+'/'+ this.pageSize, {
                             params: {
                                 customerName: list.customerName,
                                 registrationTimeDateStart: list.registrationTimeDateStart,
@@ -1015,32 +1021,34 @@
                 that.createValueP=[]
                 that.createValueR=[]
                 that.createValueS=[]
-                axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/1/5', {headers:{
+                axios.get('backend/customer/listCustomers/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
-                    // console.log(res.data)
+                    // // console.log(res.data)
                     that.tableData = res.data.data
                     this.loading=false
                     that.total = that.amount
                     that.flag = 0
                 }).catch()
+                this.jump = 'outer'
             },
             // el表格
             handleClick(row) {
                 const that = this
                 that.loading0 = true
-                console.log('输出用户网名'+that.tokenStr)
-                console.log(row.buyerNick)
+                // console.log('输出用户网名'+that.tokenStr)
+                // console.log(row.buyerNick)
                 if(this.flag === 0){
-                    axios.get('http://192.168.1.100:8080/backend/order/OrderHistory/1/5',{
+                    axios.get('backend/order/OrderHistory/1/5',{
                         params: {
                             buyerNick: row.buyerNick,
                         },
                         headers:{token: that.tokenStr},
                     }).then(res => {
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         if(res.data.data === null){
                             alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
+                            that.loading0 = false
                         }else{
                             that.historyData = res.data.data
                         }
@@ -1048,13 +1056,13 @@
                     }).catch()
                 }
                else {
-                    axios.get('http://192.168.1.100:8080/backend/order/OrderHistory/'+this.current+'/5'+this.pageSize,{
+                    axios.get('backend/order/OrderHistory/'+this.current+'/'+this.pageSize,{
                         params: {
                             buyerNick: row.buyerNick,
                         },
                         headers:{token: that.tokenStr},
                     }).then(res => {
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         that.loading0 = false
                         if(res.data.data === null){
                             alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
@@ -1069,9 +1077,9 @@
                 const that = this
                 that.loading = true
                 if(that.flag===0){
-                    axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
+                    axios.get('backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
-                        // console.log(res.data.data)
+                        // // console.log(res.data.data)
                         that.tableData = res.data.data
                         this.loading=false
                     }).catch()
@@ -1085,9 +1093,8 @@
                 const that = this
                 that.loading = true
                 if(that.flag===0){
-                axios.get('http://192.168.1.100:8080/backend/customer/listCustomers/'+current+'/'+size, {headers:{
+                axios.get('backend/customer/listCustomers/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
-                    // console.log(res.data.data)
                     that.tableData = res.data.data
                     this.loading=false
                 }).catch()
@@ -1096,9 +1103,41 @@
                     this.submitList()
                 }
             },
+            // 分页0
+            currentPage0(currentPage, size){
+                const that = this
+                that.loading0 = true
+                if(that.flag0===0){
+                    axios.get('backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
+                            token : this.tokenStr}}).then(res => {
+                        that.tableData = res.data.data
+                        this.loading0=false
+                    }).catch()
+                }
+                else {
+                    this.submitList()
+                    this.jump = 'inner'
+                }
+            },
+            onShowSizeChange0(current, size) {
+                this.pageSize0 = size
+                const that = this
+                that.loading0 = true
+                if(that.flag0===0){
+                    axios.get('backend/customer/listCustomers/'+current+'/'+size, {headers:{
+                            token : this.tokenStr}}).then(res => {
+                        that.tableData = res.data.data
+                        this.loading0=false
+                    }).catch()
+                }
+                else {
+                    this.submitList()
+                    this.jump = 'inner'
+                }
+            },
             // 标签页
             callback(key) {
-                console.log(key);
+                // console.log(key);
             },
         },
     }

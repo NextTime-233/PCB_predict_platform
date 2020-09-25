@@ -83,7 +83,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
-                        axios.post('http://192.168.1.100:8080/backend/user/saveUser?userAccount='+this.ruleForm.userAccount+'&userPwd='+this.ruleForm.userPwd).then(res=>{
+                        axios.post('backend/user/saveUser?userAccount='+this.ruleForm.userAccount+'&userPwd='+this.ruleForm.userPwd).then(res=>{
                             console.log(res.data.code)
                             if (!res.data.code) {
                                 this.$router.push({path: '/Login'}).catch(err => {});

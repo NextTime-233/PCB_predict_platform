@@ -2,8 +2,8 @@
 <template>
     <div>
         <a-card>
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="条件查询" name="first">
+            <el-tabs v-model="activeName" @tab-click="handleClick();finduserImage()">
+                <el-tab-pane label="条件查询" name="first" >
                     <div :class="advanced ? 'search' : null">
                         <a-form id="qForm" layout="horizontal">
                             <div :class="advanced ? null: 'fold'">
@@ -20,9 +20,6 @@
 
                                     </a-col>
                                     <a-col :md="8" :sm="24" >
-                                        <!--<a-form-item label="所在省市" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">-->
-                                        <!--<a-input placeholder="请输入" size="small" v-model="form.province" />-->
-                                        <!--</a-form-item>-->
                                         <a-form-item label="所在省市" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">
                                             <el-select v-model="form.province" filterable placeholder="请选择" size="small" style="">
                                                 <el-option
@@ -148,9 +145,10 @@
                                         <a-col :md="4" :sm="24" >
                                             地区维度
                                             <a-select
+                                                    allowClear
                                                     size=small
                                                     show-search
-                                                    placeholder="Select a person"
+                                                    placeholder="请选择"
                                                     option-filter-prop="children"
                                                     :filter-option="filterOption"
                                                     @focus="handleFocus"
@@ -282,7 +280,7 @@
                                         </a-col>
                                         <a-col :md="4" :sm="24" >
                                             信誉维度
-                                            <a-select placeholder="Select a person" size=small v-model="formInline.reputationDimension" allowClear>
+                                            <a-select placeholder="请选择" size=small v-model="formInline.reputationDimension" allowClear>
                                                 <a-select-option value="高信誉">高信誉</a-select-option>
                                                 <a-select-option value="低信誉">低信誉</a-select-option>
                                             </a-select>
@@ -301,8 +299,71 @@
                                             <a-select placeholder="请选择" size=small v-model="formInline.cycleDimension" allowClear>
                                                 <a-select-option value="稳定客户">稳定客户</a-select-option>
                                                 <a-select-option value="潜在客户">潜在客户</a-select-option>
-                                                <a-select-option value="潜在客户">流失客户</a-select-option>
+                                                <a-select-option value="流失客户">流失客户</a-select-option>
                                             </a-select>
+                                        </a-col>
+                                    </a-row>
+                                    <a-row v-if="advanced"  :gutter="15">
+                                        <a-col :md="4" :sm="24" >
+                                            自定义维度1
+                                            <el-select v-model="formInline.prop1" filterable placeholder="请选择" size="small" clearable  :disabled=cannot1>
+                                                <el-option
+                                                        v-for="item in optionLabel"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                >
+                                                </el-option>
+                                            </el-select>
+                                        </a-col>
+                                        <a-col :md="4" :sm="24" >
+                                            自定义维度2
+                                            <el-select v-model="formInline.prop2" filterable placeholder="请选择" size="small" clearable :disabled=cannot2>
+                                                <el-option
+                                                        v-for="item in optionLabel2"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                >
+                                                </el-option>
+                                            </el-select>
+                                        </a-col>
+                                        <a-col :md="4" :sm="24" >
+                                            自定义维度3
+                                            <el-select v-model="formInline.prop3" filterable placeholder="请选择" size="small" clearable :disabled=cannot3>
+                                                <el-option
+                                                        v-for="item in optionLabel3"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                >
+                                                </el-option>
+                                            </el-select>
+                                        </a-col>
+                                        <a-col :md="4" :sm="24" >
+                                            自定义维度4
+                                            <el-select v-model="formInline.prop4" filterable placeholder="请选择" size="small" clearable :disabled=cannot4>
+                                                <el-option
+                                                        v-for="item in optionLabel4"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                >
+                                                </el-option>
+                                            </el-select>
+                                        </a-col>
+                                        <a-col :md="4" :sm="24" >
+                                            自定义维度5
+                                            <el-select v-model="formInline.prop5" filterable placeholder="请选择" size="small" clearable :disabled=cannot5>
+                                                <el-option
+                                                        v-for="item in optionLabel5"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+
+                                                >
+                                                </el-option>
+                                            </el-select>
                                         </a-col>
                                     </a-row>
                                 </div>
@@ -320,23 +381,8 @@
                 </el-tab-pane>
                 <div >
                     <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
-                        <!--<span>类别维度:{{this.imageRow.categoryDimension}}</span>-->
                         <el-tag >用户网名：{{this.imageRow.buyerNick}}</el-tag>
                         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
-                        <!--<a-row>-->
-
-                        <!--<el-tag type="success" >{{this.imageRow.salesDimension}}</el-tag>-->
-                        <!--<el-tag type="info" >{{this.imageRow.timeDimension}}</el-tag>-->
-                        <!--<el-tag type="warning" >{{this.imageRow.cycleDimension}}</el-tag>-->
-                        <!--<el-tag type="danger" >{{this.imageRow.platformDimension}}</el-tag>-->
-                        <!--</a-row>-->
-                        <!--<a-row>-->
-                        <!--<el-tag >{{this.imageRow.promotionDimension}}</el-tag>-->
-                        <!--<el-tag type="success" >{{this.imageRow.regionalDimension}}</el-tag>-->
-                        <!--<el-tag type="info" e>{{this.imageRow.repurchaseDimension}}</el-tag>-->
-                        <!--<el-tag type="warning" >{{this.imageRow.valueDimension}}</el-tag>-->
-                        <!--<el-tag type="danger" >{{this.imageRow.reputationDimension}}</el-tag>-->
-                        <!--</a-row>-->
                         <span slot="footer" class="dialog-footer">
                            <!--<el-button @click="dialogVisible = false">取 消</el-button>-->
                            <el-button type="primary" @click="dialogVisible = false">返回</el-button>
@@ -430,35 +476,35 @@
                                     <el-row >
                                         <el-col :span="4" >
                                             <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusProp1Portrait">
+                                                <a-button type="primary"  :disabled=dis0 @click="giveAllCusProp1Portrait">
                                                     自定义标签1
                                                 </a-button>
                                             </div>
                                         </el-col>
                                         <el-col :span="4">
                                             <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusProp2Portrait" >
+                                                <a-button type="primary" :disabled=dis1 @click="giveAllCusProp2Portrait" >
                                                     自定义标签2
                                                 </a-button>
                                             </div>
                                         </el-col>
                                         <el-col :span="4" >
                                             <div class="grid-content bg-purple" >
-                                                <a-button type="primary" @click="giveAllCusProp3Portrait" >
+                                                <a-button type="primary" :disabled=dis2 @click="giveAllCusProp3Portrait" >
                                                     自定义标签3
                                                 </a-button>
                                             </div>
                                         </el-col>
                                         <el-col :span="4">
                                             <div class="grid-content bg-purple">
-                                                <a-button type="primary"  @click="giveAllCusProp4Portrait">
+                                                <a-button type="primary" :disabled=dis3 @click="giveAllCusProp4Portrait">
                                                     自定义标签4
                                                 </a-button>
                                             </div>
                                         </el-col>
                                         <el-col :span="4" >
                                             <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusProp5Portrait">
+                                                <a-button type="primary" :disabled=dis4 @click="giveAllCusProp5Portrait">
                                                     自定义标签5
                                                 </a-button>
                                             </div>
@@ -484,7 +530,6 @@
                                     <div>
                                         <a-row>
                                             <a-col :md="4" :sm="24">
-                                                <!--<a-input placeholder="请输入" size="small" ></a-input>-->
                                                 <el-form-item label="类别维度:">
                                                     <span>{{ props.row.categoryDimension }}</span>
                                                 </el-form-item>
@@ -523,10 +568,6 @@
                                             <a-col  :md="4" :sm="24">
                                                 <div>
                                                 </div>
-                                            </a-col>
-                                            <a-col  :md="4" :sm="24">
-
-                                                <a-input placeholder="请输入" size="small" ></a-input>
                                             </a-col>
                                         </a-row>
                                     </div>
@@ -604,6 +645,52 @@
                     pageSize:10,
                 },
                 customStyle:'background:white;border-radius: 2px;margin-bottom: 2px;border: 0;overflow: hidden',
+                //自定义标签解决
+                optionLabel5:[
+                    {
+                        value: '选项1',
+                        label: ''
+                    },
+                ],
+                optionLabel4:[
+                    {
+                        value: '选项1',
+                        label: ''
+                    },
+                ],
+                optionLabel3:[
+                    {
+                        value: '选项1',
+                        label: ''
+                    },
+                ],
+                optionLabel2:[
+                    {
+                        value: '选项1',
+                        label: ''
+                    },
+                ],
+                optionLabel:[
+                    {
+                        value: '选项1',
+                        label: ''
+                    },
+                ],
+                value:'',
+                //选择器
+                selectData:[],
+                cannot1:true,
+                cannot2:true,
+                cannot3:true,
+                cannot4:true,
+                cannot5:true,
+                //自定义按钮
+                dis0:true,
+                dis1:true,
+                dis2:true,
+                dis3:true,
+                dis4:true,
+
                 //省份选择
                 options: [{
                     value: '河北省',
@@ -780,6 +867,11 @@
                     reputationDimension:'',
                     promotionDimension:'',
                     cycleDimension:'',
+                    prop1:'',
+                    prop2:'',
+                    prop3:'',
+                    prop4:'',
+                    prop5:'',
                 },
                 //条件查询
                 form:{
@@ -804,33 +896,77 @@
             this.loading=true
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
+            // console.log(tokenStr)
+            axios.get('backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
                     token: tokenStr
                 }}).then(res => {
                 this.loading=false
-                console.log(res.data.data)
-                console.log("看看数据")
+                // console.log(res.data.data)
+                // console.log("看看数据")
                 that.tableData = res.data.data.list
                 that.total=res.data.data.total
             }).catch()
+            this.getLabelVal()
         },
         mounted(){
             this.initChart();
             // this.getuserImage();
+            this.getLabelVal();
         },
         methods: {
             finduserImage(){
                 this.loading=true
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
+                axios.get('backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
                         token: tokenStr
                     }}).then(res => {
                     this.loading=false
-                    console.log(res.data.data)
-                    console.log("看看数据")
+                    // console.log(res.data.data)
+                    // console.log("看看数据")
                     that.tableData = res.data.data.list
                     that.total=res.data.data.total
+                }).catch()
+
+            },
+            //s获取标签
+            getLabelVal(){
+                const that = this
+                // console.log("画像页调取页面更新自定义标签")
+                const tokenStr = window.sessionStorage.getItem('token')
+                axios.get('backend/label/findAllLabelVal/1/5',{headers:{
+                        token: tokenStr}}).then(res => {
+                    // console.log(res.data)
+                    that.selectData = res.data.data.list;
+                    // that.getTotal()
+                    if (that.selectData[0].labelDimension === '自定义维度1') {
+                        that.dis0 = false
+                        this.cannot1=false
+                        this.optionLabel[0].label= that.selectData[0].labelVal
+                        // this.optionLabel[0].value=res.data.data.list[0].labelVal
+                        // console.log(res.data.data.list[0].labelVal)
+                        // console.log('标签1')
+                    } else if (that.selectData[0].labelDimension === '自定义维度2') {
+                        that.dis1 = false;
+                        this.cannot2=false
+                        this.optionLabel2[0].label=that.selectData[0].labelVal
+                        // console.log('已定义2')
+                    } else if (that.selectData[0].labelDimension === '自定义维度3') {
+                        that.dis2 = false;
+                        this.cannot3=false
+                        this.optionLabel3[0].label=that.selectData[0].labelVal
+                        // console.log('已定义3')
+                    } else if (that.selectData[0].labelDimension === '自定义维度4') {
+                        that.dis3 = false;
+                        this.cannot4=false
+                        this.optionLabel4[0].label=that.selectData[0].labelVal
+                        // console.log('已定义4')
+                    } else if (that.selectData[0].labelDimension === '自定义维度5') {
+                        that.dis4 = false;
+                        this.cannot5=false
+                        this.optionLabel5[0].label=that.selectData[0].labelVal
+                        // console.log('已定义5')
+                    }
                 }).catch()
             },
             //生成画像
@@ -839,12 +975,12 @@
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
                 that.tokenStr = tokenStr
-                console.log(that.tokenStr)
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
+                // console.log(that.tokenStr)
+                axios.put('backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
                         token: tokenStr
                     }}).then( res => {
-                    console.log(res.data)
-                    console.log("拿到画像")
+                    // console.log(res.data)
+                    // console.log("拿到画像")
                     this.loading=false
                     this.$message({
                         message: '画像生成成功！',
@@ -854,19 +990,21 @@
             },
             // 分页ok,首页是0，标签是1，条件是2
             handleCurrentChange(currentPage){
-                console.log(currentPage)
+                // console.log(currentPage)
+                this.loading=true
                 this.queryInfo.pageNum = currentPage
                 const tokenStr = window.sessionStorage.getItem('token')
                 const that = this
                 if(this.flag===0){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+                    axios.get('backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
                         +this.queryInfo.pageSize, {headers:{
                             token: tokenStr
                         }}).then(res => {
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         that.tableData = res.data.data.list
                         that.total=res.data.data.total
-                        console.log("总接口当前页码")
+                        this.loading=false
+                        // console.log("总接口当前页码")
                     }).catch()
                 }
                 else if(this.flag===1){
@@ -878,20 +1016,20 @@
 
             },
             handleSizeChange(pageSize) {
-                console.log("页面数据量")
-                console.log(pageSize)
+                // console.log("页面数据量")
+                // console.log(pageSize)
                 this.queryInfo.pageSize = pageSize;
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
                 if(this.flag===0){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/'
+                    axios.get('backend/portrait/customerPortrait/findAllCusPortrait/'
                         +this.queryInfo.pageNum+'/'+pageSize, {headers:{
                             token: tokenStr
                         }}).then(res => {
-                        // console.log(res.data.data)
+                        // // console.log(res.data.data)
                         that.tableData = res.data.data.list
                         that.total=res.data.data.total
-                        console.log("总接口页面数据")
+                        // console.log("总接口页面数据")
                     }).catch()
                 }
                 else if(this.flag===1){
@@ -910,25 +1048,25 @@
                 const that = this
                 const midlist = {}
                 const list = this.formInline
-                console.log(list.categoryDimension)
+                // console.log(list.categoryDimension)
                 for(let i in list){
                     let value = list[i]
                     if (value === "") {
-                        console.log(i,"空值")
+                        // console.log(i,"空值")
                     } else {
                         midlist[i] = value
                     }
                 }
-                console.log(midlist)
-                console.log("提交表单")
+                // console.log(midlist)
+                // console.log("提交表单")
                 const tokenStr = window.sessionStorage.getItem('token')
                 if(that.flag===0){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel/1/10', {
+                    axios.get('backend/portrait/customerPortrait/findCusPortraitByLabel/1/10', {
                         params: midlist,
-                        headers: {token: this.tokenStr},
-                        tokenBackend: this.tokenStr
+                        headers: {token: tokenStr},
+                        tokenBackend: tokenStr
                     }).then( res => {
-                        console.log(res.data)
+                        // console.log(res.data)
                         that.tableData = res.data.data.list;
                         that.total=res.data.data.total;
                         this.loading=false
@@ -937,7 +1075,7 @@
                             this.$message.error('未查询到相关用户！')
 
                         }else{
-                            console.log("成功！！")
+                            // console.log("成功！！")
                             //遇到失效问题，解决
                             vm.$message({
                                 showClose: true,
@@ -948,14 +1086,14 @@
                     }).catch()
                 }
                 else if(this.flag===1){
-                    console.log("标签查询分页")
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByLabel/'+
+                    // console.log("标签查询分页")
+                    axios.get('backend/portrait/customerPortrait/findCusPortraitByLabel/'+
                         this.queryInfo.pageNum+'/'+this.queryInfo.pageSize, {
                         params: midlist,
-                        headers: {token: this.tokenStr},
-                        tokenBackend: this.tokenStr
+                        headers: {token:tokenStr},
+                        tokenBackend: tokenStr
                     }).then( res => {
-                        console.log(res.data)
+                        // console.log(res.data)
                         that.tableData = res.data.data.list;
                         that.total=res.data.data.total;
                         this.loading=false
@@ -968,28 +1106,29 @@
                 const vm = this
                 this.loading=true
                 const that = this
+                const tokenStr = window.sessionStorage.getItem('token')
                 const midlist = {}
                 const list = this.form
-                // console.log(list)
+                // // console.log(list)
                 for(let i in list){
                     let value = list[i]
                     if (value === "") {
-                        console.log(i,"空值")
+                        // console.log(i,"空值")
                     } else {
                         midlist[i] = value
                     }
                 }
-                console.log(midlist)
-                console.log("提交表单")
+                // console.log(midlist)
+                // console.log("提交表单")
                 if(this.flag===0){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
+                    axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
                         params:midlist,
-                        headers: {token: this.tokenStr},
-                        tokenBackend: this.tokenStr
+                        headers: {token: tokenStr},
+                        tokenBackend: tokenStr
                     }).then( res => {
-                        console.log(res.data)
+                        // console.log(res.data)
                         // 去掉缓存，不对tableData重复赋值不会出现增量列表问题
-                        console.log("拿到查询数据")
+                        // console.log("拿到查询数据")
                         this.flag=2
                         this.loading=false
                         that.tableData = res.data.data.list;
@@ -997,19 +1136,21 @@
                     }).catch()
                 }
                 else if(this.flag===2){
-                    axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition/'
+                    axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition/'
                         +this.queryInfo.pageNum+'/'+this.queryInfo.pageSize, {
                         params:midlist,
+                        headers: {token: tokenStr},
+                        tokenBackend: tokenStr
                     }).then( res => {
                         that.tableData = res.data.data.list;
                         that.total = res.data.data.total
-                        console.log(that.tableData )
-                        console.log("拿到条件查询分页数据")
+                        // console.log(that.tableData )
+                        // console.log("拿到条件查询分页数据")
                         // that.total = res.data.data.length;
-                        // console.log(res.data.data.length)
+                        // // console.log(res.data.data.length)
                         this.loading=false
                         // this.flag=1
-                        console.log(this.flag)
+                        // console.log(this.flag)
                     }).catch()
                 }
 
@@ -1017,6 +1158,7 @@
             //条件查询重置
             resetButton(){
                 const that = this
+                const tokenStr = window.sessionStorage.getItem('token')
                 document.getElementById("qForm").reset()
                 this.form={
                     reStartTime:'',
@@ -1029,10 +1171,9 @@
                     lastStartTime:'',
                     lastEndTime:'',
                 }
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findCusPortraitByCondition', {headers:{
-                        token: this.tokenStr
-                    }}).then( res => {
-                    // console.log(res.data)
+                axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition',
+                    {headers:{token: tokenStr}, tokenBackend: tokenStr}).then( res => {
+                    // // console.log(res.data)
                     that.tableData = res.data.data.list;
                     that.total=res.data.data.total
                     // that.total=res.data.length;
@@ -1041,6 +1182,7 @@
             // 重置
             resetInput(){
                 const that = this
+                const tokenStr = window.sessionStorage.getItem('token')
                 document.getElementById("pForm").reset()
                 this.formInline = {
                     categoryDimension:'',
@@ -1054,10 +1196,9 @@
                     promotionDimension:'',
                     cycleDimension:'',
                 }
-                axios.get('http://192.168.1.100:8080/backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
-                        token: this.tokenStr
-                    }}).then( res => {
-                    // console.log(res.data)
+                axios.get('backend/portrait/customerPortrait/findAllCusPortrait/1/10','',
+                    {headers:{token: tokenStr},tokenBackend: tokenStr}).then( res => {
+                    // // console.log(res.data)
                     that.tableData = res.data.data.list;
                     that.total=res.data.data.total
                     // that.total=res.data.length;
@@ -1066,14 +1207,23 @@
             //类别维度更新
             giveAllCusCatePortrait(){
                 this.loading=true
+                // const tokenStr = window.sessionStorage.getItem('token')
+                // // console.log(window.sessionStorage)
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCatePortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("11111")
+                // // console.log(tokenStr)
+                // console.log('检查')
+                axios.put('backend/portrait/customerPortrait/giveAllCusCatePortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("11111")
                     this.loading=false
                     this.$message({
-                        message: '类别维度更新成成功！',
+                        message: '类别维度更新成功！',
                         type: 'success'
                     });
                 }).catch()
@@ -1082,10 +1232,17 @@
             giveAllCusSalePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusSalePortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("22222")
+                // const tokenStr = window.sessionStorage.getItem('token')
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusSalePortrait'
+                    ,'',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("22222")
                     this.loading=false
                     this.$message({
                         message: '销量维度更新成成功！',
@@ -1097,13 +1254,19 @@
             giveAllCusTimePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusTimePortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("33333")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                // const tokenStr = window.sessionStorage.getItem('token')
+                axios.put('backend/portrait/customerPortrait/giveAllCusTimePortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("33333")
                     this.loading=false
                     this.$message({
-                        message: '时间维度更新成成功！',
+                        message: '时间维度更新成功！',
                         type: 'success'
                     });
                 }).catch()
@@ -1112,13 +1275,19 @@
             giveAllCusValPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusValPortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("44444")
+                // const tokenStr = window.sessionStorage.getItem('token')
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusValPortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("44444")
                     this.loading=false
                     this.$message({
-                        message: '价值维度更新成成功！',
+                        message: '价值维度更新成功！',
                         type: 'success'
                     });
                 }).catch()
@@ -1127,10 +1296,15 @@
             giveAllCusRegPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusRegPortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("55555")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusRegPortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("55555")
                     this.loading=false
                     this.$message({
                         message: '地区维度更新成成功！',
@@ -1142,10 +1316,15 @@
             giveAllCusPalPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("66666")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('http://192.168.1.102:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("66666")
                     this.loading=false
                     this.$message({
                         message: '平台维度更新成成功！',
@@ -1157,10 +1336,15 @@
             giveAllCusRepurchasePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("77777")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('http://192.168.1.102:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("77777")
                     this.loading=false
                     this.$message({
                         message: '复购维度更新成成功！',
@@ -1172,10 +1356,15 @@
             giveAllCusReputationPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusReputationPortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("88888")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusReputationPortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("88888")
                     this.loading=false
                     this.$message({
                         message: '信誉维度更新成成功！',
@@ -1187,10 +1376,15 @@
             giveAllCusPromotionPortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusPromotionPortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("99999")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusPromotionPortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("99999")
                     this.loading=false
                     this.$message({
                         message: '促销维度更新成成功！',
@@ -1202,10 +1396,15 @@
             giveAllCusCyclePortrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusCyclePortrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("！！！！")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusCyclePortrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("！！！！")
                     this.loading=false
                     this.$message({
                         message: '周期维度更新成成功！',
@@ -1217,10 +1416,15 @@
             giveAllCusProp1Portrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp1Portrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("？？？")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusProp1Portrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("？？？")
                     this.loading=false
                     this.$message({
                         message: '自定义1更新成成功！',
@@ -1232,10 +1436,15 @@
             giveAllCusProp2Portrait(){
                 this.loading=true
                 const that = this
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp2Portrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("？!？!？!")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusProp2Portrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("？!？!？!")
                     this.loading=false
                     this.$message({
                         message: '自定义2更新成成功！',
@@ -1245,10 +1454,17 @@
             },
             //自定义维度3
             giveAllCusProp3Portrait(){
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp3Portrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("？!？!？!")
+                this.loading=true
+                const that = this
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusProp3Portrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("？!？!？!")
                     this.loading=false
                     this.$message({
                         message: '自定义3更新成成功！',
@@ -1258,10 +1474,17 @@
             },
             //自定义维度4
             giveAllCusProp4Portrait(){
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp4Portrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("mmmmm")
+                this.loading=true
+                const that = this
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusProp4Portrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("mmmmm")
                     this.loading=false
                     this.$message({
                         message: '自定义4更新成成功！',
@@ -1271,10 +1494,15 @@
             },
             //自定义维度5
             giveAllCusProp5Portrait(){
-                axios.put('http://192.168.1.100:8080/backend/portrait/customerPortrait/giveAllCusProp5Portrait',{headers:{
-                        token : tokenStr}}).then( res => {
-                    console.log(res.msg)
-                    console.log("mmmmm")
+                let config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token":window.sessionStorage.getItem('token')
+                    }
+                }
+                axios.put('backend/portrait/customerPortrait/giveAllCusProp5Portrait','',config).then( res => {
+                    // console.log(res.msg)
+                    // console.log("mmmmm")
                     this.loading=false
                     this.$message({
                         message: '自定义5更新成成功！',
@@ -1295,11 +1523,11 @@
             //时间选择框
             startChange(date,dateString){
                 this.form.reStartTime =dateString
-                console.log(dateString)
+                // console.log(dateString)
             },
             stopChange(date,dateString){
                 this.form.reEndTime = dateString
-                console.log(dateString)
+                // console.log(dateString)
             },
             lastStartChange(date,dateString){
                 this.form.lastStartTime = dateString
@@ -1310,10 +1538,10 @@
             //词云
             initChart() {
                 const WordCloud  = this.$refs.WordCloud
-                console.log('lll');
+                // console.log('lll');
                 if (WordCloud){
                     const myChart = this.$echarts.init(WordCloud)
-                    console.log('5555');
+                    // console.log('5555');
                     const option = {
                         backgroundColor: "#fff",
                         series: [
@@ -1353,7 +1581,7 @@
                     })
                 }
                 // }
-                console.log('6666');
+                // console.log('6666');
                 // chart.setOption(option);
             },
             handleClose(done) {
@@ -1365,8 +1593,8 @@
             },
             // table
             handleClick(row) {
-                console.log("绑定查询按键");
-                console.log(row);
+                // console.log("绑定查询按键");
+                // console.log(row);
             },
             remove () {
                 this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
@@ -1379,8 +1607,8 @@
             },
             //获取行内信息
             handle(row, event, column) {
-                console.log("这是row")
-                console.log(row)
+                // console.log("这是row")
+                // console.log(row)
                 const that = this
                 that.imageRow =row
                 this.dialogVisible=true
@@ -1389,9 +1617,9 @@
                 })
                 let j = 0
                 for(let i in row){
-                    // console.log(i)
+                    // // console.log(i)
                     if (i!=='buyerNick'){
-                        console.log(row[i])
+                        // console.log(row[i])
                         this.worddata[j].name=row[i]
                         j++
                     }
@@ -1400,13 +1628,13 @@
             },
             //省份选择
             handleChange(value) {
-                console.log(`selected ${value}`);
+                // console.log(`selected ${value}`);
             },
             handleBlur() {
-                console.log('blur');
+                // console.log('blur');
             },
             handleFocus() {
-                console.log('focus');
+                // console.log('focus');
             },
             filterOption(input, option) {
                 return (

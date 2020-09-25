@@ -619,6 +619,7 @@
                 total: 200,
                 amount: 0,
                 flag: 0,
+                jump: 'outer',
                 // token
                 tokenStr: '',
                 // 详情标签页
@@ -637,11 +638,11 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            console.log(tokenStr)
-            axios.get('http://192.168.1.100:8080/backend/order/listOrders/1/5', {headers:{
+            // console.log(tokenStr)
+            axios.get('backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
-                console.log(res.data)
+                // console.log(res.data)
                 that.data = res.data.data
                 this.loading=false
             }).catch()
@@ -650,9 +651,9 @@
             // data amount of book maps
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
-            axios.get('http://192.168.1.100:8080/backend/order/countOrders',{headers:{
+            axios.get('backend/order/countOrders',{headers:{
                     token : tokenStr}}).then( res => {
-                console.log(res.data)
+                // console.log(res.data)
                 that.total = res.data.data
                 that.amount = res.data.data
             }).catch()
@@ -669,7 +670,7 @@
             },
             // 多选
             onChange(checkedValues) {
-                console.log('checked = ', checkedValues);
+                // console.log('checked = ', checkedValues);
             },
             // 展开
             toggleAdvanced () {
@@ -693,13 +694,17 @@
                 const that = this
                 that.loading = true
                 const list = that.orderForm
-                // console.log(list)
-                // console.log(that.tokenStr)
+                if(this.jump === 'outer') {
+                    this.flag = 0
+                }
+                else{
+                    this.flag = 1
+                }
                 if(that.flag===0) {
                     for (let i in list) {
-                        console.log(list[i])
+                        // console.log(list[i])
                         if (list[i]) {
-                            axios.get('http://192.168.1.100:8080/backend/order/getOrders/1/5', {
+                            axios.get('backend/order/getOrders/1/5', {
                                 params: {
                                     trade_no: list.trade_no,
                                     shop_name: list.shop_name,
@@ -719,10 +724,10 @@
                                 headers: {token: that.tokenStr},
                                 tokenBackend: that.tokenStr,
                             }).then(res => {
-                                console.log(typeof (res.data.code))
+                                // console.log(typeof (res.data.code))
                                 if (res.data.code === 3) {
                                     alert('未能查找到订单相关信息，订单明细缺失！！')
-                                    console.log('cuowu')
+                                    // console.log('cuowu')
                                 } else if (res.data.code === 0) {
                                     that.data = res.data.data.list
                                     this.loading = false
@@ -739,7 +744,7 @@
                     }
                 }
                 else {
-                    axios.get('http://192.168.1.100:8080/backend/order/getOrders'+this.current+'/'+ this.pageSize, {
+                    axios.get('backend/order/getOrders'+this.current+'/'+ this.pageSize, {
                         params: {
                             trade_no: list.trade_no,
                             shop_name: list.shop_name,
@@ -759,10 +764,10 @@
                         headers: {token: that.tokenStr},
                         tokenBackend: that.tokenStr
                     }).then(res => {
-                        console.log(typeof (res.data.code))
+                        // console.log(typeof (res.data.code))
                         if (res.data.code === 3) {
                             alert('未能查找到订单相关信息，订单明细缺失！！')
-                            console.log('cuowu')
+                            // console.log('cuowu')
                         } else if (res.data.code === 0) {
                             that.data = res.data.data.list
                             this.loading = false
@@ -790,7 +795,7 @@
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 }
-                axios.get('http://192.168.1.100:8080/backend/order/listOrders/1/5', {headers:{
+                axios.get('backend/order/listOrders/1/5', {headers:{
                         token: this.tokenStr
                     }}).then( res => {
                     that.data = res.data.data
@@ -798,36 +803,38 @@
                     this.flag = 0
                     this.total = this.amount
                 }).catch()
+                that.jump = 'outer'
             },
             //表格操作JY201904290699
             orderInfo(row){
-                // console.log(row.tradeNo)
+                // // console.log(row.tradeNo)
                 this.valueOfCol = row
                 const that = this
                 that.loading0 = true
-                axios.get('http://192.168.1.100:8080/backend/order/getOrderDetail', {
+                axios.get('backend/order/getOrderDetail', {
                     params : {tradeNo : row.tradeNo},
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
                 }).then( res => {
-                    console.log("此处应该有货品信息")
-                    // console.log(res.data)
+                    // console.log("此处应该有货品信息")
+                    // // console.log(res.data)
                     if(res.data.data != null){
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         that.tableData = res.data.data
                         that.loading0 = false
                     }
                     else{
                         alert("未能查找到订单相关信息，订单明细缺失！！")
+                        that.loading0 = false
                     }
                 }).catch()
-                // axios.get('http://192.168.1.100:8080/backend/goods/getGoods', {
+                // axios.get('backend/goods/getGoods', {
                 //     params : {tradeNo : value.tradeNo},
                 //     headers : {token : this.tokenStr},
                 // }).then( res => {
-                //     console.log("此处应该有货品信息")
+                //     // console.log("此处应该有货品信息")
                 //     if(res.data.data.length){
-                //         console.log(res.data.data)
+                //         // console.log(res.data.data)
                 //         that.tableData = res.data.data
                 //     }
                 //     else{
@@ -841,7 +848,7 @@
                 const that = this
                 that.loading = true
                 if(that.flag===0) {
-                    axios.get('http://192.168.1.100:8080/backend/order/listOrders/' + currentPage + '/' + size, {
+                    axios.get('backend/order/listOrders/' + currentPage + '/' + size, {
                         headers: {
                             token: this.tokenStr
                         }
@@ -852,16 +859,17 @@
                 }
                 else {
                     this.submitList()
+                    this.jump = 'inner'
                 }
             },
             onShowSizeChange(current, size) {
                 that.loading = true
-                console.log("页面数据量")
-                console.log(size)
+                // console.log("页面数据量")
+                // console.log(size)
                 this.pageSize = size;
                 const that = this
                 if(that.flag===0) {
-                    axios.get('http://192.168.1.100:8080/backend/order/listOrders/'+current+'/'+size, {headers:{
+                    axios.get('backend/order/listOrders/'+current+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         this.data = res.data.data
                         this.loading=false
@@ -869,6 +877,7 @@
                 }
                 else {
                     this.submitList()
+                    this.jump = 'inner'
                 }
         },
     }

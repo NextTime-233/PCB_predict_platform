@@ -54,18 +54,18 @@ module.exports = {
     devServer: {
         open: false,  // 配置运行项目是否自动开启浏览器
         host: 'localhost',  // 0.0.0.0，可以配置真机测试，根据个人需要可以配置成localhost
-        port: 8082,
+        port: 8082,  // 前端配置运行端口
         https: false,  //配置true的话是https安全通道但是如果没有后注册SSL会有警告
         hotOnly: false,
         //配置跨域
         proxy:{// 设置代理
-            '/backend': {     //这里最好有一个 /
-                target: 'http://192.168.1.100:8080',  //后台接口域名
+            'backend': {     //这里最好有一个 /
+                target: 'http://192.168.1.102:8080',  //后台接口域名
                 ws: true,        //如果要代理 websockets，配置这个参数
                 secure: false,  // 如果是https接口，需要配置这个参数
                 changeOrigin: true,  //是否跨域
                 pathRewrite:{
-                    '^/backend':''
+                    '^backend':''
                 }
             }
         },

@@ -59,8 +59,8 @@
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        axios.post(' http://192.168.1.100:8080/backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
-                            console.log(res)
+                        axios.post(' backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
+                            // console.log(res)
                             if(!res.data.code){
                                 this.logining = false;
                                 sessionStorage.setItem('user', this.LoginForm.userAccount);
@@ -77,7 +77,7 @@
                             }
                         })
                     }else{
-                        console.log('error submit!');
+                        // console.log('error submit!');
                         return false;
                     }
                 })

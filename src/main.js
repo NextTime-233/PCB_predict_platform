@@ -12,11 +12,11 @@ import store from './store'
 
 import echarts from 'echarts'
 import BaiduMap from 'vue-baidu-map'
-// import qs from 'qs'
+import Qs from 'qs'
 
-//配全局属性配置，在任意组件内可以使用this.$qs获取qs对象
+//配全局属性配置，在任意组件内可以使用this.$Qs获取qs对象
 
-// Vue.prototype.$qs = qs
+Vue.prototype.$Qs = Qs
 
 Vue.use(BaiduMap, {
   ak: '5ieMMexWmzB9jivTq6oCRX9j'
@@ -31,3 +31,6 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+var url = 'http://localhost:8080';
+export default url;

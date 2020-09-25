@@ -4,8 +4,11 @@ import Vue from 'vue';
 import axios from "axios";
 
 
+// var instance = axios.create({
+//
+// });
+// instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
-// axios.default.baseURL = 'http://192.168.1.106:8080/backend/'
 // axios.interceptors.request.use(config=>{
 //   console.log(config)
 //   return config
@@ -15,9 +18,19 @@ let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
+  //   Headers:{
+  //       token: window.sessionStorage.getItem('token'),
+  //       'Content-Type': 'application/json'
+  //   },
+  //   tokenBackend: window.sessionStorage.getItem('token')
 };
-
-const _axios = axios.create(config);  // 创建axios实例
+let url = {
+    baseURL:'http://192.168.1.102:8080'
+}
+const _axios = axios.create({
+    config,
+    url
+});  // 创建axios实例
 
 _axios.interceptors.request.use(
     function(config) {
@@ -49,12 +62,26 @@ Plugin.install = function(Vue, options) {
     axios: {
       get() {
         return _axios;
-      }
+      },
+      //  limlin
+      put() {
+        return _axios;
+      },
+        post() {
+            return _axios;
+        }
     },
     $axios: {
       get() {
         return _axios;
-      }
+      },
+        //  limlin
+        put() {
+            return _axios;
+        },
+        post() {
+          return _axios;
+        }
     },
   });
 };
