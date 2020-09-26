@@ -1320,7 +1320,7 @@
                         "token":window.sessionStorage.getItem('token')
                     }
                 }
-                axios.put('http://192.168.1.102:8080//backend/portrait/customerPortrait/giveAllCusPalPortrait','',config).then( res => {
+                axios.put('backend/portrait/customerPortrait/giveAllCusPalPortrait','',config).then( res => {
                     // console.log(res.msg)
                     // console.log("66666")
                     this.loading=false
@@ -1340,7 +1340,7 @@
                         "token":window.sessionStorage.getItem('token')
                     }
                 }
-                axios.put('http://192.168.1.102:8080//backend/portrait/customerPortrait/giveAllCusRepurchasePortrait','',config).then( res => {
+                axios.put('backend/portrait/customerPortrait/giveAllCusRepurchasePortrait','',config).then( res => {
                     // console.log(res.msg)
                     // console.log("77777")
                     this.loading=false
