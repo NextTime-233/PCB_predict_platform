@@ -1219,8 +1219,6 @@
                 // // console.log(tokenStr)
                 // console.log('检查')
                 axios.put('backend/portrait/customerPortrait/giveAllCusCatePortrait','',config).then( res => {
-                    // console.log(res.msg)
-                    // console.log("11111")
                     this.loading=false
                     this.$message({
                         message: '类别维度更新成功！',
