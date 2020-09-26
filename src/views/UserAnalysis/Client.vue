@@ -34,48 +34,36 @@
                                         <a-input-number style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.goodsTypeCount"/>
                                     </a-form-item>
                                 </a-col>
+<!--                                <a-col :md="6" >-->
+<!--                                    <a-form-item-->
+<!--                                            label="购买品牌"-->
+<!--                                            :labelCol="{span:7}"-->
+<!--                                            :wrapperCol="{span: 12, offset: 1}"-->
+<!--                                    >-->
+<!--                                        <a-select show-search placeholder="请选择" size="small" v-model="clientForm.BrandName">                                            <a-select-option value="1">四喜</a-select-option>-->
+<!--                                            <a-select-option value="2">八宝</a-select-option>-->
+<!--                                        </a-select>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :md="6" >-->
+<!--                                    <a-form-item label="客户标签" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">-->
+<!--                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.clientLabel">-->
+<!--                                            <a-select-option value="地区">地区</a-select-option>-->
+<!--                                            <a-select-option value="年龄">年龄</a-select-option>-->
+<!--                                        </a-select>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :md="6" >-->
+<!--                                    <a-form-item label="所属店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">-->
+<!--                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.shopName">-->
+<!--                                            <a-select-option value="天猫">天猫</a-select-option>-->
+<!--                                            <a-select-option value="淘宝">淘宝</a-select-option>-->
+<!--                                            <a-select-option value="其他">其他</a-select-option>-->
+<!--                                        </a-select>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                调整-->
                                 <a-col :md="6" >
-                                    <a-form-item
-                                            label="购买品牌"
-                                            :labelCol="{span:7}"
-                                            :wrapperCol="{span: 12, offset: 1}"
-                                    >
-                                        <a-select show-search placeholder="请选择" size="small" v-model="clientForm.BrandName">                                            <a-select-option value="1">四喜</a-select-option>
-                                            <a-select-option value="2">八宝</a-select-option>
-                                        </a-select>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :md="6" >
-                                    <a-form-item label="客户标签" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.clientLabel">
-                                            <a-select-option value="地区">地区</a-select-option>
-                                            <a-select-option value="年龄">年龄</a-select-option>
-                                        </a-select>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :md="6" >
-                                    <a-form-item label="所属店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.shopName">
-                                            <a-select-option value="天猫">天猫</a-select-option>
-                                            <a-select-option value="淘宝">淘宝</a-select-option>
-                                            <a-select-option value="其他">其他</a-select-option>
-                                        </a-select>
-                                    </a-form-item>
-                                </a-col>
-                            </a-row>
-                            <a-row v-if="advanced"  :gutter="16">
-                                <a-col :md="7" >
-                                    <a-form-item
-                                            label="生日区间"
-                                            :labelCol="{span: 7}"
-                                            :wrapperCol="{span: 15, offset: 1}"
-                                    >
-                                        <a-range-picker @change="birthdayOnChange" size="small" :value="createValueB">
-                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
-                                        </a-range-picker>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :md="7" >
                                     <a-form-item
                                             label="客户登记时间"
                                             :labelCol="{span: 7}"
@@ -97,17 +85,52 @@
                                         </a-range-picker>
                                     </a-form-item>
                                 </a-col>
-                                <a-col :md="7" >
-                                    <a-form-item
-                                            label="购物时间"
-                                            :labelCol="{span: 7}"
-                                            :wrapperCol="{span: 15, offset: 1}"
-                                    >
-                                        <a-range-picker @change="shoppingOnChange" size="small" :value="createValueS">
-                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon"/>
-                                        </a-range-picker>
-                                    </a-form-item>
-                                </a-col>
+                            </a-row>
+                            <a-row v-if="advanced"  :gutter="16">
+<!--                                <a-col :md="7" >-->
+<!--                                    <a-form-item-->
+<!--                                            label="生日区间"-->
+<!--                                            :labelCol="{span: 7}"-->
+<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
+<!--                                    >-->
+<!--                                        <a-range-picker @change="birthdayOnChange" size="small" :value="createValueB">-->
+<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+<!--                                        </a-range-picker>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :md="7" >-->
+<!--                                    <a-form-item-->
+<!--                                            label="客户登记时间"-->
+<!--                                            :labelCol="{span: 7}"-->
+<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
+<!--                                    >-->
+<!--                                        <a-range-picker @change="registerOnChange" size="small" :value="createValueR">-->
+<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+<!--                                        </a-range-picker>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :md="7" >-->
+<!--                                    <a-form-item-->
+<!--                                            label="付款时间"-->
+<!--                                            :labelCol="{span: 7}"-->
+<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
+<!--                                    >-->
+<!--                                        <a-range-picker @change="payOnChange" size="small" :value="createValueP">-->
+<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+<!--                                        </a-range-picker>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
+<!--                                <a-col :md="7" >-->
+<!--                                    <a-form-item-->
+<!--                                            label="购物时间"-->
+<!--                                            :labelCol="{span: 7}"-->
+<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
+<!--                                    >-->
+<!--                                        <a-range-picker @change="shoppingOnChange" size="small" :value="createValueS">-->
+<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon"/>-->
+<!--                                        </a-range-picker>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
                             </a-row>
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
@@ -136,17 +159,17 @@
                             <el-table-column
                                     prop="customerNo"
                                     label="客户编号"
-                                    width="120">
+                                    width="140">
                             </el-table-column>
                             <el-table-column
                                     prop="customerName"
                                     label="姓名"
-                                    width="120">
+                                    width="100">
                             </el-table-column>
                             <el-table-column
                                     prop="buyerNick"
                                     label="客户网名"
-                                    width="120">
+                                    width="170">
                             </el-table-column>
                             <el-table-column
                                     prop="gender"
@@ -211,7 +234,7 @@
                             <el-table-column
                                     prop="birthday"
                                     label="生日"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="totalPurchaseAmount"
@@ -226,7 +249,7 @@
                             <el-table-column
                                     prop="lastPurchaseTime"
                                     label="上次购买时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="lable"
@@ -251,17 +274,17 @@
                             <el-table-column
                                     prop="modifiedTime"
                                     label="修正时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="registrationTime"
                                     label="登记时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="remark"
                                     label="备注"
-                                    width="120">
+                                    width="300">
                             </el-table-column>
                             <el-table-column
                                     prop="afterBuyingRate"
@@ -303,17 +326,17 @@
                             <el-table-column
                                     prop="customerNo"
                                     label="客户编号"
-                                    width="120">
+                                    width="140">
                             </el-table-column>
                             <el-table-column
                                     prop="customerName"
                                     label="姓名"
-                                    width="120">
+                                    width="100">
                             </el-table-column>
                             <el-table-column
                                     prop="buyerNick"
                                     label="客户网名"
-                                    width="120">
+                                    width="170">
                             </el-table-column>
                             <el-table-column
                                     prop="gender"
@@ -378,7 +401,7 @@
                             <el-table-column
                                     prop="birthday"
                                     label="生日"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="totalPurchaseAmount"
@@ -393,7 +416,7 @@
                             <el-table-column
                                     prop="lastPurchaseTime"
                                     label="上次购买时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="lable"
@@ -418,12 +441,12 @@
                             <el-table-column
                                     prop="modifiedTime"
                                     label="修正时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="registrationTime"
                                     label="登记时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="remark"

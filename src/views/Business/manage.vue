@@ -114,17 +114,17 @@
                                         </a-range-picker>
                                     </a-form-item>
                                 </a-col>
-                                <a-col :md="7" >
-                                    <a-form-item
-                                            label="递交周期"
-                                            :labelCol="{span: 7}"
-                                            :wrapperCol="{span: 15, offset: 1}"
-                                    >
-                                        <a-range-picker @change="deliverOnChange" size="small">
-                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
-                                        </a-range-picker>
-                                    </a-form-item>
-                                </a-col>
+<!--                                <a-col :md="7" >-->
+<!--                                    <a-form-item-->
+<!--                                            label="递交周期"-->
+<!--                                            :labelCol="{span: 7}"-->
+<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
+<!--                                    >-->
+<!--                                        <a-range-picker @change="deliverOnChange" size="small">-->
+<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+<!--                                        </a-range-picker>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
                             </a-row>
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
@@ -146,7 +146,7 @@
                             fixed
                             prop="tradeNo"
                             label="订单编号"
-                            width="100">
+                            width="140">
                     </el-table-column>
                     <el-table-column
                             prop="platformType"
@@ -156,7 +156,7 @@
                     <el-table-column
                             prop="shopName"
                             label="店铺名称"
-                            width="120">
+                            width="160">
                     </el-table-column>
                     <el-table-column
                             prop="warehouseName"
@@ -171,7 +171,7 @@
                     <el-table-column
                             prop="srcTids"
                             label="原始单号"
-                            width="120">
+                            width="200">
                     </el-table-column>
                     <el-table-column
                             prop="tradeStatus"
@@ -181,7 +181,7 @@
                     <el-table-column
                             prop="consignStatus"
                             label="发货状态"
-                            width="120">
+                            width="130">
                     </el-table-column>
                     <el-table-column
                             prop="platformConsignStatus"
@@ -221,12 +221,12 @@
                     <el-table-column
                             prop="tradeTime"
                             label="下单时间"
-                            width="120">
+                            width="160">
                     </el-table-column>
                     <el-table-column
                             prop="payTime"
                             label="付款时间"
-                            width="120">
+                            width="160">
                     </el-table-column>
                     <el-table-column
                             prop="payAccount"
@@ -241,17 +241,17 @@
                     <el-table-column
                             prop="receiverName"
                             label="收件人"
-                            width="120">
+                            width="160">
                     </el-table-column>
                     <el-table-column
                             prop="receiverArea"
                             label="省市县"
-                            width="120">
+                            width="200">
                     </el-table-column>
                     <el-table-column
                             prop="receiverAddress"
                             label="地址"
-                            width="300">
+                            width="400">
                     </el-table-column>
                     <el-table-column
                             prop="receiverMobile"
@@ -316,7 +316,7 @@
                     <el-table-column prop="profit" label="预估毛利" width="100" />
                     <el-table-column prop="invoiceType" label="发票类型" width="100" />
                     <el-table-column prop="invoiceTitle" label="发票抬头" width="100" />
-                    <el-table-column prop="invoiceContent" label="发票内容" width="100" />
+                    <el-table-column prop="invoiceContent" label="发票内容" width="250" />
                     <el-table-column prop="salesman" label="业务员" width="100" />
                     <el-table-column prop="checkerName" label="审核人" width="100" />
                     <el-table-column prop="fchecker" label="财审人" width="100" />
@@ -328,14 +328,14 @@
                     <el-table-column prop="singleSpecNo" label="商家编码" width="100" />
                     <el-table-column prop="rawGoodsCount" label="原始货品种类数" width="100" />
                     <el-table-column prop="rawGoodsTypeCount" label="原始货品数量" width="100" />
-                    <el-table-column prop="submitTime" label="递交时间" width="100" />
+                    <el-table-column prop="submitTime" label="递交时间" width="160" />
                     <el-table-column prop="currency" label="币种" width="100" />
                     <el-table-column prop="splitPackageNum" label="线上包裹拆分数" width="100" />
-                    <el-table-column prop="activationTime" label="激活时间" width="100" />
+                    <el-table-column prop="activationTime" label="激活时间" width="160" />
                     <el-table-column prop="Invoiced" label="已开具发票" width="100" />
                     <el-table-column prop="volume" label="体积" width="100" />
                     <el-table-column prop="idCard" label="证件号码" width="100" />
-                    <el-table-column prop="loadTime" label="加载时间" width="100" />
+                    <el-table-column prop="loadTime" label="加载时间" width="160" />
                     <el-table-column
                             fixed="right"
                             label="操作"
@@ -386,7 +386,7 @@
                                     fixed
                                     prop="goodsName"
                                     label="货品名称"
-                                    width="150">
+                                    width="180">
                             </el-table-column>
                             <el-table-column
                                     prop="shortName"
@@ -704,6 +704,7 @@
                     for (let i in list) {
                         // console.log(list[i])
                         if (list[i]) {
+                            console.log("1111111111")
                             axios.get('backend/order/getOrders/1/5', {
                                 params: {
                                     trade_no: list.trade_no,
@@ -731,10 +732,22 @@
                                 } else if (res.data.code === 0) {
                                     that.data = res.data.data.list
                                     this.loading = false
-                                    that.total = res.data.total
+                                    console.log(res.data)
+                                    this.total = res.data.data.total
                                     this.flag = 1
                                 }
-                            }).catch()
+                            }).catch(function (error) {
+                                if (error.response) {
+                                    // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                                    console.log(error.response.data);
+                                    console.log(error.response.status);
+                                    console.log(error.response.headers);
+                                } else {
+                                    // Something happened in setting up the request that triggered an Error
+                                    console.log('Error', error.message);
+                                }
+                                console.log(error.config);
+                            })
                             break
                         } else if (i === 'orderSubmitDateEnd' && list[i] === '') {
                             alert("请输入查询信息！！")
@@ -776,7 +789,7 @@
                 }
             },
             resetInput(){
-                that.loading = true
+                this.loading = true
                 const that = this
                 document.getElementById("omForm").reset()
                 this.orderForm = {
@@ -863,9 +876,7 @@
                 }
             },
             onShowSizeChange(current, size) {
-                that.loading = true
-                // console.log("页面数据量")
-                // console.log(size)
+                this.loading = true
                 this.pageSize = size;
                 const that = this
                 if(that.flag===0) {

@@ -88,7 +88,7 @@
                     <el-table-column
                             prop="shortName"
                             label="货品简称"
-                            width="120">
+                            width="160">
                     </el-table-column>
                     <el-table-column
                             prop="alias"
