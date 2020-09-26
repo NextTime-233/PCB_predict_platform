@@ -4,7 +4,7 @@
         <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
             <!--   主页logo跳转   -->
             <div class="logo">
-                <img src="../assets/logo.png" style="height: 60px; width: 86px;"/>
+                <img src="../assets/logo.png" style="height: 55px; width: 96px;"/>
                 {{collapsed?'LJPZ':'后台管理系统'}}
             </div>
             <a-menu class="left-menu"
@@ -84,7 +84,7 @@
             </a-menu>
         </a-layout-sider>
         <a-layout>
-            <a-layout-header style="background: #fff; padding: 0; display: flex; justify-content: space-between; align-items: center">
+            <a-layout-header style="background: #fff; padding: 0px 20px; display: flex; justify-content: space-between; align-items: center">
                 <a-icon
                         class="trigger"
                         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
@@ -94,12 +94,14 @@
 <!--                    <a-badge title="Custom hover text" :count="99" :overflow-count="10" style="position: relative; right: 30px;">-->
 <!--                       <a-icon type="bell" class="head-example" :style="{ fontSize: '25px'}"/>-->
 <!--                    </a-badge>-->
+                    <!--伸缩按钮-->
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar style="backgroundColor:#87d068" icon="user" />
-                            {{user}}<a-icon type="down" />
+                            <a-avatar style="backgroundColor:#87d068; margin-right:10px" icon="user" />
+                            {{user}}
+                            <a-icon type="down" />
                         </a>
-                        <a-menu slot="overlay">
+                        <a-menu slot="overlay" style="margin-top:10px">
 <!--                            <a-menu-item>-->
 <!--                                <router-link to="/Home" tag="div">-->
 <!--                                    <span>个人中心</span>-->
@@ -117,7 +119,6 @@
                         </a-menu>
                     </a-dropdown>
                 </div>
-
             </a-layout-header>
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '106vh'}">
             <!--路由占位符-->
@@ -194,7 +195,7 @@
     #layout-demo{
         height: 100%;
         .trigger {
-            font-size: 18px;
+            font-size: 20px;
             line-height: 64px;
             padding: 0 24px;
             cursor: pointer;
@@ -202,6 +203,9 @@
         }
         .trigger:hover {
             color: #1890ff;
+        }
+        .self {
+            margin-left: 100px;
         }
         .logo {
             margin-top: 12px;
