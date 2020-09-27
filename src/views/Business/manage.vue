@@ -710,7 +710,7 @@
                     for (let i in list) {
                         console.log(that.tokenStr)
                         if (list[i]) {
-                            console.log("1111111111")
+                            // console.log("1111111111")
                             axios.get('backend/order/getOrders/1/5', {
                                 params: {
                                     trade_no: list.trade_no,
@@ -845,6 +845,7 @@
                     else{
                         alert("未能查找到订单相关信息，订单明细缺失！！")
                         that.loading0 = false
+                        that.tableData = []
                     }
                 }).catch()
                 // axios.get('backend/goods/getGoods', {
