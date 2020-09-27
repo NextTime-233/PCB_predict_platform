@@ -30,17 +30,40 @@
         <el-col>
           <el-col :span="8">
             <el-card shadow="hover">
-              <div ref="CatePortrait" style="width: 200px;height:200px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">分类维度</span>
+                <el-tooltip placement="top">
+                  <div slot="content">分销客户：收货地址大于4;<br/>终端客户：收货地址小于等于4</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="CatePortrait" style="width: 200px;height:150px;" ></div>
             </el-card>
           </el-col>
           <el-col :span="8">
             <el-card shadow="hover">
-              <div ref="TimePortrait" style="width: 200px;height:200px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">时间维度</span>
+<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="老客户：用户第一次购买时间距今一年或一年以上，并且在90天之内有购买记录;新客户：用户第一次购买时间距今小于一个月" class="btn btn-path" >说明</el-button>-->
+                <el-tooltip placement="top">
+                  <div slot="content">老客户：用户第一次购买时间距今一年或一年以上，<br/>并且在90天之内有购买记录;<br/>新客户：用户第一次购买时间距今小于一个月</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="TimePortrait" style="width: 200px;height:150px;"></div>
             </el-card>
           </el-col>
           <el-col :span="8">
             <el-card shadow="hover">
-              <div ref="SalesPortrait" style="width: 200px;height:200px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">销量维度</span>
+<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="低销量" class="btn btn-path" >说明</el-button>-->
+                <el-tooltip placement="top">
+                  <div slot="content">低销量：客户消费金额小于200元，<br/>高销量：客户消费金额大于等于1000元;</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="SalesPortrait" style="width: 200px;height:150px;"></div>
             </el-card>
           </el-col>
         </el-col>
@@ -49,17 +72,41 @@
         <el-col>
           <el-col :span="8">
             <el-card shadow="hover">
-              <div ref="ValPortrait" style="width: 200px;height:200px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">价值维度</span>
+<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="高价值" class="btn btn-path" >说明</el-button>-->
+                <el-tooltip placement="top">
+                  <div slot="content">高价值：客户创造利润大于等于500元<br/>低价值：客户创造利润小于100元;</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="ValPortrait" style="width: 200px;height:150px;"></div>
             </el-card>
           </el-col>
           <el-col :span="8">
             <el-card shadow="hover">
-              <div ref="RegPortrait" style="width: 200px;height:200px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">复购维度</span>
+<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="高复购" class="btn btn-path" >说明</el-button>-->
+                <el-tooltip placement="top">
+                  <div slot="content">高复购：在近一年内累计购买次数大于等于4次<br/>低复购：在近三个月内累计购买次数小于4次;</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="RegPortrait" style="width: 200px;height:150px;"></div>
             </el-card>
           </el-col>
           <el-col :span="8">
             <el-card shadow="hover">
-              <div ref="CyclePortrait" style="width: 250px;height:200px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">周期维度</span>
+<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="流失客户" class="btn btn-path" >说明</el-button>-->
+                <el-tooltip placement="top">
+                  <div slot="content">稳定客户：近三个月内，累计购买次数大于等于2<br/>流失客户：近三个月内，无购买行为<br/>潜在客户：</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="CyclePortrait" style="width: 250px;height:150px;"></div>
             </el-card>
           </el-col>
         </el-col>
@@ -146,8 +193,10 @@ export default {
   data() {
     return {
       topData: [],
-      buyerNick1: [],
-      buyerNick2: [],
+      // buyerNick1: [],
+      customerName1:[],
+      customerName2:[],
+      //buyerNick2: [],
       // 控制用户画像弹窗
       Nick1: '',
       dialogVisible: false,
@@ -409,8 +458,8 @@ export default {
   mounted() {
     this.getEchart()
     // 点击弹窗控制词云
-    this.initChart()
     this.getNumTop()
+    this.initChart()
     this.getCateProtrait()
     this.getTimePortrait()
     this.getSalesPortrait()
@@ -439,7 +488,8 @@ export default {
       const myChart1 = this.$echarts.init(topTen)
       const that = this
       let sumTotalPurchaseNum = that.sumTotalPurchaseNum
-      let buyerNick1 = that.buyerNick1
+      // let buyerNick1 = that.buyerNick1
+      let customerName1 = that.customerName1
       axios.get('backend/data/getTPNTopTen', {
         headers: {
           token: this.tokenStr
@@ -450,7 +500,7 @@ export default {
             //console.log('购买次数top10res数据' + res.data)
             for (let i = 9; i >= 0; i--) {
               //这里我展示的是后台返回的每条数据里面的bookname和num
-              buyerNick1.push(res.data.data[i].buyerNick);
+              customerName1.push(res.data.data[i].customerName);
               sumTotalPurchaseNum.push(res.data.data[i].sumTotalPurchaseNum);
             }
             // console.log('top10数据' + sumTotalPurchaseNum)
@@ -488,10 +538,10 @@ export default {
 
               },
               yAxis: {
-                name: '客户网名',
+                name: '客户名',
                 type: 'category',
                 // triggerEvent:true,
-                data: that.buyerNick1
+                data: that.customerName1
               },
               series: [
                 {
@@ -561,7 +611,7 @@ export default {
       const myChart1 = this.$echarts.init(numTop)
       const that = this//
       let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
-      let buyerNick2 = that.buyerNick2
+      let customerName2 = that.customerName2
       axios.get('backend/data/getTPATopTen', {
         headers: {
           token: this.tokenStr
@@ -575,7 +625,7 @@ export default {
             // console.log('for前金额：' + sumTotalPurchaseAmount)
             for (let i = 9; i >= 0; i--) {
               //这里我展示的是后台返回的每条数据里面的bookname和num
-              buyerNick2.push(res.data.data[i].buyerNick);
+              customerName2.push(res.data.data[i].customerName);
               sumTotalPurchaseAmount.push(res.data.data[i].sumTotalPurchaseAmount);
             }
             // console.log('for后金额' + sumTotalPurchaseAmount)
@@ -614,10 +664,10 @@ export default {
 
               },
               yAxis: {
-                name: '客户网名',
+                name: '客户名',
                 type: 'category',
                 // data: ['A', 'B', 'C', 'D', 'E', 'F','G','H','I','J',],
-                data: that.buyerNick2,
+                data: that.customerName2,
                 triggerEvent: true
               },
               series: [
@@ -692,15 +742,16 @@ export default {
             // console.log('分销客户' + distributionCus[0])
             // console.log('---------------')
             const option1 = {
-              title: {
-                text: '分类维度',
-              },
-              tooltip: {},
+              // title: {
+              //   text: '分类维度',
+              // },
+              // tooltip: {},
 
               legend: {
                 data: ['人数']
               },
               grid: {
+                top:'5%',
                 left: '6%',
                 right: '3%',
                 bottom: '3%',
@@ -731,16 +782,6 @@ export default {
                     }
                   }
                 },
-                // {
-                //   name: '2019年',
-                //   type: 'bar',
-                //   data:distributionCus
-                // },
-                // {
-                //   name: '2019年',
-                //   type: 'bar',
-                //   data: [31000, 23438, 19325, 121594, 134141, 681807]
-                // }
               ]
             }
             myChart1.setOption(option1);
@@ -773,15 +814,16 @@ export default {
             // console.log('新用户数据' + newCustomer[0])
             // console.log('---------------')
             const option1 = {
-              title: {
-                text: '时间维度',
-              },
+              // title: {
+              //   text: '时间维度',
+              // },
               tooltip: {},
 
               legend: {
                 data: ['人数']
               },
               grid: {
+                top:'5%',
                 left: '20%',
                 right: '3%',
                 bottom: '3%',
@@ -843,16 +885,17 @@ export default {
             // console.log('高销量' + highSales[0])
             // console.log('---------------')
             const option1 = {
-              title: {
-                text: '销量维度',
-              },
+              // title: {
+              //   text: '销量维度',
+              // },
               tooltip: {},
 
               legend: {
                 data: ['人数']
               },
               grid: {
-                left: '6%',
+                top:'5%',
+                left: '12%',
                 right: '3%',
                 bottom: '3%',
                 containLabel: true
@@ -912,15 +955,16 @@ export default {
             // console.log('低价值：' + lowVal[0])
             // console.log('高价值' + highVal[0])
             const option1 = {
-              title: {
-                text: '价值维度',
-              },
+              // title: {
+              //   text: '价值维度',
+              // },
               tooltip: {},
 
               legend: {
                 data: ['人数']
               },
               grid: {
+                top:'5%',
                 left: '6%',
                 right: '3%',
                 bottom: '3%',
@@ -983,15 +1027,16 @@ export default {
             // console.log('高复购：' + highRepurchase[0])
             // console.log('低复购' + lowRepurchase[0])
             const option1 = {
-              title: {
-                text: '复购维度',
-              },
+              // title: {
+              //   text: '复购维度',
+              // },
               tooltip: {},
 
               legend: {
                 data: ['人数']
               },
               grid: {
+                top:'5%',
                 left: '6%',
                 right: '3%',
                 bottom: '3%',
@@ -1055,15 +1100,16 @@ export default {
             // console.log('流失：' + potentialCus[0])
             // console.log('潜在：' + lossCus[0])
             const option1 = {
-              title: {
-                text: '周期维度',
-              },
+              // title: {
+              //   text: '周期维度',
+              // },
               tooltip: {},
 
               legend: {
                 data: ['人数']
               },
               grid: {
+                top:'5%',
                 left: '6%',
                 right: '3%',
                 bottom: '3%',
@@ -1165,10 +1211,10 @@ export default {
                   },
                   data: [
                     {value: tianMaoCus[0], name: '天猫'},
-                    {value: jingDongCus[0] + 100, name: '京东'},
-                    {value: offlineCus[0] + 200, name: '线下'},
-                    {value: otherCus[0] + 300, name: '其他'},
-                    {value: mulPlatformsCus[0] + 400, name: '多平台'}
+                    {value: jingDongCus[0] , name: '京东'},
+                    {value: offlineCus[0] , name: '线下'},
+                    {value: otherCus[0] , name: '其他'},
+                    {value: mulPlatformsCus[0] , name: '多平台'}
                   ]
                 }
               ]
@@ -1249,7 +1295,7 @@ export default {
                       //这里是重点
                       color: function (params) {
                         //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
-                        const colorList = ['#3a6c6a', '#a39953'];
+                        const colorList = ['#b1a58e', '#88888b'];
                         return colorList[params.dataIndex]
                       }
                     }
@@ -1282,6 +1328,7 @@ export default {
       }).then(
           res => {
             that.total = res.data.data.length
+            // console.log(that.total)
             let mapname = ''
             let mapvalue = ''
             //地区总人数
@@ -1299,7 +1346,28 @@ export default {
                   math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
                 }
                 that.resData.push(obj)
-              } else {
+              }
+              else if ((res.data.data[i].name + "").search("自治区") != -1) {
+                mapname = (res.data.data[i].name + "").replace(/自治区/, "")
+                mapvalue = res.data.data[i].value
+                let obj = {
+                  name: mapname,
+                  value: mapvalue,
+                  math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
+                }
+                that.resData.push(obj)
+              }
+              // else if ((res.data.data[i].name + "").search("壮族") != -1) {
+              //   mapname = (res.data.data[i].name + "").replace(/壮族/, "")
+              //   mapvalue = res.data.data[i].value
+              //   let obj = {
+              //     name: mapname,
+              //     value: mapvalue,
+              //     math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
+              //   }
+              //   that.resData.push(obj)
+              // }
+              else {
                 let obj = {
                   name: res.data.data[i].name,
                   value: res.data.data[i].value,
@@ -1415,7 +1483,7 @@ export default {
         that.pageFive = that.resData.slice(24, 30)
       }
       if (currentPage === 6) {
-        that.pageFive = that.resData.slice(30, 32)
+        that.pageFive = that.resData.slice(30, 36)
       }
       // if (currentPage === 7) {
       //   that.pageFive = that.resData.slice(30, 32)
@@ -1480,6 +1548,12 @@ export default {
     //       .catch(_ => {
     //       });
     // },
+    // onMouseOver:function (){
+    //   this.seen=true;//鼠标移入
+    // },
+    // onMouseout:function (){
+    //   this.seen=false;//鼠标移出
+    // },
 
   }
 }
@@ -1513,4 +1587,24 @@ export default {
   background-color: #f6f5f5;
 
 }
+.btn-wrap{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  min-width: 25%;
+  max-width: 25%;
+  .btn{
+    width: 25px;
+    height: 22px;
+    margin: 2px 5px;
+    border: none;
+  }
+  .btn-path{
+    //background: url("../../../../public/images/path.png");
+    background-size: 100% 100%;
+  }
+}
+
 </style>

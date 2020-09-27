@@ -17,7 +17,6 @@
                                         <a-form-item label="最高购买总金额：" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">
                                             <a-input placeholder="请输入" size="small" v-model="form.totalPurchaseAmountHigh" />
                                         </a-form-item>
-
                                     </a-col>
                                     <a-col :md="8" :sm="24" >
                                         <a-form-item label="所在省市" :labelCol="{span:8}" :wrapperCol="{span: 15, offset: 1}">
@@ -690,7 +689,6 @@
                 dis2:true,
                 dis3:true,
                 dis4:true,
-
                 //省份选择
                 options: [{
                     value: '河北省',
@@ -796,13 +794,13 @@
                     label: '澳门特别行政区'
                 }],
                 //每行数据
-                imageRow:[],
+                imageRow: [],
                 //个人画像弹框
                 dialogVisible: false,
                 //表格加载
                 loading: true,
                 advanced: true,
-                tableData:[],
+                tableData: [],
                 selectedRows: [],
                 pageSize: '',
                 total: 0,
@@ -1043,9 +1041,11 @@
             },
             // 标签查询
             submitList() {
+                //limlin
                 const vm = this;
                 this.loading=true
                 const that = this
+                that.current = 1
                 const midlist = {}
                 const list = this.formInline
                 // console.log(list.categoryDimension)
@@ -1674,7 +1674,7 @@
     .demo-table-expand .el-form-item {
         margin-right: 0;
         margin-bottom: 0;
-        width:100%;
+        width: 100%;
     }
     .el-tag {
         margin-right: 10px;

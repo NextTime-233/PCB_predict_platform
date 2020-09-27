@@ -49,15 +49,15 @@ module.exports = {
     // dll: false,
     // PWA 插件相关配置
     // see https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
-    pwa: {
-      iconPaths: {
-                favicon32     : 'favicon.ico',
-                favicon16     : 'favicon.ico',
-                appleTouchIcon: 'favicon.ico',
-                maskIcon      : 'favicon.ico',
-                msTileImage   : 'favicon.ico'
-      }
-      },
+    // pwa: {
+    //   iconPaths: {
+    //             favicon32     : 'favicon.ico',
+    //             favicon16     : 'favicon.ico',
+    //             appleTouchIcon: 'favicon.ico',
+    //             maskIcon      : 'favicon.ico',
+    //             msTileImage   : 'favicon.ico'
+    //   }
+    //   },
     // webpack-dev-server 相关配置
     devServer: {
         open: false,  // 配置运行项目是否自动开启浏览器
@@ -68,7 +68,7 @@ module.exports = {
         //配置跨域
         proxy:{// 设置代理
             'backend': {     //这里最好有一个 /
-                target: 'http://192.168.1.105:8080',  //后台接口域名
+                target: 'http://172.20.10.3:8080',  //后台接口域名
                 ws: true,        //如果要代理 websockets，配置这个参数
                 secure: false,  // 如果是https接口，需要配置这个参数
                 changeOrigin: true,  //是否跨域

@@ -146,7 +146,7 @@
                 <el-tabs v-model="activeName" type="card" @tab-click="showClient" style="margin-top: 10px">
                     <el-tab-pane label="重要客户" name="first">
                         <el-table
-                                :data="impTableData"
+                                :data="importantData"
                                 border
                                 v-loading="loading"
                                 style="width: 150%">
@@ -159,7 +159,7 @@
                             <el-table-column
                                     prop="customerNo"
                                     label="客户编号"
-                                    width="140">
+                                    width="150">
                             </el-table-column>
                             <el-table-column
                                     prop="customerName"
@@ -209,7 +209,7 @@
                             <el-table-column
                                     prop="telno"
                                     label="固话"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="mobile"
@@ -299,7 +299,7 @@
                             <el-table-column
                                     prop="loadTime"
                                     label="载入时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     fixed="right"
@@ -376,7 +376,7 @@
                             <el-table-column
                                     prop="telno"
                                     label="固话"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="mobile"
@@ -466,7 +466,7 @@
                             <el-table-column
                                     prop="loadTime"
                                     label="载入时间"
-                                    width="120">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     fixed="right"
@@ -505,7 +505,7 @@
                             <el-table
                                     :data="historyData"
                                     style="width: 100%"
-                                    height="250"
+                                    height="270"
                                     v-loading="loading0">
                                     <el-table-column
                                             fixed
@@ -586,12 +586,12 @@
                                     <el-table-column
                                             prop="tradeTime"
                                             label="下单时间"
-                                            width="120">
+                                            width="160">
                                     </el-table-column>
                                     <el-table-column
                                             prop="payTime"
                                             label="付款时间"
-                                            width="120">
+                                            width="160">
                                     </el-table-column>
                                     <el-table-column
                                             prop="payAccount"
@@ -693,14 +693,14 @@
                                     <el-table-column prop="singleSpecNo" label="商家编码" width="100" />
                                     <el-table-column prop="rawGoodsCount" label="原始货品种类数" width="100" />
                                     <el-table-column prop="rawGoodsTypeCount" label="原始货品数量" width="100" />
-                                    <el-table-column prop="submitTime" label="递交时间" width="100" />
+                                    <el-table-column prop="submitTime" label="递交时间" width="160" />
                                     <el-table-column prop="currency" label="币种" width="100" />
                                     <el-table-column prop="splitPackageNum" label="线上包裹拆分数" width="100" />
-                                    <el-table-column prop="activationTime" label="激活时间" width="100" />
+                                    <el-table-column prop="activationTime" label="激活时间" width="160" />
                                     <el-table-column prop="Invoiced" label="已开具发票" width="100" />
                                     <el-table-column prop="volume" label="体积" width="100" />
                                     <el-table-column prop="idCard" label="证件号码" width="100" />
-                                    <el-table-column prop="loadTime" label="加载时间" width="100" />
+                                    <el-table-column prop="loadTime" label="加载时间" width="160" />
                                 </el-table>
                             <span>共{{total0}}条数据</span>
                             <div class="page-roll">
@@ -733,7 +733,7 @@
             return {
                 // 数据
                 tableData: [],
-                impTableData: [],
+                importantData: [],
                 loading: true,
                 loading0: false,
                 activeName: 'second',
@@ -771,12 +771,12 @@
                 pageSize: 5,
                 total: 0,
                 amount: 0,
-                flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；第一个分页
+                flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；普通客户分页
                 current0: 1,
                 pageSize0: 5,
                 total0: 0,
                 amount0: 0,
-                flag0: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；第二个分页
+                flag0: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；重要客户分页
                 jump: 'outer',
                 //  token
                 tokenStr: '',
@@ -807,16 +807,16 @@
         methods: {
             // 客户类型
             showClient(tab, event) {
-                // console.log("这里importantClick")
                 const that = this
                 if(tab.index === '0'){
                     that.clientType = '0'
-                    // console.log(tab.index, event)
+                    that.historyData = []
                     axios.get('backend/customer/listImpCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
-                        // console.log(res)
-                        that.imptableData = res.data.data
+                        // console.log(res.data.data)
+                        that.importantData = res.data.data
+                        console.log(that.importantData)
                         that.loading=false
                     }).catch()
                     axios.get('backend/customer/countImpCustomers', {headers:{
@@ -830,11 +830,11 @@
                     that.clientType = '1'
                     // console.log(tab.index)
                     axios.get('backend/customer/listCustomers/1/5', {headers:{
-                            token: this.tokenStr
+                            token: that.tokenStr
                         }}).then( res => {
                         // console.log(res)
-                        this.tableData = res.data.data
-                        this.loading=false
+                        that.tableData = res.data.data
+                        that.loading=false
                     }).catch()
                     axios.get('backend/customer/countCustomer', {headers:{
                             token : that.tokenStr}}).then( res => {
@@ -874,16 +874,19 @@
                 const list = this.clientForm
                 this.loading = true
                 if(this.jump === 'outer') {
-                    this.flag = 0
+                    console.log("从外部查询")
+                    that.flag = 0
                 }
                 else{
-                    this.flag = 1
+                    console.log("从内部查询")
+                    that.flag = 1
                 }
                 if(that.flag===0) {
+                    console.log("外部查询")
                     for (let i in list) {
                         if (list[i]) {
                             if (that.clientType === '1') {
-                                console.log("用户姓名")
+                                console.log("普通客户查询")
                                 axios.get('backend/customer/getCustomers/1/5', {
                                     params: {
                                         customerName: list.customerName,
@@ -918,6 +921,7 @@
                                 }).catch()
                                 break
                             } else {
+                                console.log("重要客户查询")
                                 axios.get('backend/customer/getCustomersMid/1/5', {
                                     params: {
                                         customerName: list.customerName,
@@ -943,6 +947,7 @@
                                     // console.log(res)
                                     if (res.data.code === 3) {
                                         alert('未能查找到该客户的相关信息！！')
+                                        this.loading = false
                                     } else if (res.data.code === 0) {
                                         that.tableData = res.data.data.list
                                         this.loading = false
@@ -961,6 +966,7 @@
                 }
                 else {
                     if (that.clientType === '0'){
+                        console.log("重要客户查询翻页")
                         axios.get('backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
                             params: {
                                 customerName: list.customerName,
@@ -989,6 +995,7 @@
                         }).catch()
                     }
                     else {
+                        console.log("普通客户查询翻页")
                         axios.get('backend/customer/getCustomersMid/'+this.current+'/'+ this.pageSize, {
                             params: {
                                 customerName: list.customerName,
@@ -1062,7 +1069,7 @@
                 // console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
                 if(this.flag === 0){
-                    axios.get('backend/order/OrderHistory/1/5',{
+                    axios.get('backend/order/OrderHistory/1/2',{
                         params: {
                             buyerNick: row.buyerNick,
                         },
@@ -1100,6 +1107,7 @@
             },
             // 分页
             currentPage(currentPage, size){
+                console.log("普通客户分页")
                 const that = this
                 that.loading = true
                 if(that.flag===0){
@@ -1112,6 +1120,7 @@
                 }
                 else {
                     this.submitList()
+                    this.jump = 'inner'
                 }
             },
             onShowSizeChange(current, size) {
@@ -1119,18 +1128,34 @@
                 const that = this
                 that.loading = true
                 if(that.flag===0){
-                axios.get('backend/customer/listCustomers/'+current+'/'+size, {headers:{
-                        token : this.tokenStr}}).then(res => {
-                    that.tableData = res.data.data
-                    this.loading=false
-                }).catch()
+                    if(that.clientType==='0'){
+                        console.log("重要客户分页")
+                        axios.get('backend/customer/listImpCustomers/'+current+'/'+size, {headers:{
+                                token : this.tokenStr}}).then(res => {
+                            that.tableData = res.data.data
+                            this.loading=false
+                        }).catch()
+                    }
+                    else {
+                        console.log("普通客户分页")
+                        axios.get('backend/customer/listCustomers/' + current + '/' + size, {
+                            headers: {
+                                token: this.tokenStr
+                            }
+                        }).then(res => {
+                            that.tableData = res.data.data
+                            this.loading = false
+                        }).catch()
+                    }
                 }
                 else {
                     this.submitList()
+                    this.jump = 'inner'
                 }
             },
             // 分页0
             currentPage0(currentPage, size){
+                console.log("历史订单分页")
                 const that = this
                 that.loading0 = true
                 if(that.flag0===0){
@@ -1141,11 +1166,13 @@
                     }).catch()
                 }
                 else {
+                    console.log("翻页"+currentPage)
                     this.submitList()
                     this.jump = 'inner'
                 }
             },
             onShowSizeChange0(current, size) {
+                console.log("历史订单分页")
                 this.pageSize0 = size
                 const that = this
                 that.loading0 = true
@@ -1157,6 +1184,7 @@
                     }).catch()
                 }
                 else {
+                    console.log("页面容量变动"+size)
                     this.submitList()
                     this.jump = 'inner'
                 }

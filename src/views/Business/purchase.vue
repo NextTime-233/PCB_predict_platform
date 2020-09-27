@@ -60,7 +60,7 @@
 <!--                            </a-row>-->
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
-                        <a-button type="primary" @click="submitList">查询</a-button>
+                        <a-button type="primary" @click="submitList; checkClick">查询</a-button>
                         <a-button style="margin-left: 8px" type="reset" @click="resetInput">重置</a-button>
                     </span>
                         <br>
@@ -234,12 +234,16 @@
             toggleAdvanced () {
                 this.advanced = !this.advanced
             },
-            submitList(){
+            checkClick() {
+                this.jump = 'outer'
+            },
+            submitList() {
                 this.loading = true
                 const that = this
                 const list = this.formInline
                 if(this.jump === 'outer') {
                     this.flag = 0
+                    this.current = 1
                 }
                 else{
                     this.flag = 1
@@ -261,12 +265,15 @@
                             }).then(res => {
                                 if (res.data.code === 3) {
                                     alert('未能查找到该货品的相关信息！！')
+                                    this.loading = false
+                                    that.tableData = []
                                 } else if (res.data.code === 0) {
                                     // // console.log(res.data.data.total)
                                     that.tableData = res.data.data.list
                                     this.loading = false
                                     that.total = res.data.data.total
                                     this.flag = 1
+                                    this.jump = 'inner'
                                 }
                             }).catch()
                             break
@@ -294,6 +301,7 @@
                         } else if (res.data.code === 0) {
                             that.tableData = res.data.data.list
                             this.loading = false
+                            that.total = res.data.data.total
                         }
                     }).catch()
                 }
@@ -343,16 +351,32 @@
                     // console.log("第一个")
                 }
                 else {
-                    this.submitList()
-                    this.jump = 'inner'
+                    // this.submitList()
+                    // this.jump = 'inner'
                     // console.log("第二个")
+                    axios.get('backend/goods/getGoods/'+currentPage+'/'+this.pageSize, {
+                        params: {
+                            goodsNo: list.goodsNo,
+                            goodsName: list.goodsName,
+                            goodsType: list.goodsType,
+                        },
+                        headers: {token: this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then(res => {
+                        if (res.data.code === 3) {
+                            alert('未能查找到该货品的相关信息！！')
+                        } else if (res.data.code === 0) {
+                            that.tableData = res.data.data.list
+                            this.loading = false
+                            that.total = res.data.data.total
+                        }
+                    }).catch()
                 }
             },
             onShowSizeChange(current, size) {
                 this.loading=true
                 this.pageSize = size
                 const that = this
-
                 if(that.flag===0){
                     axios.get('backend/goods/listGoods/'+current+'/'+size, {headers:{
                         token : this.tokenStr}}).then(res => {
