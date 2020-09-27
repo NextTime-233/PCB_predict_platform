@@ -38,32 +38,38 @@
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
-                                    <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select
-                                                show-search
-                                                option-filter-prop="children"
-                                                :filter-option="filterOption"
-                                                placeholder="请选择" v-model="orderForm.trade_status" size="small"
-                                        >
-                                            <a-select-option value="已取消">已取消</a-select-option>
-                                            <a-select-option value="未付款">未付款</a-select-option>
-                                            <a-select-option value="待尾款">待尾款</a-select-option>
-                                            <a-select-option value="待选仓">待选仓</a-select-option>
-                                            <a-select-option value="等未付">等未付</a-select-option>
-                                            <a-select-option value="延时审核">延时审核</a-select-option>
-                                            <a-select-option value="预订单">预订单</a-select-option>
-                                            <a-select-option value="待抢单">待抢单</a-select-option>
-                                            <a-select-option value="待客审">待客审</a-select-option>
-                                            <a-select-option value="待财审">待财审</a-select-option>
-                                            <a-select-option value="已递交仓库">已递交仓库</a-select-option>
-                                            <a-select-option value="已审核">已审核</a-select-option>
-                                            <a-select-option value="已发货">已发货</a-select-option>
-                                            <a-select-option value="部分打款">部分打款</a-select-option>
-                                            <a-select-option value="已完成">已完成</a-select-option>
-                                            <a-select-option value="异常发货">异常发货</a-select-option>
-                                        </a-select>
+                                    <a-form-item label="收件人姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="orderForm.receiver_name" size="small">
+                                        </a-input>
                                     </a-form-item>
                                 </a-col>
+<!--                                <a-col :span="6">-->
+<!--                                    <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">-->
+<!--                                        <a-select-->
+<!--                                                show-search-->
+<!--                                                option-filter-prop="children"-->
+<!--                                                :filter-option="filterOption"-->
+<!--                                                placeholder="请选择" v-model="orderForm.trade_status" size="small"-->
+<!--                                        >-->
+<!--                                            <a-select-option value="已取消">已取消</a-select-option>-->
+<!--                                            <a-select-option value="未付款">未付款</a-select-option>-->
+<!--                                            <a-select-option value="待尾款">待尾款</a-select-option>-->
+<!--                                            <a-select-option value="待选仓">待选仓</a-select-option>-->
+<!--                                            <a-select-option value="等未付">等未付</a-select-option>-->
+<!--                                            <a-select-option value="延时审核">延时审核</a-select-option>-->
+<!--                                            <a-select-option value="预订单">预订单</a-select-option>-->
+<!--                                            <a-select-option value="待抢单">待抢单</a-select-option>-->
+<!--                                            <a-select-option value="待客审">待客审</a-select-option>-->
+<!--                                            <a-select-option value="待财审">待财审</a-select-option>-->
+<!--                                            <a-select-option value="已递交仓库">已递交仓库</a-select-option>-->
+<!--                                            <a-select-option value="已审核">已审核</a-select-option>-->
+<!--                                            <a-select-option value="已发货">已发货</a-select-option>-->
+<!--                                            <a-select-option value="部分打款">部分打款</a-select-option>-->
+<!--                                            <a-select-option value="已完成">已完成</a-select-option>-->
+<!--                                            <a-select-option value="异常发货">异常发货</a-select-option>-->
+<!--                                        </a-select>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
                             </a-row>
                             <a-row type="flex" v-if="advanced">
                                 <a-col :span="6">
@@ -84,12 +90,12 @@
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
-                                <a-col :span="6">
-                                    <a-form-item label="收件人姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.receiver_name" size="small">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
+<!--                                <a-col :span="6">-->
+<!--                                    <a-form-item label="收件人姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">-->
+<!--                                        <a-input v-model="orderForm.receiver_name" size="small">-->
+<!--                                        </a-input>-->
+<!--                                    </a-form-item>-->
+<!--                                </a-col>-->
                             </a-row>
                             <a-row v-if="advanced"  :gutter="16">
                                 <a-col :md="7" >
@@ -702,7 +708,7 @@
                 }
                 if(that.flag===0) {
                     for (let i in list) {
-                        // console.log(list[i])
+                        console.log(that.tokenStr)
                         if (list[i]) {
                             console.log("1111111111")
                             axios.get('backend/order/getOrders/1/5', {

@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="togglePage">
-      <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
+      <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" >
         <!--<span>类别维度:{{this.imageData.categoryDimension}}</span>-->
         <el-tag >用户网名：{{this.Nick1}}</el-tag>
         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
@@ -86,17 +86,16 @@
           <el-col :span="8">
             <el-card shadow="hover">
               <div id="data" style="width: 500px; height: 460px;">
-                <h3>省级分布</h3>
-
-                <a-form-item
-                    label="日期"
-                    :labelCol="{span:2}"
-                    :wrapperCol="{span: 10}"
-                >
-                  <a-range-picker @change="dateOnChange" size="small">
-                    <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
-                  </a-range-picker>
-                </a-form-item>
+                <h2 style="font-weight: bolder">省级分布</h2>
+<!--                <a-form-item-->
+<!--                    label="日期"-->
+<!--                    :labelCol="{span:2}"-->
+<!--                    :wrapperCol="{span: 10}"-->
+<!--                >-->
+<!--                  <a-range-picker @change="dateOnChange" size="small">-->
+<!--                    <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+<!--                  </a-range-picker>-->
+<!--                </a-form-item>-->
                 <el-table
                     :data="pageFive"
                     style="width: 80% ;height:80%"
@@ -177,62 +176,70 @@ export default {
       mulPlatformsCus: [],
       //词云
       worddata: [
-        // {
-        //   buyerNick: "126329327",
-        //   sumTotalPurchaseNum: 14978.0000,
-        //   categoryDimension: "",
-        //   timeDimension: null,
-        //   salesDimension: null,
-        //   valueDimension: null,
-        //   regionalDimension: "云南省",
-        //   platformDimension: null,
-        //   repurchaseDimension: "低复购",
-        //   reputationDimension: "高信誉",
-        //   promotionDimension: null,
-        //   cycleDimension: null,
-        //   prop1: "年轻",
-        //   prop2: "少年",
-        //   prop3: null,
-        //   prop4: null,
-        //   prop5: null,
-        //   value: 2500
-        // },
-
           {
-            name: "14978.0000",
+            name: "",
             value: 3008
-          },{
-            name: "云南省",
+          },
+        {
+            name: "",
             value: 5386
           },
           {
-            name: "低复购",
+            name: "",
             value: 4500
           },
           {
-            name: "高信誉",
+            name: "",
             value: 3900
           },
           {
-            name: "年轻",
+            name: "",
             value: 2500
           },
           {
-            name: "少年",
+            name: "",
             value:2000
           },
           {
-            name: "创新",
+            name: "",
             value: 3800
           },
           {
-            name: "民主革命",
+            name: "",
             value: 2850
           },
           {
-            name: "文化强国",
+            name: "",
             value: 1380
           },
+        {
+          name: "",
+          value: 4500
+        },
+        {
+          name: "",
+          value: 3900
+        },
+        {
+          name: "",
+          value: 2500
+        },
+        {
+          name: "",
+          value:2000
+        },
+        {
+          name: "",
+          value: 3800
+        },
+        {
+          name: "",
+          value: 2850
+        },
+        {
+          name: "",
+          value: 1380
+        },
       ],
       //每行数据
       imageData: [],
@@ -463,13 +470,21 @@ export default {
               },
               grid: {
                 left: '3%',
-                right: '4%',
+                right: '5%',
                 bottom: '3%',
                 containLabel: true
               },
               xAxis: {
                 type: 'value',
                 boundaryGap: [0, 0.01],
+                axisLabel : {
+
+                  // formatter: '{value} 万'
+                  formatter : function(val){
+                    return val/10000+"万";
+                  }
+
+                }
 
               },
               yAxis: {
@@ -506,21 +521,25 @@ export default {
             //   console.log(params);
             // });
             myChart1.on('click', data => {
-              console.log("hhhhhhh")
-              console.log(data)
+              // console.log("点击条形图的回馈")
+              // 存储点击的条的index
+              let ind = 9 - parseInt(data.dataIndex)
               const that = this
-              that.Nick1 = data.name//网名赋值
+              that.Nick1 = data.name  //网名赋值
               that.dialogVisible = true
               this.$nextTick(() => {
                 this.initChart()
               })
-              let j = 0
-              for (let i in res.data) {
-                console.log(res.data)
-                if (i !== 'buyerNick') {
-                  that.worddata[j].name = res.data.data[i]
-                  // that.worddata[j].value = res.data.data[i].value
-                  j++
+              console.log(res.data.data)
+              // for (let i=0; i <10;i++) {
+              console.log('第二个')
+              let d = 0
+              for(let j in res.data.data[ind]) {
+                // console.log("输出对应的维度值")
+                // console.log(res.data.data[ind][j])
+                if (j !== 'buyerNick') {
+                  that.worddata[d].name = res.data.data[ind][j]
+                  d++
                 }
               }
             });
@@ -577,7 +596,7 @@ export default {
               },
               grid: {
                 left: '2%',
-                right: '4%',
+                right: '5%',
                 bottom: '3%',
                 containLabel: true
               },
@@ -599,6 +618,7 @@ export default {
                 type: 'category',
                 // data: ['A', 'B', 'C', 'D', 'E', 'F','G','H','I','J',],
                 data: that.buyerNick2,
+                triggerEvent: true
               },
               series: [
                 {
@@ -618,6 +638,29 @@ export default {
                 },
               ]
             }
+            myChart1.on('click', data => {
+              // console.log("点击条形图的回馈")
+              // 存储点击的条的index
+              let ind = 9 - parseInt(data.dataIndex)
+              const that = this
+              that.Nick1 = data.name  //网名赋值
+              that.dialogVisible = true
+              this.$nextTick(() => {
+                this.initChart()
+              })
+              console.log(res.data.data)
+              // for (let i=0; i <10;i++) {
+              console.log('第二个')
+              let d = 0
+              for(let j in res.data.data[ind]) {
+                // console.log("输出对应的维度值")
+                // console.log(res.data.data[ind][j])
+                if (j !== 'buyerNick') {
+                  that.worddata[d].name = res.data.data[ind][j]
+                  d++
+                }
+              }
+            });
             // // 使用刚指定的配置项和数据显示图表。
             myChart1.setOption(option1);
             window.addEventListener("resize", function () {
@@ -664,7 +707,8 @@ export default {
                 containLabel: true
               },
               xAxis: {
-                data: ["终端用户", "分销用户"]
+                name: '用户',
+                data: ["终端", "分销"]
               },
               yAxis: {
                 //nameRotate:0.1,//使用这个属性
@@ -673,7 +717,7 @@ export default {
               },
               series: [
                 {
-                  name: '2020年',
+                  // name: '2020年',
                   type: 'bar',
                   data: [terminalCus[0], distributionCus[0]],
                   itemStyle: {
@@ -752,7 +796,7 @@ export default {
               },
               series: [
                 {
-                  name: '2020年',
+                  // name: '2020年',
                   type: 'bar',
                   data: [oldCustomer[0], newCustomer[0]],
                   itemStyle: {
@@ -822,7 +866,7 @@ export default {
               },
               series: [
                 {
-                  name: '2020年',
+                  // name: '2020年',
                   type: 'bar',
                   data: [lowSales[0], highSales[0]],
                   itemStyle: {
@@ -891,7 +935,7 @@ export default {
               },
               series: [
                 {
-                  name: '2020年',
+                  // name: '2020年',
                   type: 'bar',
                   data: [lowVal[0], highVal[0]],
                   itemStyle: {
@@ -962,7 +1006,7 @@ export default {
               },
               series: [
                 {
-                  name: '2020年',
+                  // name: '2020年',
                   type: 'bar',
                   data: [highRepurchase[0], lowRepurchase[0]],
                   itemStyle: {
@@ -1026,7 +1070,7 @@ export default {
                 containLabel: true
               },
               xAxis: {
-                data: ["稳定客户", "流失客户", "潜在客户"]
+                data: ["稳定", "流失", "潜在"]
               },
               yAxis: {
                 // data : that.terminalCus,
@@ -1034,7 +1078,7 @@ export default {
               },
               series: [
                 {
-                  name: '2020年',
+                  // name: '2020年',
                   type: 'bar',
                   data: [stableCus[0], potentialCus[0], lossCus[0]],
                   itemStyle: {
@@ -1265,7 +1309,7 @@ export default {
               }
             }
             // console.log(that.resData)
-            that.pageFive = that.resData.slice(0, 5)
+            that.pageFive = that.resData.slice(0, 6)
             that.loading = false
             // 将mapData转换为map
             // that.ans = that._jsonToMap(JSON.stringify(that.mapData))
@@ -1299,7 +1343,7 @@ export default {
               },
               visualMap: {
                 min: 0,
-                max: 1500,
+                max: 350000,
                 left: '10%',
                 top: 'bottom',
                 text: ['高', '低'],
@@ -1355,24 +1399,27 @@ export default {
       // console.log("当前页码")
       // console.log(currentPage)
       const that = this
+      if (currentPage === 1) {
+        that.pageFive = that.resData.slice(0, 6)
+      }
       if (currentPage === 2) {
-        that.pageFive = that.resData.slice(5, 10)
+        that.pageFive = that.resData.slice(6, 12)
       }
       if (currentPage === 3) {
-        that.pageFive = that.resData.slice(10, 15)
+        that.pageFive = that.resData.slice(12, 18)
       }
       if (currentPage === 4) {
-        that.pageFive = that.resData.slice(15, 20)
+        that.pageFive = that.resData.slice(18, 24)
       }
       if (currentPage === 5) {
-        that.pageFive = that.resData.slice(20, 25)
+        that.pageFive = that.resData.slice(24, 30)
       }
       if (currentPage === 6) {
-        that.pageFive = that.resData.slice(25, 30)
-      }
-      if (currentPage === 7) {
         that.pageFive = that.resData.slice(30, 32)
       }
+      // if (currentPage === 7) {
+      //   that.pageFive = that.resData.slice(30, 32)
+      // }
       // that.pageFive=that.resData.slice(start,end)
 
     },
@@ -1425,14 +1472,14 @@ export default {
       console.log('6666');
       // chart.setOption(option);
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {
-          });
-    },
+    // handleClose(done) {
+    //   this.$confirm('确认关闭？')
+    //       .then(_ => {
+    //         done();
+    //       })
+    //       .catch(_ => {
+    //       });
+    // },
 
   }
 }
