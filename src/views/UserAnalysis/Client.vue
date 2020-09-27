@@ -881,9 +881,9 @@
                 }
                 if(that.flag===0) {
                     for (let i in list) {
-                        // console.log(list[i])
                         if (list[i]) {
                             if (that.clientType === '1') {
+                                console.log("用户姓名")
                                 axios.get('backend/customer/getCustomers/1/5', {
                                     params: {
                                         customerName: list.customerName,
@@ -1060,7 +1060,7 @@
                 const that = this
                 that.loading0 = true
                 // console.log('输出用户网名'+that.tokenStr)
-                // console.log(row.buyerNick)
+                console.log(row.buyerNick)
                 if(this.flag === 0){
                     axios.get('backend/order/OrderHistory/1/5',{
                         params: {
@@ -1073,7 +1073,8 @@
                             alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
                             that.loading0 = false
                         }else{
-                            that.historyData = res.data.data
+                            that.historyData = res.data.data.list
+                            that.total0 = res.data.data.total
                         }
                         that.loading0 = false
                     }).catch()
@@ -1085,13 +1086,15 @@
                         },
                         headers:{token: that.tokenStr},
                     }).then(res => {
-                        // console.log(res.data.data)
                         that.loading0 = false
                         if(res.data.data === null){
                             alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
+                            that.loading0 = false
                         }else{
-                            that.historyData = res.data.data
+                            that.historyData = res.data.data.list
+                            that.total0 = res.data.data.total
                         }
+                        that.loading0 = false
                     }).catch()
                 }
             },
