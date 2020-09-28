@@ -10,7 +10,7 @@
                  label-position="left"
                  label-width="0px"
                  class="demo-ruleForm login-page">
-            <h3 class="title">林家铺子后台管理系统</h3>
+            <h3 class="title">林家铺子数据挖掘系统</h3>
             <el-form-item prop="userAccount">
                 <td>用户名</td>
                 <el-input type="text"
@@ -28,7 +28,7 @@
                 ></el-input>
             </el-form-item>
             <el-checkbox v-model="checked"
-                         class="rememberme"
+                         class="saveCode"
                          style="margin-bottom:10px;">记住密码</el-checkbox>
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
@@ -51,11 +51,31 @@
                     userAccount: [{required: true, message: 'please enter your account', trigger: 'blur'}],
                     userPwd: [{required: true, message: 'enter your password', trigger: 'blur'}]
                 },
-                checked: false
+                checked: false,
             }
         },
+        created(key) {
+            this.LoginForm.userAccount = window.localStorage.getItem("userAccount")
+            console.log(window.localStorage.getItem("userAccount"))
+            this.LoginForm.userPwd = window.localStorage.getItem("userPwd")
+        },
         methods: {
-            handleSubmit(event){
+            // limlin 记住密码功能完善
+            handleSubmit(){
+                const that = this
+                const storage = window.localStorage
+                if(that.checked === true) {
+                    console.log("记住密码")
+                    storage["userAccount"]=that.LoginForm.userAccount
+                    storage["userPwd"]=that.LoginForm.userPwd
+                }
+                else {
+                    console.log("不记住密码")
+
+                }
+                console.log(storage["userAccount"]);
+                console.log(storage["userPwd"]);
+                console.log(that.checked)
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
@@ -107,7 +127,7 @@
         border: 1px solid #eaeaea;
         box-shadow: 0 0 25px #cac6c6;
     }
-    .avatar_box{
+    .avatar_box {
         height: 130px;
         width: 250px;
         border-radius:50%;

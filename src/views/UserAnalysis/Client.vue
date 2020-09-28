@@ -509,9 +509,15 @@
                                     v-loading="loading0">
                                     <el-table-column
                                             fixed
+                                            prop="tradeTime"
+                                            label="下单时间"
+                                            width="160">
+                                    </el-table-column>
+                                    <el-table-column
+                                            fixed
                                             prop="tradeNo"
                                             label="订单编号"
-                                            width="100">
+                                            width="160">
                                     </el-table-column>
                                     <el-table-column
                                             prop="platformType"
@@ -582,11 +588,6 @@
                                             prop="fenxiaoNick"
                                             label="分销商名称"
                                             width="120">
-                                    </el-table-column>
-                                    <el-table-column
-                                            prop="tradeTime"
-                                            label="下单时间"
-                                            width="160">
                                     </el-table-column>
                                     <el-table-column
                                             prop="payTime"
@@ -808,31 +809,28 @@
             // 客户类型
             showClient(tab, event) {
                 const that = this
+                that.current = 1
                 if(tab.index === '0'){
                     that.clientType = '0'
                     that.historyData = []
                     axios.get('backend/customer/listImpCustomers/1/5', {headers:{
                             token: this.tokenStr
                         }}).then( res => {
-                        // console.log(res.data.data)
                         that.importantData = res.data.data
-                        console.log(that.importantData)
                         that.loading=false
                     }).catch()
                     axios.get('backend/customer/countImpCustomers', {headers:{
                             token: that.tokenStr
                         }}).then( res => {
-                        // console.log(res)
                         that.total = res.data.data
                     }).catch()
                 }
                 if(tab.index === '1') {
                     that.clientType = '1'
-                    // console.log(tab.index)
+                    that.historyData = []
                     axios.get('backend/customer/listCustomers/1/5', {headers:{
                             token: that.tokenStr
                         }}).then( res => {
-                        // console.log(res)
                         that.tableData = res.data.data
                         that.loading=false
                     }).catch()
@@ -883,10 +881,11 @@
                 }
                 if(that.flag===0) {
                     console.log("外部查询")
+                    that.current = 1
                     for (let i in list) {
                         if (list[i]) {
                             if (that.clientType === '1') {
-                                console.log("普通客户查询")
+                                console.log("普通客户查询"+that.clientType)
                                 axios.get('backend/customer/getCustomers/1/5', {
                                     params: {
                                         customerName: list.customerName,
@@ -921,7 +920,7 @@
                                 }).catch()
                                 break
                             } else {
-                                console.log("重要客户查询")
+                                console.log("重要客户查询"+that.clientType)
                                 axios.get('backend/customer/getCustomersMid/1/5', {
                                     params: {
                                         customerName: list.customerName,
@@ -940,11 +939,11 @@
                                         LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
                                         LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
                                     },
-                                    headers: {token: this.tokenStr},
-                                    tokenBackend: this.tokenStr
+                                    headers: {token: that.tokenStr},
+                                    tokenBackend: that.tokenStr
                                 }).then(res => {
-                                    // console.log("此处为查询的返回值")
-                                    // console.log(res)
+                                    console.log("此处为查询的返回值")
+                                    console.log(res)
                                     if (res.data.code === 3) {
                                         alert('未能查找到该客户的相关信息！！')
                                         this.loading = false
@@ -996,7 +995,7 @@
                     }
                     else {
                         console.log("普通客户查询翻页")
-                        axios.get('backend/customer/getCustomersMid/'+this.current+'/'+ this.pageSize, {
+                        axios.get('backend/customer/selectImpCustomers/'+this.current+'/'+ this.pageSize, {
                             params: {
                                 customerName: list.customerName,
                                 registrationTimeDateStart: list.registrationTimeDateStart,
@@ -1069,7 +1068,7 @@
                 // console.log('输出用户网名'+that.tokenStr)
                 console.log(row.buyerNick)
                 if(this.flag === 0){
-                    axios.get('backend/order/OrderHistory/1/2',{
+                    axios.get('backend/order/OrderHistory/1/5',{
                         params: {
                             buyerNick: row.buyerNick,
                         },
@@ -1107,16 +1106,32 @@
             },
             // 分页
             currentPage(currentPage, size){
-                console.log("普通客户分页")
                 const that = this
                 that.loading = true
                 if(that.flag===0){
-                    axios.get('backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
-                            token : this.tokenStr}}).then(res => {
-                        // // console.log(res.data.data)
-                        that.tableData = res.data.data
-                        this.loading=false
-                    }).catch()
+                    if(that.clientType==='0') {
+                        console.log("重要客户分页"+that.clientType)
+                        axios.get('backend/customer/listImpCustomers/' + currentPage + '/' + size, {
+                            headers: {
+                                token: this.tokenStr
+                            }
+                        }).then(res => {
+                            // console.log(res.data.data)
+                            that.importantData = res.data.data
+                            this.loading = false
+                        }).catch()
+                    }
+                    else {
+                        console.log("普通客户分页"+that.clientType)
+                        axios.get('backend/customer/listCustomers/' + currentPage + '/' + size, {
+                            headers: {
+                                token: this.tokenStr
+                            }
+                        }).then(res => {
+                            that.tableData = res.data.data
+                            this.loading = false
+                        }).catch()
+                    }
                 }
                 else {
                     this.submitList()
@@ -1129,10 +1144,10 @@
                 that.loading = true
                 if(that.flag===0){
                     if(that.clientType==='0'){
-                        console.log("重要客户分页")
+                        console.log("重要客户分页"+that.clientType)
                         axios.get('backend/customer/listImpCustomers/'+current+'/'+size, {headers:{
                                 token : this.tokenStr}}).then(res => {
-                            that.tableData = res.data.data
+                            that.importantData = res.data.data
                             this.loading=false
                         }).catch()
                     }
@@ -1197,7 +1212,6 @@
     }
 </script>
 <style lang="less" scoped>
-
     .search{
         background-color: lightgrey;
     }
@@ -1226,5 +1240,10 @@
             flex-direction: column;
             align-items: flex-end;
         }
+    }
+    .page-roll {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
     }
 </style>

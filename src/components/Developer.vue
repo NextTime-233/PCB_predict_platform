@@ -26,7 +26,7 @@
                      <el-upload
                              class="upload-demo"
                              ref="uploadCustomer"
-                             action="backend/customer/uploadExcel"
+                             action="http://192.168.1.105:8080/backend/customer/uploadExcel"
                              :headers=myHeaders
                              :on-preview="handlePreview"
                              :on-remove="handleRemove"
@@ -68,7 +68,7 @@
                      <el-upload
                              class="upload-demo"
                              ref="uploadOrder"
-                             action="backend/order/uploadExcel"
+                             action="http://192.168.1.105:8080/backend/order/uploadExcel"
                              :headers=myHeaders
                              :on-preview="handlePreview"
                              :on-remove="handleRemove"
@@ -161,7 +161,7 @@
                 // upload
                 fileList: [],
                 tokenStr: window.sessionStorage.getItem('token'),
-                myHeaders: {token: this.tokenStr}
+                myHeaders: {token: window.sessionStorage.getItem('token')}
             };
         },
         watch: {
