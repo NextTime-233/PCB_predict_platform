@@ -22,9 +22,9 @@
                         </router-link>
                     </a-menu-item>
                 </a-sub-menu>
-                <a-sub-menu  key="sub1">
+                <a-sub-menu v-show="boss" key="sub1">
                     <span slot="title"><a-icon type="team" /><span>用户管理</span></span>
-                    <a-menu-item v-show="boss" key="2">
+                    <a-menu-item  key="2">
                         <router-link to="/employee" tag="div">
                             <span>用户管理</span>
                         </router-link>
@@ -73,7 +73,7 @@
                         </router-link>
                     </a-menu-item>
                 </a-sub-menu>
-                <a-sub-menu key="sub4">
+                <a-sub-menu v-show="admin" key="sub4">
                     <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>增量维护</span></span>
                     <a-menu-item key="8">
                         <router-link to="/increment" tag="div">
@@ -165,8 +165,8 @@
             this.selectedKeys = [this.$route.path];
             // 权限设置
             const limit = window.sessionStorage.getItem('limit');
-            // console.log('boss here');
-            // console.log(limit);
+            console.log('boss here');
+            console.log(limit);
             if(limit>0){
                 this.boss = true;
                 // console.log('已经执行');

@@ -739,7 +739,7 @@
                 loading0: false,
                 activeName: 'second',
                 // 搜索栏
-                clientType: '1',
+                clientType: '1',  // 客户类型，默认为普通客户1
                 clientForm: {
                     customerName:'',
                     registrationTimeDateStart:'',
@@ -772,13 +772,12 @@
                 pageSize: 5,
                 total: 0,
                 amount: 0,
-                flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；普通客户分页
+                flag: 0,  // 普通客户分页标记，0为总表分页，1为查询分页
                 current0: 1,
                 pageSize0: 5,
                 total0: 0,
                 amount0: 0,
-                flag0: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页；重要客户分页
-                jump: 'outer',
+                flag0: 0,  // 重要客户分页标记，0为总表分页，1为查询分页
                 //  token
                 tokenStr: '',
                 // 标签页
@@ -823,6 +822,7 @@
                             token: that.tokenStr
                         }}).then( res => {
                         that.total = res.data.data
+                        that.amount = that.total
                     }).catch()
                 }
                 if(tab.index === '1') {
@@ -869,158 +869,86 @@
             },
             submitList(){
                 const that = this
-                const list = this.clientForm
+                const list = that.clientForm
                 this.loading = true
-                if(this.jump === 'outer') {
-                    console.log("从外部查询")
-                    that.flag = 0
-                }
-                else{
-                    console.log("从内部查询")
-                    that.flag = 1
-                }
-                if(that.flag===0) {
-                    console.log("外部查询")
-                    that.current = 1
-                    for (let i in list) {
-                        if (list[i]) {
-                            if (that.clientType === '1') {
-                                console.log("普通客户查询"+that.clientType)
-                                axios.get('backend/customer/getCustomers/1/5', {
-                                    params: {
-                                        customerName: list.customerName,
-                                        registrationTimeDateStart: list.registrationTimeDateStart,
-                                        registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                        PayDateStart: list.PayDateStart,
-                                        PayDateEnd: list.PayDateEnd,
-                                        BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                        BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                        shopName: list.shopName,
-                                        goodsCount: list.goodsCount,
-                                        TotalPurchaseAmount: list.TotalPurchaseAmount,
-                                        TotalPurchaseNum: list.TotalPurchaseNum,
-                                        goodsTypeCount: list.goodsTypeCount,
-                                        BrandName: list.BrandName,
-                                        LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                                        LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                                    },
-                                    headers: {token: this.tokenStr},
-                                    tokenBackend: this.tokenStr
-                                }).then(res => {
-                                    // console.log("此处为查询的返回值")
-                                    // console.log(res)
-                                    if (res.data.code === 3) {
-                                        alert('未能查找到该客户的相关信息！！')
-                                    } else if (res.data.code === 0) {
-                                        that.tableData = res.data.data.list
-                                        this.loading = false
-                                        that.total = res.data.total
-                                        this.flag = 1
-                                    }
-                                }).catch()
-                                break
-                            } else {
-                                console.log("重要客户查询"+that.clientType)
-                                axios.get('backend/customer/getCustomersMid/1/5', {
-                                    params: {
-                                        customerName: list.customerName,
-                                        registrationTimeDateStart: list.registrationTimeDateStart,
-                                        registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                        PayDateStart: list.PayDateStart,
-                                        PayDateEnd: list.PayDateEnd,
-                                        BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                        BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                        shopName: list.shopName,
-                                        goodsCount: list.goodsCount,
-                                        TotalPurchaseAmount: list.TotalPurchaseAmount,
-                                        TotalPurchaseNum: list.TotalPurchaseNum,
-                                        goodsTypeCount: list.goodsTypeCount,
-                                        BrandName: list.BrandName,
-                                        LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                                        LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                                    },
-                                    headers: {token: that.tokenStr},
-                                    tokenBackend: that.tokenStr
-                                }).then(res => {
-                                    console.log("此处为查询的返回值")
-                                    console.log(res)
-                                    if (res.data.code === 3) {
-                                        alert('未能查找到该客户的相关信息！！')
-                                        this.loading = false
-                                    } else if (res.data.code === 0) {
-                                        that.tableData = res.data.data.list
-                                        this.loading = false
-                                        that.total = res.data.total
-                                        this.flag = 1
-                                    }
-                                }).catch()
-                                break
-                            }
-                        } else if (i === 'LastPurchaseTimeDateEnd' && list[i] === '') {
-                            alert("请输入查询信息！！")
+                for (let i in list) {
+                    if (list[i]) {
+                        if (that.clientType === '1') {
+                            console.log("普通客户查询"+that.clientType)
+                            axios.get('backend/customer/getCustomers/1/5', {
+                                params: {
+                                    customerName: list.customerName,
+                                    registrationTimeDateStart: list.registrationTimeDateStart,
+                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                    PayDateStart: list.PayDateStart,
+                                    PayDateEnd: list.PayDateEnd,
+                                    BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                    BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                    shopName: list.shopName,
+                                    goodsCount: list.goodsCount,
+                                    TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                    TotalPurchaseNum: list.TotalPurchaseNum,
+                                    goodsTypeCount: list.goodsTypeCount,
+                                    BrandName: list.BrandName,
+                                    LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                    LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                                },
+                                headers: {token: that.tokenStr},
+                                tokenBackend: that.tokenStr
+                            }).then(res => {
+                                if (res.data.code === 3) {
+                                    alert('未能查找到该客户的相关信息！！')
+                                } else if (res.data.code === 0) {
+                                    that.tableData = res.data.data.list
+                                    that.loading = false
+                                    that.total = res.data.total
+                                    that.flag = 1
+                                    that.current = 1
+                                }
+                            }).catch()
+                            break
                         } else {
-                            continue
+                            console.log("重要客户查询"+that.clientType)
+                            axios.get('backend/customer/selectImpCustomersFromCustomerIm/1/5', {
+                                params: {
+                                    customerName: list.customerName,
+                                    registrationTimeDateStart: list.registrationTimeDateStart,
+                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
+                                    PayDateStart: list.PayDateStart,
+                                    PayDateEnd: list.PayDateEnd,
+                                    BirthdayTimeDateStart: list.BirthdayTimeDateStart,
+                                    BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
+                                    shopName: list.shopName,
+                                    goodsCount: list.goodsCount,
+                                    TotalPurchaseAmount: list.TotalPurchaseAmount,
+                                    TotalPurchaseNum: list.TotalPurchaseNum,
+                                    goodsTypeCount: list.goodsTypeCount,
+                                    BrandName: list.BrandName,
+                                    LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
+                                    LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                                },
+                                headers: {token: that.tokenStr},
+                                tokenBackend: that.tokenStr
+                            }).then(res => {
+                                console.log("此处为查询的返回值")
+                                console.log(res)
+                                if (res.data.code === 3) {
+                                    alert('未能查找到该客户的相关信息！！')
+                                    that.loading = false
+                                } else if (res.data.code === 0) {
+                                    that.importantData = res.data.data.list
+                                    that.loading = false
+                                    that.total = res.data.total
+                                    that.flag0 = 1
+                                    that.current = 1
+                                }
+                            }).catch()
+                            break
                         }
-                    }
-                }
-                else {
-                    if (that.clientType === '0'){
-                        console.log("重要客户查询翻页")
-                        axios.get('backend/customer/getCustomers/'+this.current+'/'+ this.pageSize, {
-                            params: {
-                                customerName: list.customerName,
-                                registrationTimeDateStart: list.registrationTimeDateStart,
-                                registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                PayDateStart: list.PayDateStart,
-                                PayDateEnd: list.PayDateEnd,
-                                BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                shopName: list.shopName,
-                                goodsCount: list.goodsCount,
-                                TotalPurchaseAmount: list.TotalPurchaseAmount,
-                                TotalPurchaseNum: list.TotalPurchaseNum,
-                                goodsTypeCount: list.goodsTypeCount,
-                                BrandName: list.BrandName,
-                                LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                                LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                            },
-                            headers: {token: this.tokenStr},
-                            tokenBackend: this.tokenStr
-                        }).then(res => {
-                            if(res.data.code === 0) {
-                                that.tableData = res.data.data.list
-                                this.loading=false
-                            }
-                        }).catch()
-                    }
-                    else {
-                        console.log("普通客户查询翻页")
-                        axios.get('backend/customer/selectImpCustomers/'+this.current+'/'+ this.pageSize, {
-                            params: {
-                                customerName: list.customerName,
-                                registrationTimeDateStart: list.registrationTimeDateStart,
-                                registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                PayDateStart: list.PayDateStart,
-                                PayDateEnd: list.PayDateEnd,
-                                BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                shopName: list.shopName,
-                                goodsCount: list.goodsCount,
-                                TotalPurchaseAmount: list.TotalPurchaseAmount,
-                                TotalPurchaseNum: list.TotalPurchaseNum,
-                                goodsTypeCount: list.goodsTypeCount,
-                                BrandName: list.BrandName,
-                                LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
-                                LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
-                            },
-                            headers: {token: this.tokenStr},
-                            tokenBackend: this.tokenStr
-                        }).then(res => {
-                            if(res.data.code === 0) {
-                                that.tableData = res.data.data.list
-                                this.loading=false
-                            }
-                        }).catch()
+                    } else if (i === 'LastPurchaseTimeDateEnd' && list[i] === '') {
+                        alert("请输入查询信息！！")
+                    } else {
+                        continue
                     }
                 }
             },
@@ -1050,16 +978,16 @@
                 that.createValueP=[]
                 that.createValueR=[]
                 that.createValueS=[]
-                axios.get('backend/customer/listCustomers/1/5', {headers:{
-                        token: this.tokenStr
-                    }}).then( res => {
-                    // // console.log(res.data)
-                    that.tableData = res.data.data
-                    this.loading=false
-                    that.total = that.amount
-                    that.flag = 0
-                }).catch()
-                this.jump = 'outer'
+                // axios.get('backend/customer/listCustomers/1/5', {headers:{
+                //         token: this.tokenStr
+                //     }}).then( res => {
+                //     // // console.log(res.data)
+                //     that.tableData = res.data.data
+                //     this.loading=false
+                //     that.total = that.amount
+                //     that.flag = 0
+                // }).catch()
+               that.showClient()
             },
             // el表格
             handleClick(row) {
@@ -1079,6 +1007,7 @@
                             alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
                             that.loading0 = false
                         }else{
+                            alert("查找用户"+row.buyerNick+"的历史订单成功！！")
                             that.historyData = res.data.data.list
                             that.total0 = res.data.data.total
                         }
@@ -1097,6 +1026,7 @@
                             alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
                             that.loading0 = false
                         }else{
+                            alert("查找用户"+row.buyerNick+"的历史订单成功！！")
                             that.historyData = res.data.data.list
                             that.total0 = res.data.data.total
                         }
@@ -1108,21 +1038,51 @@
             currentPage(currentPage, size){
                 const that = this
                 that.loading = true
-                if(that.flag===0){
-                    if(that.clientType==='0') {
-                        console.log("重要客户分页"+that.clientType)
+                if(that.clientType==='0') {
+                    if(that.flag0===0) {
+                        console.log("重要客户总表分页" + that.clientType)
                         axios.get('backend/customer/listImpCustomers/' + currentPage + '/' + size, {
                             headers: {
                                 token: this.tokenStr
                             }
                         }).then(res => {
-                            // console.log(res.data.data)
                             that.importantData = res.data.data
                             this.loading = false
                         }).catch()
                     }
                     else {
-                        console.log("普通客户分页"+that.clientType)
+                        console.log("重要客户查询翻页")
+                        axios.get('backend/customer/selectImpCustomersFromCustomerIm/'+currentPage+'/'+ size, {
+                            params: {
+                                customerName: that.clientForm.customerName,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
+                                shopName: that.clientForm.shopName,
+                                goodsCount: that.clientForm.goodsCount,
+                                TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
+                                TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
+                                goodsTypeCount: that.clientForm.goodsTypeCount,
+                                BrandName: that.clientForm.BrandName,
+                                LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            if(res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                this.loading=false
+                            }
+                        }).catch()
+                    }
+                }
+                else {
+                    if(that.flag===0) {
+                        console.log("普通客户总表分页"+that.clientType)
                         axios.get('backend/customer/listCustomers/' + currentPage + '/' + size, {
                             headers: {
                                 token: this.tokenStr
@@ -1132,27 +1092,86 @@
                             this.loading = false
                         }).catch()
                     }
-                }
-                else {
-                    this.submitList()
-                    this.jump = 'inner'
+                    else {
+                        console.log("普通客户查询分页"+that.clientType)
+                        axios.get('backend/customer/getCustomers/'+currentPaget+'/'+ size, {
+                            params: {
+                                customerName: that.clientForm.customerName,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
+                                shopName: that.clientForm.shopName,
+                                goodsCount: that.clientForm.goodsCount,
+                                TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
+                                TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
+                                goodsTypeCount: that.clientForm.goodsTypeCount,
+                                BrandName: that.clientForm.BrandName,
+                                LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: that.tokenStr},
+                            tokenBackend: that.tokenStr
+                        }).then(res => {
+                            if(res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                that.loading=false
+                            }
+                        }).catch()
+                    }
                 }
             },
             onShowSizeChange(current, size) {
                 this.pageSize = size
                 const that = this
                 that.loading = true
-                if(that.flag===0){
-                    if(that.clientType==='0'){
-                        console.log("重要客户分页"+that.clientType)
-                        axios.get('backend/customer/listImpCustomers/'+current+'/'+size, {headers:{
-                                token : this.tokenStr}}).then(res => {
+                if(that.clientType==='0') {
+                    if(that.flag0===0) {
+                        console.log("重要客户总表分页" + that.clientType)
+                        axios.get('backend/customer/listImpCustomers/' + current + '/' + size, {
+                            headers: {
+                                token: this.tokenStr
+                            }
+                        }).then(res => {
                             that.importantData = res.data.data
-                            this.loading=false
+                            this.loading = false
                         }).catch()
                     }
                     else {
-                        console.log("普通客户分页")
+                        console.log("重要客户查询翻页")
+                        axios.get('backend/customer/selectImpCustomersFromCustomerIm/'+this.current+'/'+ size, {
+                            params: {
+                                customerName: that.clientForm.customerName,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
+                                shopName: that.clientForm.shopName,
+                                goodsCount: that.clientForm.goodsCount,
+                                TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
+                                TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
+                                goodsTypeCount: that.clientForm.goodsTypeCount,
+                                BrandName: that.clientForm.BrandName,
+                                LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: this.tokenStr},
+                            tokenBackend: this.tokenStr
+                        }).then(res => {
+                            if(res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                this.loading=false
+                            }
+                        }).catch()
+                    }
+                }
+                else {
+                    if(that.flag===0) {
+                        console.log("普通客户总表分页"+that.clientType)
                         axios.get('backend/customer/listCustomers/' + current + '/' + size, {
                             headers: {
                                 token: this.tokenStr
@@ -1162,13 +1181,38 @@
                             this.loading = false
                         }).catch()
                     }
-                }
-                else {
-                    this.submitList()
-                    this.jump = 'inner'
+                    else {
+                        console.log("普通客户查询分页"+that.clientType)
+                        axios.get('backend/customer/getCustomers/'+ current +'/'+ size, {
+                            params: {
+                                customerName: that.clientForm.customerName,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
+                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
+                                shopName: that.clientForm.shopName,
+                                goodsCount: that.clientForm.goodsCount,
+                                TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
+                                TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
+                                goodsTypeCount: that.clientForm.goodsTypeCount,
+                                BrandName: that.clientForm.BrandName,
+                                LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
+                                LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                            },
+                            headers: {token: that.tokenStr},
+                            tokenBackend: that.tokenStr
+                        }).then(res => {
+                            if(res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                that.loading=false
+                            }
+                        }).catch()
+                    }
                 }
             },
-            // 分页0
+            // 订单详情级联分页
             currentPage0(currentPage, size){
                 console.log("历史订单分页")
                 const that = this

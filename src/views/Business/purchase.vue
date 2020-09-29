@@ -60,7 +60,7 @@
 <!--                            </a-row>-->
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
-                        <a-button type="primary" @click="submitList; checkClick">查询</a-button>
+                        <a-button type="primary" @click="submitList">查询</a-button>
                         <a-button style="margin-left: 8px" type="reset" @click="resetInput">重置</a-button>
                     </span>
                         <br>
@@ -196,12 +196,11 @@
                 loading: true,
                 // 分页
                 pageSizeOptions: ['10', '20', '30', '40', '50'],
-                current: 1,
+                current: 1,  // 当前页面
                 pageSize: 10,
                 total: 0,
                 amount: 0,
                 flag: 0,  // 搜索结果分页为1，数据表分页查询为0，用于翻页
-                jump: 'outer',
                 // token
                 tokenStr: '',
             };
@@ -234,76 +233,39 @@
             toggleAdvanced () {
                 this.advanced = !this.advanced
             },
-            checkClick() {
-                this.jump = 'outer'
-            },
             submitList() {
                 this.loading = true
                 const that = this
-                const list = this.formInline
-                if(this.jump === 'outer') {
-                    this.flag = 0
-                    this.current = 1
-                }
-                else{
-                    this.flag = 1
-                }
-                // // console.log(list)
-                if(that.flag===0) {
-                    for (let i in list) {
-                        // // console.log(list[i])
-                        if (list[i]) {
-                            // // console.log("提交表单")
-                            axios.get('backend/goods/getGoods/1/10', {
-                                params: {
-                                    goodsNo: list.goodsNo,
-                                    goodsName: list.goodsName,
-                                    goodsType: list.goodsType,
-                                },
-                                headers: {token: this.tokenStr},
-                                tokenBackend: this.tokenStr
-                            }).then(res => {
-                                if (res.data.code === 3) {
-                                    alert('未能查找到该货品的相关信息！！')
-                                    this.loading = false
-                                    that.tableData = []
-                                } else if (res.data.code === 0) {
-                                    // // console.log(res.data.data.total)
-                                    that.tableData = res.data.data.list
-                                    this.loading = false
-                                    that.total = res.data.data.total
-                                    this.flag = 1
-                                    this.jump = 'inner'
-                                }
-                            }).catch()
-                            break
-                        } else if (i === 'goodsType' && list[i] === '') {
-                            alert("请输入查询信息！！")
-                        } else {
-                            continue
-                        }
+                const list = that.formInline
+                for (let i in list) {
+                    if (list[i]) {
+                        axios.get('backend/goods/getGoods/1/10', {
+                            params: {
+                                goodsNo: list.goodsNo,
+                                goodsName: list.goodsName,
+                                goodsType: list.goodsType,
+                            },
+                            headers: {token: that.tokenStr},
+                            tokenBackend: that.tokenStr
+                        }).then(res => {
+                            if (res.data.code === 3) {
+                                alert('未能查找到该货品的相关信息！！')
+                                that.loading = false
+                                that.tableData = []
+                            } else if (res.data.code === 0) {
+                                that.tableData = res.data.data.list
+                                that.loading = false
+                                that.total = res.data.data.total
+                                that.flag = 1
+                                that.current = 1
+                            }
+                        }).catch()
+                        break
+                    } else if (i === 'goodsType' && list[i] === '') {
+                        alert("请输入查询信息！！")
+                    } else {
+                        continue
                     }
-                }
-                else {
-                    // console.log("此处为跳页结果")
-                    // console.log(this.current, this.pageSize)
-                    axios.get('backend/goods/getGoods/'+this.current+'/'+this.pageSize, {
-                        params: {
-                            goodsNo: list.goodsNo,
-                            goodsName: list.goodsName,
-                            goodsType: list.goodsType,
-                        },
-                        headers: {token: this.tokenStr},
-                        tokenBackend: this.tokenStr
-                    }).then(res => {
-                        if (res.data.code === 3) {
-                            alert('未能查找到该货品的相关信息！！')
-                        } else if (res.data.code === 0) {
-                            that.tableData = res.data.data.list
-                            this.loading = false
-                            that.total = res.data.data.total
-                        }
-                    }).catch()
                 }
             },
             resetInput(){
@@ -328,7 +290,6 @@
                     that.flag = 0
                     this.total = this.amount
                 }).catch()
-                that.jump = 'outer'
             },
             // table
             handleClick(row) {
@@ -339,38 +300,33 @@
             currentPage(currentPage, size){
                 this.loading=true
                 const that = this
-                const datalist = []
-
                 if(that.flag===0){
                     axios.get('backend/goods/listGoods/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
-                        // // console.log(res.data.data)
                         that.tableData = res.data.data
                         this.loading=false
                     }).catch()
-                    // console.log("第一个")
+                    console.log("总表翻页"+that.flag)
                 }
                 else {
-                    // this.submitList()
-                    // this.jump = 'inner'
-                    // console.log("第二个")
                     axios.get('backend/goods/getGoods/'+currentPage+'/'+this.pageSize, {
                         params: {
-                            goodsNo: list.goodsNo,
-                            goodsName: list.goodsName,
-                            goodsType: list.goodsType,
+                            goodsNo: that.formInline.goodsNo,
+                            goodsName: that.formInline.goodsName,
+                            goodsType: that.formInline.goodsType,
                         },
-                        headers: {token: this.tokenStr},
-                        tokenBackend: this.tokenStr
+                        headers: {token: that.tokenStr},
+                        tokenBackend: that.tokenStr
                     }).then(res => {
                         if (res.data.code === 3) {
                             alert('未能查找到该货品的相关信息！！')
                         } else if (res.data.code === 0) {
                             that.tableData = res.data.data.list
-                            this.loading = false
-                            that.total = res.data.data.total
+                            that.loading = false
+                            // that.total = res.data.data.total
                         }
                     }).catch()
+                    console.log("查询结果翻页"+that.flag)
                 }
             },
             onShowSizeChange(current, size) {
@@ -385,8 +341,23 @@
                     }).catch()
                 }
                 else {
-                    this.submitList()
-                    this.jump = 'inner'
+                    axios.get('backend/goods/getGoods/'+this.current+'/'+this.pageSize, {
+                        params: {
+                            goodsNo: list.goodsNo,
+                            goodsName: list.goodsName,
+                            goodsType: list.goodsType,
+                        },
+                        headers: {token: this.tokenStr},
+                        tokenBackend: this.tokenStr
+                    }).then(res => {
+                        if (res.data.code === 3) {
+                            alert('未能查找到该货品的相关信息！！')
+                        } else if (res.data.code === 0) {
+                            that.tableData = res.data.data.list
+                            this.loading = false
+                            // that.total = res.data.data.total
+                        }
+                    }).catch()
                 }
             },
         }

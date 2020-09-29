@@ -11,6 +11,7 @@
                  label-width="0px"
                  class="demo-ruleForm login-page">
             <h3 class="title">林家铺子数据挖掘系统</h3>
+            </br>
             <el-form-item prop="userAccount">
                 <td>用户名</td>
                 <el-input type="text"
@@ -86,7 +87,6 @@
                                 sessionStorage.setItem('user', this.LoginForm.userAccount);
                                 sessionStorage.setItem('token',res.data.data.tokenBackend);
                                 sessionStorage.setItem('limit',res.data.data.userLimit);
-                                sessionStorage.setItem('dis', 'true')
                                 // 首页展示
                                 this.$router.push('/Analysis').catch(err => {});
                             }else{
@@ -97,7 +97,6 @@
                             }
                         })
                     }else{
-                        // console.log('error submit!');
                         return false;
                     }
                 })
@@ -128,7 +127,7 @@
         box-shadow: 0 0 25px #cac6c6;
     }
     .avatar_box {
-        height: 130px;
+        height: 140px;
         width: 250px;
         border-radius:50%;
         /*position: absolute;*/
@@ -141,7 +140,6 @@
         img{
              width:100%;
              height:100%;
-             border-radius:50%;
          }
     }
 </style>

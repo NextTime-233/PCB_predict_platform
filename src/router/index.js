@@ -20,7 +20,11 @@ const router = new Router({
         },
         {
             path: '/SignUp',
-            component:() => import('../components/SignUp')
+            component:() => import('../components/SignUp'),
+            meta: {
+                title: '注册页面',
+                module: '注册'
+            },
         },
         {
             path: '/Index',
@@ -137,8 +141,8 @@ const router = new Router({
             path: '*',
             component:() => import('../views/Error'),
             meta: {
-                title: '404',
-                module: '错误'
+                title: '错误',
+                module: '错误反馈'
             },
         },
     ]

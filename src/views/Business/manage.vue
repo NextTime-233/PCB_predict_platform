@@ -625,7 +625,6 @@
                 total: 200,
                 amount: 0,
                 flag: 0,
-                jump: 'outer',
                 // token
                 tokenStr: '',
                 // 详情标签页
@@ -644,11 +643,10 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
-            // console.log(tokenStr)
             axios.get('backend/order/listOrders/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
-                // console.log(res.data)
+                console.log(res.data)
                 that.data = res.data.data
                 this.loading=false
             }).catch()
@@ -700,98 +698,57 @@
                 const that = this
                 that.loading = true
                 const list = that.orderForm
-                if(this.jump === 'outer') {
-                    this.flag = 0
-                }
-                else{
-                    this.flag = 1
-                }
-                if(that.flag===0) {
-                    for (let i in list) {
-                        console.log(that.tokenStr)
-                        if (list[i]) {
-                            // console.log("1111111111")
-                            axios.get('backend/order/getOrders/1/5', {
-                                params: {
-                                    trade_no: list.trade_no,
-                                    shop_name: list.shop_name,
-                                    pay_account: list.pay_account,
-                                    trade_status: list.trade_status,
-                                    goods_name: list.goods_name,
-                                    trade_type: list.trade_type,
-                                    refund_status: list.refund_status,
-                                    receiver_name: list.receiver_name,
-                                    orderDateStart: list.orderDateStart,
-                                    orderDateEnd: list.orderDateEnd,
-                                    orderPayDateStart: list.orderPayDateStart,
-                                    orderPayDateEnd: list.orderPayDateEnd,
-                                    orderSubmitDateStart: list.orderSubmitDateStart,
-                                    orderSubmitDateEnd: list.orderSubmitDateEnd,
-                                },
-                                headers: {token: that.tokenStr},
-                                tokenBackend: that.tokenStr,
-                            }).then(res => {
-                                // console.log(typeof (res.data.code))
-                                if (res.data.code === 3) {
-                                    alert('未能查找到订单相关信息，订单明细缺失！！')
-                                    // console.log('cuowu')
-                                } else if (res.data.code === 0) {
-                                    that.data = res.data.data.list
-                                    this.loading = false
-                                    console.log(res.data)
-                                    this.total = res.data.data.total
-                                    this.flag = 1
-                                }
-                            }).catch(function (error) {
-                                if (error.response) {
-                                    // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-                                    console.log(error.response.data);
-                                    console.log(error.response.status);
-                                    console.log(error.response.headers);
-                                } else {
-                                    // Something happened in setting up the request that triggered an Error
-                                    console.log('Error', error.message);
-                                }
-                                console.log(error.config);
-                            })
-                            break
-                        } else if (i === 'orderSubmitDateEnd' && list[i] === '') {
-                            alert("请输入查询信息！！")
-                        } else {
-                            continue
-                        }
+                for (let i in list) {
+                    if (list[i]) {
+                        axios.get('backend/order/getOrders/1/5', {
+                            params: {
+                                trade_no: list.trade_no,
+                                shop_name: list.shop_name,
+                                pay_account: list.pay_account,
+                                trade_status: list.trade_status,
+                                goods_name: list.goods_name,
+                                trade_type: list.trade_type,
+                                refund_status: list.refund_status,
+                                receiver_name: list.receiver_name,
+                                orderDateStart: list.orderDateStart,
+                                orderDateEnd: list.orderDateEnd,
+                                orderPayDateStart: list.orderPayDateStart,
+                                orderPayDateEnd: list.orderPayDateEnd,
+                                orderSubmitDateStart: list.orderSubmitDateStart,
+                                orderSubmitDateEnd: list.orderSubmitDateEnd,
+                            },
+                            headers: {token: that.tokenStr},
+                            tokenBackend: that.tokenStr,
+                        }).then(res => {
+                            if (res.data.code === 3) {
+                                alert('未能查找到订单相关信息，订单明细缺失！！')
+                                // console.log('cuowu')
+                            } else if (res.data.code === 0) {
+                                that.data = res.data.data.list
+                                that.loading = false
+                                console.log(res.data)
+                                that.total = res.data.data.total
+                                that.flag = 1
+                                that.current = 1
+                            }
+                        }).catch(function (error) {
+                            if (error.response) {
+                                // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                            } else {
+                                // Something happened in setting up the request that triggered an Error
+                                console.log('Error', error.message);
+                            }
+                            console.log(error.config);
+                        })
+                        break
+                    } else if (i === 'orderSubmitDateEnd' && list[i] === '') {
+                        alert("请输入查询信息！！")
+                    } else {
+                        continue
                     }
-                }
-                else {
-                    axios.get('backend/order/getOrders'+this.current+'/'+ this.pageSize, {
-                        params: {
-                            trade_no: list.trade_no,
-                            shop_name: list.shop_name,
-                            pay_account: list.pay_account,
-                            trade_status: list.trade_status,
-                            goods_name: list.goods_name,
-                            trade_type: list.trade_type,
-                            refund_status: list.refund_status,
-                            receiver_name: list.receiver_name,
-                            orderDateStart: list.orderDateStart,
-                            orderDateEnd: list.orderDateEnd,
-                            orderPayDateStart: list.orderPayDateStart,
-                            orderPayDateEnd: list.orderPayDateEnd,
-                            orderSubmitDateStart: list.orderSubmitDateStart,
-                            orderSubmitDateEnd: list.orderSubmitDateEnd,
-                        },
-                        headers: {token: that.tokenStr},
-                        tokenBackend: that.tokenStr
-                    }).then(res => {
-                        // console.log(typeof (res.data.code))
-                        if (res.data.code === 3) {
-                            alert('未能查找到订单相关信息，订单明细缺失！！')
-                            // console.log('cuowu')
-                        } else if (res.data.code === 0) {
-                            that.data = res.data.data.list
-                            this.loading = false
-                        }
-                    }).catch()
                 }
             },
             resetInput(){
@@ -815,14 +772,13 @@
                     orderSubmitDateEnd: '',
                 }
                 axios.get('backend/order/listOrders/1/5', {headers:{
-                        token: this.tokenStr
+                        token: that.tokenStr
                     }}).then( res => {
                     that.data = res.data.data
-                    this.loading=false
-                    this.flag = 0
-                    this.total = this.amount
+                    that.loading=false
+                    that.flag = 0
+                    that.total = that.amount
                 }).catch()
-                that.jump = 'outer'
             },
             //表格操作JY201904290699
             orderInfo(row){
@@ -878,8 +834,34 @@
                     }).catch()
                 }
                 else {
-                    this.submitList()
-                    this.jump = 'inner'
+                    axios.get('backend/order/getOrders'+currentPage+'/'+ size, {
+                        params: {
+                            trade_no: that.orderForm.trade_no,
+                            shop_name: that.orderForm.shop_name,
+                            pay_account: that.orderForm.pay_account,
+                            trade_status: that.orderForm.trade_status,
+                            goods_name: that.orderForm.goods_name,
+                            trade_type: that.orderForm.trade_type,
+                            refund_status: that.orderForm.refund_status,
+                            receiver_name: that.orderForm.receiver_name,
+                            orderDateStart: that.orderForm.orderDateStart,
+                            orderDateEnd: that.orderForm.orderDateEnd,
+                            orderPayDateStart: that.orderForm.orderPayDateStart,
+                            orderPayDateEnd: that.orderForm.orderPayDateEnd,
+                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
+                        },
+                        headers: {token: that.tokenStr},
+                        tokenBackend: that.tokenStr
+                    }).then(res => {
+                        if (res.data.code === 3) {
+                            alert('未能查找到订单相关信息，订单明细缺失！！')
+                            that.loading = false
+                        } else if (res.data.code === 0) {
+                            that.data = res.data.data.list
+                            that.loading = false
+                        }
+                    }).catch()
                 }
             },
             onShowSizeChange(current, size) {
@@ -894,8 +876,34 @@
                     }).catch()
                 }
                 else {
-                    this.submitList()
-                    this.jump = 'inner'
+                    axios.get('backend/order/getOrders'+current+'/'+ size, {
+                        params: {
+                            trade_no: that.orderForm.trade_no,
+                            shop_name: that.orderForm.shop_name,
+                            pay_account: that.orderForm.pay_account,
+                            trade_status: that.orderForm.trade_status,
+                            goods_name: that.orderForm.goods_name,
+                            trade_type: that.orderForm.trade_type,
+                            refund_status: that.orderForm.refund_status,
+                            receiver_name: that.orderForm.receiver_name,
+                            orderDateStart: that.orderForm.orderDateStart,
+                            orderDateEnd: that.orderForm.orderDateEnd,
+                            orderPayDateStart: that.orderForm.orderPayDateStart,
+                            orderPayDateEnd: that.orderForm.orderPayDateEnd,
+                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
+                        },
+                        headers: {token: that.tokenStr},
+                        tokenBackend: that.tokenStr
+                    }).then(res => {
+                        if (res.data.code === 3) {
+                            alert('未能查找到订单相关信息，订单明细缺失！！')
+                            this.loading = false
+                        } else if (res.data.code === 0) {
+                            that.data = res.data.data.list
+                            this.loading = false
+                        }
+                    }).catch()
                 }
         },
     }

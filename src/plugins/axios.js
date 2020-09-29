@@ -25,7 +25,7 @@ let config = {
   //   tokenBackend: window.sessionStorage.getItem('token')
 };
 let url = {
-    baseURL:'http://192.168.1.112:8080'
+    baseURL:'http://localhost:8080'
 }
 const _axios = axios.create({
     config,
