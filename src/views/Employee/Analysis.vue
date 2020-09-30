@@ -4,7 +4,7 @@
     <div class="togglePage">
       <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" >
         <!--<span>类别维度:{{this.imageData.categoryDimension}}</span>-->
-        <el-tag >用户网名：{{this.Nick1}}</el-tag>
+        <el-tag >用户名：{{this.Nick1}}</el-tag>
         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
 
         <span slot="footer" class="dialog-footer">
@@ -102,7 +102,7 @@
                 <span style="font-size: large;font-weight: bolder">周期维度</span>
 <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="流失客户" class="btn btn-path" >说明</el-button>-->
                 <el-tooltip placement="top">
-                  <div slot="content">稳定客户：近三个月内，累计购买次数大于等于2<br/>流失客户：近三个月内，无购买行为<br/>潜在客户：</div>
+                  <div slot="content">稳定客户：近三个月内，累计购买次数大于等于3<br/>流失客户：近三个月内，无购买行为<br/>潜在客户：近三个月内购买次数大于等于1小于3</div>
                   <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
                 </el-tooltip>
               </div>
@@ -115,12 +115,27 @@
         <el-col>
           <el-col :span="12">
             <el-card shadow="hover">
-              <div ref="PlatPortrait" style="width: 500px;height:300px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">平台维度</span>
+                <el-tooltip placement="top">
+                  <div slot="content">分为天猫、京东、线上、其他和平台跳转这五个平台<br/>其他平台：有赞、淘宝、每日一淘等其他平台用户;<br/>平台跳转：其他平台跳转用户</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="PlatPortrait" style="width: 500px;height:230px;"></div>
             </el-card>
           </el-col>
           <el-col :span="12">
             <el-card shadow="hover">
-              <div ref="PromotionPortrait" style="width: 500px;height:300px;"></div>
+              <div slot="header" class="clearfix">
+                <span style="font-size: large;font-weight: bolder">促销维度</span>
+                <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="流失客户" class="btn btn-path" >说明</el-button>-->
+                <el-tooltip placement="top">
+                  <div slot="content">促销敏感度高：折扣购买率>=50%<br/>促销敏感度低：折扣购买率小于20%</div>
+                  <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
+                </el-tooltip>
+              </div>
+              <div ref="PromotionPortrait" style="width: 500px;height:230px;"></div>
             </el-card>
           </el-col>
         </el-col>
@@ -170,9 +185,11 @@
                   <el-pagination
                       @current-change="handleCurrentChange"
                       layout="prev, pager, next"
+                      :page-size="6"
+                      :pager-count="5"
                       :total="total">
                   </el-pagination></div>
-                <!--              pager-count="3"  page-size="5"-->
+
               </div>
             </el-card>
           </el-col>
@@ -193,6 +210,7 @@ export default {
   data() {
     return {
       topData: [],
+
       // buyerNick1: [],
       customerName1:[],
       customerName2:[],
@@ -227,67 +245,67 @@ export default {
       worddata: [
           {
             name: "",
-            value: 3008
+            value: 7508
           },
         {
             name: "",
-            value: 5386
+            value: 8386
           },
           {
             name: "",
-            value: 4500
+            value: 8500
           },
           {
             name: "",
-            value: 3900
+            value: 7900
           },
           {
             name: "",
-            value: 2500
+            value: 7500
           },
           {
             name: "",
-            value:2000
+            value:7500
           },
           {
             name: "",
-            value: 3800
+            value: 7800
           },
           {
             name: "",
-            value: 2850
+            value: 7850
           },
           {
             name: "",
-            value: 1380
+            value: 7380
           },
         {
           name: "",
-          value: 4500
+          value: 7500
         },
         {
           name: "",
-          value: 3900
+          value: 7900
         },
         {
           name: "",
-          value: 2500
+          value: 7500
         },
         {
           name: "",
-          value:2000
+          value:7600
         },
         {
           name: "",
-          value: 3800
+          value: 7800
         },
         {
           name: "",
-          value: 2850
+          value: 5850
         },
         {
           name: "",
-          value: 1380
+          value: 7900
         },
       ],
       //每行数据
@@ -490,7 +508,7 @@ export default {
       let sumTotalPurchaseNum = that.sumTotalPurchaseNum
       // let buyerNick1 = that.buyerNick1
       let customerName1 = that.customerName1
-      axios.get('backend/data/getTPNTopTen', {
+      axios.get('http://192.168.1.105:8080/backend/data/getTPNTopTen', {
         headers: {
           token: this.tokenStr
         }
@@ -525,7 +543,8 @@ export default {
                 containLabel: true
               },
               xAxis: {
-                type: 'value',
+                // type: 'value',
+                type: 'log',
                 boundaryGap: [0, 0.01],
                 axisLabel : {
 
@@ -612,7 +631,7 @@ export default {
       const that = this//
       let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
       let customerName2 = that.customerName2
-      axios.get('backend/data/getTPATopTen', {
+      axios.get('http://192.168.1.105:8080/backend/data/getTPATopTen', {
         headers: {
           token: this.tokenStr
         }
@@ -652,6 +671,7 @@ export default {
               },
               xAxis: {
                 type: 'value',
+                // type: 'log',
                 boundaryGap: [0, 0.001],
                 axisLabel : {
 
@@ -728,7 +748,7 @@ export default {
       const that = this
       let terminalCus = that.terminalCus
       let distributionCus = that.distributionCus
-      axios.get('backend/data/CusCatePortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusCatePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -762,6 +782,7 @@ export default {
                 data: ["终端", "分销"]
               },
               yAxis: {
+                type: 'log',
                 //nameRotate:0.1,//使用这个属性
                 // data : that.terminalCus,
                 // data : that.distributionCus
@@ -800,7 +821,7 @@ export default {
       const that = this
       let oldCustomer = that.oldCustomer
       let newCustomer = that.newCustomer
-      axios.get('backend/data/CusTimePortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusTimePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -833,6 +854,7 @@ export default {
                 data: ["老用户", "新用户"]
               },
               yAxis: {
+                // type: 'log',
                 // data : that.terminalCus,
                 // data : that.distributionCus
               },
@@ -871,7 +893,7 @@ export default {
       const that = this
       let lowSales = that.lowSales
       let highSales = that.highSales
-      axios.get('backend/data/CusSalesPortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusSalesPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -904,6 +926,7 @@ export default {
                 data: ["低销量", "高销量"]
               },
               yAxis: {
+                type: 'log',
                 // data : that.terminalCus,
                 // data : that.distributionCus
               },
@@ -940,7 +963,7 @@ export default {
       const that = this
       let lowVal = that.lowVal
       let highVal = that.highVal
-      axios.get('backend/data/CusValPortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusValPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -952,13 +975,18 @@ export default {
             // console.log(sumTotalPurchaseNum)
             lowVal[0] = res.data.data[0].lowVal
             highVal[0] = res.data.data[0].highVal
-            // console.log('低价值：' + lowVal[0])
-            // console.log('高价值' + highVal[0])
+            console.log('低价值：' + lowVal[0])
+            console.log('高价值' + highVal[0])
             const option1 = {
               // title: {
               //   text: '价值维度',
               // },
-              tooltip: {},
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow'
+                }
+              },
 
               legend: {
                 data: ['人数']
@@ -974,9 +1002,17 @@ export default {
                 data: ["低价值", "高价值"]
               },
               yAxis: {
+                type: 'log',
                 // data : that.terminalCus,
                 // data : that.distributionCus
               },
+              // emphasis: {
+              //   label: {
+              //     show: true,
+              //     fontSize: '30',
+              //     fontWeight: 'bold'
+              //   }
+              // },
               series: [
                 {
                   // name: '2020年',
@@ -1012,7 +1048,7 @@ export default {
       const that = this
       let highRepurchase = that.highRepurchase
       let lowRepurchase = that.lowRepurchase
-      axios.get('backend/data/CusRepurchasePortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusRepurchasePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1046,6 +1082,7 @@ export default {
                 data: ["高复购", "低复购"]
               },
               yAxis: {
+                type: 'log',
                 // data : that.terminalCus,
                 // data : that.distributionCus
               },
@@ -1083,7 +1120,7 @@ export default {
       let stableCus = that.stableCus
       let potentialCus = that.potentialCus
       let lossCus = that.lossCus
-      axios.get('backend/data/CusCyclePortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusCyclePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1119,6 +1156,7 @@ export default {
                 data: ["稳定", "流失", "潜在"]
               },
               yAxis: {
+                type: 'log',
                 // data : that.terminalCus,
                 // data : that.distributionCus
               },
@@ -1157,7 +1195,7 @@ export default {
       let offlineCus = that.offlineCus//线下
       let otherCus = that.otherCus//其他平台
       let mulPlatformsCus = that.mulPlatformsCus//其他平台
-      axios.get('backend/data/CusPlatPortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusPlatPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1167,6 +1205,7 @@ export default {
             // console.log('平台res数据：' + res.data)
             // sumTotalPurchaseNum = res.data.data[0].sumTotalPurchaseNum
             // console.log(sumTotalPurchaseNum)
+            console.log(res.data)
             tianMaoCus[0] = res.data.data[0].tianMaoCus
             jingDongCus[0] = res.data.data[0].jingDongCus
             offlineCus[0] = res.data.data[0].offlineCus
@@ -1184,10 +1223,17 @@ export default {
                 /*内容格式器，一共有abcd四个代号，例如在饼图中，{a}指系列，即流量来源，{b}指数据项目，如搜索引擎，{c}指数值，如
             value，{d}百分比。{x}本身代表了相应字符，可以和其他字符拼凑，在弹窗中显示 */
               },
+              grid: {
+                top:'3%',
+                left: '6%',
+                right: '3%',
+                bottom: '5%',
+                containLabel: true
+              },
               legend: {
                 orient: 'vertical',
                 left: 10,
-                data: ['天猫', '京东', '线下', '其他', '跨平台']
+                data: ['天猫', '京东', '线下', '其他', '平台跳转']
               },
               series: [
                 {
@@ -1214,7 +1260,7 @@ export default {
                     {value: jingDongCus[0] , name: '京东'},
                     {value: offlineCus[0] , name: '线下'},
                     {value: otherCus[0] , name: '其他'},
-                    {value: mulPlatformsCus[0] , name: '多平台'}
+                    {value: mulPlatformsCus[0], name: '平台跳转'}
                   ]
                 }
               ]
@@ -1233,7 +1279,7 @@ export default {
       const that = this
       let highSensitivity = that.highSensitivity//促销敏感度高
       let lowSensitivity = that.lowSensitivity//促销敏感度低
-      axios.get('backend/data/CusPromotionPortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusPromotionPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1255,9 +1301,10 @@ export default {
             value，{d}百分比。{x}本身代表了相应字符，可以和其他字符拼凑，在弹窗中显示 */
               },
               grid: {
+                top:'3%',
                 left: '6%',
                 right: '3%',
-                bottom: '3%',
+                bottom: '5%',
                 containLabel: true
               },
               legend: {
@@ -1272,6 +1319,8 @@ export default {
                   type: 'pie',
                   radius: ['50%', '70%'],
                   avoidLabelOverlap: false,
+                  startAngle:75,
+                  minAngle: 40,
                   label: {
                     show: false,
                     position: 'center'
@@ -1321,7 +1370,7 @@ export default {
       const myChartChina = this.$echarts.init(myChartContainer);
       const mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
       const that = this
-      axios.get('backend/data/CusRegPortraitAnalysis', {
+      axios.get('http://192.168.1.105:8080/backend/data/CusRegPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1337,8 +1386,49 @@ export default {
               // console.log("总人数"+that.totalPeople)
             }
             for (let i = 0; i < res.data.data.length; i++) {
+              // console.log(res.data.data[i].name)
               if ((res.data.data[i].name + "").search("省") != -1) {
                 mapname = (res.data.data[i].name + "").replace(/省/, "")
+                mapvalue = res.data.data[i].value
+                let obj = {
+                  name: mapname,
+                  value: mapvalue,
+                  math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
+                }
+                that.resData.push(obj)
+              }
+              else if ((res.data.data[i].name + "").search("特别行政区") != -1) {
+                mapname = (res.data.data[i].name + "").replace(/特别行政区/, "")
+                mapvalue = res.data.data[i].value
+                let obj = {
+                  name: mapname,
+                  value: mapvalue,
+                  math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
+                }
+                that.resData.push(obj)
+              }
+              else if ((res.data.data[i].name + "").search("维吾尔自治区") != -1) {
+                mapname = (res.data.data[i].name + "").replace(/维吾尔自治区/, "")
+                mapvalue = res.data.data[i].value
+                let obj = {
+                  name: mapname,
+                  value: mapvalue,
+                  math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
+                }
+                that.resData.push(obj)
+              }
+              else if ((res.data.data[i].name + "").search("壮族自治区") != -1) {
+                mapname = (res.data.data[i].name + "").replace(/壮族自治区/, "")
+                mapvalue = res.data.data[i].value
+                let obj = {
+                  name: mapname,
+                  value: mapvalue,
+                  math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
+                }
+                that.resData.push(obj)
+              }
+              else if ((res.data.data[i].name + "").search("回族自治区") != -1) {
+                mapname = (res.data.data[i].name + "").replace(/回族自治区/, "")
                 mapvalue = res.data.data[i].value
                 let obj = {
                   name: mapname,
@@ -1357,16 +1447,7 @@ export default {
                 }
                 that.resData.push(obj)
               }
-              // else if ((res.data.data[i].name + "").search("壮族") != -1) {
-              //   mapname = (res.data.data[i].name + "").replace(/壮族/, "")
-              //   mapvalue = res.data.data[i].value
-              //   let obj = {
-              //     name: mapname,
-              //     value: mapvalue,
-              //     math: ((parseInt(res.data.data[i].value) * 100 / that.totalPeople).toFixed(2)) + '%'
-              //   }
-              //   that.resData.push(obj)
-              // }
+
               else {
                 let obj = {
                   name: res.data.data[i].name,
@@ -1458,10 +1539,10 @@ export default {
             }
           })
     },
-    dateOnChange(date, dateString) {//date 绑定值，dateString日期数组
-      this.Form.orderPayDateStart = dateString[0]//开始日期
-      this.Form.orderPayDateEnd = dateString[1]//结束日期
-    },
+    // dateOnChange(date, dateString) {//date 绑定值，dateString日期数组
+    //   this.Form.orderPayDateStart = dateString[0]//开始日期
+    //   this.Form.orderPayDateEnd = dateString[1]//结束日期
+    // },
     // 分页
     handleCurrentChange(currentPage) {
       // console.log("当前页码")
@@ -1494,10 +1575,10 @@ export default {
     // 词云图
     initChart() {
       const WordCloud = this.$refs.WordCloud
-      console.log('lll');
+      // console.log('lll');
       if (WordCloud) {
         const myChart = this.$echarts.init(WordCloud)
-        console.log('5555');
+        // console.log('5555');
         const option = {
           backgroundColor: "#fff",
           series: [
@@ -1537,7 +1618,7 @@ export default {
         })
       }
       // }
-      console.log('6666');
+      // console.log('6666');
       // chart.setOption(option);
     },
     // handleClose(done) {
@@ -1583,8 +1664,8 @@ export default {
 .footer{
   position: absolute;
   bottom: 30px;/* 底部距离bai为0 */
-  right:40px;
-  background-color: #f6f5f5;
+  right:20px;
+  //background-color: #f6f5f5;
 
 }
 .btn-wrap{

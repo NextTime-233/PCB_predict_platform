@@ -13,56 +13,27 @@
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6" >
-                                    <a-form-item label="货品总数" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input placeholder="请输入" size="small" v-model="clientForm.goodsCount"/>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6" >
                                     <a-form-item label="购买总金额" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
                                         <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseAmount"/>
                                     </a-form-item>
                                 </a-col>
+                                <a-col :span="6" >
+                                    <a-form-item label="购买总量" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseNum"/>
+                                    </a-form-item>
+                                </a-col>
                                 <a-col :md="6" >
-                                    <a-form-item label="购买次数" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseNum"/>
+                                    <a-form-item label="省份" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.province"/>
                                     </a-form-item>
                                 </a-col>
                             </a-row>
                             <a-row v-if="advanced"  :gutter="8">
-                                <a-col :md="6" >
-                                    <a-form-item label="货品种类总数" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input-number style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.goodsTypeCount"/>
+                                <a-col :span="6" >
+                                    <a-form-item label="城市" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input placeholder="请输入" size="small" v-model="clientForm.city"/>
                                     </a-form-item>
                                 </a-col>
-<!--                                <a-col :md="6" >-->
-<!--                                    <a-form-item-->
-<!--                                            label="购买品牌"-->
-<!--                                            :labelCol="{span:7}"-->
-<!--                                            :wrapperCol="{span: 12, offset: 1}"-->
-<!--                                    >-->
-<!--                                        <a-select show-search placeholder="请选择" size="small" v-model="clientForm.BrandName">                                            <a-select-option value="1">四喜</a-select-option>-->
-<!--                                            <a-select-option value="2">八宝</a-select-option>-->
-<!--                                        </a-select>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
-<!--                                <a-col :md="6" >-->
-<!--                                    <a-form-item label="客户标签" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">-->
-<!--                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.clientLabel">-->
-<!--                                            <a-select-option value="地区">地区</a-select-option>-->
-<!--                                            <a-select-option value="年龄">年龄</a-select-option>-->
-<!--                                        </a-select>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
-<!--                                <a-col :md="6" >-->
-<!--                                    <a-form-item label="所属店铺" :labelCol="{span:7}" :wrapperCol="{span: 12, offset: 1}">-->
-<!--                                        <a-select show-search placeholder="请选择" size=small v-model="clientForm.shopName">-->
-<!--                                            <a-select-option value="天猫">天猫</a-select-option>-->
-<!--                                            <a-select-option value="淘宝">淘宝</a-select-option>-->
-<!--                                            <a-select-option value="其他">其他</a-select-option>-->
-<!--                                        </a-select>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
-<!--                                调整-->
                                 <a-col :md="6" >
                                     <a-form-item
                                             label="客户登记时间"
@@ -80,57 +51,11 @@
                                             :labelCol="{span: 7}"
                                             :wrapperCol="{span: 15, offset: 1}"
                                     >
-                                        <a-range-picker @change="payOnChange" size="small" :value="createValueP">
+                                        <a-range-picker @change="shoppingOnChange" size="small" :value="createValueP">
                                             <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
                                         </a-range-picker>
                                     </a-form-item>
                                 </a-col>
-                            </a-row>
-                            <a-row v-if="advanced"  :gutter="16">
-<!--                                <a-col :md="7" >-->
-<!--                                    <a-form-item-->
-<!--                                            label="生日区间"-->
-<!--                                            :labelCol="{span: 7}"-->
-<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
-<!--                                    >-->
-<!--                                        <a-range-picker @change="birthdayOnChange" size="small" :value="createValueB">-->
-<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
-<!--                                        </a-range-picker>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
-<!--                                <a-col :md="7" >-->
-<!--                                    <a-form-item-->
-<!--                                            label="客户登记时间"-->
-<!--                                            :labelCol="{span: 7}"-->
-<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
-<!--                                    >-->
-<!--                                        <a-range-picker @change="registerOnChange" size="small" :value="createValueR">-->
-<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
-<!--                                        </a-range-picker>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
-<!--                                <a-col :md="7" >-->
-<!--                                    <a-form-item-->
-<!--                                            label="付款时间"-->
-<!--                                            :labelCol="{span: 7}"-->
-<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
-<!--                                    >-->
-<!--                                        <a-range-picker @change="payOnChange" size="small" :value="createValueP">-->
-<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
-<!--                                        </a-range-picker>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
-<!--                                <a-col :md="7" >-->
-<!--                                    <a-form-item-->
-<!--                                            label="购物时间"-->
-<!--                                            :labelCol="{span: 7}"-->
-<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
-<!--                                    >-->
-<!--                                        <a-range-picker @change="shoppingOnChange" size="small" :value="createValueS">-->
-<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon"/>-->
-<!--                                        </a-range-picker>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
                             </a-row>
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
@@ -502,22 +427,17 @@
                 <div>
                     <a-tabs default-active-key="1" @change="callback">
                         <a-tab-pane key="1" tab="历史订单">
+                            <span v-if="orderDetail">您正在查看用户---{{orderDetail}}---的历史订单</span>
+                            </br>
                             <el-table
                                     :data="historyData"
                                     style="width: 100%"
                                     height="270"
                                     v-loading="loading0">
                                     <el-table-column
-                                            fixed
-                                            prop="tradeTime"
-                                            label="下单时间"
-                                            width="160">
-                                    </el-table-column>
-                                    <el-table-column
-                                            fixed
                                             prop="tradeNo"
                                             label="订单编号"
-                                            width="160">
+                                            width="150">
                                     </el-table-column>
                                     <el-table-column
                                             prop="platformType"
@@ -538,6 +458,11 @@
                                             prop="warehouseType"
                                             label="仓库类型"
                                             width="120">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="tradeTime"
+                                            label="下单时间"
+                                            width="160">
                                     </el-table-column>
                                     <el-table-column
                                             prop="srcTids"
@@ -705,11 +630,11 @@
                                 </el-table>
                             <span>共{{total0}}条数据</span>
                             <div class="page-roll">
+<!--                     show-size-changer
+                                        show-quick-jumper           -->
                                 <a-pagination
                                         v-model="current0"
                                         :total="total0"
-                                        show-size-changer
-                                        show-quick-jumper
                                         :page-size="pageSize0"
                                         @showSizeChange="onShowSizeChange0"
                                         @change="currentPage0"
@@ -742,21 +667,16 @@
                 clientType: '1',  // 客户类型，默认为普通客户1
                 clientForm: {
                     customerName:'',
+                    TotalPurchaseAmount:'',
+                    TotalPurchaseNum:'',
+                    province:'',
+                    city:'',
+                    LastPurchaseTimeDateStart:'',
+                    LastPurchaseTimeDateEnd:'',
                     registrationTimeDateStart:'',
                     registrationTimeDateEnd:'',
                     PayDateStart:'',
                     PayDateEnd:'',
-                    BirthdayTimeDateStart:'',
-                    BirthdayTimeDateEnd:'',
-                    shopName:'',
-                    goodsCount:'',
-                    TotalPurchaseAmount:'',
-                    TotalPurchaseNum:'',
-                    goodsTypeCount:'',
-                    BrandName:'',
-                    LastPurchaseTimeDateStart:'',
-                    LastPurchaseTimeDateEnd:'',
-                    clientLabel:''
                 },
                 advanced: false,
                 createValueB:[],
@@ -782,6 +702,7 @@
                 tokenStr: '',
                 // 标签页
                 historyData:[],
+                orderDetail:''
             };
         },
         created() {
@@ -842,18 +763,6 @@
                 }
             },
             // 日期选择框
-            birthdayOnChange(date, dateString) {
-                this.createValueB = date;
-                this.clientForm.BirthdayTimeDateStart = dateString[0]
-                this.clientForm.BirthdayTimeDateEnd = dateString[1]
-                // // console.log(typeof (dataString))
-                // // console.log(this.clientForm.BirthdayTimeDateEnd)
-            },
-            payOnChange(date, dateString) {
-                this.createValueP = date;
-                this.clientForm.PayDateStart = dateString[0]
-                this.clientForm.PayDateEnd = dateString[1]
-            },
             shoppingOnChange(date, dateString) {
                 this.createValueS = date
                 this.clientForm.LastPurchaseTimeDateStart = dateString[0]
@@ -878,30 +787,30 @@
                             axios.get('backend/customer/getCustomers/1/5', {
                                 params: {
                                     customerName: list.customerName,
-                                    registrationTimeDateStart: list.registrationTimeDateStart,
-                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                    PayDateStart: list.PayDateStart,
-                                    PayDateEnd: list.PayDateEnd,
-                                    BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                    BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                    shopName: list.shopName,
-                                    goodsCount: list.goodsCount,
                                     TotalPurchaseAmount: list.TotalPurchaseAmount,
                                     TotalPurchaseNum: list.TotalPurchaseNum,
-                                    goodsTypeCount: list.goodsTypeCount,
-                                    BrandName: list.BrandName,
+                                    province:list.province,
+                                    city:list.city,
                                     LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
                                     LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                                    PayDateStart: list.PayDateStart,
+                                    PayDateEnd: list.PayDateEnd,
+                                    registrationTimeDateStart: list.registrationTimeDateStart,
+                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
                                 },
                                 headers: {token: that.tokenStr},
                                 tokenBackend: that.tokenStr
                             }).then(res => {
                                 if (res.data.code === 3) {
-                                    alert('未能查找到该客户的相关信息！！')
+                                    this.$message.error('未能查找到该客户的相关信息！！')
                                 } else if (res.data.code === 0) {
+                                    this.$message({
+                                        message: '查询客户信息成功！',
+                                        type: 'success'
+                                    });
                                     that.tableData = res.data.data.list
                                     that.loading = false
-                                    that.total = res.data.total
+                                    that.total = res.data.data.total
                                     that.flag = 1
                                     that.current = 1
                                 }
@@ -912,30 +821,28 @@
                             axios.get('backend/customer/selectImpCustomersFromCustomerIm/1/5', {
                                 params: {
                                     customerName: list.customerName,
-                                    registrationTimeDateStart: list.registrationTimeDateStart,
-                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
-                                    PayDateStart: list.PayDateStart,
-                                    PayDateEnd: list.PayDateEnd,
-                                    BirthdayTimeDateStart: list.BirthdayTimeDateStart,
-                                    BirthdayTimeDateEnd: list.BirthdayTimeDateEnd,
-                                    shopName: list.shopName,
-                                    goodsCount: list.goodsCount,
                                     TotalPurchaseAmount: list.TotalPurchaseAmount,
                                     TotalPurchaseNum: list.TotalPurchaseNum,
-                                    goodsTypeCount: list.goodsTypeCount,
-                                    BrandName: list.BrandName,
+                                    province:list.province,
+                                    city:list.city,
                                     LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
                                     LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
+                                    PayDateStart: list.PayDateStart,
+                                    PayDateEnd: list.PayDateEnd,
+                                    registrationTimeDateStart: list.registrationTimeDateStart,
+                                    registrationTimeDateEnd: list.registrationTimeDateEnd,
                                 },
                                 headers: {token: that.tokenStr},
                                 tokenBackend: that.tokenStr
                             }).then(res => {
-                                console.log("此处为查询的返回值")
-                                console.log(res)
                                 if (res.data.code === 3) {
-                                    alert('未能查找到该客户的相关信息！！')
+                                    this.$message.error('未能查找到该客户的相关信息！！')
                                     that.loading = false
                                 } else if (res.data.code === 0) {
+                                    this.$message({
+                                        message: '查询客户信息成功！',
+                                        type: 'success'
+                                    });
                                     that.importantData = res.data.data.list
                                     that.loading = false
                                     that.total = res.data.total
@@ -946,7 +853,8 @@
                             break
                         }
                     } else if (i === 'LastPurchaseTimeDateEnd' && list[i] === '') {
-                        alert("请输入查询信息！！")
+                        this.$message.error('请输入查询信息！！')
+                        this.loading = false
                     } else {
                         continue
                     }
@@ -958,44 +866,40 @@
                 document.getElementById("cForm").reset()
                 that.clientForm = {
                     customerName:'',
+                    TotalPurchaseAmount:'',
+                    TotalPurchaseNum:'',
+                    province:'',
+                    city:'',
+                    LastPurchaseTimeDateStart:'',
+                    LastPurchaseTimeDateEnd:'',
                     registrationTimeDateStart:'',
                     registrationTimeDateEnd:'',
                     PayDateStart:'',
                     PayDateEnd:'',
-                    BirthdayTimeDateStart:'',
-                    BirthdayTimeDateEnd:'',
-                    shopName:'',
-                    goodsCount:'',
-                    TotalPurchaseAmount:'',
-                    TotalPurchaseNum:'',
-                    goodsTypeCount:'',
-                    BrandName:'',
-                    LastPurchaseTimeDateStart:'',
-                    LastPurchaseTimeDateEnd:'',
-                    clientLabel:''
                 }
                 that.createValueB=[]
                 that.createValueP=[]
                 that.createValueR=[]
                 that.createValueS=[]
-                // axios.get('backend/customer/listCustomers/1/5', {headers:{
-                //         token: this.tokenStr
-                //     }}).then( res => {
-                //     // // console.log(res.data)
-                //     that.tableData = res.data.data
-                //     this.loading=false
-                //     that.total = that.amount
-                //     that.flag = 0
-                // }).catch()
-               that.showClient()
+                axios.get('backend/customer/listCustomers/1/5', {headers:{
+                        token: this.tokenStr
+                    }}).then( res => {
+                    // // console.log(res.data)
+                    that.tableData = res.data.data
+                    this.loading=false
+                    that.total = that.amount
+                    that.flag = 0
+                }).catch()
+                this.$message('搜索表单已重置！');
+                that.showClient()
             },
             // el表格
             handleClick(row) {
                 const that = this
                 that.loading0 = true
-                // console.log('输出用户网名'+that.tokenStr)
+                console.log("行")
                 console.log(row.buyerNick)
-                if(this.flag === 0){
+                if(this.flag0 === 0){
                     axios.get('backend/order/OrderHistory/1/5',{
                         params: {
                             buyerNick: row.buyerNick,
@@ -1004,33 +908,41 @@
                     }).then(res => {
                         // console.log(res.data.data)
                         if(res.data.data === null){
-                            alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
+                            this.$message.error('未能查找到用户'+row.buyerNick+"的历史订单！")
                             that.loading0 = false
                         }else{
-                            alert("查找用户"+row.buyerNick+"的历史订单成功！！")
+                            this.$message({
+                                message: "查找用户"+row.buyerNick+"的历史订单成功！！",
+                                type: 'success'
+                            });
                             that.historyData = res.data.data.list
+                            that.orderDetail = row.buyerNick
                             that.total0 = res.data.data.total
                         }
                         that.loading0 = false
                     }).catch()
                 }
                else {
-                    axios.get('backend/order/OrderHistory/'+this.current+'/'+this.pageSize,{
+                   console.log("调用我")
+                   console.log(this.current0,this.pageSize0)
+                    axios.get('backend/order/OrderHistory/'+this.current0+'/'+this.pageSize0,{
                         params: {
                             buyerNick: row.buyerNick,
                         },
                         headers:{token: that.tokenStr},
                     }).then(res => {
-                        that.loading0 = false
                         if(res.data.data === null){
-                            alert("未能查找到用户"+row.buyerNick+"的历史订单！！")
+                            this.$message.error('未能查找到用户'+row.buyerNick+"的历史订单！")
                             that.loading0 = false
                         }else{
-                            alert("查找用户"+row.buyerNick+"的历史订单成功！！")
+                            this.$message({
+                                message: "查找用户"+row.buyerNick+"的历史订单成功！！",
+                                type: 'success'
+                            });
                             that.historyData = res.data.data.list
                             that.total0 = res.data.data.total
+                            that.loading0 = false
                         }
-                        that.loading0 = false
                     }).catch()
                 }
             },
@@ -1055,20 +967,16 @@
                         axios.get('backend/customer/selectImpCustomersFromCustomerIm/'+currentPage+'/'+ size, {
                             params: {
                                 customerName: that.clientForm.customerName,
-                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
-                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
-                                PayDateStart: that.clientForm.PayDateStart,
-                                PayDateEnd: that.clientForm.PayDateEnd,
-                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
-                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
-                                shopName: that.clientForm.shopName,
-                                goodsCount: that.clientForm.goodsCount,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                goodsTypeCount: that.clientForm.goodsTypeCount,
-                                BrandName: that.clientForm.BrandName,
+                                province:that.clientForm.province,
+                                city:that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
                             },
                             headers: {token: this.tokenStr},
                             tokenBackend: this.tokenStr
@@ -1094,23 +1002,19 @@
                     }
                     else {
                         console.log("普通客户查询分页"+that.clientType)
-                        axios.get('backend/customer/getCustomers/'+currentPaget+'/'+ size, {
+                        axios.get('backend/customer/getCustomers/'+currentPage+'/'+ size, {
                             params: {
                                 customerName: that.clientForm.customerName,
-                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
-                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
-                                PayDateStart: that.clientForm.PayDateStart,
-                                PayDateEnd: that.clientForm.PayDateEnd,
-                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
-                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
-                                shopName: that.clientForm.shopName,
-                                goodsCount: that.clientForm.goodsCount,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                goodsTypeCount: that.clientForm.goodsTypeCount,
-                                BrandName: that.clientForm.BrandName,
+                                province:that.clientForm.province,
+                                city:that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
                             },
                             headers: {token: that.tokenStr},
                             tokenBackend: that.tokenStr
@@ -1144,20 +1048,16 @@
                         axios.get('backend/customer/selectImpCustomersFromCustomerIm/'+this.current+'/'+ size, {
                             params: {
                                 customerName: that.clientForm.customerName,
-                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
-                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
-                                PayDateStart: that.clientForm.PayDateStart,
-                                PayDateEnd: that.clientForm.PayDateEnd,
-                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
-                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
-                                shopName: that.clientForm.shopName,
-                                goodsCount: that.clientForm.goodsCount,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                goodsTypeCount: that.clientForm.goodsTypeCount,
-                                BrandName: that.clientForm.BrandName,
+                                province:that.clientForm.province,
+                                city:that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
                             },
                             headers: {token: this.tokenStr},
                             tokenBackend: this.tokenStr
@@ -1186,20 +1086,16 @@
                         axios.get('backend/customer/getCustomers/'+ current +'/'+ size, {
                             params: {
                                 customerName: that.clientForm.customerName,
-                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
-                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
-                                PayDateStart: that.clientForm.PayDateStart,
-                                PayDateEnd: that.clientForm.PayDateEnd,
-                                BirthdayTimeDateStart: that.clientForm.BirthdayTimeDateStart,
-                                BirthdayTimeDateEnd: that.clientForm.BirthdayTimeDateEnd,
-                                shopName: that.clientForm.shopName,
-                                goodsCount: that.clientForm.goodsCount,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                goodsTypeCount: that.clientForm.goodsTypeCount,
-                                BrandName: that.clientForm.BrandName,
+                                province:that.clientForm.province,
+                                city:that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
+                                PayDateStart: that.clientForm.PayDateStart,
+                                PayDateEnd: that.clientForm.PayDateEnd,
+                                registrationTimeDateStart: that.clientForm.registrationTimeDateStart,
+                                registrationTimeDateEnd: that.clientForm.registrationTimeDateEnd,
                             },
                             headers: {token: that.tokenStr},
                             tokenBackend: that.tokenStr
@@ -1217,7 +1113,8 @@
                 console.log("历史订单分页")
                 const that = this
                 that.loading0 = true
-                if(that.flag0===0){
+                if(that.clientType==='0'){
+                    console.log("历史订单分页")
                     axios.get('backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         that.tableData = res.data.data
@@ -1226,8 +1123,7 @@
                 }
                 else {
                     console.log("翻页"+currentPage)
-                    this.submitList()
-                    this.jump = 'inner'
+                    this.handleClick()
                 }
             },
             onShowSizeChange0(current, size) {
@@ -1235,7 +1131,7 @@
                 this.pageSize0 = size
                 const that = this
                 that.loading0 = true
-                if(that.flag0===0){
+                if(that.clientType==='0'){
                     axios.get('backend/customer/listCustomers/'+current+'/'+size, {headers:{
                             token : this.tokenStr}}).then(res => {
                         that.tableData = res.data.data
@@ -1244,8 +1140,7 @@
                 }
                 else {
                     console.log("页面容量变动"+size)
-                    this.submitList()
-                    this.jump = 'inner'
+                    this.handleClick()
                 }
             },
             // 标签页

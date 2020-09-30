@@ -8,6 +8,18 @@
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row :gutter="16">
                                 <a-col :span="6">
+                                    <a-form-item label="订单编号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="orderForm.trade_no" size="small">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6">
+                                    <a-form-item label="平台类型" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="orderForm.platform_type" size="small">
+                                        </a-input>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="6">
 <!--                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">-->
 <!--                                        <a-select-->
 <!--                                                mode="multiple"-->
@@ -26,20 +38,8 @@
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
-                                    <a-form-item label="订单编号" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.trade_no" size="small">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6">
-                                    <a-form-item label="付款账户" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.pay_account" size="small">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6">
-                                    <a-form-item label="收件人姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.receiver_name" size="small">
+                                    <a-form-item label="客户网名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                        <a-input v-model="orderForm.buyer_nick" size="small">
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
@@ -71,31 +71,6 @@
 <!--                                    </a-form-item>-->
 <!--                                </a-col>-->
                             </a-row>
-                            <a-row type="flex" v-if="advanced">
-                                <a-col :span="6">
-                                    <a-form-item label="货品名称" :labelCol="{span: 8}" :wrapperCol="{span: 14, offset: 1}">
-                                        <a-input v-model="orderForm.goods_name" size="small">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6">
-                                    <a-form-item label="订单类型" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.trade_type" size="small">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="6">
-                                    <a-form-item label="退款状态" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input v-model="orderForm.refund_status" size="small">
-                                        </a-input>
-                                    </a-form-item>
-                                </a-col>
-<!--                                <a-col :span="6">-->
-<!--                                    <a-form-item label="收件人姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">-->
-<!--                                        <a-input v-model="orderForm.receiver_name" size="small">-->
-<!--                                        </a-input>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
                             </a-row>
                             <a-row v-if="advanced"  :gutter="16">
                                 <a-col :md="7" >
@@ -120,17 +95,6 @@
                                         </a-range-picker>
                                     </a-form-item>
                                 </a-col>
-<!--                                <a-col :md="7" >-->
-<!--                                    <a-form-item-->
-<!--                                            label="递交周期"-->
-<!--                                            :labelCol="{span: 7}"-->
-<!--                                            :wrapperCol="{span: 15, offset: 1}"-->
-<!--                                    >-->
-<!--                                        <a-range-picker @change="deliverOnChange" size="small">-->
-<!--                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
-<!--                                        </a-range-picker>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
                             </a-row>
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
@@ -374,9 +338,8 @@
                 <a-tabs default-active-key="1">
                     <a-tab-pane key="1">
                       <span slot="tab">
-                        <a-icon type="apple" />
-                        货品列表
-                      </span>
+                        <a-icon type="apple" />货品列表</span>
+                        <span v-if="orderDetails">您正在查看订单{{orderDetails}}详细信息</span>
                         <el-table
                                 :data="tableData"
                                 border
@@ -392,7 +355,7 @@
                                     fixed
                                     prop="goodsName"
                                     label="货品名称"
-                                    width="180">
+                                    width="160">
                             </el-table-column>
                             <el-table-column
                                     prop="shortName"
@@ -599,17 +562,11 @@
                 selectedItems: [],
                 orderForm: {
                     trade_no: '',
+                    platform_type: '',
                     shop_name: '',
-                    pay_account: '',
-                    trade_status: '',
-                    goods_name: '',
-                    trade_type: '',
-                    refund_status: '',
-                    receiver_name: '',
+                    buyer_nick:'',
                     orderDateStart: '',
                     orderDateEnd: '',
-                    orderPayDateStart: '',
-                    orderPayDateEnd: '',
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 },
@@ -631,7 +588,8 @@
                 dt: false,
                 valueOfCol:{},
                 // 标签
-                tableData:[]
+                tableData:[],
+                orderDetails:''
             };
         },
         computed: {
@@ -703,17 +661,13 @@
                         axios.get('backend/order/getOrders/1/5', {
                             params: {
                                 trade_no: list.trade_no,
+                                platform_type: list.platform_type,
                                 shop_name: list.shop_name,
-                                pay_account: list.pay_account,
-                                trade_status: list.trade_status,
-                                goods_name: list.goods_name,
-                                trade_type: list.trade_type,
-                                refund_status: list.refund_status,
-                                receiver_name: list.receiver_name,
+                                buyer_nick:list.buyer_nick,
                                 orderDateStart: list.orderDateStart,
                                 orderDateEnd: list.orderDateEnd,
-                                orderPayDateStart: list.orderPayDateStart,
-                                orderPayDateEnd: list.orderPayDateEnd,
+                                orderSubmitDateStart: list.orderSubmitDateStart,
+                                orderSubmitDateEnd: list.orderSubmitDateEnd,
                                 orderSubmitDateStart: list.orderSubmitDateStart,
                                 orderSubmitDateEnd: list.orderSubmitDateEnd,
                             },
@@ -721,9 +675,12 @@
                             tokenBackend: that.tokenStr,
                         }).then(res => {
                             if (res.data.code === 3) {
-                                alert('未能查找到订单相关信息，订单明细缺失！！')
-                                // console.log('cuowu')
+                                this.$message.error('未能查找到订单相关信息，订单明细缺失！！')
                             } else if (res.data.code === 0) {
+                                this.$message({//0930
+                                    message: '查询历史订单成功！',
+                                    type: 'success'
+                                });
                                 that.data = res.data.data.list
                                 that.loading = false
                                 console.log(res.data)
@@ -745,7 +702,8 @@
                         })
                         break
                     } else if (i === 'orderSubmitDateEnd' && list[i] === '') {
-                        alert("请输入查询信息！！")
+                        this.$message.error('请输入查询信息！！')
+                        this.loading = false
                     } else {
                         continue
                     }
@@ -757,17 +715,11 @@
                 document.getElementById("omForm").reset()
                 this.orderForm = {
                     trade_no: '',
+                    platform_type: '',
                     shop_name: '',
-                    pay_account: '',
-                    trade_status: '',
-                    goods_name: '',
-                    trade_type: '',
-                    refund_status: '',
-                    receiver_name: '',
+                    buyer_nick:'',
                     orderDateStart: '',
                     orderDateEnd: '',
-                    orderPayDateStart: '',
-                    orderPayDateEnd: '',
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
                 }
@@ -779,8 +731,9 @@
                     that.flag = 0
                     that.total = that.amount
                 }).catch()
+                this.$message('搜索表单已重置！');
             },
-            //表格操作JY201904290699
+            // 表格操作，查询订单详情
             orderInfo(row){
                 // // console.log(row.tradeNo)
                 this.valueOfCol = row
@@ -791,32 +744,21 @@
                     headers : {token : this.tokenStr},
                     tokenBackend : this.tokenStr
                 }).then( res => {
-                    // console.log("此处应该有货品信息")
-                    // // console.log(res.data)
                     if(res.data.data != null){
-                        // console.log(res.data.data)
                         that.tableData = res.data.data
                         that.loading0 = false
+                        this.$message({
+                            message: '订单'+row.tradeNo+'详情查询成功！',
+                            type: 'success'
+                        });
+                        that.orderDetails = row.tradeNo
                     }
                     else{
-                        alert("未能查找到订单相关信息，订单明细缺失！！")
+                        that.$message.error('未能查找到订单相关信息，订单明细缺失！！')
                         that.loading0 = false
                         that.tableData = []
                     }
                 }).catch()
-                // axios.get('backend/goods/getGoods', {
-                //     params : {tradeNo : value.tradeNo},
-                //     headers : {token : this.tokenStr},
-                // }).then( res => {
-                //     // console.log("此处应该有货品信息")
-                //     if(res.data.data.length){
-                //         // console.log(res.data.data)
-                //         that.tableData = res.data.data
-                //     }
-                //     else{
-                //         alert("未能查找到订单相关信息，订单明细缺失！！")
-                //     }
-                // }).catch()
                 this.dt = true
             },
             // 分页
@@ -837,17 +779,13 @@
                     axios.get('backend/order/getOrders'+currentPage+'/'+ size, {
                         params: {
                             trade_no: that.orderForm.trade_no,
+                            platform_type: that.orderForm.platform_type,
                             shop_name: that.orderForm.shop_name,
-                            pay_account: that.orderForm.pay_account,
-                            trade_status: that.orderForm.trade_status,
-                            goods_name: that.orderForm.goods_name,
-                            trade_type: that.orderForm.trade_type,
-                            refund_status: that.orderForm.refund_status,
-                            receiver_name: that.orderForm.receiver_name,
+                            buyer_nick:that.orderForm.buyer_nick,
                             orderDateStart: that.orderForm.orderDateStart,
                             orderDateEnd: that.orderForm.orderDateEnd,
-                            orderPayDateStart: that.orderForm.orderPayDateStart,
-                            orderPayDateEnd: that.orderForm.orderPayDateEnd,
+                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
                             orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
                             orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
                         },
@@ -855,7 +793,6 @@
                         tokenBackend: that.tokenStr
                     }).then(res => {
                         if (res.data.code === 3) {
-                            alert('未能查找到订单相关信息，订单明细缺失！！')
                             that.loading = false
                         } else if (res.data.code === 0) {
                             that.data = res.data.data.list
@@ -879,17 +816,13 @@
                     axios.get('backend/order/getOrders'+current+'/'+ size, {
                         params: {
                             trade_no: that.orderForm.trade_no,
+                            platform_type: that.orderForm.platform_type,
                             shop_name: that.orderForm.shop_name,
-                            pay_account: that.orderForm.pay_account,
-                            trade_status: that.orderForm.trade_status,
-                            goods_name: that.orderForm.goods_name,
-                            trade_type: that.orderForm.trade_type,
-                            refund_status: that.orderForm.refund_status,
-                            receiver_name: that.orderForm.receiver_name,
+                            buyer_nick:that.orderForm.buyer_nick,
                             orderDateStart: that.orderForm.orderDateStart,
                             orderDateEnd: that.orderForm.orderDateEnd,
-                            orderPayDateStart: that.orderForm.orderPayDateStart,
-                            orderPayDateEnd: that.orderForm.orderPayDateEnd,
+                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
                             orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
                             orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
                         },
@@ -897,7 +830,6 @@
                         tokenBackend: that.tokenStr
                     }).then(res => {
                         if (res.data.code === 3) {
-                            alert('未能查找到订单相关信息，订单明细缺失！！')
                             this.loading = false
                         } else if (res.data.code === 0) {
                             that.data = res.data.data.list

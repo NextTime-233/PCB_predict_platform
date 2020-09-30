@@ -173,15 +173,34 @@
             axios.get('backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                     token: that.tokenStr}}).then( res => {
                     for(let i = 0; i< res.data.data.length; i++){
-                        // // console.log(res.data.data[i].userLimit)
-                        let c = {
-                            key : i+1,
-                            name: res.data.data[i].userAccount,
-                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
-                            time: res.data.data[i].gmtCreate,
-                            editable: res.data.data[i].userLimit!=='0',
+                        if(res.data.data[i].userLimit===0){
+                            let a = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '普通用户',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            this.dataSource.push(a)
+                        }else if(res.data.data[i].userLimit===1){
+                            let b = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '管理员',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            this.dataSource.push(b)
+                        }else{
+                            let c = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '开发者',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            this.dataSource.push(c)
                         }
-                        this.dataSource.push(c)
                     }
             }).catch()
         },
@@ -196,33 +215,54 @@
             }).catch()
         },
         methods: {
+            // 更新数据
             reNew() {
                 const that = this
                 const data = []
                 axios.get('backend/user/listUsers/'+this.current+'/'+this.pageSize, {headers:{
                         token: that.tokenStr}}).then( res => {
-                    // // console.log(res.data.msg)
                     for(let i = 0; i< res.data.data.length; i++){
-                        let c = {
-                            key : i+1,
-                            name: res.data.data[i].userAccount,
-                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
-                            time: res.data.data[i].gmtCreate,
-                            editable: res.data.data[i].userLimit!=='0',
+                        if(res.data.data[i].userLimit==='0'){
+                            let a = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '普通用户',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            data.push(a)
+                        }else if(res.data.data[i].userLimit==='1'){
+                            let b = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '管理员',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            data.push(b)
+                        }else{
+                            let c = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '开发者',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            data.push(c)
                         }
-                        data.push(c)
                     }
                     that.dataSource = data
                 }).catch()
                 that.total = that.amount
+            },
+            resetForm() {
+                this.$refs[form].resetFields();
             },
             handleSubmit(e) {
                 e.preventDefault(); // 阻止页面自动刷新
                 this.form.validateFields((err, values) => {
                     // console.log(err)
                     if (!err) {
-                        // console.log('Received values of form: ', values);
-                        // console.log('usr: ', values.userAccount);
                         axios.post('backend/user/saveUser?userAccount='+values.userAccount+'&userPwd='+values.userPwd ).then(res=>{
                             // console.log(res.data.code)
                             this.modalVisible=false
@@ -230,9 +270,6 @@
                         }).catch()
                     }
                 })
-            },
-            resetForm() {
-                this.$refs[form].resetFields();
             },
             setModalVisible(modalVisible) {
                 this.modalVisible = modalVisible;
@@ -245,28 +282,18 @@
                 axios.put('backend/user/deleteUser', {userList: [name], tokenBackend: this.tokenStr},
                     {headers: {token: this.tokenStr}}
                 ).then( res => {
-                // let param = {
-                //     userList: [name],
-                //     tokenBackend: this.tokenStr
-                // }
-                // let config = {
-                //     headers: {token : this.tokenStr},
-                // }
-                // axios.put('backend/user/deleteUser', param, config
-                // ).then( res => {
-                    // console.log(res.data)
                     alert("已删除用户"+name)
                 }).catch(function (error) {
                     if (error.response) {
                         // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-                        // console.log(error.response.data);
-                        // console.log(error.response.status);
-                        // console.log(error.response.headers);
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
                     } else {
                         // Something happened in setting up the request that triggered an Error
-                        // console.log('Error', error.message);
+                        console.log('Error', error.message);
                     }
-                    // console.log(error.config);
+                    console.log(error.config);
                 })
             },
             // 搜索框
@@ -279,13 +306,31 @@
                             token: this.tokenStr}}).then( res => {
                         this.total = 1
                         // 暂时采用的方法，直接重写数据源
-                        this.dataSource = [{
-                            key : 1,
-                            name: res.data.data.userAccount,
-                            limit: res.data.data.userLimit>0?'管理员':'普通用户',
-                            time: res.data.data.gmtCreate,
-                            editable: res.data.data.userLimit!=='0',
-                        }]
+                        if(res.data.data.userLimit==='0'){
+                            that.dataSource = [{
+                                key : 1,
+                                name: res.data.data.userAccount,
+                                limit: '普通用户',
+                                time: res.data.data.gmtCreate,
+                                editable: res.data.data.userLimit!=='0',
+                            }]
+                        }else if(res.data.data.userLimit==='1'){
+                            that.dataSource = [{
+                                key : 1,
+                                name: res.data.data.userAccount,
+                                limit: '管理员',
+                                time: res.data.data.gmtCreate,
+                                editable: res.data.data.userLimit!=='0',
+                            }]
+                        }else{
+                            that.dataSource = [{
+                                key : 1,
+                                name: res.data.data.userAccount,
+                                limit: '开发者',
+                                time: res.data.data.gmtCreate,
+                                editable: res.data.data.userLimit!=='0',
+                            }]
+                        }
                     }).catch()
                 }
             },
@@ -295,15 +340,36 @@
                 const datalist = []
                 axios.get('backend/user/listUsers/'+currentPage+'/'+size, {headers:{
                         token: this.tokenStr}}).then(res => {
+                            console.log(res.data)
                     for (let i = 0; i <res.data.data.length; i++) {
-                        let c = {
-                            key : i+1,
-                            name: res.data.data[i].userAccount,
-                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
-                            time: res.data.data[i].gmtCreate,
-                            editable: res.data.data[i].userLimit!=='0',
+                        if(res.data.data[i].userLimit==='0'){
+                            let a = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '普通用户',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            datalist.push(a)
+                        }else if(res.data.data[i].userLimit==='1'){
+                            let b = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '管理员',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            datalist.push(b)
+                        }else{
+                            let c = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '开发者',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            datalist.push(c)
                         }
-                        datalist.push(c)
                     }
                     that.dataSource = datalist
                 }).catch()
@@ -315,14 +381,34 @@
                 axios.get('backend/user/listUsers/'+current+'/'+size, {headers:{
                         token: this.tokenStr}}).then(res => {
                     for (let i = 0; i <res.data.data.length; i++) {
-                        let c = {
-                            key : i+1,
-                            name: res.data.data[i].userAccount,
-                            limit: res.data.data[i].userLimit>0?'管理员':'普通用户',
-                            time: res.data.data[i].gmtCreate,
-                            editable: res.data.data[i].userLimit!=='0',
+                        if(res.data.data[i].userLimit==='0'){
+                            let a = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '普通用户',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            datalist.push(a)
+                        }else if(res.data.data[i].userLimit==='1'){
+                            let b = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '管理员',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            datalist.push(b)
+                        }else{
+                            let c = {
+                                key : i+1,
+                                name: res.data.data[i].userAccount,
+                                limit: '开发者',
+                                time: res.data.data[i].gmtCreate,
+                                editable: res.data.data[i].userLimit!=='0',
+                            }
+                            datalist.push(c)
                         }
-                        datalist.push(c)
                     }
                     that.dataSource = datalist
                 }).catch()

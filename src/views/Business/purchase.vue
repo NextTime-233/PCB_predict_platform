@@ -249,7 +249,10 @@
                             tokenBackend: that.tokenStr
                         }).then(res => {
                             if (res.data.code === 3) {
-                                alert('未能查找到该货品的相关信息！！')
+                                this.$message({
+                                    message: '未能查找到该货品的相关信息！！',
+                                    type: 'warning'
+                                });
                                 that.loading = false
                                 that.tableData = []
                             } else if (res.data.code === 0) {
@@ -262,7 +265,10 @@
                         }).catch()
                         break
                     } else if (i === 'goodsType' && list[i] === '') {
-                        alert("请输入查询信息！！")
+                        this.$message({
+                            message: '请输入查询信息！！',
+                            type: 'warning'
+                        });
                     } else {
                         continue
                     }
@@ -290,6 +296,7 @@
                     that.flag = 0
                     this.total = this.amount
                 }).catch()
+                this.$message('搜索表单已重置！');
             },
             // table
             handleClick(row) {
@@ -319,14 +326,20 @@
                         tokenBackend: that.tokenStr
                     }).then(res => {
                         if (res.data.code === 3) {
-                            alert('未能查找到该货品的相关信息！！')
+                            this.$message({
+                                message: '未能查找到该货品的相关信息！！',
+                                type: 'warning'
+                            });
                         } else if (res.data.code === 0) {
                             that.tableData = res.data.data.list
                             that.loading = false
-                            // that.total = res.data.data.total
-                        }
+                            this.$message({
+                                message: '查询货品信息成功！',
+                                type: 'success'
+                            });
+                    }
                     }).catch()
-                    console.log("查询结果翻页"+that.flag)
+                    // console.log("查询结果翻页"+that.flag)
                 }
             },
             onShowSizeChange(current, size) {
@@ -351,7 +364,10 @@
                         tokenBackend: this.tokenStr
                     }).then(res => {
                         if (res.data.code === 3) {
-                            alert('未能查找到该货品的相关信息！！')
+                            this.$message({
+                                message: '未能查找到该货品的相关信息！！',
+                                type: 'warning'
+                            });
                         } else if (res.data.code === 0) {
                             that.tableData = res.data.data.list
                             this.loading = false

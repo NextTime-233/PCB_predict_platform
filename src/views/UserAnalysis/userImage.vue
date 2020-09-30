@@ -929,7 +929,7 @@
                 }).catch()
 
             },
-            //s获取标签
+            //  获取标签
             getLabelVal(){
                 const that = this
                 // console.log("画像页调取页面更新自定义标签")
