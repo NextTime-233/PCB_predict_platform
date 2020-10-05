@@ -68,6 +68,7 @@
                         </a>
                     </a-form>
                 </div>
+                <el-button type="success" plain size="small" style="margin-right: 10px">导出数据</el-button>
                 <el-tabs v-model="activeName" type="card" @tab-click="showClient" style="margin-top: 10px">
                     <el-tab-pane label="重要客户" name="first">
                         <el-table
@@ -427,7 +428,7 @@
                 <div>
                     <a-tabs default-active-key="1" @change="callback">
                         <a-tab-pane key="1" tab="历史订单">
-                            <span v-if="orderDetail">您正在查看用户---{{orderDetail}}---的历史订单</span>
+                            <span v-if="historyBuyer">您正在查看用户---{{historyBuyer}}---的历史订单</span>
                             </br>
                             <el-table
                                     :data="historyData"
@@ -630,14 +631,12 @@
                                 </el-table>
                             <span>共{{total0}}条数据</span>
                             <div class="page-roll">
-<!--                     show-size-changer
-                                        show-quick-jumper           -->
                                 <a-pagination
                                         v-model="current0"
                                         :total="total0"
                                         :page-size="pageSize0"
-                                        @showSizeChange="onShowSizeChange0"
-                                        @change="currentPage0"
+                                        @showSizeChange="sizeChange"
+                                        @change="currentChange"
                                 >
                                     <template slot="buildOptionText" slot-scope="props">
                                         <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
@@ -700,9 +699,10 @@
                 flag0: 0,  // 重要客户分页标记，0为总表分页，1为查询分页
                 //  token
                 tokenStr: '',
-                // 标签页
+                // 历史订单
                 historyData:[],
-                orderDetail:''
+                // 历史订单用户名缓存
+                historyBuyer:''
             };
         },
         created() {
@@ -730,33 +730,42 @@
             showClient(tab, event) {
                 const that = this
                 that.current = 1
-                if(tab.index === '0'){
+                if (tab.index === '0') {
                     that.clientType = '0'
                     that.historyData = []
-                    axios.get('backend/customer/listImpCustomers/1/5', {headers:{
+                    axios.get('backend/customer/listImpCustomers/1/5', {
+                        headers: {
                             token: this.tokenStr
-                        }}).then( res => {
+                        }
+                    }).then(res => {
                         that.importantData = res.data.data
-                        that.loading=false
+                        that.loading = false
                     }).catch()
-                    axios.get('backend/customer/countImpCustomers', {headers:{
+                    axios.get('backend/customer/countImpCustomers', {
+                        headers: {
                             token: that.tokenStr
-                        }}).then( res => {
+                        }
+                    }).then(res => {
                         that.total = res.data.data
                         that.amount = that.total
                     }).catch()
                 }
-                if(tab.index === '1') {
+                if (tab.index === '1') {
                     that.clientType = '1'
                     that.historyData = []
-                    axios.get('backend/customer/listCustomers/1/5', {headers:{
+                    axios.get('backend/customer/listCustomers/1/5', {
+                        headers: {
                             token: that.tokenStr
-                        }}).then( res => {
+                        }
+                    }).then(res => {
                         that.tableData = res.data.data
-                        that.loading=false
+                        that.loading = false
                     }).catch()
-                    axios.get('backend/customer/countCustomer', {headers:{
-                            token : that.tokenStr}}).then( res => {
+                    axios.get('backend/customer/countCustomer', {
+                        headers: {
+                            token: that.tokenStr
+                        }
+                    }).then(res => {
                         that.total = res.data.data
                         that.amount = res.data.data
                     }).catch()
@@ -773,24 +782,24 @@
                 this.clientForm.registrationTimeDateStart = dateString[0]
                 this.clientForm.registrationTimeDateEnd = dateString[1]
             },
-            toggleAdvanced () {
+            toggleAdvanced() {
                 this.advanced = !this.advanced
             },
-            submitList(){
+            submitList() {
                 const that = this
                 const list = that.clientForm
                 this.loading = true
                 for (let i in list) {
                     if (list[i]) {
                         if (that.clientType === '1') {
-                            console.log("普通客户查询"+that.clientType)
+                            console.log("普通客户查询" + that.clientType)
                             axios.get('backend/customer/getCustomers/1/5', {
                                 params: {
                                     customerName: list.customerName,
                                     TotalPurchaseAmount: list.TotalPurchaseAmount,
                                     TotalPurchaseNum: list.TotalPurchaseNum,
-                                    province:list.province,
-                                    city:list.city,
+                                    province: list.province,
+                                    city: list.city,
                                     LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
                                     LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
                                     PayDateStart: list.PayDateStart,
@@ -817,14 +826,14 @@
                             }).catch()
                             break
                         } else {
-                            console.log("重要客户查询"+that.clientType)
+                            console.log("重要客户查询" + that.clientType)
                             axios.get('backend/customer/selectImpCustomersFromCustomerIm/1/5', {
                                 params: {
                                     customerName: list.customerName,
                                     TotalPurchaseAmount: list.TotalPurchaseAmount,
                                     TotalPurchaseNum: list.TotalPurchaseNum,
-                                    province:list.province,
-                                    city:list.city,
+                                    province: list.province,
+                                    city: list.city,
                                     LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
                                     LastPurchaseTimeDateEnd: list.LastPurchaseTimeDateEnd,
                                     PayDateStart: list.PayDateStart,
@@ -860,33 +869,35 @@
                     }
                 }
             },
-            resetInput(){
+            resetInput() {
                 const that = this
                 that.loading = true
                 document.getElementById("cForm").reset()
                 that.clientForm = {
-                    customerName:'',
-                    TotalPurchaseAmount:'',
-                    TotalPurchaseNum:'',
-                    province:'',
-                    city:'',
-                    LastPurchaseTimeDateStart:'',
-                    LastPurchaseTimeDateEnd:'',
-                    registrationTimeDateStart:'',
-                    registrationTimeDateEnd:'',
-                    PayDateStart:'',
-                    PayDateEnd:'',
+                    customerName: '',
+                    TotalPurchaseAmount: '',
+                    TotalPurchaseNum: '',
+                    province: '',
+                    city: '',
+                    LastPurchaseTimeDateStart: '',
+                    LastPurchaseTimeDateEnd: '',
+                    registrationTimeDateStart: '',
+                    registrationTimeDateEnd: '',
+                    PayDateStart: '',
+                    PayDateEnd: '',
                 }
-                that.createValueB=[]
-                that.createValueP=[]
-                that.createValueR=[]
-                that.createValueS=[]
-                axios.get('backend/customer/listCustomers/1/5', {headers:{
+                that.createValueB = []
+                that.createValueP = []
+                that.createValueR = []
+                that.createValueS = []
+                axios.get('backend/customer/listCustomers/1/5', {
+                    headers: {
                         token: this.tokenStr
-                    }}).then( res => {
+                    }
+                }).then(res => {
                     // // console.log(res.data)
                     that.tableData = res.data.data
-                    this.loading=false
+                    this.loading = false
                     that.total = that.amount
                     that.flag = 0
                 }).catch()
@@ -897,61 +908,34 @@
             handleClick(row) {
                 const that = this
                 that.loading0 = true
-                console.log("行")
-                console.log(row.buyerNick)
-                if(this.flag0 === 0){
-                    axios.get('backend/order/OrderHistory/1/5',{
-                        params: {
-                            buyerNick: row.buyerNick,
-                        },
-                        headers:{token: that.tokenStr},
-                    }).then(res => {
-                        // console.log(res.data.data)
-                        if(res.data.data === null){
-                            this.$message.error('未能查找到用户'+row.buyerNick+"的历史订单！")
-                            that.loading0 = false
-                        }else{
-                            this.$message({
-                                message: "查找用户"+row.buyerNick+"的历史订单成功！！",
-                                type: 'success'
-                            });
-                            that.historyData = res.data.data.list
-                            that.orderDetail = row.buyerNick
-                            that.total0 = res.data.data.total
-                        }
+                // 查询
+                axios.get('backend/order/OrderHistory/1/5', {
+                    params: {
+                        buyerNick: row.buyerNick,
+                    },
+                    headers: {token: that.tokenStr},
+                }).then(res => {
+                    if (res.data.data === null) {
+                        this.$message.error('未能查找到用户' + row.buyerNick + "的历史订单！")
                         that.loading0 = false
-                    }).catch()
-                }
-               else {
-                   console.log("调用我")
-                   console.log(this.current0,this.pageSize0)
-                    axios.get('backend/order/OrderHistory/'+this.current0+'/'+this.pageSize0,{
-                        params: {
-                            buyerNick: row.buyerNick,
-                        },
-                        headers:{token: that.tokenStr},
-                    }).then(res => {
-                        if(res.data.data === null){
-                            this.$message.error('未能查找到用户'+row.buyerNick+"的历史订单！")
-                            that.loading0 = false
-                        }else{
-                            this.$message({
-                                message: "查找用户"+row.buyerNick+"的历史订单成功！！",
-                                type: 'success'
-                            });
-                            that.historyData = res.data.data.list
-                            that.total0 = res.data.data.total
-                            that.loading0 = false
-                        }
-                    }).catch()
-                }
+                    } else {
+                        this.$message({
+                            message: "查找用户" + row.buyerNick + "的历史订单成功！！",
+                            type: 'success'
+                        });
+                        that.historyData = res.data.data.list
+                        that.historyBuyer = row.buyerNick
+                        that.total0 = res.data.data.total
+                    }
+                    that.loading0 = false
+                }).catch()
             },
             // 分页
-            currentPage(currentPage, size){
+            currentPage(currentPage, size) {
                 const that = this
                 that.loading = true
-                if(that.clientType==='0') {
-                    if(that.flag0===0) {
+                if (that.clientType === '0') {
+                    if (that.flag0 === 0) {
                         console.log("重要客户总表分页" + that.clientType)
                         axios.get('backend/customer/listImpCustomers/' + currentPage + '/' + size, {
                             headers: {
@@ -961,16 +945,15 @@
                             that.importantData = res.data.data
                             this.loading = false
                         }).catch()
-                    }
-                    else {
+                    } else {
                         console.log("重要客户查询翻页")
-                        axios.get('backend/customer/selectImpCustomersFromCustomerIm/'+currentPage+'/'+ size, {
+                        axios.get('backend/customer/selectImpCustomersFromCustomerIm/' + currentPage + '/' + size, {
                             params: {
                                 customerName: that.clientForm.customerName,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                province:that.clientForm.province,
-                                city:that.clientForm.city,
+                                province: that.clientForm.province,
+                                city: that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
                                 PayDateStart: that.clientForm.PayDateStart,
@@ -981,16 +964,15 @@
                             headers: {token: this.tokenStr},
                             tokenBackend: this.tokenStr
                         }).then(res => {
-                            if(res.data.code === 0) {
+                            if (res.data.code === 0) {
                                 that.tableData = res.data.data.list
-                                this.loading=false
+                                this.loading = false
                             }
                         }).catch()
                     }
-                }
-                else {
-                    if(that.flag===0) {
-                        console.log("普通客户总表分页"+that.clientType)
+                } else {
+                    if (that.flag === 0) {
+                        console.log("普通客户总表分页" + that.clientType)
                         axios.get('backend/customer/listCustomers/' + currentPage + '/' + size, {
                             headers: {
                                 token: this.tokenStr
@@ -999,16 +981,15 @@
                             that.tableData = res.data.data
                             this.loading = false
                         }).catch()
-                    }
-                    else {
-                        console.log("普通客户查询分页"+that.clientType)
-                        axios.get('backend/customer/getCustomers/'+currentPage+'/'+ size, {
+                    } else {
+                        console.log("普通客户查询分页" + that.clientType)
+                        axios.get('backend/customer/getCustomers/' + currentPage + '/' + size, {
                             params: {
                                 customerName: that.clientForm.customerName,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                province:that.clientForm.province,
-                                city:that.clientForm.city,
+                                province: that.clientForm.province,
+                                city: that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
                                 PayDateStart: that.clientForm.PayDateStart,
@@ -1019,9 +1000,9 @@
                             headers: {token: that.tokenStr},
                             tokenBackend: that.tokenStr
                         }).then(res => {
-                            if(res.data.code === 0) {
+                            if (res.data.code === 0) {
                                 that.tableData = res.data.data.list
-                                that.loading=false
+                                that.loading = false
                             }
                         }).catch()
                     }
@@ -1031,8 +1012,8 @@
                 this.pageSize = size
                 const that = this
                 that.loading = true
-                if(that.clientType==='0') {
-                    if(that.flag0===0) {
+                if (that.clientType === '0') {
+                    if (that.flag0 === 0) {
                         console.log("重要客户总表分页" + that.clientType)
                         axios.get('backend/customer/listImpCustomers/' + current + '/' + size, {
                             headers: {
@@ -1042,16 +1023,15 @@
                             that.importantData = res.data.data
                             this.loading = false
                         }).catch()
-                    }
-                    else {
+                    } else {
                         console.log("重要客户查询翻页")
-                        axios.get('backend/customer/selectImpCustomersFromCustomerIm/'+this.current+'/'+ size, {
+                        axios.get('backend/customer/selectImpCustomersFromCustomerIm/' + this.current + '/' + size, {
                             params: {
                                 customerName: that.clientForm.customerName,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                province:that.clientForm.province,
-                                city:that.clientForm.city,
+                                province: that.clientForm.province,
+                                city: that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
                                 PayDateStart: that.clientForm.PayDateStart,
@@ -1062,16 +1042,15 @@
                             headers: {token: this.tokenStr},
                             tokenBackend: this.tokenStr
                         }).then(res => {
-                            if(res.data.code === 0) {
+                            if (res.data.code === 0) {
                                 that.tableData = res.data.data.list
-                                this.loading=false
+                                this.loading = false
                             }
                         }).catch()
                     }
-                }
-                else {
-                    if(that.flag===0) {
-                        console.log("普通客户总表分页"+that.clientType)
+                } else {
+                    if (that.flag === 0) {
+                        console.log("普通客户总表分页" + that.clientType)
                         axios.get('backend/customer/listCustomers/' + current + '/' + size, {
                             headers: {
                                 token: this.tokenStr
@@ -1080,16 +1059,15 @@
                             that.tableData = res.data.data
                             this.loading = false
                         }).catch()
-                    }
-                    else {
-                        console.log("普通客户查询分页"+that.clientType)
-                        axios.get('backend/customer/getCustomers/'+ current +'/'+ size, {
+                    } else {
+                        console.log("普通客户查询分页" + that.clientType)
+                        axios.get('backend/customer/getCustomers/' + current + '/' + size, {
                             params: {
                                 customerName: that.clientForm.customerName,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
-                                province:that.clientForm.province,
-                                city:that.clientForm.city,
+                                province: that.clientForm.province,
+                                city: that.clientForm.city,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,
                                 LastPurchaseTimeDateEnd: that.clientForm.LastPurchaseTimeDateEnd,
                                 PayDateStart: that.clientForm.PayDateStart,
@@ -1100,54 +1078,73 @@
                             headers: {token: that.tokenStr},
                             tokenBackend: that.tokenStr
                         }).then(res => {
-                            if(res.data.code === 0) {
+                            if (res.data.code === 0) {
                                 that.tableData = res.data.data.list
-                                that.loading=false
+                                that.loading = false
                             }
                         }).catch()
                     }
                 }
             },
-            // 订单详情级联分页
-            currentPage0(currentPage, size){
-                console.log("历史订单分页")
+            // 历史订单级联分页
+            currentChange(currentPage, size) {
+                // console.log("历史订单分页，重要客户和普通客户一样，并不需要加判断，只要传递参数用户的网名即可")
                 const that = this
                 that.loading0 = true
-                if(that.clientType==='0'){
-                    console.log("历史订单分页")
-                    axios.get('backend/customer/listCustomers/'+currentPage+'/'+size, {headers:{
-                            token : this.tokenStr}}).then(res => {
-                        that.tableData = res.data.data
-                        this.loading0=false
-                    }).catch()
-                }
-                else {
-                    console.log("翻页"+currentPage)
-                    this.handleClick()
-                }
+                // console.log(currentPage, size)
+                axios.get('backend/order/OrderHistory/' + currentPage + '/' + size, {
+                    params: {
+                        buyerNick: that.historyBuyer,
+                    },
+                    headers: {token: that.tokenStr},
+                }).then(res => {
+                    if (res.data.data === null) {
+                        this.$message.error('未能查找到用户' + that.historyBuyer + "的历史订单！")
+                        that.loading0 = false
+                    } else {
+                        this.$message({
+                            message: "查找用户" + that.historyBuyer + "的历史订单成功！！",
+                            type: 'success'
+                        });
+                        that.historyData = res.data.data.list
+                        that.total0 = res.data.data.total
+                        that.loading0 = false
+                    }
+                }).catch()
             },
-            onShowSizeChange0(current, size) {
+            sizeChange(current, size) {
                 console.log("历史订单分页")
                 this.pageSize0 = size
                 const that = this
                 that.loading0 = true
-                if(that.clientType==='0'){
-                    axios.get('backend/customer/listCustomers/'+current+'/'+size, {headers:{
-                            token : this.tokenStr}}).then(res => {
-                        that.tableData = res.data.data
-                        this.loading0=false
-                    }).catch()
-                }
-                else {
-                    console.log("页面容量变动"+size)
-                    this.handleClick()
-                }
+                console.log("调用我，重要客户历史订单分页")
+                console.log(this.current0, this.pageSize0)
+                axios.get('backend/order/OrderHistory/' + current + '/' + size, {
+                    params: {
+                        buyerNick: that.historyBuyer,
+                    },
+                    headers: {token: that.tokenStr},
+                }).then(res => {
+                    console.log(res)
+                    if (res.data.data === null) {
+                        this.$message.error('未能查找到用户' + that.historyBuyer + "的历史订单！")
+                        that.loading0 = false
+                    } else {
+                        this.$message({
+                            message: "查找用户" + that.historyBuyer + "的历史订单成功！！",
+                            type: 'success'
+                        });
+                        that.historyData = res.data.data.list
+                        that.total0 = res.data.data.total
+                        that.loading0 = false
+                    }
+                }).catch()
             },
             // 标签页
             callback(key) {
-                // console.log(key);
+                console.log(key);
             },
-        },
+        }
     }
 </script>
 <style lang="less" scoped>

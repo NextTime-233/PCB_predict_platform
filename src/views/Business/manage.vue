@@ -3,7 +3,7 @@
     <div>
         <a-card>
             <div class="order-list-display">
-                <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin-top: 10px">
+                <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin: 10px 0">
                     <a-form id="omForm" layout="horizontal" :model="orderForm" @submit.native.prevent>
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
                             <a-row :gutter="16">
@@ -20,19 +20,19 @@
                                     </a-form-item>
                                 </a-col>
                                 <a-col :span="6">
-<!--                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">-->
-<!--                                        <a-select-->
-<!--                                                mode="multiple"-->
-<!--                                                placeholder="输入或选择"-->
-<!--                                                :value="selectedItems"-->
-<!--                                                size="small"-->
-<!--                                                @change="handleChange"-->
-<!--                                        >-->
-<!--                                            <a-select-option v-for="item in filteredOptions" :key="item" :value="item">-->
-<!--                                                {{ item }}-->
-<!--                                            </a-select-option>-->
-<!--                                        </a-select>-->
-<!--                                    </a-form-item>-->
+                                    <!--                                    <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">-->
+                                    <!--                                        <a-select-->
+                                    <!--                                                mode="multiple"-->
+                                    <!--                                                placeholder="输入或选择"-->
+                                    <!--                                                :value="selectedItems"-->
+                                    <!--                                                size="small"-->
+                                    <!--                                                @change="handleChange"-->
+                                    <!--                                        >-->
+                                    <!--                                            <a-select-option v-for="item in filteredOptions" :key="item" :value="item">-->
+                                    <!--                                                {{ item }}-->
+                                    <!--                                            </a-select-option>-->
+                                    <!--                                        </a-select>-->
+                                    <!--                                    </a-form-item>-->
                                     <a-form-item label="店铺名称" :labelCol="{span: 8}" v-model="orderForm.shop_name" :wrapperCol="{span: 15, offset: 1}">
                                         <a-input v-model="orderForm.shop_name" size="small"></a-input>
                                     </a-form-item>
@@ -43,35 +43,35 @@
                                         </a-input>
                                     </a-form-item>
                                 </a-col>
-<!--                                <a-col :span="6">-->
-<!--                                    <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">-->
-<!--                                        <a-select-->
-<!--                                                show-search-->
-<!--                                                option-filter-prop="children"-->
-<!--                                                :filter-option="filterOption"-->
-<!--                                                placeholder="请选择" v-model="orderForm.trade_status" size="small"-->
-<!--                                        >-->
-<!--                                            <a-select-option value="已取消">已取消</a-select-option>-->
-<!--                                            <a-select-option value="未付款">未付款</a-select-option>-->
-<!--                                            <a-select-option value="待尾款">待尾款</a-select-option>-->
-<!--                                            <a-select-option value="待选仓">待选仓</a-select-option>-->
-<!--                                            <a-select-option value="等未付">等未付</a-select-option>-->
-<!--                                            <a-select-option value="延时审核">延时审核</a-select-option>-->
-<!--                                            <a-select-option value="预订单">预订单</a-select-option>-->
-<!--                                            <a-select-option value="待抢单">待抢单</a-select-option>-->
-<!--                                            <a-select-option value="待客审">待客审</a-select-option>-->
-<!--                                            <a-select-option value="待财审">待财审</a-select-option>-->
-<!--                                            <a-select-option value="已递交仓库">已递交仓库</a-select-option>-->
-<!--                                            <a-select-option value="已审核">已审核</a-select-option>-->
-<!--                                            <a-select-option value="已发货">已发货</a-select-option>-->
-<!--                                            <a-select-option value="部分打款">部分打款</a-select-option>-->
-<!--                                            <a-select-option value="已完成">已完成</a-select-option>-->
-<!--                                            <a-select-option value="异常发货">异常发货</a-select-option>-->
-<!--                                        </a-select>-->
-<!--                                    </a-form-item>-->
-<!--                                </a-col>-->
+                                <!--                                <a-col :span="6">-->
+                                <!--                                    <a-form-item label="订单状态" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">-->
+                                <!--                                        <a-select-->
+                                <!--                                                show-search-->
+                                <!--                                                option-filter-prop="children"-->
+                                <!--                                                :filter-option="filterOption"-->
+                                <!--                                                placeholder="请选择" v-model="orderForm.trade_status" size="small"-->
+                                <!--                                        >-->
+                                <!--                                            <a-select-option value="已取消">已取消</a-select-option>-->
+                                <!--                                            <a-select-option value="未付款">未付款</a-select-option>-->
+                                <!--                                            <a-select-option value="待尾款">待尾款</a-select-option>-->
+                                <!--                                            <a-select-option value="待选仓">待选仓</a-select-option>-->
+                                <!--                                            <a-select-option value="等未付">等未付</a-select-option>-->
+                                <!--                                            <a-select-option value="延时审核">延时审核</a-select-option>-->
+                                <!--                                            <a-select-option value="预订单">预订单</a-select-option>-->
+                                <!--                                            <a-select-option value="待抢单">待抢单</a-select-option>-->
+                                <!--                                            <a-select-option value="待客审">待客审</a-select-option>-->
+                                <!--                                            <a-select-option value="待财审">待财审</a-select-option>-->
+                                <!--                                            <a-select-option value="已递交仓库">已递交仓库</a-select-option>-->
+                                <!--                                            <a-select-option value="已审核">已审核</a-select-option>-->
+                                <!--                                            <a-select-option value="已发货">已发货</a-select-option>-->
+                                <!--                                            <a-select-option value="部分打款">部分打款</a-select-option>-->
+                                <!--                                            <a-select-option value="已完成">已完成</a-select-option>-->
+                                <!--                                            <a-select-option value="异常发货">异常发货</a-select-option>-->
+                                <!--                                        </a-select>-->
+                                <!--                                    </a-form-item>-->
+                                <!--                                </a-col>-->
                             </a-row>
-                            </a-row>
+
                             <a-row v-if="advanced"  :gutter="16">
                                 <a-col :md="7" >
                                     <a-form-item
@@ -107,6 +107,7 @@
                         </a>
                     </a-form>
                 </div>
+                <el-button type="success" plain size="small" style="margin-right: 10px">导出数据</el-button>
                 <el-table
                         :data="data"
                         border
@@ -387,11 +388,11 @@
                                     label="货品编号"
                                     width="150">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                    prop="specCount"-->
-<!--                                    label="规格码"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="specCount"-->
+                            <!--                                    label="规格码"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
                             <el-table-column
                                     prop="goodsNo"
                                     label="主条码"
@@ -422,16 +423,16 @@
                                     label="折扣"
                                     width="120">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                    prop=""-->
-<!--                                    label="成本价"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                    prop="alias"-->
-<!--                                    label="货品别名"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop=""-->
+                            <!--                                    label="成本价"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="alias"-->
+                            <!--                                    label="货品别名"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
                             <el-table-column
                                     prop="num"
                                     label="下单数量"
@@ -442,16 +443,16 @@
                                     label="实发数"
                                     width="120">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                    prop="alias"-->
-<!--                                    label="库存"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                    prop="alias"-->
-<!--                                    label="可审核库存"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="alias"-->
+                            <!--                                    label="库存"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="alias"-->
+                            <!--                                    label="可审核库存"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
                             <el-table-column
                                     prop="share_amount"
                                     label="分摊后总价"
@@ -472,26 +473,26 @@
                                     label="佣金"
                                     width="120">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                    prop="alias"-->
-<!--                                    label="组合装数量"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="alias"-->
+                            <!--                                    label="组合装数量"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
                             <el-table-column
                                     prop="preWeight"
                                     label="估重"
                                     width="120">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                    prop="alias"-->
-<!--                                    label="体积"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                    prop="alias"-->
-<!--                                    label="担保方式"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="alias"-->
+                            <!--                                    label="体积"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="alias"-->
+                            <!--                                    label="担保方式"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
                             <el-table-column
                                     prop="refund_status"
                                     label="退款状态"
@@ -533,11 +534,11 @@
                                     label="订单支付金额"
                                     width="120">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                    prop="goodsType"-->
-<!--                                    label="货品类别"-->
-<!--                                    width="120">-->
-<!--                            </el-table-column>-->
+                            <!--                            <el-table-column-->
+                            <!--                                    prop="goodsType"-->
+                            <!--                                    label="货品类别"-->
+                            <!--                                    width="120">-->
+                            <!--                            </el-table-column>-->
                         </el-table>
                     </a-tab-pane>
                 </a-tabs>
@@ -569,6 +570,24 @@
                     orderDateEnd: '',
                     orderSubmitDateStart: '',
                     orderSubmitDateEnd: '',
+                },
+                list:{
+                    tradeNo: '',
+                    shopName: '',
+                    buyerNick: '',
+                    payAccount: '',
+                    tradeStatus: '',
+                    goodsName: '',
+                    tradeType: '',
+                    platformType: '',
+                    refundStatus: '',
+                    receiverName: '',
+                    orderDateStart:'',
+                    orderDateEnd: '',
+                    orderPayDateStart: '',
+                    orderPayDateEnd: '',
+                    orderSubmitDateStart: '',
+                    orderSubmitDateEnd: ''
                 },
                 advanced: false,
                 // 列表
@@ -602,9 +621,9 @@
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
             axios.get('backend/order/listOrders/1/5', {headers:{
-                token: tokenStr
-            }}).then( res => {
-                console.log(res.data)
+                    token: tokenStr
+                }}).then( res => {
+                // console.log(res.data)
                 that.data = res.data.data
                 this.loading=false
             }).catch()
@@ -656,20 +675,21 @@
                 const that = this
                 that.loading = true
                 const list = that.orderForm
+                // console.log(list.trade_no)
                 for (let i in list) {
                     if (list[i]) {
                         axios.get('backend/order/getOrders/1/5', {
                             params: {
-                                trade_no: list.trade_no,
-                                platform_type: list.platform_type,
-                                shop_name: list.shop_name,
-                                buyer_nick:list.buyer_nick,
+                                tradeNo: list.trade_no,
+                                platformType: list.platform_type,
+                                shopName: list.shop_name,
+                                buyerNick:list.buyer_nick,
                                 orderDateStart: list.orderDateStart,
                                 orderDateEnd: list.orderDateEnd,
-                                orderSubmitDateStart: list.orderSubmitDateStart,
-                                orderSubmitDateEnd: list.orderSubmitDateEnd,
-                                orderSubmitDateStart: list.orderSubmitDateStart,
-                                orderSubmitDateEnd: list.orderSubmitDateEnd,
+                                // orderSubmitDateStart: list.orderSubmitDateStart,
+                                // orderSubmitDateEnd: list.orderSubmitDateEnd,
+                                // orderSubmitDateStart: list.orderSubmitDateStart,
+                                // orderSubmitDateEnd: list.orderSubmitDateEnd,
                             },
                             headers: {token: that.tokenStr},
                             tokenBackend: that.tokenStr,
@@ -683,7 +703,7 @@
                                 });
                                 that.data = res.data.data.list
                                 that.loading = false
-                                console.log(res.data)
+                                // console.log(res.data)
                                 that.total = res.data.data.total
                                 that.flag = 1
                                 that.current = 1
@@ -772,30 +792,35 @@
                         }
                     }).then(res => {
                         this.data = res.data.data
+                        // console.log(res.data.data)
                         this.loading = false
                     }).catch()
                 }
                 else {
-                    axios.get('backend/order/getOrders'+currentPage+'/'+ size, {
+                    axios.get('backend/order/getOrders/'+currentPage+'/'+ size, {
                         params: {
-                            trade_no: that.orderForm.trade_no,
-                            platform_type: that.orderForm.platform_type,
-                            shop_name: that.orderForm.shop_name,
-                            buyer_nick:that.orderForm.buyer_nick,
-                            orderDateStart: that.orderForm.orderDateStart,
-                            orderDateEnd: that.orderForm.orderDateEnd,
-                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
-                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
-                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
-                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
+                            tradeNo: that.list.trade_no,
+                            platformType: that.list.platform_type,
+                            shopName: that.list.shop_name,
+                            buyerNick:that.list.buyer_nick,
+                            orderDateStart: that.list.orderDateStart,
+                            orderDateEnd: that.list.orderDateEnd,
+                            // orderDateStart: that.orderForm.orderDateStart,
+                            // orderDateEnd: that.orderForm.orderDateEnd,
+                            // orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            // orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
+                            // orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            // orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
                         },
                         headers: {token: that.tokenStr},
-                        tokenBackend: that.tokenStr
+                        tokenBackend: that.tokenStr,
                     }).then(res => {
+
                         if (res.data.code === 3) {
                             that.loading = false
                         } else if (res.data.code === 0) {
                             that.data = res.data.data.list
+                            console.log(res.data.data.list)
                             that.loading = false
                         }
                     }).catch()
@@ -813,18 +838,18 @@
                     }).catch()
                 }
                 else {
-                    axios.get('backend/order/getOrders'+current+'/'+ size, {
+                    axios.get('backend/order/getOrders/'+current+'/'+ size, {
                         params: {
-                            trade_no: that.orderForm.trade_no,
-                            platform_type: that.orderForm.platform_type,
-                            shop_name: that.orderForm.shop_name,
-                            buyer_nick:that.orderForm.buyer_nick,
+                            tradeNo: that.list.trade_no,
+                            platformType: that.list.platform_type,
+                            shopName: that.list.shop_name,
+                            buyerNick:that.list.buyer_nick,
                             orderDateStart: that.orderForm.orderDateStart,
                             orderDateEnd: that.orderForm.orderDateEnd,
-                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
-                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
-                            orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
-                            orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
+                            // orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            // orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
+                            // orderSubmitDateStart: that.orderForm.orderSubmitDateStart,
+                            // orderSubmitDateEnd: that.orderForm.orderSubmitDateEnd,
                         },
                         headers: {token: that.tokenStr},
                         tokenBackend: that.tokenStr
@@ -837,8 +862,8 @@
                         }
                     }).catch()
                 }
-        },
-    }
+            },
+        }
     }
 
 </script>

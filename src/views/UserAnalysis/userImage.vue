@@ -2,7 +2,10 @@
 <template>
     <div>
         <a-card>
-            <el-tabs v-model="activeName" @tab-click="handleClick();finduserImage()">
+            <div style="font-size: large">
+                全体客户画像
+            </div>
+            <el-tabs v-model="activeName" @tab-click="handleClick()">
                 <el-tab-pane label="条件查询" name="first" >
                     <div :class="advanced ? 'search' : null">
                         <a-form id="qForm" layout="horizontal">
@@ -98,16 +101,62 @@
                                 </a-row>
                             </div>
                             <span style="float: right; margin-top: 3px;">
-                      <a-button type="primary" @click="submitButton">查询</a-button>
+                      <a-button type="primary" @click="submitButton()">查询</a-button>
                       <a-button style="margin-left: 8px" @click="resetButton" >重置</a-button>
-                      <a @click="toggleAdvanced" style="margin-left: 8px">
-                        {{advanced ? '收起' : '展开'}}
-                        <a-icon :type="advanced ? 'up' : 'down'" />
-                      </a>
+                      <!--<a @click="toggleAdvanced" style="margin-left: 8px">-->
+                        <!--{{advanced ? '收起' : '展开'}}-->
+                        <!--<a-icon :type="advanced ? 'up' : 'down'" />-->
+                      <!--</a>-->
                     </span>
+                            <el-table :data="tableData1" v-loading="loading"
+                                      element-loading-text="拼命加载中"
+                                      element-loading-spinner="el-icon-loading"
+                                      element-loading-background="rgba(255, 255, 255, 0.8)"
+                                      height="450" border style="..." @row-click="handle"  >
+                                <el-table-column  prop="buyerNick" fixed=""    label="客户网名" >
+                                </el-table-column>
+                                <el-table-column  prop="categoryDimension" label="类别维度" >
+                                </el-table-column >
+                                <el-table-column  prop="salesDimension" label="销量维度" >
+                                </el-table-column >
+                                <el-table-column  prop="timeDimension" label="时间维度" >
+                                </el-table-column >
+                                <el-table-column  prop="valueDimension" label="价值维度" >
+                                </el-table-column >
+                                <el-table-column  prop="regionalDimension" label="地区维度" >
+                                </el-table-column >
+                                <el-table-column  prop="platformDimension" label="平台维度" >
+                                </el-table-column >
+                                <el-table-column  prop="repurchaseDimension" label="复购维度">
+                                </el-table-column >
+                                <el-table-column  prop="reputationDimension" label="信誉维度" >
+                                </el-table-column >
+                                <el-table-column  prop="promotionDimension" label="促销维度" >
+                                </el-table-column >
+                                <el-table-column  prop="cycleDimension" label="周期维度" >
+                                </el-table-column >
+                                <el-table-column  prop="prop1" label="自定义维度1" >
+                                </el-table-column >
+                                <el-table-column  prop="prop2" label="自定义维度2" >
+                                </el-table-column >
+                                <el-table-column  prop="prop3" label="自定义维度3">
+                                </el-table-column >
+                                <el-table-column  prop="prop4" label="自定义维度4" >
+                                </el-table-column >
+                                <el-table-column  prop="prop5" label="自定义维度5" >
+                                </el-table-column >
+                            </el-table>
+                            <el-pagination
+                                    @size-change="handleSizeChange1"
+                                    @current-change="handleCurrentChange1"
+                                    :current-page="queryInfo1.pageNum1"
+                                    :page-sizes="[5, 10, 15, 20]"
+                                    :page-size="queryInfo1.pageSize1"
+                                    layout="total, sizes, prev, pager, next, jumper"
+                                    :total="total1">
+                            </el-pagination>
                         </a-form>
                     </div>
-
                 </el-tab-pane>
                 <el-tab-pane label="标签查询" name="second">
                     <div :class="advanced ? 'search' : null">
@@ -265,8 +314,9 @@
                                         <a-col :md="4" :sm="24" >
                                             平台维度
                                             <a-select placeholder="请选择" size=small v-model="formInline.platformDimension" allowClear>
-                                                <a-select-option value="淘宝">淘宝</a-select-option>
+                                                <a-select-option value="京东">京东</a-select-option>
                                                 <a-select-option value="天猫">天猫</a-select-option>
+                                                <a-select-option value="平台跳转">平台跳转</a-select-option>
                                                 <a-select-option value="其他">其他</a-select-option>
                                             </a-select>
                                             <!--</a-checkbox>-->
@@ -367,256 +417,204 @@
                                         </a-col>
                                     </a-row>
                                 </div>
-                                <span style="float: right; margin-top: 3px;">
-                                   <a-button type="primary" @click="submitList">查询</a-button>
-                                   <a-button style="margin-left: 8px" @click="resetInput">重置</a-button>
-                                   <a @click="toggleAdvanced" style="margin-left: 8px">
-                                       {{advanced ? '收起' : '展开'}}
-                                       <a-icon :type="advanced ? 'up' : 'down'" />
-                                   </a>
+                                <el-row>
+                                      <span style="float: right; margin-top: 3px;">
+                                    <el-button type="success" plain style="margin-right: 10px;margin-top: 5px" size="small">导出数据</el-button>
+                                   <a-button type="primary" @click="submitList()" style="margin-top: 5px">查询</a-button>
+                                   <a-button style="margin-left: 8px;margin-top: 5px" @click="resetInput">重置</a-button>
+                                   <!--<a @click="toggleAdvanced" style="margin-left: 8px">-->
+                                       <!--{{advanced ? '收起' : '展开'}}-->
+                                       <!--<a-icon :type="advanced ? 'up' : 'down'" />-->
+                                   <!--</a>-->
                                 </span>
+                                </el-row>
+                                <el-row>
+                                    <div>
+                                        <!--按维度更新画像-->
+                                        <a-collapse  :bordered="false">
+                                            <template #expandIcon="props">
+                                                <a-icon type="tags" :rotate="props.isActive ? 90 : 0" />
+                                            </template>
+                                            <!--按维度更新画像-->
+                                            <a-collapse-panel key="1" header="按标签维度更新画像" :style="customStyle">
+                                                <!--<el-row >-->
+                                                <!--&lt;!&ndash;<el-col :span="4">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusCatePortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;类别维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusSalePortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;销量维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary"  @click="giveAllCusTimePortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;时间维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusValPortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;价值维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusRegPortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;地区维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--</el-row>-->
+                                                <!--<el-row >-->
+                                                <!--&lt;!&ndash;<el-col :span="4" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusPalPortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;平台维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusRepurchasePortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;复购维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary"  @click="giveAllCusReputationPortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;信誉维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary"  @click="giveAllCusPromotionPortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;促销维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-col :span="4" >&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="grid-content bg-purple">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a-button type="primary" @click="giveAllCusCyclePortrait">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;周期维度&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</a-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+                                                <!--</el-row>-->
+                                                <el-row >
+                                                    <el-col :span="4" >
+                                                        <div class="grid-content bg-purple">
+                                                            <a-button type="primary"  :disabled=dis0 @click="giveAllCusProp1Portrait">
+                                                                自定义标签1
+                                                            </a-button>
+                                                        </div>
+                                                    </el-col>
+                                                    <el-col :span="4">
+                                                        <div class="grid-content bg-purple">
+                                                            <a-button type="primary" :disabled=dis1 @click="giveAllCusProp2Portrait" >
+                                                                自定义标签2
+                                                            </a-button>
+                                                        </div>
+                                                    </el-col>
+                                                    <el-col :span="4" >
+                                                        <div class="grid-content bg-purple" >
+                                                            <a-button type="primary" :disabled=dis2 @click="giveAllCusProp3Portrait" >
+                                                                自定义标签3
+                                                            </a-button>
+                                                        </div>
+                                                    </el-col>
+                                                    <el-col :span="4">
+                                                        <div class="grid-content bg-purple">
+                                                            <a-button type="primary" :disabled=dis3 @click="giveAllCusProp4Portrait">
+                                                                自定义标签4
+                                                            </a-button>
+                                                        </div>
+                                                    </el-col>
+                                                    <el-col :span="4" >
+                                                        <div class="grid-content bg-purple">
+                                                            <a-button type="primary" :disabled=dis4 @click="giveAllCusProp5Portrait">
+                                                                自定义标签5
+                                                            </a-button>
+                                                        </div>
+                                                    </el-col>
+                                                </el-row>
+                                            </a-collapse-panel>
+                                        </a-collapse>
+                                    </div>
+                                </el-row>
+                                <!--渲染表格数据-->
+                                <el-table :data="tableData" v-loading="loading"
+                                          element-loading-text="拼命加载中"
+                                          element-loading-spinner="el-icon-loading"
+                                          element-loading-background="rgba(255, 255, 255, 0.8)"
+                                          height="450" border style="..." @row-click="handle"  >
+                                    <el-table-column  prop="buyerNick" fixed=""    label="客户网名" >
+                                    </el-table-column>
+                                    <el-table-column  prop="categoryDimension" label="类别维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="salesDimension" label="销量维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="timeDimension" label="时间维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="valueDimension" label="价值维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="regionalDimension" label="地区维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="platformDimension" label="平台维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="repurchaseDimension" label="复购维度">
+                                    </el-table-column >
+                                    <el-table-column  prop="reputationDimension" label="信誉维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="promotionDimension" label="促销维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="cycleDimension" label="周期维度" >
+                                    </el-table-column >
+                                    <el-table-column  prop="prop1" label="自定义维度1" >
+                                    </el-table-column >
+                                    <el-table-column  prop="prop2" label="自定义维度2" >
+                                    </el-table-column >
+                                    <el-table-column  prop="prop3" label="自定义维度3">
+                                    </el-table-column >
+                                    <el-table-column  prop="prop4" label="自定义维度4" >
+                                    </el-table-column >
+                                    <el-table-column  prop="prop5" label="自定义维度5" >
+                                    </el-table-column >
+                                </el-table>
+                                <!--分页-->
+                                <el-pagination
+                                        :current-page.sync = "page"
+                                        @size-change="handleSizeChange"
+                                        @current-change="handleCurrentChange"
+                                        :current-page="queryInfo.pageNum"
+                                        :page-sizes="[5, 10, 15, 20]"
+                                        :page-size="queryInfo.pageSize"
+                                        layout="total, sizes, prev, pager, next, jumper"
+                                        :total="total">
+                                </el-pagination>
                             </div>
                         </a-form>
                     </div>
                 </el-tab-pane>
                 <div >
+                    <!--弹窗-->
                     <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
                         <el-tag >用户网名：{{this.imageRow.buyerNick}}</el-tag>
                         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
                         <span slot="footer" class="dialog-footer">
-                           <!--<el-button @click="dialogVisible = false">取 消</el-button>-->
                            <el-button type="primary" @click="dialogVisible = false">返回</el-button>
                            </span>
                     </el-dialog>
-                    <div style="margin-bottom: 10px">
-                        <el-button type="success" plain @click="getuserImage">生成画像</el-button>
-                    </div>
-                    <div>
-                        <div>
-                            <a-collapse  :bordered="false">
-                                <template #expandIcon="props">
-                                    <a-icon type="tags" :rotate="props.isActive ? 90 : 0" />
-                                </template>
-                                <a-collapse-panel key="1" header="按标签维度更新画像" :style="customStyle">
-                                    <el-row >
-                                        <el-col :span="4">
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusCatePortrait">
-                                                    类别维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple" >
-                                                <a-button type="primary" @click="giveAllCusSalePortrait">
-                                                    销量维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4">
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary"  @click="giveAllCusTimePortrait">
-                                                    时间维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusValPortrait">
-                                                    价值维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusRegPortrait">
-                                                    地区维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-
-                                    </el-row>
-                                    <el-row >
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusPalPortrait">
-                                                    平台维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4">
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusRepurchasePortrait">
-                                                    复购维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple" >
-                                                <a-button type="primary"  @click="giveAllCusReputationPortrait">
-                                                    信誉维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4">
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary"  @click="giveAllCusPromotionPortrait">
-                                                    促销维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" @click="giveAllCusCyclePortrait">
-                                                    周期维度
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row >
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary"  :disabled=dis0 @click="giveAllCusProp1Portrait">
-                                                    自定义标签1
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4">
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" :disabled=dis1 @click="giveAllCusProp2Portrait" >
-                                                    自定义标签2
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple" >
-                                                <a-button type="primary" :disabled=dis2 @click="giveAllCusProp3Portrait" >
-                                                    自定义标签3
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4">
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" :disabled=dis3 @click="giveAllCusProp4Portrait">
-                                                    自定义标签4
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="4" >
-                                            <div class="grid-content bg-purple">
-                                                <a-button type="primary" :disabled=dis4 @click="giveAllCusProp5Portrait">
-                                                    自定义标签5
-                                                </a-button>
-                                            </div>
-                                        </el-col>
-                                    </el-row>
-                                </a-collapse-panel>
-                            </a-collapse>
-                        </div>
-                    </div>
-                    <el-table :data="tableData" v-loading="loading"
-                              element-loading-text="拼命加载中"
-                              element-loading-spinner="el-icon-loading"
-                              element-loading-background="rgba(255, 255, 255, 0.8)"
-                              height="450" border style="..." @row-click="handle"  >
-                        <el-table-column  fixed="" type="expand">
-                            <template slot-scope="props">
-
-                                <el-form label-position="left" inline class="demo-table-expand">
-                                    <!--<el-form-item label="客户网名">-->
-                                    <!--<span>{{ props.row.buyerNick}}</span>-->
-                                    <!--</el-form-item>-->
-                                    <!--<div id="mywordcloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>-->
-                                    <div>
-                                        <a-row>
-                                            <a-col :md="4" :sm="24">
-                                                <el-form-item label="类别维度:">
-                                                    <span>{{ props.row.categoryDimension }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="销量维度:">
-                                                    <span>{{ props.row.salesDimension}}</span>
-                                                </el-form-item>
-                                                <el-form-item label="时间维度:">
-                                                    <span>{{ props.row.timeDimension }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="价值维度:">
-                                                    <span>{{ props.row.valueDimension }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="地区维度:">
-                                                    <span>{{ props.row.regionalDimension }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="平台维度:">
-                                                    <span>{{ props.row.platformDimension}}</span>
-                                                </el-form-item>
-                                                <el-form-item label="复购维度:">
-                                                    <span>{{ props.row.repurchaseDimension}}</span>
-                                                </el-form-item>
-                                                <el-form-item label="信誉维度:">
-                                                    <span>{{ props.row.reputationDimension}}</span>
-                                                </el-form-item>
-                                                <el-form-item label="促销维度:">
-                                                    <span>{{ props.row.promotionDimension}}</span>
-                                                </el-form-item>
-                                                <el-form-item label="周期维度:">
-                                                    <span>{{ props.row.cycleDimension}}</span>
-                                                </el-form-item>
-                                            </a-col>
-                                            <a-col  :md="4" :sm="24">
-                                                <div>
-                                                </div>
-                                            </a-col>
-                                            <a-col  :md="4" :sm="24">
-                                                <div>
-                                                </div>
-                                            </a-col>
-                                        </a-row>
-                                    </div>
-
-                                </el-form>
-                            </template>
-                        </el-table-column>
-                        <el-table-column  prop="buyerNick" fixed=""    label="客户网名" >
-                        </el-table-column>
-                        <el-table-column  prop="categoryDimension" label="类别维度" >
-                        </el-table-column >
-                        <el-table-column  prop="salesDimension" label="销量维度" >
-                        </el-table-column >
-                        <el-table-column  prop="timeDimension" label="时间维度" >
-                        </el-table-column >
-                        <el-table-column  prop="valueDimension" label="价值维度" >
-                        </el-table-column >
-                        <el-table-column  prop="regionalDimension" label="地区维度" >
-                        </el-table-column >
-                        <el-table-column  prop="platformDimension" label="平台维度" >
-                        </el-table-column >
-                        <el-table-column  prop="repurchaseDimension" label="复购维度">
-                        </el-table-column >
-                        <el-table-column  prop="reputationDimension" label="信誉维度" >
-                        </el-table-column >
-                        <el-table-column  prop="promotionDimension" label="促销维度" >
-                        </el-table-column >
-                        <el-table-column  prop="prop1" label="周期维度" >
-                        </el-table-column >
-                        <el-table-column  prop="prop2" label="自定义维度1" >
-                        </el-table-column >
-                        <el-table-column  prop="prop3" label="自定义维度2" >
-                        </el-table-column >
-                        <el-table-column  prop="prop4" label="自定义维度3">
-                        </el-table-column >
-                        <el-table-column  prop="prop5" label="自定义维度4" >
-                        </el-table-column >
-                        <el-table-column  prop="prop6" label="自定义维度5" >
-                        </el-table-column >
-                    </el-table>
-                    <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="queryInfo.pageNum"
-                            :page-sizes="[5, 10, 15, 20]"
-                            :page-size="queryInfo.pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
-                    </el-pagination>
                 </div>
             </el-tabs>
         </a-card>
@@ -628,7 +626,6 @@
     import echarts from "echarts";
     import "echarts-wordcloud/dist/echarts-wordcloud";
     import "echarts-wordcloud/dist/echarts-wordcloud.min";
-
     import StandardTable from '@/components/StandardTable'
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
@@ -639,6 +636,12 @@
         components: {ACol, ARow, StandardTable},
         data () {
             return {
+                page: 1,  // 当前页面
+                //条件查询分页
+                queryInfo1:{
+                    pageNum1:1,
+                    pageSize1:10,
+                },
                 //分页
                 queryInfo:{
                     pageNum:1,
@@ -690,7 +693,6 @@
                 dis2:true,
                 dis3:true,
                 dis4:true,
-
                 //省份选择
                 options: [{
                     value: '河北省',
@@ -803,9 +805,11 @@
                 loading: true,
                 advanced: true,
                 tableData:[],
+                tableData1:[],
                 selectedRows: [],
                 pageSize: '',
                 total: 0,
+                total1:0,
                 tokenStr:'',
                 activeName: 'second',
                 // 复选框
@@ -815,11 +819,11 @@
                 worddata: [
                     {
                         name: "中国特色社会主义",
-                        value: 2500
+                        value: 5600
                     },
                     {
                         name: "两学一做",
-                        value: 3008
+                        value: 6008
                     },{
                         name: "中华民族",
                         value: 5386
@@ -850,7 +854,26 @@
                     },
                     {
                         name: "文化强国",
-                        value: 1380
+                        value: 4380
+                    },
+                    {
+                        name: "文化强国",
+                        value: 5380
+                    },
+                    {
+                        name: "文化强国",
+                        value:5380
+                    },
+                    {
+                        name: "文化强国",
+                        value: 4380
+                    },
+                    {
+                        name: "文化强国",
+                        value: 3380
+                    },{
+                        name: "文化强国",
+                        value: 3380
                     },
                 ],
                 flag: 0,
@@ -904,7 +927,9 @@
                 // console.log(res.data.data)
                 // console.log("看看数据")
                 that.tableData = res.data.data.list
+                that.tableData1=res.data.data.list
                 that.total=res.data.data.total
+                that.total1=res.data.data.total
             }).catch()
             this.getLabelVal()
         },
@@ -913,23 +938,24 @@
             // this.getuserImage();
             this.getLabelVal();
         },
+        // inject: ['reload'],
         methods: {
             finduserImage(){
+                console.log('调用全表数据刷新!')
                 this.loading=true
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
                 axios.get('backend/portrait/customerPortrait/findAllCusPortrait/1/10', {headers:{
                         token: tokenStr
                     }}).then(res => {
-                    this.loading=false
-                    // console.log(res.data.data)
-                    // console.log("看看数据")
+                    that.loading=false
                     that.tableData = res.data.data.list
+                    that.tableData1=res.data.data.list
                     that.total=res.data.data.total
+                    that.total1=res.data.data.total
                 }).catch()
-
             },
-            //  获取标签
+            //s获取标签
             getLabelVal(){
                 const that = this
                 // console.log("画像页调取页面更新自定义标签")
@@ -969,25 +995,25 @@
                     }
                 }).catch()
             },
-            //生成画像
-            getuserImage(){
-                this.loading=true
-                const that = this
-                const tokenStr = window.sessionStorage.getItem('token')
-                that.tokenStr = tokenStr
-                // console.log(that.tokenStr)
-                axios.put('backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
-                        token: tokenStr
-                    }}).then( res => {
-                    // console.log(res.data)
-                    // console.log("拿到画像")
-                    this.loading=false
-                    this.$message({
-                        message: '画像生成成功！',
-                        type: 'success'
-                    });
-                }).catch()
-            },
+            // //生成画像
+            // getuserImage(){
+            //     this.loading=true
+            //     const that = this
+            //     const tokenStr = window.sessionStorage.getItem('token')
+            //     that.tokenStr = tokenStr
+            //     // console.log(that.tokenStr)
+            //     axios.put('backend/portrait/customerPortrait/giveAllCusPortrait', {headers:{
+            //             token: tokenStr
+            //         }}).then( res => {
+            //         // console.log(res.data)
+            //         // console.log("拿到画像")
+            //         this.loading=false
+            //         this.$message({
+            //             message: '画像生成成功！',
+            //             type: 'success'
+            //         });
+            //     }).catch()
+            // },
             // 分页ok,首页是0，标签是1，条件是2
             handleCurrentChange(currentPage){
                 // console.log(currentPage)
@@ -995,6 +1021,7 @@
                 this.queryInfo.pageNum = currentPage
                 const tokenStr = window.sessionStorage.getItem('token')
                 const that = this
+                this.page=1
                 if(this.flag===0){
                     axios.get('backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
                         +this.queryInfo.pageSize, {headers:{
@@ -1009,9 +1036,6 @@
                 }
                 else if(this.flag===1){
                     this.submitList()
-                }
-                else{
-                    this.submitButton()
                 }
 
             },
@@ -1035,20 +1059,60 @@
                 else if(this.flag===1){
                     this.submitList()
                 }
+            },
+            //条件查询分页
+            handleCurrentChange1(currentPage){
+                // console.log(currentPage)
+                this.loading=true
+                this.queryInfo1.pageNum1 = currentPage
+                const tokenStr = window.sessionStorage.getItem('token')
+                const that = this
+                if(this.flag===0){
+                    axios.get('backend/portrait/customerPortrait/findAllCusPortrait/'+currentPage+'/'
+                        +this.queryInfo1.pageSize1, {headers:{
+                            token: tokenStr
+                        }}).then(res => {
+                        // console.log(res.data.data)
+                        that.tableData1 = res.data.data.list
+                        that.total1=res.data.data.total
+                        this.loading=false
+                        // console.log("总接口当前页码")
+                    }).catch()
+                }
                 else if(this.flag===2){
                     this.submitButton()
                 }
-
-
+            },
+            handleSizeChange1(pageSize) {
+                // console.log("页面数据量")
+                // console.log(pageSize)
+                this.queryInfo1.pageSize1 = pageSize;
+                const that = this
+                const tokenStr = window.sessionStorage.getItem('token')
+                if(this.flag===0){
+                    axios.get('backend/portrait/customerPortrait/findAllCusPortrait/'
+                        +this.queryInfo1.pageNum1+'/'+pageSize, {headers:{
+                            token: tokenStr
+                        }}).then(res => {
+                        // // console.log(res.data.data)
+                        that.tableData1 = res.data.data.list
+                        that.total1=res.data.data.total
+                        // console.log("总接口页面数据")
+                    }).catch()
+                }
+                else if(this.flag===2){
+                    this.submitButton()
+                }
             },
             // 标签查询
             submitList() {
+                console.log('标签查询')
                 const vm = this;
                 this.loading=true
                 const that = this
                 const midlist = {}
                 const list = this.formInline
-                // console.log(list.categoryDimension)
+
                 for(let i in list){
                     let value = list[i]
                     if (value === "") {
@@ -1057,8 +1121,6 @@
                         midlist[i] = value
                     }
                 }
-                // console.log(midlist)
-                // console.log("提交表单")
                 const tokenStr = window.sessionStorage.getItem('token')
                 if(that.flag===0){
                     axios.get('backend/portrait/customerPortrait/findCusPortraitByLabel/1/10', {
@@ -1066,14 +1128,13 @@
                         headers: {token: tokenStr},
                         tokenBackend: tokenStr
                     }).then( res => {
-                        // console.log(res.data)
+                        console.log(res.data)
                         that.tableData = res.data.data.list;
                         that.total=res.data.data.total;
                         this.loading=false
                         this.flag=1
                         if(res.data.data.list == null) {
                             this.$message.error('未查询到相关用户！')
-
                         }else{
                             // console.log("成功！！")
                             //遇到失效问题，解决
@@ -1085,8 +1146,8 @@
                         }
                     }).catch()
                 }
-                else if(this.flag===1){
-                    // console.log("标签查询分页")
+                else {
+
                     axios.get('backend/portrait/customerPortrait/findCusPortraitByLabel/'+
                         this.queryInfo.pageNum+'/'+this.queryInfo.pageSize, {
                         params: midlist,
@@ -1094,6 +1155,7 @@
                         tokenBackend: tokenStr
                     }).then( res => {
                         // console.log(res.data)
+                        console.log('当前页码'+this.queryInfo.pageNum)
                         that.tableData = res.data.data.list;
                         that.total=res.data.data.total;
                         this.loading=false
@@ -1101,13 +1163,15 @@
 
                 }
             },
-            //条件查询
+            // 条件查询绑定button
             submitButton() {
                 const vm = this
+                console.log('条件查询')
                 this.loading=true
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
                 const midlist = {}
+                console.log('条件查询结果111')
                 const list = this.form
                 // // console.log(list)
                 for(let i in list){
@@ -1118,42 +1182,35 @@
                         midlist[i] = value
                     }
                 }
-                // console.log(midlist)
-                // console.log("提交表单")
                 if(this.flag===0){
                     axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition/1/10', {
                         params:midlist,
                         headers: {token: tokenStr},
                         tokenBackend: tokenStr
                     }).then( res => {
-                        // console.log(res.data)
-                        // 去掉缓存，不对tableData重复赋值不会出现增量列表问题
-                        // console.log("拿到查询数据")
+                        console.log("第一次拿到条件查询数据")
                         this.flag=2
                         this.loading=false
-                        that.tableData = res.data.data.list;
-                        this.total=res.data.data.total
+                        that.tableData1 = res.data.data.list
+                        this.total1=res.data.data.total
                     }).catch()
                 }
-                else if(this.flag===2){
+                // 查询结果分页,limlin放在分页函数
+                else {
                     axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition/'
-                        +this.queryInfo.pageNum+'/'+this.queryInfo.pageSize, {
+                        +this.queryInfo1.pageNum1+'/'+this.queryInfo1.pageSize1, {
                         params:midlist,
                         headers: {token: tokenStr},
                         tokenBackend: tokenStr
                     }).then( res => {
-                        that.tableData = res.data.data.list;
-                        that.total = res.data.data.total
-                        // console.log(that.tableData )
-                        // console.log("拿到条件查询分页数据")
-                        // that.total = res.data.data.length;
-                        // // console.log(res.data.data.length)
+                        console.log("第一次拿到分页查询数据")
+                        that.tableData1 = res.data.data.list;
+                        that.total1 = res.data.data.total
                         this.loading=false
                         // this.flag=1
                         // console.log(this.flag)
                     }).catch()
                 }
-
             },
             //条件查询重置
             resetButton(){
@@ -1171,15 +1228,15 @@
                     lastStartTime:'',
                     lastEndTime:'',
                 }
-                axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition',
+                axios.get('backend/portrait/customerPortrait/findCusPortraitByCondition/1/10',
                     {headers:{token: tokenStr}, tokenBackend: tokenStr}).then( res => {
-                    // // console.log(res.data)
-                    that.tableData = res.data.data.list;
+                    that.tableData1 = res.data.data.list
                     that.total=res.data.data.total
-                    // that.total=res.data.length;
+                    that.loading = false
                 }).catch()
+                this.finduserImage()
             },
-            // 重置
+            // 标签查询重置
             resetInput(){
                 const that = this
                 const tokenStr = window.sessionStorage.getItem('token')
@@ -1198,11 +1255,11 @@
                 }
                 axios.get('backend/portrait/customerPortrait/findAllCusPortrait/1/10','',
                     {headers:{token: tokenStr},tokenBackend: tokenStr}).then( res => {
-                    // // console.log(res.data)
                     that.tableData = res.data.data.list;
                     that.total=res.data.data.total
-                    // that.total=res.data.length;
+                    that.loading = false
                 }).catch()
+                this.finduserImage()
             },
             //类别维度更新
             giveAllCusCatePortrait(){
@@ -1514,10 +1571,10 @@
             toggleAdvanced () {
                 this.advanced = !this.advanced
             },
-            onChange(checkedList) {
-                this.indeterminate = !!checkedList.length && checkedList.length < plainOptions.length;
-                this.checkAll = checkedList.length === plainOptions.length;
-            },
+            // onChange(checkedList) {
+            //     this.indeterminate = !!checkedList.length && checkedList.length < plainOptions.length;
+            //     this.checkAll = checkedList.length === plainOptions.length;
+            // },
             //时间选择框
             startChange(date,dateString){
                 this.form.reStartTime =dateString
@@ -1583,16 +1640,14 @@
                 // chart.setOption(option);
             },
             handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {});
+                this.dialogVisible=false
             },
-            // table
-            handleClick(row) {
-                // console.log("绑定查询按键");
-                // console.log(row);
+            // tab切换
+            handleClick() {
+                this.finduserImage()
+                console.log(this.activeName)
+                // this.$router.go(0)
+                // this.reload()
             },
             remove () {
                 this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
@@ -1605,21 +1660,24 @@
             },
             //获取行内信息
             handle(row, event, column) {
-                // console.log("这是row")
-                // console.log(row)
+                console.log("这是row")
+                console.log(row)
                 const that = this
                 that.imageRow =row
                 this.dialogVisible=true
                 this.$nextTick(()=>{
                     this.initChart()
                 })
-                let j = 0
+                // let j = 0
+                let j =this.worddata.length
                 for(let i in row){
                     // // console.log(i)
                     if (i!=='buyerNick'){
-                        // console.log(row[i])
+                        j--
+                        console.log(row[i])
+                        this.worddata[j].name={ }
                         this.worddata[j].name=row[i]
-                        j++
+
                     }
 
                 }

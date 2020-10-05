@@ -116,7 +116,7 @@
     .login-page {
         -webkit-border-radius: 5px;
         border-radius: 5px;
-        margin-top: 140px;
+        margin-top: auto;
         /*实现水平居中*/
         margin-right: auto;
         margin-left: auto;
@@ -130,14 +130,11 @@
         height: 140px;
         width: 250px;
         border-radius:50%;
-        /*position: absolute;*/
-        /*left:50%;*/
-        /*top: 23%;*/
         position: relative;
         left: 50%;
-        top: 260px;
+        top: 120px;
         transform:translate(-50%,-50%);
-        img{
+        img {
              width:100%;
              height:100%;
          }
