@@ -5,6 +5,7 @@
       <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" >
         <!--<span>类别维度:{{this.imageData.categoryDimension}}</span>-->
         <el-tag >用户名：{{this.Nick1}}</el-tag>
+        <el-tag >电话：{{this.tel}}</el-tag>
         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
 
         <span slot="footer" class="dialog-footer">
@@ -44,7 +45,7 @@
             <el-card shadow="hover">
               <div slot="header" class="clearfix">
                 <span style="font-size: large;font-weight: bolder">时间维度</span>
-<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="老客户：用户第一次购买时间距今一年或一年以上，并且在90天之内有购买记录;新客户：用户第一次购买时间距今小于一个月" class="btn btn-path" >说明</el-button>-->
+                <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="老客户：用户第一次购买时间距今一年或一年以上，并且在90天之内有购买记录;新客户：用户第一次购买时间距今小于一个月" class="btn btn-path" >说明</el-button>-->
                 <el-tooltip placement="top">
                   <div slot="content">老客户：用户第一次购买时间距今一年或一年以上，<br/>并且在90天之内有购买记录;<br/>新客户：用户第一次购买时间距今小于一个月</div>
                   <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
@@ -57,7 +58,7 @@
             <el-card shadow="hover">
               <div slot="header" class="clearfix">
                 <span style="font-size: large;font-weight: bolder">销量维度</span>
-<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="低销量" class="btn btn-path" >说明</el-button>-->
+                <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="低销量" class="btn btn-path" >说明</el-button>-->
                 <el-tooltip placement="top">
                   <div slot="content">低销量：客户消费金额小于200元，<br/>高销量：客户消费金额大于等于1000元;</div>
                   <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
@@ -74,7 +75,7 @@
             <el-card shadow="hover">
               <div slot="header" class="clearfix">
                 <span style="font-size: large;font-weight: bolder">价值维度</span>
-<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="高价值" class="btn btn-path" >说明</el-button>-->
+                <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="高价值" class="btn btn-path" >说明</el-button>-->
                 <el-tooltip placement="top">
                   <div slot="content">高价值：客户创造利润大于等于500元<br/>低价值：客户创造利润小于100元;</div>
                   <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
@@ -87,7 +88,7 @@
             <el-card shadow="hover">
               <div slot="header" class="clearfix">
                 <span style="font-size: large;font-weight: bolder">复购维度</span>
-<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="高复购" class="btn btn-path" >说明</el-button>-->
+                <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="高复购" class="btn btn-path" >说明</el-button>-->
                 <el-tooltip placement="top">
                   <div slot="content">高复购：在近一年内累计购买次数大于等于4次<br/>低复购：在近三个月内累计购买次数小于4次;</div>
                   <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
@@ -100,7 +101,7 @@
             <el-card shadow="hover">
               <div slot="header" class="clearfix">
                 <span style="font-size: large;font-weight: bolder">周期维度</span>
-<!--                <el-button  style="float: right; padding: 3px 0" type="text" title="流失客户" class="btn btn-path" >说明</el-button>-->
+                <!--                <el-button  style="float: right; padding: 3px 0" type="text" title="流失客户" class="btn btn-path" >说明</el-button>-->
                 <el-tooltip placement="top">
                   <div slot="content">稳定客户：近三个月内，累计购买次数大于等于3<br/>流失客户：近三个月内，无购买行为<br/>潜在客户：近三个月内购买次数大于等于1小于3</div>
                   <el-button style="float: right; padding: 3px 0" type="text" class="btn btn-path" >提示</el-button>
@@ -149,15 +150,15 @@
             <el-card shadow="hover">
               <div id="data" style="width: 500px; height: 460px;">
                 <h2 style="font-weight: bolder">省级分布</h2>
-<!--                <a-form-item-->
-<!--                    label="日期"-->
-<!--                    :labelCol="{span:2}"-->
-<!--                    :wrapperCol="{span: 10}"-->
-<!--                >-->
-<!--                  <a-range-picker @change="dateOnChange" size="small">-->
-<!--                    <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
-<!--                  </a-range-picker>-->
-<!--                </a-form-item>-->
+                <!--                <a-form-item-->
+                <!--                    label="日期"-->
+                <!--                    :labelCol="{span:2}"-->
+                <!--                    :wrapperCol="{span: 10}"-->
+                <!--                >-->
+                <!--                  <a-range-picker @change="dateOnChange" size="small">-->
+                <!--                    <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />-->
+                <!--                  </a-range-picker>-->
+                <!--                </a-form-item>-->
                 <el-table
                     :data="pageFive"
                     style="width: 80% ;height:80%"
@@ -214,9 +215,12 @@ export default {
       // buyerNick1: [],
       customerName1:[],
       customerName2:[],
+      mobile1:'',
+      mobile2:'',
       //buyerNick2: [],
       // 控制用户画像弹窗
       Nick1: '',
+      tel:'',
       dialogVisible: false,
       flag: 0,
       sumTotalPurchaseNum: [],
@@ -243,42 +247,42 @@ export default {
       mulPlatformsCus: [],
       //词云
       worddata: [
-          {
-            name: "",
-            value: 7508
-          },
         {
-            name: "",
-            value: 8386
-          },
-          {
-            name: "",
-            value: 8500
-          },
-          {
-            name: "",
-            value: 7900
-          },
-          {
-            name: "",
-            value: 7500
-          },
-          {
-            name: "",
-            value:7500
-          },
-          {
-            name: "",
-            value: 7800
-          },
-          {
-            name: "",
-            value: 7850
-          },
-          {
-            name: "",
-            value: 7380
-          },
+          name: "",
+          value: 7508
+        },
+        {
+          name: "",
+          value: 8386
+        },
+        {
+          name: "",
+          value: 8500
+        },
+        {
+          name: "",
+          value: 7900
+        },
+        {
+          name: "",
+          value: 7500
+        },
+        {
+          name: "",
+          value:7500
+        },
+        {
+          name: "",
+          value: 7800
+        },
+        {
+          name: "",
+          value: 7850
+        },
+        {
+          name: "",
+          value: 7380
+        },
         {
           name: "",
           value: 7500
@@ -306,6 +310,18 @@ export default {
         {
           name: "",
           value: 7900
+        },
+        {
+          name: "",
+          value: 7508
+        },
+        {
+          name: "",
+          value: 7508
+        },
+        {
+          name: "",
+          value: 7508
         },
       ],
       //每行数据
@@ -508,6 +524,7 @@ export default {
       let sumTotalPurchaseNum = that.sumTotalPurchaseNum
       // let buyerNick1 = that.buyerNick1
       let customerName1 = that.customerName1
+      // let mobile1 = that.mobile1
       axios.get('http://192.168.1.102:8080/backend/data/getTPNTopTen', {
         headers: {
           token: this.tokenStr
@@ -590,18 +607,28 @@ export default {
             //   console.log(params);
             // });
             myChart1.on('click', data => {
-              // console.log("点击条形图的回馈")
+              console.log("点击条形图的回馈")
+              console.log(data)
+              // console.log(data.name)
               // 存储点击的条的index
               let ind = 9 - parseInt(data.dataIndex)
               const that = this
               that.Nick1 = data.name  //网名赋值
+              console.log("hahahha，pkpk")
+              console.log(res.data.data)
+              for(let i=0;i<10;i++){
+                if(res.data.data[i].customerName === data.name){
+                  that.tel = res.data.data[i].mobile  //电话赋值
+                  console.log(res.data.data[i].mobile)
+                }
+              }
               that.dialogVisible = true
               this.$nextTick(() => {
                 this.initChart()
               })
-              console.log(res.data.data)
+              // 有电话的返回值组
+
               // for (let i=0; i <10;i++) {
-              console.log('第二个')
               let d = 0
               for(let j in res.data.data[ind]) {
                 // console.log("输出对应的维度值")
@@ -714,6 +741,7 @@ export default {
               let ind = 9 - parseInt(data.dataIndex)
               const that = this
               that.Nick1 = data.name  //网名赋值
+              that.tel = data.mobile  //电话赋值
               that.dialogVisible = true
               this.$nextTick(() => {
                 this.initChart()
@@ -765,7 +793,12 @@ export default {
               // title: {
               //   text: '分类维度',
               // },
-              // tooltip: {},
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow'
+                },
+              },
 
               legend: {
                 data: ['人数']
@@ -1239,6 +1272,7 @@ export default {
                 {
                   name: '访问来源',
                   type: 'pie',
+                  minAngle: 20,
                   radius: ['50%', '70%'],
                   avoidLabelOverlap: false,
                   label: {
