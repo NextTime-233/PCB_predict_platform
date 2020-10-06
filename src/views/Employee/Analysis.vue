@@ -4,7 +4,7 @@
     <div class="togglePage">
       <el-dialog title="个人画像" :visible.sync="dialogVisible" width="50%" >
         <!--<span>类别维度:{{this.imageData.categoryDimension}}</span>-->
-        <el-tag >用户名：{{this.Nick1}}</el-tag>
+        <el-tag style="margin-right: 10px">用户名：{{this.Nick1}}</el-tag>
         <el-tag >电话：{{this.tel}}</el-tag>
         <div  ref="WordCloud"  :style="{width: '100%', height: '200px'}" :data="worddata"></div>
 
@@ -741,7 +741,14 @@ export default {
               let ind = 9 - parseInt(data.dataIndex)
               const that = this
               that.Nick1 = data.name  //网名赋值
-              that.tel = data.mobile  //电话赋值
+              console.log("hahahha，pkpk")
+              console.log(res.data.data)
+              for(let i=0;i<10;i++){
+                if(res.data.data[i].customerName === data.name){
+                  that.tel = res.data.data[i].mobile  //电话赋值
+                  console.log(res.data.data[i].mobile)
+                }
+              }
               that.dialogVisible = true
               this.$nextTick(() => {
                 this.initChart()
