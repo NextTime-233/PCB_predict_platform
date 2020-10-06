@@ -1,7 +1,7 @@
 <!--整体框架-->
 <template>
-    <a-layout id="layout-demo">
-        <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+    <div id="layout-demo">
+        <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }" v-model="collapsed" :trigger="null" collapsible>
             <!--   主页logo跳转   -->
             <div class="logo">
                 <img src="../assets/logo.png" style="height: 55px; width: 96px;"/>
@@ -83,7 +83,7 @@
                 </a-sub-menu>
             </a-menu>
         </a-layout-sider>
-        <a-layout>
+        <a-layout :style="{ marginLeft: '200px' }">
             <a-layout-header style="background: #fff; padding: 0px 20px; display: flex; justify-content: space-between; align-items: center">
                 <a-icon
                         class="trigger"
@@ -91,10 +91,6 @@
                         @click="() => (collapsed = !collapsed)"
                 />
                 <div>
-<!--                    <a-badge title="Custom hover text" :count="99" :overflow-count="10" style="position: relative; right: 30px;">-->
-<!--                       <a-icon type="bell" class="head-example" :style="{ fontSize: '25px'}"/>-->
-<!--                    </a-badge>-->
-                    <!--伸缩按钮-->
                     <a-dropdown class="self">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                             <a-avatar style="backgroundColor:#87d068; margin-right:10px" icon="user" />
@@ -127,7 +123,7 @@
 <!--                <page-footer></page-footer>-->
             </a-layout-content>
         </a-layout>
-    </a-layout>
+    </div>
 </template>
 <script>
     import Bread from "../components/Bread";
