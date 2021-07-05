@@ -26,7 +26,7 @@
                      <el-upload
                              class="upload-demo"
                              ref="uploadCustomer"
-                             action="http://192.168.1.105:8080/backend/customer/uploadExcel"
+                             action="http://localhost:8080/backend/customer/uploadExcel"
                              :headers=myHeaders
                              :on-preview="handlePreview"
                              :on-remove="handleRemove"
@@ -68,7 +68,7 @@
                      <el-upload
                              class="upload-demo"
                              ref="uploadOrder"
-                             action="http://192.168.1.105:8080/backend/order/uploadExcel"
+                             action="http://localhost:8080/backend/order/uploadExcel"
                              :headers=myHeaders
                              :on-preview="handlePreview"
                              :on-remove="handleRemove"

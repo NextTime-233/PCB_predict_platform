@@ -4,8 +4,8 @@
         <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }" v-model="collapsed" :trigger="null" collapsible>
             <!--   主页logo跳转   -->
             <div class="logo">
-                <img src="../assets/logo.png" style="height: 55px; width: 96px;"/>
-                {{collapsed?'LJPZ':'后台管理系统'}}
+                <!--<img src="../assets/logo.png" style="height: 55px; width: 96px;"/>-->
+                {{collapsed?'BEARING':'轨道交通轴承智能诊断系统'}}
             </div>
             <a-menu class="left-menu"
                     :default-selected-keys="['1']"
@@ -14,73 +14,92 @@
                     :theme="theme"
                     :selected-keys="[current]"
                     @click="handleClick">
-                <a-sub-menu  key="sub0">
-                    <span slot="title"><a-icon type="home" /><span>数据分析</span></span>
+                <!--<a-sub-menu  key="sub0">-->
                     <a-menu-item key="1">
                         <router-link to="/Analysis" tag="div">
-                            <span>数据分析</span>
+                            <a-icon type="home" /><span>数据中心管理</span>
+                            <!--<span>数据分析</span>-->
                         </router-link>
                     </a-menu-item>
-                </a-sub-menu>
-                <a-sub-menu v-show="boss" key="sub1">
-                    <span slot="title"><a-icon type="team" /><span>用户管理</span></span>
-                    <a-menu-item  key="2">
-                        <router-link to="/employee" tag="div">
-                            <span>用户管理</span>
-                        </router-link>
-                    </a-menu-item>
-                </a-sub-menu>
-                <a-sub-menu key="sub2">
-                    <span slot="title"><a-icon type="edit" /><span>客户管理</span></span>
+                <!--</a-sub-menu>-->
+                <!--<a-sub-menu v-show="boss" key="sub1">-->
+                    <!--<span slot="title"><a-icon type="team" /><span>用户管理</span></span>-->
+                    <!--<a-menu-item  key="2">-->
+                        <!--<router-link to="/employee" tag="div">-->
+                            <!--<span>用户管理</span>-->
+                        <!--</router-link>-->
+                    <!--</a-menu-item>-->
+                <!--</a-sub-menu>-->
+                <!--<a-sub-menu key="sub2">-->
+
                     <a-menu-item key="3">
+                        <!--<span slot="title">-->
+
+                        <!--</span>-->
                         <router-link to="/Lable" tag="div">
-                            <span>标签管理</span>
+                            <a-icon type="edit" />
+                            <span>监测与预警管理</span>
+                            <!--<span>标签管理</span>-->
                         </router-link>
                     </a-menu-item>
-                    <a-sub-menu key="4" title="客户画像">
-                        <a-menu-item key="8">
-                            <router-link to="/userImage" tag="div">
-                                <span>全体客户画像</span>
-                            </router-link>
-                        </a-menu-item>
-                        <a-menu-item key="9">
-                            <router-link to="/important" tag="div">
-                                <span>重要客户画像</span>
-                            </router-link>
-                        </a-menu-item>
-                        <a-menu-item key="10">
-                            <router-link to="/Repurchase" tag="div">
-                                <span>高复购客户画像</span>
-                            </router-link>
-                        </a-menu-item>
-                    </a-sub-menu>
-                </a-sub-menu>
+                    <!--<a-sub-menu key="4" title="客户画像">-->
+                        <!--<a-menu-item key="8">-->
+                            <!--<router-link to="/userImage" tag="div">-->
+                                <!--<span>全体客户画像</span>-->
+                            <!--</router-link>-->
+                        <!--</a-menu-item>-->
+                        <!--<a-menu-item key="9">-->
+                            <!--<router-link to="/important" tag="div">-->
+                                <!--<span>重要客户画像</span>-->
+                            <!--</router-link>-->
+                        <!--</a-menu-item>-->
+                        <!--<a-menu-item key="10">-->
+                            <!--<router-link to="/Repurchase" tag="div">-->
+                                <!--<span>高复购客户画像</span>-->
+                            <!--</router-link>-->
+                        <!--</a-menu-item>-->
+                    <!--</a-sub-menu>-->
+                <!--</a-sub-menu>-->
                 <a-sub-menu key="sub3">
-                    <span slot="title"><a-icon type="hdd" theme="filled"/><span>数据管理</span></span>
+                    <span slot="title"><a-icon type="hdd" theme="filled"/><span>数据预处理</span></span>
                     <a-menu-item key="5">
                         <router-link to="/Client" tag="div">
-                            <span>客户档案</span>
+                            <span>特征提取</span>
                         </router-link>
                     </a-menu-item>
-                    <a-menu-item key="6">
-                        <router-link to="/manage" tag="div">
-                            <span>订单管理</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="7">
-                        <router-link to="/purchase" tag="div">
-                            <span>货品档案</span>
-                        </router-link>
-                    </a-menu-item>
+                    <!--<a-menu-item key="6">-->
+                        <!--<router-link to="/manage" tag="div">-->
+                            <!--<span>订单管理</span>-->
+                        <!--</router-link>-->
+                    <!--</a-menu-item>-->
+                    <!--<a-menu-item key="7">-->
+                        <!--<router-link to="/purchase" tag="div">-->
+                            <!--<span>货品档案</span>-->
+                        <!--</router-link>-->
+                    <!--</a-menu-item>-->
                 </a-sub-menu>
-                <a-sub-menu v-show="admin" key="sub4">
-                    <span slot="title"><a-icon type="codepen-square" theme="filled" /><span>增量维护</span></span>
-                    <a-menu-item key="8">
-                        <router-link to="/increment" tag="div">
-                            <span>增量维护</span>
-                        </router-link>
-                    </a-menu-item>
-                </a-sub-menu>
+                <!--<a-sub-menu v-show="admin" key="sub4">-->
+                    <!--<span slot="title"><a-icon type="codepen-square" theme="filled" /><span>增量维护</span></span>-->
+                    <!--<a-menu-item key="8">-->
+                        <!--<router-link to="/increment" tag="div">-->
+                            <!--<span>增量维护</span>-->
+                        <!--</router-link>-->
+                    <!--</a-menu-item>-->
+                <!--</a-sub-menu>-->
+<!--              11.2 syf-->
+              <a-sub-menu key="sub5">
+                <span slot="title"><a-icon type="hdd" theme="filled"/><span>故障诊断模型</span></span>
+                <a-menu-item key="9">
+                  <router-link to="/Wkcnn" tag="div">
+                      <span>模型训练</span>
+                  </router-link>
+              </a-menu-item>
+                  <a-menu-item key="10">
+                      <router-link to="/Kcnn" tag="div">
+                          <span>实时诊断</span>
+                      </router-link>
+                  </a-menu-item>
+              </a-sub-menu>
             </a-menu>
         </a-layout-sider>
         <a-layout :style="{ marginLeft: '200px' }">
@@ -150,7 +169,7 @@
         watch: {
           $route() {
             // console.log(this.$route.meta);
-            document.title = '林家铺子 - ' + this.$route.meta.title
+            document.title = '轴承诊断系统 - ' + this.$route.meta.title
           }
         },
         // 路由页面标签
@@ -208,7 +227,7 @@
             margin-left: 12px;
             line-height: 32px;
             color: white;
-            font-size: 11px;
+            font-size: 14px;
             font-weight: bold;
             letter-spacing: 1px;
         }

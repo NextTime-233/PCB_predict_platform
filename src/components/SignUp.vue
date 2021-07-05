@@ -8,16 +8,16 @@
             <el-header class="title">账号注册</el-header>
             <h3 ></h3>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px">
-                <el-form-item label="用户名" prop="userAccount">
-                    <el-input v-model.number="ruleForm.userAccount"></el-input>
+                <el-form-item label="用户名" prop="accountName">
+                    <el-input v-model.number="ruleForm.accountName"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="userPwd">
-                    <el-input type="password" v-model="ruleForm.userPwd" autocomplete="off"></el-input>
+                <el-form-item label="密码" prop="password">
+                    <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
                     <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
                 </el-form-item>
-                </br>
+
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -31,7 +31,7 @@
     export default {
         name: "User",
         data() {
-            const userAccount = (rule, value, callback) => {
+            const accountName = (rule, value, callback) => {
                 const reg = /^([a-zA-Z]|[0-9])/;
                 if (!value) {
                     return callback(new Error('用户名不能为空'));
@@ -55,7 +55,7 @@
             const validatePass2 = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleForm.userPwd) {
+                } else if (value !== this.ruleForm.password) {
                     callback(new Error('两次输入密码不一致!'));
                 } else {
                     callback();
@@ -63,15 +63,15 @@
             };
             return {
                 ruleForm: {
-                    userPwd: '',
+                    password: '',
                     checkPass: '',
-                    userAccount: '',
+                    accountName: '',
                 },
                 rules: {
-                    userAccount: [
-                        { validator: userAccount, trigger: 'blur' }
+                    accountName: [
+                        { validator: accountName, trigger: 'blur' }
                     ],
-                    userPwd: [
+                    password: [
                         { validator: validatePass, trigger: 'blur' }
                     ],
                     checkPass: [
@@ -90,7 +90,7 @@
                 // 申请表传入后端，高级用户由管理员设定，普通用户自己申请
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        axios.post('backend/user/saveUser?userAccount='+this.ruleForm.userAccount+'&userPwd='+this.ruleForm.userPwd).then(res=>{
+                        axios.post('backend/user/saveUser?accountName='+this.ruleForm.accountName+'&password='+this.ruleForm.password).then(res=>{
                             console.log(res.data.code)
                             if (!res.data.code) {
                                 this.$alert('您的账号已经注册成功', '提示', {

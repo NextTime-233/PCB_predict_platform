@@ -525,7 +525,7 @@ export default {
       // let buyerNick1 = that.buyerNick1
       let customerName1 = that.customerName1
       // let mobile1 = that.mobile1
-      axios.get('http://192.168.1.102:8080/backend/data/getTPNTopTen', {
+      axios.get('http://localhost:8080/backend/data/getTPNTopTen', {
         headers: {
           token: this.tokenStr
         }
@@ -658,7 +658,7 @@ export default {
       const that = this//
       let sumTotalPurchaseAmount = that.sumTotalPurchaseAmount
       let customerName2 = that.customerName2
-      axios.get('http://192.168.1.102:8080/backend/data/getTPATopTen', {
+      axios.get('http://localhost:8080/backend/data/getTPATopTen', {
         headers: {
           token: this.tokenStr
         }
@@ -783,7 +783,7 @@ export default {
       const that = this
       let terminalCus = that.terminalCus
       let distributionCus = that.distributionCus
-      axios.get('http://192.168.1.102:8080/backend/data/CusCatePortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusCatePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -861,7 +861,7 @@ export default {
       const that = this
       let oldCustomer = that.oldCustomer
       let newCustomer = that.newCustomer
-      axios.get('http://192.168.1.102:8080/backend/data/CusTimePortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusTimePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -933,7 +933,7 @@ export default {
       const that = this
       let lowSales = that.lowSales
       let highSales = that.highSales
-      axios.get('http://192.168.1.102:8080/backend/data/CusSalesPortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusSalesPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1003,7 +1003,7 @@ export default {
       const that = this
       let lowVal = that.lowVal
       let highVal = that.highVal
-      axios.get('http://192.168.1.102:8080/backend/data/CusValPortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusValPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1088,7 +1088,7 @@ export default {
       const that = this
       let highRepurchase = that.highRepurchase
       let lowRepurchase = that.lowRepurchase
-      axios.get('http://192.168.1.102:8080/backend/data/CusRepurchasePortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusRepurchasePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1160,7 +1160,7 @@ export default {
       let stableCus = that.stableCus
       let potentialCus = that.potentialCus
       let lossCus = that.lossCus
-      axios.get('http://192.168.1.102:8080/backend/data/CusCyclePortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusCyclePortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1235,7 +1235,7 @@ export default {
       let offlineCus = that.offlineCus//线下
       let otherCus = that.otherCus//其他平台
       let mulPlatformsCus = that.mulPlatformsCus//其他平台
-      axios.get('http://192.168.1.102:8080/backend/data/CusPlatPortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusPlatPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1320,7 +1320,7 @@ export default {
       const that = this
       let highSensitivity = that.highSensitivity//促销敏感度高
       let lowSensitivity = that.lowSensitivity//促销敏感度低
-      axios.get('http://192.168.1.102:8080/backend/data/CusPromotionPortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusPromotionPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }
@@ -1411,7 +1411,7 @@ export default {
       const myChartChina = this.$echarts.init(myChartContainer);
       const mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
       const that = this
-      axios.get('http://192.168.1.102:8080/backend/data/CusRegPortraitAnalysis', {
+      axios.get('http://localhost:8080/backend/data/CusRegPortraitAnalysis', {
         headers: {
           token: this.tokenStr
         }

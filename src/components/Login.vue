@@ -11,19 +11,18 @@
                  label-width="0px"
                  class="demo-ruleForm login-page">
             <h3 class="title">林家铺子数据挖掘系统</h3>
-            </br>
-            <el-form-item prop="userAccount">
+            <el-form-item prop="accountName">
                 <td>用户名</td>
                 <el-input type="text"
-                          v-model="LoginForm.userAccount"
+                          v-model="LoginForm.accountName"
                           auto-complete="off"
                           placeholder="用户名"
                 ></el-input>
             </el-form-item>
-            <el-form-item prop="userPwd">
+            <el-form-item prop="password">
                 <td>密码</td>
                 <el-input type="password"
-                          v-model="LoginForm.userPwd"
+                          v-model="LoginForm.password"
                           auto-complete="off"
                           placeholder="密码"
                 ></el-input>
@@ -33,7 +32,7 @@
                          style="margin-bottom:10px;">记住密码</el-checkbox>
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
-                <el-link class="register" href="http://localhost:8082/#/SignUp" icon="el-icon-user">新人注册</el-link>
+                <el-link class="register" @click="returnSignUp" icon="el-icon-user">新人注册</el-link>
             </el-form-item>
         </el-form>
     </div>
@@ -45,46 +44,50 @@
             return {
                 logining: false,
                 LoginForm: {
-                    userAccount: 'limlin',
-                    userPwd: 'limlin',
+                    accountName: '',
+                    password: '',
                 },
                 rules2: {
-                    userAccount: [{required: true, message: 'please enter your account', trigger: 'blur'}],
-                    userPwd: [{required: true, message: 'enter your password', trigger: 'blur'}]
+                    accountName: [{required: true, message: 'please enter your account', trigger: 'blur'}],
+                    password: [{required: true, message: 'enter your password', trigger: 'blur'}]
                 },
                 checked: false,
             }
         },
         created(key) {
-            this.LoginForm.userAccount = window.localStorage.getItem("userAccount")
-            console.log(window.localStorage.getItem("userAccount"))
-            this.LoginForm.userPwd = window.localStorage.getItem("userPwd")
+            this.LoginForm.accountName = window.localStorage.getItem("accountName")
+            //console.log(window.localStorage.getItem("accountName"))
+            this.LoginForm.password = window.localStorage.getItem("password")
         },
         methods: {
+            returnSignUp(){
+                this.$router.push({path: '/SignUp'}).catch(err => {});
+            },
+
             // limlin 记住密码功能完善
             handleSubmit(){
                 const that = this
                 const storage = window.localStorage
                 if(that.checked === true) {
                     console.log("记住密码")
-                    storage["userAccount"]=that.LoginForm.userAccount
-                    storage["userPwd"]=that.LoginForm.userPwd
+                    storage["accountName"]=that.LoginForm.accountName
+                    storage["password"]=that.LoginForm.password
                 }
                 else {
                     console.log("不记住密码")
 
                 }
-                console.log(storage["userAccount"]);
-                console.log(storage["userPwd"]);
+                console.log(storage["accountName"]);
+                console.log(storage["password"]);
                 console.log(that.checked)
                 this.$refs.LoginForm.validate((valid) => {
                     if(valid){
                         this.logining = true;
-                        axios.post('backend/login/userLogin?userAccount='+this.LoginForm.userAccount+'&userPwd='+this.LoginForm.userPwd).then(res=>{
-                            // console.log(res)
-                            if(!res.data.code){
+                        axios.post('backend/login/userLogin?accountName='+this.LoginForm.accountName+'&password='+this.LoginForm.password).then(res=>{
+                            console.log(res)
+                            if(res.data.data!=null){
                                 this.logining = false;
-                                sessionStorage.setItem('user', this.LoginForm.userAccount);
+                                sessionStorage.setItem('user', this.LoginForm.accountName);
                                 sessionStorage.setItem('token',res.data.data.tokenBackend);
                                 sessionStorage.setItem('limit',res.data.data.userLimit);
                                 // 首页展示

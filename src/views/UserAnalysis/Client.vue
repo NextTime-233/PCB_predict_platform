@@ -6,71 +6,113 @@
                 <div :class="advanced ? 'search' : null" style="background-color: lightgrey; margin: 10px 0">
                     <a-form id="cForm" layout="horizontal" :model="clientForm" @submit.native.prevent>
                         <div :class="advanced ? null: 'fold'" style="padding: 15px 0 0 30px;">
-                            <a-row :gutter="16" >
+                            <a-row :gutter="8" >
                                 <a-col :span="6">
-                                    <a-form-item label="客户姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
+                                    <a-form-item label="客户姓名" :labelCol="{span: 8}" :wrapperCol="{span: 12}">
                                         <a-input placeholder="请输入" size="small" v-model="clientForm.customerName"/>
                                     </a-form-item>
                                 </a-col>
-                                <a-col :span="6" >
-                                    <a-form-item label="购买总金额" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseAmount"/>
-                                    </a-form-item>
+                                <a-col :span="6">
+                                  <a-form-item label="客户电话" :labelCol="{span: 8}" :wrapperCol="{span: 12}">
+                                    <a-input placeholder="请输入" size="small" v-model="clientForm.customerName"/>
+                                  </a-form-item>
                                 </a-col>
-                                <a-col :span="6" >
-                                    <a-form-item label="购买总量" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseNum"/>
+                                <a-col :span="12" >
+                                    <a-form-item label="购买总金额" :labelCol="{span:6}" :wrapperCol="{span: 18}">
+<!--                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseAmount"/>-->
+                                      <a-input-group compact size="small">
+<!--                                        <a-select default-value="1">-->
+<!--                                          <a-select-option value="1" >-->
+<!--                                            区间内-->
+<!--                                          </a-select-option>-->
+<!--                                          <a-select-option value="2">-->
+<!--                                            区间外-->
+<!--                                          </a-select-option>-->
+<!--                                        </a-select>-->
+                                        <a-input style=" width: 80px; text-align: center"  v-model="clientForm.TotalPurchaseAmountLow" placeholder="Minimum" />
+                                        <a-input
+                                            style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
+                                            placeholder="~"
+                                            disabled
+                                        />
+                                        <a-input style="width: 80px; text-align: center; border-left: 0" v-model="clientForm.TotalPurchaseAmountHigh" placeholder="Maximum" />
+                                      </a-input-group>
                                     </a-form-item>
-                                </a-col>
-                                <a-col :md="6" >
-                                    <a-form-item label="省份" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select v-model="clientForm.province" size="small" @change="handleProvinceChange">
-                                            <a-select-option v-for="province in provinceData" :key="province">
-                                                {{ province }}
-                                            </a-select-option>
-                                        </a-select>
-                                    </a-form-item>
-<!--                                    <a-form-item label="省份" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">-->
-<!--                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.province"/>-->
-<!--                                    </a-form-item>-->
                                 </a-col>
                             </a-row>
-                            <a-row v-if="advanced"  :gutter="8">
-                                <a-col :span="6" >
-                                    <a-form-item label="城市" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
-                                        <a-select v-model="secondCity" size="small"  @change="handleCityChange">
-                                            <a-select-option v-for="city in cities" :key="city">
-                                                {{ city }}
-                                            </a-select-option>
-                                        </a-select>
-                                    </a-form-item>
-                                        <!--                                    <a-form-item label="城市" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">-->
+                            <a-row  v-if="advanced":gutter="8">
+                              <a-col :span="12" >
+                                <a-form-item label="购买总量" :labelCol="{span:4}" :wrapperCol="{span: 18}">
+                                  <!--                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.TotalPurchaseNum"/>-->
+                                  <a-input-group  compact size="small">
+<!--                                    <a-select default-value="1">-->
+<!--                                      <a-select-option value="1">-->
+<!--                                        区间内-->
+<!--                                      </a-select-option>-->
+<!--                                      <a-select-option value="2">-->
+<!--                                        区间外-->
+<!--                                      </a-select-option>-->
+<!--                                    </a-select>-->
+                                    <a-input style=" width: 80px; text-align: center" v-model="clientForm.TotalPurchaseNumLow" placeholder="Minimum" />
+                                    <a-input
+                                        style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
+                                        placeholder="~"
+                                        disabled
+                                    />
+                                    <a-input style="width: 80px; text-align: center; border-left: 0" v-model="clientForm.TotalPurchaseNumHigh" placeholder="Maximum" />
+                                  </a-input-group>
+                                </a-form-item>
+                              </a-col>
+
+                            <a-col :md="6" >
+                              <a-form-item label="省份" :labelCol="{span:6}" :wrapperCol="{span: 12,offset: 1}">
+                                <a-select v-model="clientForm.province" size="small" @change="handleProvinceChange">
+                                  <a-select-option v-for="province in provinceData" :key="province">
+                                    {{ province }}
+                                  </a-select-option>
+                                </a-select>
+                              </a-form-item>
+                              <!--                                    <a-form-item label="省份" :labelCol="{span: 8}" :wrapperCol="{span: 12, offset: 1}">-->
+                              <!--                                        <a-input style="width: 100%" placeholder="请输入" size="small" v-model="clientForm.province"/>-->
+                              <!--                                    </a-form-item>-->
+                            </a-col>
+                          <a-col :span="6" >
+                              <a-form-item label="城市" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">
+                                  <a-select v-model="secondCity" size="small"  @change="handleCityChange">
+                                      <a-select-option v-for="city in cities" :key="city">
+                                          {{ city }}
+                                      </a-select-option>
+                                  </a-select>
+                              </a-form-item>
+                                  <!--                                    <a-form-item label="城市" :labelCol="{span: 7}" :wrapperCol="{span: 12, offset: 1}">-->
 <!--                                        <a-input placeholder="请输入" size="small" v-model="clientForm.city"/>-->
 <!--                                    </a-form-item>-->
-                                </a-col>
-                                <a-col :md="6" >
-                                    <a-form-item
-                                            label="客户登记时间"
-                                            :labelCol="{span: 7}"
-                                            :wrapperCol="{span: 15, offset: 1}"
-                                    >
-                                        <a-range-picker @change="registerOnChange" size="small" :value="createValueR">
-                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
-                                        </a-range-picker>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :md="7" >
-                                    <a-form-item
-                                            label="付款时间"
-                                            :labelCol="{span: 7}"
-                                            :wrapperCol="{span: 15, offset: 1}"
-                                    >
-                                        <a-range-picker @change="shoppingOnChange" size="small" :value="createValueP">
-                                            <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
-                                        </a-range-picker>
-                                    </a-form-item>
-                                </a-col>
+                          </a-col>`
                             </a-row>
+                          <a-row v-if="advanced"  :gutter="8">
+                                  <a-col :md="6" >
+                                      <a-form-item
+                                              label="客户登记时间"
+                                              :labelCol="{span: 7}"
+                                              :wrapperCol="{span: 15, offset: 1}"
+                                      >
+                                          <a-range-picker @change="registerOnChange" size="small" :value="createValueR">
+                                              <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                          </a-range-picker>
+                                      </a-form-item>
+                                  </a-col>
+                                  <a-col :md="7" >
+                                      <a-form-item
+                                              label="付款时间"
+                                              :labelCol="{span: 7}"
+                                              :wrapperCol="{span: 15, offset: 1}"
+                                      >
+                                          <a-range-picker @change="shoppingOnChange" size="small" :value="createValueP">
+                                              <a-icon type="calendar" theme="twoTone" slot="suffixIcon" />
+                                          </a-range-picker>
+                                      </a-form-item>
+                                  </a-col>
+                              </a-row>
                         </div>
                         <span :style="advanced?'float: right; padding-right: 30px':'float: right; margin-top: 18px; padding-right: 30px'">
                         <a-button type="primary" @click="submitList">查询</a-button>
@@ -722,6 +764,10 @@
                     customerName:'',
                     TotalPurchaseAmount:'',
                     TotalPurchaseNum:'',
+                    TotalPurchaseAmountLow:'',
+                    TotalPurchaseAmountHigh:'',
+                    TotalPurchaseNumLow:'',
+                    TotalPurchaseNumHigh:'',
                     province:'',
                     city:'',
                     LastPurchaseTimeDateStart:'',
@@ -769,6 +815,7 @@
             const that = this
             const tokenStr = window.sessionStorage.getItem('token')
             that.tokenStr = tokenStr
+            // console.log(that.tokenStr)
           axios.get('backend/customer/listCustomers/1/5', {headers:{
                 token: tokenStr
             }}).then( res => {
@@ -866,6 +913,10 @@
                                     customerName: list.customerName,
                                     TotalPurchaseAmount: list.TotalPurchaseAmount,
                                     TotalPurchaseNum: list.TotalPurchaseNum,
+                                    TotalPurchaseAmountLow:list.TotalPurchaseAmountLow,
+                                    TotalPurchaseAmountHigh:list.TotalPurchaseAmountHigh,
+                                    TotalPurchaseNumLow:list.TotalPurchaseNumLow,
+                                    TotalPurchaseNumHigh:list.TotalPurchaseNumHigh,
                                     province: list.province,
                                     city: that.secondCity,
                                     LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
@@ -900,6 +951,10 @@
                                     customerName: list.customerName,
                                     TotalPurchaseAmount: list.TotalPurchaseAmount,
                                     TotalPurchaseNum: list.TotalPurchaseNum,
+                                    TotalPurchaseAmountLow:list.TotalPurchaseAmountLow,
+                                    TotalPurchaseAmountHigh:list.TotalPurchaseAmountHigh,
+                                    TotalPurchaseNumLow:list.TotalPurchaseNumLow,
+                                    TotalPurchaseNumHigh:list.TotalPurchaseNumHigh,
                                     province: list.province,
                                     city: that.secondCity,
                                     LastPurchaseTimeDateStart: list.LastPurchaseTimeDateStart,
@@ -945,6 +1000,10 @@
                     customerName: '',
                     TotalPurchaseAmount: '',
                     TotalPurchaseNum: '',
+                    TotalPurchaseAmountLow:'',
+                    TotalPurchaseAmountHigh:'',
+                    TotalPurchaseNumLow:'',
+                    TotalPurchaseNumHigh:'',
                     province: '',
                     city: '',
                     LastPurchaseTimeDateStart: '',
@@ -1021,6 +1080,10 @@
                                 customerName: that.clientForm.customerName,
                                 TotalPurchaseAmount: that.clientForm.TotalPurchaseAmount,
                                 TotalPurchaseNum: that.clientForm.TotalPurchaseNum,
+                                TotalPurchaseAmountLow:that.clientForm.TotalPurchaseAmountLow,
+                                TotalPurchaseAmountHigh:that.clientForm.TotalPurchaseAmountHigh,
+                                TotalPurchaseNumLow:that.clientForm.TotalPurchaseNumLow,
+                                TotalPurchaseNumHigh:that.clientForm.TotalPurchaseNumHigh,
                                 province: that.clientForm.province,
                                 city: that.secondCity,
                                 LastPurchaseTimeDateStart: that.clientForm.LastPurchaseTimeDateStart,

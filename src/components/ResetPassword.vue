@@ -79,29 +79,29 @@
                         alert('已提交!')
                         // console.log("此处提交修改")
                         let param = {
-                            userAccount: that.user,
-                            userPwd: that.rform.pass,
+                            accountName: that.user,
+                            password: that.rform.pass,
                             tokenBackend: that.tokenStr
                         }
                         let config = {
                             headers: {token: that.tokenStr},
                             tokenBackend : this.tokenStr
                         }
-                        // axios.put('backend/user/updateUserPwd', {params:param}, config
+                        // axios.put('backend/user/updatepassword', {params:param}, config
                         //     ).then( res => {
                         //     console.log(res.data)
                         // }).catch()
-                        axios.put('backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr,'', config).then( res => {
+                        axios.put('backend/user/updatepassword?accountName='+this.user+'&password='+that.rform.pass+'&tokenBackend='+this.tokenStr,'', config).then( res => {
                             if(res.data.code === '0') {
                                 alert("修改密码成功！")
                             }
                         }).catch()
-                        // axios.put('backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass+'&tokenBackend='+this.tokenStr, {
+                        // axios.put('backend/user/updatepassword?accountName='+this.user+'&password='+that.rform.pass+'&tokenBackend='+this.tokenStr, {
                         //         Headers:{token: this.tokenStr},
                         //     }).then( res => {
                         //     console.log(res.data)
                         // }).catch()
-                        // axios.put('backend/user/updateUserPwd?userAccount='+this.user+'&userPwd='+that.rform.pass, {
+                        // axios.put('backend/user/updatepassword?accountName='+this.user+'&password='+that.rform.pass, {
                         //         Headers:{token: this.tokenStr},
                         //         tokenBackend: this.tokenStr
                         //     }).then( res => {

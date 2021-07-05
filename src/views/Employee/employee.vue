@@ -33,12 +33,12 @@
                         >
                             <a-form ref="form" :form="form" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
                                 <a-form-item label="用户名">
-<!--                                    <a-input v-decorator="['userAccount', { rules: [{ required: true, message: '请输入用户名!' }, { validator: userAccount, trigger: 'change' }] }]"/>-->
-                                    <a-input v-decorator="['userAccount', { rules: [{ required: true, message: '请输入用户名!' }, { validator: userAccount, trigger: 'blur' }] }]"/>
+<!--                                    <a-input v-decorator="['accountName', { rules: [{ required: true, message: '请输入用户名!' }, { validator: accountName, trigger: 'change' }] }]"/>-->
+                                    <a-input v-decorator="['accountName', { rules: [{ required: true, message: '请输入用户名!' }, { validator: accountName, trigger: 'blur' }] }]"/>
                                 </a-form-item>
                                 <a-form-item label="密码">
-<!--                                    <a-input v-decorator="['userPwd', { rules: [{ required: true, message: '请输入密码!' }, { validator: validatePass, trigger: 'change' }] }]" type="password"/>-->
-                                    <a-input v-decorator="['userPwd', { rules: [{ required: true, message: '请输入密码!' }, { validator: validatePass, trigger: 'blur' }] }]" type="password"/>
+<!--                                    <a-input v-decorator="['password', { rules: [{ required: true, message: '请输入密码!' }, { validator: validatePass, trigger: 'change' }] }]" type="password"/>-->
+                                    <a-input v-decorator="['password', { rules: [{ required: true, message: '请输入密码!' }, { validator: validatePass, trigger: 'blur' }] }]" type="password"/>
                                 </a-form-item>
                                 <a-form-item label="确认密码">
 <!--                                    <a-input v-decorator="['checkPass', { rules: [{ required: true, message: '请确认密码!' }, { validator: validatePass2, trigger: 'change' }] }]" type="password"/>-->
@@ -130,7 +130,7 @@
                 formLayout: 'horizontal',
                 form: this.$form.createForm(this, { name: 'coordinated' }),
                 pwdValue:'',
-                userAccount: (rule, value, callback) => {
+                accountName: (rule, value, callback) => {
                     const reg = /^([a-zA-Z]|[0-9])/;
                     if (!value) {
                         return callback(new Error('用户名不能为空'));
@@ -176,7 +176,7 @@
                         if(res.data.data[i].userLimit===0){
                             let a = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '普通用户',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -185,7 +185,7 @@
                         }else if(res.data.data[i].userLimit===1){
                             let b = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '管理员',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -194,7 +194,7 @@
                         }else{
                             let c = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '开发者',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -225,7 +225,7 @@
                         if(res.data.data[i].userLimit==='0'){
                             let a = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '普通用户',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -234,7 +234,7 @@
                         }else if(res.data.data[i].userLimit==='1'){
                             let b = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '管理员',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -243,7 +243,7 @@
                         }else{
                             let c = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '开发者',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -263,7 +263,7 @@
                 this.form.validateFields((err, values) => {
                     // console.log(err)
                     if (!err) {
-                        axios.post('backend/user/saveUser?userAccount='+values.userAccount+'&userPwd='+values.userPwd ).then(res=>{
+                        axios.post('backend/user/saveUser?accountName='+values.accountName+'&password='+values.password ).then(res=>{
                             // console.log(res.data.code)
                             this.modalVisible=false
                             alert("成功添加新用户!")
@@ -302,14 +302,14 @@
                 if(!value){
                     alert("请输入要搜索的用户名！")
                 } else {
-                    axios.get('backend/user/getUserByUserAccount?userAccount='+value, {headers:{
+                    axios.get('backend/user/getUserByaccountName?accountName='+value, {headers:{
                             token: this.tokenStr}}).then( res => {
                         this.total = 1
                         // 暂时采用的方法，直接重写数据源
                         if(res.data.data.userLimit==='0'){
                             that.dataSource = [{
                                 key : 1,
-                                name: res.data.data.userAccount,
+                                name: res.data.data.accountName,
                                 limit: '普通用户',
                                 time: res.data.data.gmtCreate,
                                 editable: res.data.data.userLimit!=='0',
@@ -317,7 +317,7 @@
                         }else if(res.data.data.userLimit==='1'){
                             that.dataSource = [{
                                 key : 1,
-                                name: res.data.data.userAccount,
+                                name: res.data.data.accountName,
                                 limit: '管理员',
                                 time: res.data.data.gmtCreate,
                                 editable: res.data.data.userLimit!=='0',
@@ -325,7 +325,7 @@
                         }else{
                             that.dataSource = [{
                                 key : 1,
-                                name: res.data.data.userAccount,
+                                name: res.data.data.accountName,
                                 limit: '开发者',
                                 time: res.data.data.gmtCreate,
                                 editable: res.data.data.userLimit!=='0',
@@ -345,7 +345,7 @@
                         if(res.data.data[i].userLimit==='0'){
                             let a = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '普通用户',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -354,7 +354,7 @@
                         }else if(res.data.data[i].userLimit==='1'){
                             let b = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '管理员',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -363,7 +363,7 @@
                         }else{
                             let c = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '开发者',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -384,7 +384,7 @@
                         if(res.data.data[i].userLimit==='0'){
                             let a = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '普通用户',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -393,7 +393,7 @@
                         }else if(res.data.data[i].userLimit==='1'){
                             let b = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '管理员',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
@@ -402,7 +402,7 @@
                         }else{
                             let c = {
                                 key : i+1,
-                                name: res.data.data[i].userAccount,
+                                name: res.data.data[i].accountName,
                                 limit: '开发者',
                                 time: res.data.data[i].gmtCreate,
                                 editable: res.data.data[i].userLimit!=='0',
